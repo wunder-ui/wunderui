@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "otp-field",
+  "type": "registry:ui",
+  "title": "OTP Field",
+  "description": "A segmented input for one-time passwords and verification codes.",
+  "dependencies": [
+    "@base-ui/react@^1.8.0",
+    "cn@^0.3.0"
+  ],
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/styles.json"
+  ],
+  "files": [
+    {
+      "path": "components/ui/otp-field.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/otp-field.tsx",
+      "content": "\"use client\"\n\nimport { OTPField as OTPFieldPrimitive } from \"@base-ui/react/otp-field\"\nimport { cn } from \"cn\"\n\nfunction OtpField({ className, ...props }: OTPFieldPrimitive.Root.Props) {\n  return (\n    <OTPFieldPrimitive.Root\n      data-slot=\"otp-field\"\n      className={cn(\"flex items-center gap-2\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction OtpFieldInput({ className, ...props }: OTPFieldPrimitive.Input.Props) {\n  return (\n    <OTPFieldPrimitive.Input\n      data-slot=\"otp-field-input\"\n      className={cn(\n        \"size-11 rounded-md border border-input bg-transparent text-center text-lg font-medium text-foreground outline-none transition-colors focus-visible:border-ring dark:bg-muted/30\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nexport { OtpField, OtpFieldInput }\n"
+    }
+  ],
+  "docs": "https://wunderui.com/components/otp-field",
+  "meta": {
+    "group": "Forms",
+    "exports": [
+      "OtpField",
+      "OtpFieldInput"
+    ]
+  }
+}

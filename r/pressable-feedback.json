@@ -1,0 +1,34 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "pressable-feedback",
+  "type": "registry:ui",
+  "title": "Pressable Feedback",
+  "description": "Wraps any content with a scale-down press animation.",
+  "dependencies": [
+    "cn@^0.3.0"
+  ],
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/styles.json"
+  ],
+  "files": [
+    {
+      "path": "components/wunderui/pressable-feedback.tsx",
+      "type": "registry:component",
+      "target": "components/wunderui/pressable-feedback.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\n/**\n * Press feedback: the element scales down while held. On its own it renders a\n * button around `children`; with `asChild` it lends the effect to its single\n * child instead — use that to wrap a Button, so there is never a button inside\n * a button.\n */\nfunction PressableFeedback({\n  children,\n  onPress,\n  className,\n  asChild = false,\n}: {\n  children: React.ReactNode\n  onPress?: () => void\n  className?: string\n  /** Apply the press effect to the child element instead of wrapping it. */\n  asChild?: boolean\n}) {\n  const [pressed, setPressed] = React.useState(false)\n  const classes = cn(\n    \"transition-transform duration-fast ease-move active:scale-95\",\n    pressed && \"scale-95 opacity-90\",\n    className\n  )\n  const handlers = {\n    onMouseDown: () => setPressed(true),\n    onMouseUp: () => setPressed(false),\n    onMouseLeave: () => setPressed(false),\n  }\n\n  if (asChild && React.isValidElement(children)) {\n    const child = children as React.ReactElement<{ className?: string; onClick?: (event: React.MouseEvent) => void }>\n    return React.cloneElement(child, {\n      ...handlers,\n      className: cn(child.props.className, classes),\n      onClick: (event: React.MouseEvent) => {\n        child.props.onClick?.(event)\n        onPress?.()\n      },\n    })\n  }\n\n  return (\n    <button type=\"button\" onClick={onPress} {...handlers} className={classes}>\n      {children}\n    </button>\n  )\n}\n\nexport { PressableFeedback }\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "export { cn } from \"cn\"\n"
+    }
+  ],
+  "docs": "https://wunderui.com/components/pressable-feedback",
+  "meta": {
+    "group": "Feedback & Overlays",
+    "exports": [
+      "PressableFeedback"
+    ]
+  }
+}

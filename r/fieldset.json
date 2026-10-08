@@ -1,0 +1,30 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "fieldset",
+  "type": "registry:ui",
+  "title": "Fieldset",
+  "description": "A native fieldset with a legend, for grouping related fields.",
+  "dependencies": [
+    "@base-ui/react@^1.8.0",
+    "cn@^0.3.0"
+  ],
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/styles.json"
+  ],
+  "files": [
+    {
+      "path": "components/ui/fieldset.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/fieldset.tsx",
+      "content": "\"use client\"\n\nimport { Fieldset as FieldsetPrimitive } from \"@base-ui/react/fieldset\"\nimport { cn } from \"cn\"\n\nfunction Fieldset({ className, ...props }: FieldsetPrimitive.Root.Props) {\n  return (\n    <FieldsetPrimitive.Root\n      data-slot=\"fieldset\"\n      className={cn(\"flex flex-col gap-4 rounded-lg border border-border p-4\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction FieldsetLegend({ className, ...props }: FieldsetPrimitive.Legend.Props) {\n  return (\n    <FieldsetPrimitive.Legend\n      data-slot=\"fieldset-legend\"\n      className={cn(\"px-1 text-sm font-semibold text-foreground\", className)}\n      {...props}\n    />\n  )\n}\n\nexport { Fieldset, FieldsetLegend }\n"
+    }
+  ],
+  "docs": "https://wunderui.com/components/fieldset",
+  "meta": {
+    "group": "Forms",
+    "exports": [
+      "Fieldset",
+      "FieldsetLegend"
+    ]
+  }
+}

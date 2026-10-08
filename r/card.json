@@ -1,0 +1,36 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "card",
+  "type": "registry:ui",
+  "title": "Card",
+  "description": "A bordered container for grouping related content.",
+  "dependencies": [
+    "cn@^0.3.0"
+  ],
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/styles.json"
+  ],
+  "files": [
+    {
+      "path": "components/ui/card.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/card.tsx",
+      "content": "import * as React from \"react\"\nimport { cn } from \"cn\"\n\nconst CARD_VARIANT = {\n  // Figma Card · Style=default: border + Shadow/Small\n  default: \"ring-1 ring-border shadow-xs\",\n  // Figma Card · Style=elevated: Shadow/Medium, no border\n  elevated: \"shadow-md\",\n  // Figma Card · Style=outlined: border only\n  outlined: \"ring-1 ring-border\",\n} as const\n\ntype CardVariant = keyof typeof CARD_VARIANT\n\nfunction Card({\n  className,\n  size = \"default\",\n  variant = \"default\",\n  ...props\n}: React.ComponentProps<\"div\"> & { size?: \"default\" | \"sm\"; variant?: CardVariant }) {\n  return (\n    <div\n      data-slot=\"card\"\n      data-size={size}\n      data-variant={variant}\n      className={cn(\n        \"group/card flex flex-col gap-(--card-spacing) [--surface:var(--card)] overflow-hidden rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground [--card-spacing:--spacing(5)] has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 has-[>[data-slot=card-media]:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl\",\n        CARD_VARIANT[variant],\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\n/**\n * The media area at the top of a card (Figma \"Card · Content=image\"): 160 px,\n * flush with the card's edges. Put an <img> inside to fill it; without one it\n * shows the image placeholder from the set.\n */\nfunction CardMedia({ className, children, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"card-media\"\n      className={cn(\n        \"flex h-40 w-full shrink-0 items-center justify-center overflow-hidden bg-muted text-text-tertiary *:[img]:size-full *:[img]:object-cover\",\n        className\n      )}\n      {...props}\n    >\n      {children ?? (\n        <svg viewBox=\"0 0 24 24\" className=\"size-6\" fill=\"none\" stroke=\"currentColor\" strokeWidth=\"1.5\" strokeLinecap=\"round\" strokeLinejoin=\"round\" aria-hidden>\n          <rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\" />\n          <circle cx=\"9\" cy=\"9\" r=\"2\" />\n          <path d=\"m21 15-3.1-3.1a2 2 0 0 0-2.8 0L6 21\" />\n        </svg>\n      )}\n    </div>\n  )\n}\n\nfunction CardHeader({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"card-header\"\n      className={cn(\n        \"group/card-header @container/card-header grid auto-rows-min items-start gap-1 rounded-t-xl px-(--card-spacing) has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto] [.border-b]:pb-(--card-spacing)\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction CardTitle({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"card-title\"\n      className={cn(\n        \"font-heading text-base leading-snug font-semibold text-foreground group-data-[size=sm]/card:text-sm\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction CardDescription({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"card-description\"\n      className={cn(\"text-sm text-text-secondary\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction CardAction({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"card-action\"\n      className={cn(\n        \"col-start-2 row-span-2 row-start-1 self-start justify-self-end\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction CardContent({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"card-content\"\n      className={cn(\"px-(--card-spacing)\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction CardFooter({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"card-footer\"\n      className={cn(\n        \"flex items-center justify-end gap-2 rounded-b-xl border-t border-border px-(--card-spacing) py-3\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nexport type { CardVariant }\nexport {\n  Card,\n  CardMedia,\n  CardHeader,\n  CardFooter,\n  CardTitle,\n  CardAction,\n  CardDescription,\n  CardContent,\n}\n"
+    }
+  ],
+  "docs": "https://wunderui.com/components/card",
+  "meta": {
+    "group": "Core Elements",
+    "exports": [
+      "Card",
+      "CardAction",
+      "CardContent",
+      "CardDescription",
+      "CardFooter",
+      "CardHeader",
+      "CardMedia",
+      "CardTitle",
+      "CardVariant"
+    ]
+  }
+}

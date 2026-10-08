@@ -1,0 +1,35 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "selector-item",
+  "type": "registry:ui",
+  "title": "Selector Item",
+  "description": "A list row pairing a leading icon/avatar and label/description with a trailing radio, checkbox, or switch.",
+  "dependencies": [
+    "cn@^0.3.0"
+  ],
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/styles.json"
+  ],
+  "files": [
+    {
+      "path": "components/wunderui/selector-item.tsx",
+      "type": "registry:component",
+      "target": "components/wunderui/selector-item.tsx",
+      "content": "import type { ReactNode } from \"react\"\nimport { cn } from \"@/lib/utils\"\n\n/** A list row pairing a label/description with a trailing control — pass a\n *  RadioGroupItem, Checkbox, or Switch as `control`. Stack rows inside\n *  SelectorItemGroup for a single bordered list.\n *\n *  The whole row is the control's label, so a click anywhere on it toggles\n *  the control. The border answers the pointer on hover and turns indigo while\n *  the control is checked — the state is read from the control itself, so it\n *  follows a radio group or a controlled checkbox without extra props. */\nfunction SelectorItem({\n  leading,\n  title,\n  description,\n  control,\n  className,\n}: {\n  leading?: ReactNode\n  title: ReactNode\n  description?: ReactNode\n  control: ReactNode\n  className?: string\n}) {\n  return (\n    <label\n      data-slot=\"selector-item\"\n      className={cn(\n        \"flex cursor-pointer items-center justify-between gap-4 rounded-lg border border-border bg-card px-3 py-4\",\n        \"transition-[border-color,box-shadow] duration-fast ease-move hover:border-primary/40\",\n        \"has-[[data-checked]]:border-primary has-[[data-checked]]:ring-3 has-[[data-checked]]:ring-ring/30\",\n        \"has-[[data-disabled]]:cursor-not-allowed has-[[data-disabled]]:opacity-60 has-[[data-disabled]]:hover:border-border\",\n        className\n      )}\n    >\n      <span className=\"flex min-w-0 items-center gap-4\">\n        {leading}\n        <span className=\"flex min-w-0 flex-col gap-2\">\n          <span className=\"truncate text-sm font-medium text-foreground\">{title}</span>\n          {description && <span className=\"truncate text-sm text-muted-foreground\">{description}</span>}\n        </span>\n      </span>\n      <span className=\"shrink-0\">{control}</span>\n    </label>\n  )\n}\n\nfunction SelectorItemGroup({ children, className }: { children: ReactNode; className?: string }) {\n  return <div data-slot=\"selector-item-group\" className={cn(\"flex flex-col gap-2\", className)}>{children}</div>\n}\n\nexport { SelectorItem, SelectorItemGroup }\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "export { cn } from \"cn\"\n"
+    }
+  ],
+  "docs": "https://wunderui.com/components/selector-item",
+  "meta": {
+    "group": "Forms",
+    "exports": [
+      "SelectorItem",
+      "SelectorItemGroup"
+    ]
+  }
+}

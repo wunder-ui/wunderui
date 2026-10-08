@@ -1,0 +1,28 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "label",
+  "type": "registry:ui",
+  "title": "Label",
+  "description": "An accessible label for a form control.",
+  "dependencies": [
+    "cn@^0.3.0"
+  ],
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/styles.json"
+  ],
+  "files": [
+    {
+      "path": "components/ui/label.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/label.tsx",
+      "content": "import * as React from \"react\"\nimport { cn } from \"cn\"\n\nfunction Label({ className, ...props }: React.ComponentProps<\"label\">) {\n  return (\n    <label\n      data-slot=\"label\"\n      className={cn(\n        \"flex select-none items-center gap-2 text-sm leading-none font-medium text-foreground group-has-disabled/field:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nexport { Label }\n"
+    }
+  ],
+  "docs": "https://wunderui.com/components/label",
+  "meta": {
+    "group": "Forms",
+    "exports": [
+      "Label"
+    ]
+  }
+}

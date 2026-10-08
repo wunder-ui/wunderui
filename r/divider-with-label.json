@@ -1,0 +1,41 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "divider-with-label",
+  "type": "registry:ui",
+  "title": "Divider with Label",
+  "description": "A separator with a centered text label, e.g. for \"or\" between two sign-in options.",
+  "dependencies": [
+    "@base-ui/react@^1.8.0",
+    "cn@^0.3.0"
+  ],
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/styles.json"
+  ],
+  "files": [
+    {
+      "path": "components/wunderui/divider-label.tsx",
+      "type": "registry:component",
+      "target": "components/wunderui/divider-label.tsx",
+      "content": "import type { ReactNode } from \"react\"\nimport { Separator } from \"@/components/ui/separator\"\nimport { cn } from \"@/lib/utils\"\n\nfunction DividerWithLabel({\n  children,\n  className,\n}: {\n  children: ReactNode\n  className?: string\n}) {\n  return (\n    <div className={cn(\"flex w-full items-center gap-3\", className)}>\n      <Separator className=\"flex-1\" />\n      <span className=\"text-sm font-medium text-text-tertiary\">{children}</span>\n      <Separator className=\"flex-1\" />\n    </div>\n  )\n}\n\nexport { DividerWithLabel }\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "export { cn } from \"cn\"\n"
+    },
+    {
+      "path": "components/ui/separator.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/separator.tsx",
+      "content": "\"use client\"\n\nimport { Separator as SeparatorPrimitive } from \"@base-ui/react/separator\"\nimport { cn } from \"cn\"\n\nfunction Separator({\n  className,\n  orientation = \"horizontal\",\n  dashed = false,\n  ...props\n}: SeparatorPrimitive.Props & { dashed?: boolean }) {\n  return (\n    <SeparatorPrimitive\n      data-slot=\"separator\"\n      orientation={orientation}\n      className={cn(\n        dashed\n          ? \"shrink-0 border-border data-horizontal:h-0 data-horizontal:w-full data-horizontal:border-t data-vertical:h-full data-vertical:w-0 data-vertical:self-stretch data-vertical:border-l border-dashed\"\n          : \"shrink-0 bg-border data-horizontal:h-px data-horizontal:w-full data-vertical:w-px data-vertical:self-stretch\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nexport { Separator }\n"
+    }
+  ],
+  "docs": "https://wunderui.com/components/divider-with-label",
+  "meta": {
+    "group": "Core Elements",
+    "exports": [
+      "DividerWithLabel"
+    ]
+  }
+}

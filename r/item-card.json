@@ -1,0 +1,35 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "item-card",
+  "type": "registry:ui",
+  "title": "Item Card",
+  "description": "A generic row card: icon, title, description, meta, action.",
+  "dependencies": [
+    "cn@^0.3.0"
+  ],
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/styles.json"
+  ],
+  "files": [
+    {
+      "path": "components/wunderui/item-card.tsx",
+      "type": "registry:component",
+      "target": "components/wunderui/item-card.tsx",
+      "content": "import type { ReactNode } from \"react\"\nimport { cn } from \"@/lib/utils\"\n\nfunction ItemCard({\n  icon,\n  title,\n  description,\n  meta,\n  action,\n  className,\n}: {\n  icon?: ReactNode\n  title: ReactNode\n  description?: ReactNode\n  meta?: ReactNode\n  action?: ReactNode\n  className?: string\n}) {\n  return (\n    <div\n      className={cn(\n        \"flex items-center gap-3 rounded-md border border-border bg-card p-3\",\n        className\n      )}\n    >\n      {icon && (\n        <div className=\"flex size-10 shrink-0 items-center justify-center rounded-md bg-muted text-text-secondary [&_svg]:size-5\">\n          {icon}\n        </div>\n      )}\n      <div className=\"flex min-w-0 flex-1 flex-col gap-0.5\">\n        <p className=\"truncate text-sm font-semibold text-foreground\">{title}</p>\n        {description && (\n          <p className=\"truncate text-[13px] text-text-secondary\">{description}</p>\n        )}\n      </div>\n      {meta && <div className=\"shrink-0 text-xs text-text-tertiary\">{meta}</div>}\n      {action && <div className=\"shrink-0\">{action}</div>}\n    </div>\n  )\n}\n\nfunction ItemCardGroup({\n  children,\n  className,\n}: {\n  children: ReactNode\n  className?: string\n}) {\n  return (\n    <div className={cn(\"flex flex-col gap-2 rounded-lg border border-border bg-card p-2\", className)}>\n      {children}\n    </div>\n  )\n}\n\nexport { ItemCard, ItemCardGroup }\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "export { cn } from \"cn\"\n"
+    }
+  ],
+  "docs": "https://wunderui.com/components/item-card",
+  "meta": {
+    "group": "Core Elements",
+    "exports": [
+      "ItemCard",
+      "ItemCardGroup"
+    ]
+  }
+}

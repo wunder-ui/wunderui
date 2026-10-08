@@ -1,0 +1,41 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "action-bar",
+  "type": "registry:ui",
+  "title": "Action Bar",
+  "description": "A floating bar of bulk actions for a selection.",
+  "dependencies": [
+    "@base-ui/react@^1.8.0",
+    "cn@^0.3.0"
+  ],
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/styles.json"
+  ],
+  "files": [
+    {
+      "path": "components/wunderui/action-bar.tsx",
+      "type": "registry:component",
+      "target": "components/wunderui/action-bar.tsx",
+      "content": "import type { ReactNode } from \"react\"\nimport { Separator } from \"@/components/ui/separator\"\nimport { cn } from \"@/lib/utils\"\n\nfunction ActionBar({\n  label,\n  children,\n  className,\n}: {\n  label?: ReactNode\n  children: ReactNode\n  className?: string\n}) {\n  return (\n    <div\n      className={cn(\n        \"flex items-center gap-3 rounded-full border border-border bg-card px-4 py-2 shadow-lg\",\n        className\n      )}\n    >\n      {label && (\n        <>\n          <span className=\"text-sm font-medium text-foreground\">{label}</span>\n          <Separator orientation=\"vertical\" className=\"h-5\" />\n        </>\n      )}\n      <div className=\"flex items-center gap-1\">{children}</div>\n    </div>\n  )\n}\n\nexport { ActionBar }\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "export { cn } from \"cn\"\n"
+    },
+    {
+      "path": "components/ui/separator.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/separator.tsx",
+      "content": "\"use client\"\n\nimport { Separator as SeparatorPrimitive } from \"@base-ui/react/separator\"\nimport { cn } from \"cn\"\n\nfunction Separator({\n  className,\n  orientation = \"horizontal\",\n  dashed = false,\n  ...props\n}: SeparatorPrimitive.Props & { dashed?: boolean }) {\n  return (\n    <SeparatorPrimitive\n      data-slot=\"separator\"\n      orientation={orientation}\n      className={cn(\n        dashed\n          ? \"shrink-0 border-border data-horizontal:h-0 data-horizontal:w-full data-horizontal:border-t data-vertical:h-full data-vertical:w-0 data-vertical:self-stretch data-vertical:border-l border-dashed\"\n          : \"shrink-0 bg-border data-horizontal:h-px data-horizontal:w-full data-vertical:w-px data-vertical:self-stretch\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nexport { Separator }\n"
+    }
+  ],
+  "docs": "https://wunderui.com/components/action-bar",
+  "meta": {
+    "group": "Core Elements",
+    "exports": [
+      "ActionBar"
+    ]
+  }
+}

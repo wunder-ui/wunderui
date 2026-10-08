@@ -1,0 +1,58 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "checkbox",
+  "type": "registry:ui",
+  "title": "Checkbox",
+  "description": "A single choice that is on or off, with an indeterminate state for “some selected”.",
+  "dependencies": [
+    "@base-ui/react@^1.8.0",
+    "class-variance-authority@^0.7.1",
+    "cn@^0.3.0",
+    "lucide-react@^1.46.0"
+  ],
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/styles.json"
+  ],
+  "files": [
+    {
+      "path": "components/blocks/form.tsx",
+      "type": "registry:component",
+      "target": "components/blocks/form.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\nimport { Textarea } from \"@/components/ui/textarea\"\nimport { Checkbox } from \"@/components/ui/checkbox\"\n\n/* ------------------------------------------------------------------ */\n/* TextareaField                                                         */\n/* ------------------------------------------------------------------ */\n\ntype TextareaFieldProps = React.ComponentProps<typeof Textarea> & {\n  label?: React.ReactNode\n  helper?: React.ReactNode\n  error?: React.ReactNode\n  optional?: boolean\n  wrapperClassName?: string\n}\n\nfunction TextareaField({ label, helper, error, optional, id: idProp, wrapperClassName, ...props }: TextareaFieldProps) {\n  const autoId = React.useId()\n  const id = idProp ?? autoId\n  return (\n    <div data-slot=\"textarea-field\" className={cn(\"flex flex-col gap-1.5\", wrapperClassName)}>\n      {label && (\n        <label htmlFor={id} className=\"text-sm font-medium text-foreground\">\n          {label}\n          {optional && <span className=\"ml-1 font-normal text-text-tertiary\">(optional)</span>}\n        </label>\n      )}\n      <Textarea id={id} aria-invalid={error ? true : undefined} {...props} />\n      {error ? <p className=\"text-xs text-text-error\">{error}</p> : helper && <p className=\"text-xs text-text-tertiary\">{helper}</p>}\n    </div>\n  )\n}\n\n/* ------------------------------------------------------------------ */\n/* CheckboxField — checkbox + label (+ description)                      */\n/* Figma: ❖ Selectors / Checkbox Item (113:7985)                       */\n/* ------------------------------------------------------------------ */\n\ntype CheckboxFieldProps = React.ComponentProps<typeof Checkbox> & {\n  label: React.ReactNode\n  description?: React.ReactNode\n  wrapperClassName?: string\n}\n\nfunction CheckboxField({ label, description, id: idProp, wrapperClassName, className, ...props }: CheckboxFieldProps) {\n  const autoId = React.useId()\n  const id = idProp ?? autoId\n  return (\n    <label htmlFor={id} data-slot=\"checkbox-field\" className={cn(\"flex cursor-pointer items-start gap-2\", wrapperClassName)}>\n      <Checkbox id={id} className={cn(\"mt-0.5\", className)} {...props} />\n      <span className=\"flex flex-col gap-0.5\">\n        <span className=\"text-sm text-text-secondary [&_a]:font-medium [&_a]:text-text-link [&_a]:hover:underline\">{label}</span>\n        {description && <span className=\"text-xs text-text-tertiary\">{description}</span>}\n      </span>\n    </label>\n  )\n}\n\n/* ------------------------------------------------------------------ */\n/* FormActions — right-aligned button row used at the end of forms       */\n/* ------------------------------------------------------------------ */\n\nfunction FormActions({ children, align = \"end\", className }: { children: React.ReactNode; align?: \"start\" | \"end\" | \"between\"; className?: string }) {\n  return (\n    <div\n      data-slot=\"form-actions\"\n      className={cn(\n        \"flex flex-wrap items-center gap-3\",\n        align === \"end\" && \"justify-end\",\n        align === \"between\" && \"justify-between\",\n        className\n      )}\n    >\n      {children}\n    </div>\n  )\n}\n\nexport { TextareaField, CheckboxField, FormActions }\nexport type { TextareaFieldProps, CheckboxFieldProps }\n"
+    },
+    {
+      "path": "components/ui/checkbox.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/checkbox.tsx",
+      "content": "\"use client\"\n\nimport { Checkbox as CheckboxPrimitive } from \"@base-ui/react/checkbox\"\nimport { cn } from \"cn\"\nimport { CheckIcon, MinusIcon } from \"lucide-react\"\n\nfunction Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {\n  return (\n    <CheckboxPrimitive.Root\n      data-slot=\"checkbox\"\n      className={cn(\n        \"peer relative flex size-5 shrink-0 items-center justify-center rounded-[4px] border-[1.5px] border-muted-foreground transition-colors hover:not-data-checked:border-primary outline-none group-has-disabled/field:opacity-50 group-has-[:focus-visible]/field-label:ring-0 group-has-[:focus-visible]/field-label:not-data-checked:border-muted-foreground after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 aria-invalid:aria-checked:border-primary dark:bg-muted/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 data-checked:border-primary data-checked:bg-primary data-checked:text-primary-foreground group-has-[:focus-visible]/field-label:data-checked:border-primary dark:data-checked:bg-primary data-indeterminate:border-primary data-indeterminate:bg-primary data-indeterminate:text-primary-foreground\",\n        className\n      )}\n      {...props}\n    >\n      <CheckboxPrimitive.Indicator\n        keepMounted\n        data-slot=\"checkbox-indicator\"\n        className={cn(\n          \"grid place-content-center text-current opacity-0 transition-opacity duration-fast data-checked:opacity-100 data-indeterminate:opacity-100 [&>svg]:size-4 [&>svg:last-child]:hidden data-indeterminate:[&>svg:first-child]:hidden data-indeterminate:[&>svg:last-child]:block\",\n          // The box fills instantly (see Root's data-checked:bg-primary above);\n          // the check stroke draws in after via stroke-dashoffset. 23 is\n          // lucide's CheckIcon path length (getTotalLength()), rounded up by 1\n          // so the draw never over/under-shoots. Uncheck reverses fast with no\n          // draw — transitioning offset (not toggling display) is what lets a\n          // mid-draw uncheck reverse cleanly instead of jumping.\n          \"[&_svg_path]:[stroke-dasharray:23] [&_svg_path]:[stroke-dashoffset:23] [&_svg_path]:transition-[stroke-dashoffset] [&_svg_path]:duration-fast [&_svg_path]:ease-entrance data-checked:[&_svg_path]:[stroke-dashoffset:0] data-checked:[&_svg_path]:duration-slow\"\n        )}\n      >\n        <CheckIcon />\n        <MinusIcon />\n      </CheckboxPrimitive.Indicator>\n    </CheckboxPrimitive.Root>\n  )\n}\n\nexport { Checkbox }\n"
+    },
+    {
+      "path": "components/ui/textarea.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/textarea.tsx",
+      "content": "import * as React from \"react\"\nimport { cva, type VariantProps } from \"class-variance-authority\"\nimport { cn } from \"cn\"\n\nconst textareaVariants = cva(\n  \"w-full min-w-0 resize-y rounded-md border border-input bg-transparent px-3 py-2.5 text-sm transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-ring disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-muted/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 aria-invalid:focus-visible:ring-destructive dark:bg-muted/30 dark:disabled:bg-muted/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40\",\n  {\n    variants: {\n      size: {\n        sm: \"min-h-20\",\n        default: \"min-h-28\",\n        lg: \"min-h-36 text-base\",\n      },\n    },\n    defaultVariants: {\n      size: \"default\",\n    },\n  }\n)\n\nfunction Textarea({\n  className,\n  size = \"default\",\n  showCount,\n  maxLength,\n  value,\n  defaultValue,\n  onChange,\n  ...props\n}: Omit<React.ComponentProps<\"textarea\">, \"size\"> &\n  VariantProps<typeof textareaVariants> & {\n    /** Show a \"n/maxLength\" character counter in the bottom-right corner. Requires maxLength. */\n    showCount?: boolean\n  }) {\n  const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? \"\")\n  const isControlled = value !== undefined\n  const length = (isControlled ? value : uncontrolledValue)?.toString().length ?? 0\n  const withCounter = showCount && maxLength !== undefined\n\n  return (\n    <div className=\"relative\">\n      <textarea\n        data-slot=\"textarea\"\n        className={cn(textareaVariants({ size }), withCounter && \"pb-6\", className)}\n        maxLength={maxLength}\n        value={value}\n        defaultValue={defaultValue}\n        onChange={(event) => {\n          if (!isControlled) setUncontrolledValue(event.target.value)\n          onChange?.(event)\n        }}\n        {...props}\n      />\n      {withCounter && (\n        <span className=\"pointer-events-none absolute right-3 bottom-2 text-xs text-text-tertiary tabular-nums\">\n          {length}/{maxLength}\n        </span>\n      )}\n    </div>\n  )\n}\n\nexport { Textarea, textareaVariants }\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "export { cn } from \"cn\"\n"
+    },
+    {
+      "path": "components/ui/toggle-button-group.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/toggle-button-group.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { ToggleGroup } from \"@base-ui/react/toggle-group\"\nimport { Toggle } from \"@base-ui/react/toggle\"\nimport { cn } from \"cn\"\n\nfunction CheckboxButtonGroup<Value extends string>({\n  className,\n  ...props\n}: ToggleGroup.Props<Value>) {\n  return (\n    <ToggleGroup\n      data-slot=\"checkbox-button-group\"\n      multiple\n      className={cn(\"flex flex-wrap gap-2\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction RadioButtonGroup<Value extends string>({\n  className,\n  ...props\n}: Omit<ToggleGroup.Props<Value>, \"multiple\">) {\n  return (\n    <ToggleGroup\n      data-slot=\"radio-button-group\"\n      multiple={false}\n      className={cn(\"flex flex-wrap gap-2\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction ToggleButton({\n  className,\n  ...props\n}: React.ComponentProps<typeof Toggle>) {\n  return (\n    <Toggle\n      data-slot=\"toggle-button\"\n      className={cn(\n        \"rounded-md border border-border-control px-3 py-1.5 text-sm font-medium text-text-secondary transition-colors data-pressed:border-primary data-pressed:bg-tint-indigo data-pressed:text-tint-text-indigo hover:bg-muted\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nexport { CheckboxButtonGroup, RadioButtonGroup, ToggleButton }\n"
+    }
+  ],
+  "docs": "https://wunderui.com/components/checkbox",
+  "meta": {
+    "group": "Core Elements",
+    "exports": [
+      "Checkbox",
+      "CheckboxButtonGroup",
+      "CheckboxField",
+      "CheckboxFieldProps"
+    ]
+  }
+}

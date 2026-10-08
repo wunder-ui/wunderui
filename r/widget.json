@@ -1,0 +1,34 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "widget",
+  "type": "registry:ui",
+  "title": "Widget",
+  "description": "A generic dashboard widget shell: header, body, footer.",
+  "dependencies": [
+    "cn@^0.3.0"
+  ],
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/styles.json"
+  ],
+  "files": [
+    {
+      "path": "components/wunderui/widget.tsx",
+      "type": "registry:component",
+      "target": "components/wunderui/widget.tsx",
+      "content": "import type { ReactNode } from \"react\"\nimport { cn } from \"@/lib/utils\"\n\nfunction Widget({\n  title,\n  description,\n  action,\n  footer,\n  children,\n  className,\n}: {\n  title?: ReactNode\n  description?: ReactNode\n  action?: ReactNode\n  footer?: ReactNode\n  children: ReactNode\n  className?: string\n}) {\n  return (\n    <div className={cn(\"flex flex-col gap-4 rounded-lg border border-border bg-card p-5\", className)}>\n      {(title || action) && (\n        <div className=\"flex items-start justify-between\">\n          <div>\n            {title && <h3 className=\"text-base font-bold text-foreground\">{title}</h3>}\n            {description && <p className=\"text-xs text-text-secondary\">{description}</p>}\n          </div>\n          {action}\n        </div>\n      )}\n      <div className=\"flex-1\">{children}</div>\n      {footer && <div className=\"border-t border-border pt-3\">{footer}</div>}\n    </div>\n  )\n}\n\nexport { Widget }\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "export { cn } from \"cn\"\n"
+    }
+  ],
+  "docs": "https://wunderui.com/components/widget",
+  "meta": {
+    "group": "Core Elements",
+    "exports": [
+      "Widget"
+    ]
+  }
+}

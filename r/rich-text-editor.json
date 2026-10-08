@@ -1,0 +1,53 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "rich-text-editor",
+  "type": "registry:ui",
+  "title": "Rich Text Editor",
+  "description": "A Tiptap-powered WYSIWYG editor with a formatting toolbar.",
+  "dependencies": [
+    "@base-ui/react@^1.8.0",
+    "@tiptap/extension-placeholder@^3",
+    "@tiptap/react@^3",
+    "@tiptap/starter-kit@^3",
+    "cn@^0.3.0",
+    "lucide-react@^1.46.0"
+  ],
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/styles.json"
+  ],
+  "files": [
+    {
+      "path": "components/wunderui/rich-text-editor.tsx",
+      "type": "registry:component",
+      "target": "components/wunderui/rich-text-editor.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ntype RichTextEditorProps = {\n  content?: string\n  onChange?: (html: string) => void\n  placeholder?: string\n  className?: string\n}\n\nfunction RichTextEditorSkeleton({ placeholder, className }: Pick<RichTextEditorProps, \"placeholder\" | \"className\">) {\n  return (\n    <div className={cn(\"flex flex-col rounded-lg border border-input\", className)}>\n      <div className=\"h-[38px] border-b border-border\" />\n      <div className=\"min-h-32 p-3 text-sm text-text-tertiary\">{placeholder}</div>\n    </div>\n  )\n}\n\n// TipTap is a regular dependency (bundlers resolve this import at build time,\n// so it cannot be optional), but it is only imported inside the lazy chunk:\n// apps that never render the editor never download it.\nconst RichTextEditorInner = React.lazy(() => import(\"./rich-text-editor-inner\"))\n\nfunction RichTextEditor(props: RichTextEditorProps) {\n  const [mounted, setMounted] = React.useState(false)\n  React.useEffect(() => setMounted(true), [])\n  const fallback = <RichTextEditorSkeleton placeholder={props.placeholder ?? \"Write something...\"} className={props.className} />\n  if (!mounted) return fallback\n  return (\n    <React.Suspense fallback={fallback}>\n      <RichTextEditorInner {...props} />\n    </React.Suspense>\n  )\n}\n\nexport { RichTextEditor, RichTextEditorSkeleton }\nexport type { RichTextEditorProps }\n"
+    },
+    {
+      "path": "components/wunderui/rich-text-editor-inner.tsx",
+      "type": "registry:component",
+      "target": "components/wunderui/rich-text-editor-inner.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { useEditor, EditorContent, type Editor } from \"@tiptap/react\"\nimport StarterKit from \"@tiptap/starter-kit\"\nimport Placeholder from \"@tiptap/extension-placeholder\"\nimport { Bold, Italic, Underline as UnderlineIcon, List, ListOrdered, Link as LinkIcon } from \"lucide-react\"\nimport { Separator } from \"@/components/ui/separator\"\nimport { cn } from \"@/lib/utils\"\nimport { RichTextEditorSkeleton, type RichTextEditorProps } from \"./rich-text-editor\"\n\nfunction RichTextEditorToolbarButton({\n  active,\n  disabled,\n  onClick,\n  label,\n  children,\n}: {\n  active?: boolean\n  disabled?: boolean\n  onClick: () => void\n  /** Accessible name — the buttons only show an icon. */\n  label: string\n  children: React.ReactNode\n}) {\n  return (\n    <button\n      aria-label={label}\n      aria-pressed={active}\n      title={label}\n      type=\"button\"\n      disabled={disabled}\n      onClick={onClick}\n      className={cn(\n        \"flex size-7 items-center justify-center rounded-md text-text-secondary outline-none hover:bg-muted focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-40 [&_svg]:size-4\",\n        active && \"bg-muted text-foreground\"\n      )}\n    >\n      {children}\n    </button>\n  )\n}\n\nfunction RichTextEditorToolbar({ editor }: { editor: Editor }) {\n  return (\n    <div className=\"flex items-center gap-0.5 border-b border-border p-1.5\">\n      <RichTextEditorToolbarButton\n        label=\"Bold\"\n        active={editor.isActive(\"bold\")}\n        onClick={() => editor.chain().focus().toggleBold().run()}\n      >\n        <Bold />\n      </RichTextEditorToolbarButton>\n      <RichTextEditorToolbarButton\n        label=\"Italic\"\n        active={editor.isActive(\"italic\")}\n        onClick={() => editor.chain().focus().toggleItalic().run()}\n      >\n        <Italic />\n      </RichTextEditorToolbarButton>\n      <RichTextEditorToolbarButton\n        label=\"Underline\"\n        active={editor.isActive(\"underline\")}\n        onClick={() => editor.chain().focus().toggleUnderline().run()}\n      >\n        <UnderlineIcon />\n      </RichTextEditorToolbarButton>\n      <Separator orientation=\"vertical\" className=\"mx-1 h-5\" />\n      <RichTextEditorToolbarButton\n        label=\"Bulleted list\"\n        active={editor.isActive(\"bulletList\")}\n        onClick={() => editor.chain().focus().toggleBulletList().run()}\n      >\n        <List />\n      </RichTextEditorToolbarButton>\n      <RichTextEditorToolbarButton\n        label=\"Numbered list\"\n        active={editor.isActive(\"orderedList\")}\n        onClick={() => editor.chain().focus().toggleOrderedList().run()}\n      >\n        <ListOrdered />\n      </RichTextEditorToolbarButton>\n      <Separator orientation=\"vertical\" className=\"mx-1 h-5\" />\n      <RichTextEditorToolbarButton\n        label=\"Link\"\n        active={editor.isActive(\"link\")}\n        onClick={() => {\n          const url = window.prompt(\"URL\")\n          if (url) editor.chain().focus().setLink({ href: url }).run()\n          else editor.chain().focus().unsetLink().run()\n        }}\n      >\n        <LinkIcon />\n      </RichTextEditorToolbarButton>\n    </div>\n  )\n}\n\n// Loaded lazily by rich-text-editor.tsx so @tiptap/* stays an optional peer:\n// this file is the only one that imports it, and tsup splits it into its own chunk.\nfunction RichTextEditorInner({\n  content,\n  onChange,\n  placeholder = \"Write something...\",\n  className,\n}: RichTextEditorProps) {\n  const editor = useEditor({\n    immediatelyRender: false,\n    extensions: [\n      StarterKit.configure({\n        link: { openOnClick: false, autolink: true },\n      }),\n      Placeholder.configure({ placeholder }),\n    ],\n    content,\n    onUpdate: ({ editor }) => onChange?.(editor.getHTML()),\n    editorProps: {\n      attributes: {\n        class:\n          \"min-h-32 p-3 text-sm text-foreground outline-none [&_a]:text-text-link [&_a]:underline [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_p.is-editor-empty:first-child::before]:text-text-tertiary [&_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_p.is-editor-empty:first-child::before]:float-left [&_p.is-editor-empty:first-child::before]:pointer-events-none [&_p.is-editor-empty:first-child::before]:h-0\",\n      },\n    },\n  })\n\n  if (!editor) return <RichTextEditorSkeleton placeholder={placeholder} className={className} />\n\n  return (\n    <div className={cn(\"flex flex-col rounded-lg border border-input has-[[contenteditable]:focus]:border-ring\", className)}>\n      <RichTextEditorToolbar editor={editor} />\n      <EditorContent editor={editor} />\n    </div>\n  )\n}\n\nexport default RichTextEditorInner\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "export { cn } from \"cn\"\n"
+    },
+    {
+      "path": "components/ui/separator.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/separator.tsx",
+      "content": "\"use client\"\n\nimport { Separator as SeparatorPrimitive } from \"@base-ui/react/separator\"\nimport { cn } from \"cn\"\n\nfunction Separator({\n  className,\n  orientation = \"horizontal\",\n  dashed = false,\n  ...props\n}: SeparatorPrimitive.Props & { dashed?: boolean }) {\n  return (\n    <SeparatorPrimitive\n      data-slot=\"separator\"\n      orientation={orientation}\n      className={cn(\n        dashed\n          ? \"shrink-0 border-border data-horizontal:h-0 data-horizontal:w-full data-horizontal:border-t data-vertical:h-full data-vertical:w-0 data-vertical:self-stretch data-vertical:border-l border-dashed\"\n          : \"shrink-0 bg-border data-horizontal:h-px data-horizontal:w-full data-vertical:w-px data-vertical:self-stretch\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nexport { Separator }\n"
+    }
+  ],
+  "docs": "https://wunderui.com/components/rich-text-editor",
+  "meta": {
+    "group": "Forms",
+    "exports": [
+      "RichTextEditor",
+      "RichTextEditorProps",
+      "RichTextEditorSkeleton"
+    ]
+  }
+}

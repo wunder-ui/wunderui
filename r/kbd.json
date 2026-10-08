@@ -1,0 +1,29 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "kbd",
+  "type": "registry:ui",
+  "title": "Kbd",
+  "description": "Displays a keyboard key or shortcut, e.g. inside a search input.",
+  "dependencies": [
+    "cn@^0.3.0"
+  ],
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/styles.json"
+  ],
+  "files": [
+    {
+      "path": "components/ui/kbd.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/kbd.tsx",
+      "content": "import * as React from \"react\"\nimport { cn } from \"cn\"\n\nfunction Kbd({ className, ...props }: React.ComponentProps<\"kbd\">) {\n  return (\n    <kbd\n      data-slot=\"kbd\"\n      className={cn(\n        \"inline-flex h-[22px] min-w-5 items-center justify-center rounded-[4px] border border-border bg-subtle px-1.5 text-xs font-medium text-text-secondary\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction KbdGroup({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"kbd-group\"\n      className={cn(\"inline-flex items-center gap-1\", className)}\n      {...props}\n    />\n  )\n}\n\nexport { Kbd, KbdGroup }\n"
+    }
+  ],
+  "docs": "https://wunderui.com/components/kbd",
+  "meta": {
+    "group": "Core Elements",
+    "exports": [
+      "Kbd",
+      "KbdGroup"
+    ]
+  }
+}

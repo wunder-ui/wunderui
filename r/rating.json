@@ -1,0 +1,38 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "rating",
+  "type": "registry:ui",
+  "title": "Rating",
+  "description": "An interactive star rating input.",
+  "dependencies": [
+    "cn@^0.3.0",
+    "lucide-react@^1.46.0"
+  ],
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/styles.json"
+  ],
+  "files": [
+    {
+      "path": "components/wunderui/rating.tsx",
+      "type": "registry:component",
+      "target": "components/wunderui/rating.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Heart, Star } from \"lucide-react\"\nimport { cn } from \"@/lib/utils\"\n\ntype RatingType = \"stars\" | \"hearts\" | \"emojis\" | \"scale\"\ntype RatingLabel = \"none\" | \"left\" | \"right\" | \"tooltip\"\n\nconst EMOJIS = [\"😍\", \"🙂\", \"😐\", \"🙁\", \"😡\"]\n\n/**\n * Rating — mirrors the Figma Rating set (Type × Value × Label).\n * - `stars` / `hearts`: fill `value` of `max` icons (yellow / pink).\n * - `emojis`: single-select reaction 1–5 (😍 🙂 😐 🙁 😡), 0 = none.\n * - `scale`: 0–10 NPS row, the selected number is filled.\n * `label` shows the value beside the rating or as a tooltip above it.\n */\nfunction Rating({\n  value,\n  onValueChange,\n  max,\n  type = \"stars\",\n  label = \"none\",\n  readOnly = false,\n  className,\n}: {\n  value: number\n  onValueChange?: (value: number) => void\n  max?: number\n  type?: RatingType\n  label?: RatingLabel\n  readOnly?: boolean\n  className?: string\n}) {\n  const [hover, setHover] = React.useState<number | null>(null)\n  const display = hover ?? value\n  const count = max ?? (type === \"scale\" ? 11 : 5)\n  const text = type === \"scale\" || type === \"emojis\" ? String(value) : `${value.toFixed(1)}`\n\n  const labelNode =\n    label === \"none\" ? null : label === \"tooltip\" ? (\n      <span className=\"pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 rounded-md border border-border bg-card px-2 py-1 text-xs font-medium text-foreground shadow-md\">\n        {text}\n      </span>\n    ) : (\n      <span className=\"text-sm font-medium tabular-nums text-foreground\">{text}</span>\n    )\n\n  let items: React.ReactNode\n  if (type === \"stars\" || type === \"hearts\") {\n    const Icon = type === \"stars\" ? Star : Heart\n    items = Array.from({ length: count }).map((_, i) => {\n      const filled = i < display\n      return (\n        <button key={i} type=\"button\" disabled={readOnly} aria-label={`${i + 1} of ${count}`} onMouseEnter={() => !readOnly && setHover(i + 1)} onMouseLeave={() => !readOnly && setHover(null)} onClick={() => !readOnly && onValueChange?.(i + 1)} className=\"grid size-6 place-items-center rounded-sm outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-default\">\n          <Icon className={cn(\"size-4\", filled ? (type === \"stars\" ? \"fill-brand-quaternary text-brand-quaternary\" : \"fill-brand-tertiary text-brand-tertiary\") : \"fill-none text-border-control\")} />\n        </button>\n      )\n    })\n  } else if (type === \"emojis\") {\n    items = EMOJIS.map((emoji, i) => {\n      const selected = value === i + 1\n      return (\n        <button key={emoji} type=\"button\" disabled={readOnly} aria-pressed={selected} aria-label={emoji} onClick={() => !readOnly && onValueChange?.(selected ? 0 : i + 1)} className={cn(\"flex size-12 items-center justify-center rounded-md border text-xl transition-colors disabled:cursor-default\", selected ? \"border-primary bg-tint-indigo\" : \"border-transparent bg-background hover:bg-subtle\")}>\n          {emoji}\n        </button>\n      )\n    })\n  } else {\n    items = Array.from({ length: count }).map((_, i) => {\n      const selected = value === i\n      return (\n        <button key={i} type=\"button\" disabled={readOnly} aria-pressed={selected} onClick={() => !readOnly && onValueChange?.(i)} className={cn(\"flex size-10 items-center justify-center rounded-md text-xs font-semibold tabular-nums transition-colors disabled:cursor-default\", selected ? \"bg-primary text-primary-foreground\" : \"bg-background text-text-secondary hover:bg-subtle hover:text-foreground\")}>\n          {i}\n        </button>\n      )\n    })\n  }\n\n  return (\n    <div className={cn(\"relative inline-flex items-center\", type === \"emojis\" ? \"gap-2\" : type === \"scale\" ? \"gap-1\" : \"gap-0.5\", label === \"left\" || label === \"right\" ? \"gap-2.5\" : \"\", className)}>\n      {label === \"left\" && labelNode}\n      {label === \"tooltip\" && labelNode}\n      <div className={cn(\"flex items-center\", type === \"emojis\" ? \"gap-2\" : type === \"scale\" ? \"gap-1\" : \"gap-0\")}>{items}</div>\n      {label === \"right\" && labelNode}\n    </div>\n  )\n}\n\nexport { Rating }\nexport type { RatingType, RatingLabel }\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "export { cn } from \"cn\"\n"
+    }
+  ],
+  "docs": "https://wunderui.com/components/rating",
+  "meta": {
+    "group": "Feedback & Overlays",
+    "exports": [
+      "Rating",
+      "RatingCell",
+      "RatingLabel",
+      "RatingType"
+    ]
+  }
+}

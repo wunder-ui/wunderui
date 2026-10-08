@@ -1,0 +1,33 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "meter",
+  "type": "registry:ui",
+  "title": "Meter",
+  "description": "A graphical display of a fixed value within a range, e.g. disk usage.",
+  "dependencies": [
+    "@base-ui/react@^1.8.0",
+    "cn@^0.3.0"
+  ],
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/styles.json"
+  ],
+  "files": [
+    {
+      "path": "components/ui/meter.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/meter.tsx",
+      "content": "\"use client\"\n\nimport { Meter as MeterPrimitive } from \"@base-ui/react/meter\"\nimport { cn } from \"cn\"\n\n/** A fixed-point-in-range gauge (e.g. disk usage, a score) — visually like\n *  Progress, but semantically for a static value rather than a task's\n *  completion percentage. */\nfunction Meter({ className, children, value, ...props }: MeterPrimitive.Root.Props) {\n  return (\n    <MeterPrimitive.Root\n      value={value}\n      data-slot=\"meter\"\n      className={cn(\"flex flex-wrap gap-3\", className)}\n      {...props}\n    >\n      {children}\n      <MeterTrack>\n        <MeterIndicator />\n      </MeterTrack>\n    </MeterPrimitive.Root>\n  )\n}\n\nfunction MeterTrack({ className, ...props }: MeterPrimitive.Track.Props) {\n  return (\n    <MeterPrimitive.Track\n      data-slot=\"meter-track\"\n      className={cn(\n        \"relative flex h-1.5 w-full items-center overflow-x-hidden rounded-full bg-muted\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction MeterIndicator({ className, ...props }: MeterPrimitive.Indicator.Props) {\n  return (\n    <MeterPrimitive.Indicator\n      data-slot=\"meter-indicator\"\n      className={cn(\"h-full bg-primary transition-[width] duration-ambient ease-entrance\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction MeterLabel({ className, ...props }: MeterPrimitive.Label.Props) {\n  return (\n    <MeterPrimitive.Label\n      data-slot=\"meter-label\"\n      className={cn(\"text-sm font-medium\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction MeterValue({ className, ...props }: MeterPrimitive.Value.Props) {\n  return (\n    <MeterPrimitive.Value\n      data-slot=\"meter-value\"\n      className={cn(\"ml-auto text-sm text-muted-foreground tabular-nums\", className)}\n      {...props}\n    />\n  )\n}\n\nexport { Meter, MeterTrack, MeterIndicator, MeterLabel, MeterValue }\n"
+    }
+  ],
+  "docs": "https://wunderui.com/components/meter",
+  "meta": {
+    "group": "Core Elements",
+    "exports": [
+      "Meter",
+      "MeterIndicator",
+      "MeterLabel",
+      "MeterTrack",
+      "MeterValue"
+    ]
+  }
+}

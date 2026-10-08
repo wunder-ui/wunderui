@@ -1,0 +1,43 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "carousel",
+  "type": "registry:ui",
+  "title": "Carousel",
+  "description": "A horizontally scrollable row of items with arrow controls.",
+  "dependencies": [
+    "@base-ui/react@^1.8.0",
+    "class-variance-authority@^0.7.1",
+    "cn@^0.3.0",
+    "lucide-react@^1.46.0"
+  ],
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/styles.json"
+  ],
+  "files": [
+    {
+      "path": "components/wunderui/carousel.tsx",
+      "type": "registry:component",
+      "target": "components/wunderui/carousel.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { ChevronLeft, ChevronRight } from \"lucide-react\"\nimport { IconButton } from \"@/components/ui/icon-button\"\nimport { cn } from \"@/lib/utils\"\n\nfunction Carousel({\n  children,\n  className,\n  label = \"Carousel\",\n}: {\n  children: React.ReactNode\n  className?: string\n  /** Accessible name of the scrolling region. */\n  label?: string\n}) {\n  const scrollerRef = React.useRef<HTMLDivElement>(null)\n  const [canScrollLeft, setCanScrollLeft] = React.useState(false)\n  const [canScrollRight, setCanScrollRight] = React.useState(false)\n\n  const updateScrollState = React.useCallback(() => {\n    const el = scrollerRef.current\n    if (!el) return\n    setCanScrollLeft(el.scrollLeft > 1)\n    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1)\n  }, [])\n\n  React.useEffect(() => {\n    const el = scrollerRef.current\n    if (!el) return\n    updateScrollState()\n    el.addEventListener(\"scroll\", updateScrollState, { passive: true })\n    // Re-check when the track resizes or items are added/removed — the\n    // container itself has no fixed width, so overflow only exists once\n    // content is actually wider than the available space.\n    const observer = new ResizeObserver(updateScrollState)\n    observer.observe(el)\n    return () => {\n      el.removeEventListener(\"scroll\", updateScrollState)\n      observer.disconnect()\n    }\n  }, [updateScrollState, children])\n\n  const scrollBy = (delta: number) => {\n    scrollerRef.current?.scrollBy({ left: delta, behavior: \"smooth\" })\n  }\n\n  return (\n    <div className={cn(\"relative w-full\", className)}>\n      <div\n        ref={scrollerRef}\n        // focusable, so the slides also scroll with the arrow keys\n        tabIndex={0}\n        role=\"region\"\n        aria-roledescription=\"carousel\"\n        aria-label={label}\n        className=\"-mx-1 -mt-1 flex w-[calc(100%+0.5rem)] snap-x snap-mandatory scroll-px-1 gap-4 overflow-x-auto scroll-smooth px-1 pt-1 pb-2 outline-none [scrollbar-width:none] focus-visible:ring-1 focus-visible:ring-ring [&::-webkit-scrollbar]:hidden\"\n      >\n        {React.Children.map(children, (child) => (\n          <div className=\"shrink-0 snap-start\">{child}</div>\n        ))}\n      </div>\n      {canScrollLeft && (\n        <IconButton\n          variant=\"light\"\n          size=\"sm\"\n          shape=\"circle\"\n          className=\"absolute top-1/2 -left-3 -translate-y-1/2 shadow-md\"\n          onClick={() => scrollBy(-320)}\n          aria-label=\"Previous\"\n        >\n          <ChevronLeft />\n        </IconButton>\n      )}\n      {canScrollRight && (\n        <IconButton\n          variant=\"light\"\n          size=\"sm\"\n          shape=\"circle\"\n          className=\"absolute top-1/2 -right-3 -translate-y-1/2 shadow-md\"\n          onClick={() => scrollBy(320)}\n          aria-label=\"Next\"\n        >\n          <ChevronRight />\n        </IconButton>\n      )}\n    </div>\n  )\n}\n\nexport { Carousel }\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "export { cn } from \"cn\"\n"
+    },
+    {
+      "path": "components/ui/icon-button.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/icon-button.tsx",
+      "content": "import { Button as ButtonPrimitive } from \"@base-ui/react/button\"\nimport { cva, type VariantProps } from \"class-variance-authority\"\nimport { cn } from \"cn\"\n\nconst iconButtonVariants = cva(\n  \"group/icon-button inline-flex shrink-0 items-center justify-center border border-transparent transition duration-fast ease-entrance outline-none select-none shadow-[0px_1px_1px_0px_rgba(16,24,40,0.05)] active:translate-y-px disabled:pointer-events-none disabled:opacity-40 focus-visible:border-ring [&_svg]:pointer-events-none [&_svg]:shrink-0\",\n  {\n    variants: {\n      variant: {\n        plain: \"bg-card border-border-control text-foreground hover:bg-muted\",\n        primary: \"border-primary bg-primary text-primary-foreground hover:bg-primary/90\",\n        brand:\n          \"border-brand-primary bg-brand-primary text-brand-primary-foreground hover:bg-brand-primary/90\",\n        gradient:\n          \"border-primary bg-gradient-to-b from-[#6f74f5] to-primary text-primary-foreground shadow-[inset_0px_1px_2px_0px_rgba(255,255,255,0.35)] hover:brightness-105\",\n        dark: \"bg-inverse text-text-inverse hover:bg-(--dark-400) hover:text-white\",\n        light: \"bg-(--light-600) text-(--light-900) hover:bg-(--light-600)/90\",\n        outline: \"bg-card border-primary text-foreground hover:bg-primary/5\",\n        // Figma Type=ghost / destructive (added Sep 2026)\n        ghost: \"bg-transparent text-foreground shadow-none hover:bg-muted\",\n        destructive:\n          \"border-destructive bg-destructive text-destructive-foreground hover:bg-destructive/90\",\n      },\n      shape: {\n        rounded: \"rounded-md\",\n        circle: \"rounded-full\",\n      },\n      size: {\n        sm: \"size-8 [&_svg]:size-4\",\n        md: \"size-9 [&_svg]:size-[18px]\",\n        lg: \"size-10 [&_svg]:size-5\",\n        xl: \"size-11 [&_svg]:size-[22px]\",\n        \"2xl\": \"size-12 [&_svg]:size-6\",\n      },\n    },\n    defaultVariants: {\n      variant: \"primary\",\n      shape: \"rounded\",\n      size: \"md\",\n    },\n  }\n)\n\nfunction IconButton({\n  className,\n  variant,\n  shape,\n  size,\n  ...props\n}: ButtonPrimitive.Props & VariantProps<typeof iconButtonVariants>) {\n  return (\n    <ButtonPrimitive\n      data-slot=\"icon-button\"\n      className={cn(iconButtonVariants({ variant, shape, size, className }))}\n      {...props}\n    />\n  )\n}\n\nexport { IconButton, iconButtonVariants }\n"
+    }
+  ],
+  "docs": "https://wunderui.com/components/carousel",
+  "meta": {
+    "group": "Core Elements",
+    "exports": [
+      "Carousel"
+    ]
+  }
+}

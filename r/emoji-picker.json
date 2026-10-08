@@ -1,0 +1,34 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "emoji-picker",
+  "type": "registry:ui",
+  "title": "Emoji Picker",
+  "description": "A grid of selectable emoji, typically shown inside a Popover.",
+  "dependencies": [
+    "cn@^0.3.0"
+  ],
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/styles.json"
+  ],
+  "files": [
+    {
+      "path": "components/wunderui/emoji-picker.tsx",
+      "type": "registry:component",
+      "target": "components/wunderui/emoji-picker.tsx",
+      "content": "import { cn } from \"@/lib/utils\"\n\nconst DEFAULT_EMOJIS = [\"😀\", \"😂\", \"😍\", \"👍\", \"🙏\", \"🔥\", \"🎉\", \"❤️\", \"😢\", \"😮\", \"👏\", \"🚀\"]\n\nfunction EmojiPicker({\n  emojis = DEFAULT_EMOJIS,\n  onSelect,\n  className,\n}: {\n  emojis?: string[]\n  onSelect?: (emoji: string) => void\n  className?: string\n}) {\n  return (\n    // Each button's name is the emoji itself; screen readers announce its CLDR name (\"grinning face\").\n    <div\n      role=\"group\"\n      aria-label=\"Emoji\"\n      className={cn(\n        \"grid grid-cols-6 gap-1 rounded-lg border border-border bg-popover p-2 shadow-lg\",\n        className\n      )}\n    >\n      {emojis.map((emoji) => (\n        <button\n          key={emoji}\n          type=\"button\"\n          onClick={() => onSelect?.(emoji)}\n          className=\"flex size-8 items-center justify-center rounded-md text-lg outline-none hover:bg-muted focus-visible:ring-1 focus-visible:ring-ring\"\n        >\n          {emoji}\n        </button>\n      ))}\n    </div>\n  )\n}\n\nexport { EmojiPicker }\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "export { cn } from \"cn\"\n"
+    }
+  ],
+  "docs": "https://wunderui.com/components/emoji-picker",
+  "meta": {
+    "group": "Feedback & Overlays",
+    "exports": [
+      "EmojiPicker"
+    ]
+  }
+}

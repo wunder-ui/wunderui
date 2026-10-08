@@ -1,0 +1,35 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "drop-zone",
+  "type": "registry:ui",
+  "title": "Drop Zone",
+  "description": "A drag-and-drop file upload target with a click-to-browse fallback.",
+  "dependencies": [
+    "cn@^0.3.0",
+    "lucide-react@^1.46.0"
+  ],
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/styles.json"
+  ],
+  "files": [
+    {
+      "path": "components/wunderui/drop-zone.tsx",
+      "type": "registry:component",
+      "target": "components/wunderui/drop-zone.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { UploadCloud } from \"lucide-react\"\nimport { cn } from \"@/lib/utils\"\n\n// \"image/*\" → \"images\", \"application/pdf\" → \"PDF\", \".csv\" → \"CSV\"\nfunction typeName(type: string) {\n  const t = type.trim()\n  if (t.startsWith(\".\")) return t.slice(1).toUpperCase()\n  if (t.endsWith(\"/*\")) return `${t.slice(0, -2)}s`\n  return (t.split(\"/\")[1] ?? t).toUpperCase()\n}\n\nfunction DropZone({\n  onFiles,\n  accept,\n  hint,\n  className,\n}: {\n  onFiles?: (files: FileList) => void\n  accept?: string\n  /** Line under the prompt. Defaults to the accepted types, or \"Any file type\". State your size limit here. */\n  hint?: React.ReactNode\n  className?: string\n}) {\n  const [isDragging, setIsDragging] = React.useState(false)\n  const hintId = React.useId()\n\n  // A <label> around a real (visually hidden) file input: Tab reaches the input,\n  // Enter/Space opens the file dialog, a click anywhere on the zone does too.\n  return (\n    <label\n      onDragOver={(e) => {\n        e.preventDefault()\n        setIsDragging(true)\n      }}\n      onDragLeave={() => setIsDragging(false)}\n      onDrop={(e) => {\n        e.preventDefault()\n        setIsDragging(false)\n        if (e.dataTransfer.files.length) onFiles?.(e.dataTransfer.files)\n      }}\n      className={cn(\n        \"flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-border p-10 text-center transition-colors has-[input:focus-visible]:border-ring\",\n        isDragging && \"border-primary bg-primary/5\",\n        className\n      )}\n    >\n      <input\n        type=\"file\"\n        accept={accept}\n        multiple\n        aria-describedby={hintId}\n        className=\"sr-only\"\n        onChange={(e) => e.target.files && onFiles?.(e.target.files)}\n      />\n      <UploadCloud className=\"size-8 text-text-tertiary\" aria-hidden />\n      <p className=\"text-sm font-medium text-foreground\">\n        Drop files here or <span className=\"text-text-link\">browse</span>\n      </p>\n      <p id={hintId} className=\"text-xs text-text-tertiary\">{hint ?? (accept ? `Accepts ${accept.split(\",\").map(typeName).join(\", \")}` : \"Any file type\")}</p>\n    </label>\n  )\n}\n\nexport { DropZone }\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "export { cn } from \"cn\"\n"
+    }
+  ],
+  "docs": "https://wunderui.com/components/drop-zone",
+  "meta": {
+    "group": "Forms",
+    "exports": [
+      "DropZone"
+    ]
+  }
+}

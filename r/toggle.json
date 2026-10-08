@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "toggle",
+  "type": "registry:ui",
+  "title": "Toggle",
+  "description": "A standalone two-state button that can be pressed or unpressed.",
+  "dependencies": [
+    "@base-ui/react@^1.8.0",
+    "class-variance-authority@^0.7.1",
+    "cn@^0.3.0"
+  ],
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/styles.json"
+  ],
+  "files": [
+    {
+      "path": "components/ui/toggle-button-group.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/toggle-button-group.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { ToggleGroup } from \"@base-ui/react/toggle-group\"\nimport { Toggle } from \"@base-ui/react/toggle\"\nimport { cn } from \"cn\"\n\nfunction CheckboxButtonGroup<Value extends string>({\n  className,\n  ...props\n}: ToggleGroup.Props<Value>) {\n  return (\n    <ToggleGroup\n      data-slot=\"checkbox-button-group\"\n      multiple\n      className={cn(\"flex flex-wrap gap-2\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction RadioButtonGroup<Value extends string>({\n  className,\n  ...props\n}: Omit<ToggleGroup.Props<Value>, \"multiple\">) {\n  return (\n    <ToggleGroup\n      data-slot=\"radio-button-group\"\n      multiple={false}\n      className={cn(\"flex flex-wrap gap-2\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction ToggleButton({\n  className,\n  ...props\n}: React.ComponentProps<typeof Toggle>) {\n  return (\n    <Toggle\n      data-slot=\"toggle-button\"\n      className={cn(\n        \"rounded-md border border-border-control px-3 py-1.5 text-sm font-medium text-text-secondary transition-colors data-pressed:border-primary data-pressed:bg-tint-indigo data-pressed:text-tint-text-indigo hover:bg-muted\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nexport { CheckboxButtonGroup, RadioButtonGroup, ToggleButton }\n"
+    },
+    {
+      "path": "components/ui/toggle.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/toggle.tsx",
+      "content": "\"use client\"\n\nimport { Toggle as TogglePrimitive } from \"@base-ui/react/toggle\"\nimport { cva, type VariantProps } from \"class-variance-authority\"\nimport { cn } from \"cn\"\n\nconst toggleVariants = cva(\n  \"inline-flex items-center justify-center gap-1.5 rounded-md border border-transparent text-sm font-medium text-text-secondary transition-colors outline-none hover:bg-muted hover:text-foreground focus-visible:border-ring disabled:pointer-events-none disabled:opacity-40 data-[pressed]:bg-accent data-[pressed]:text-accent-foreground [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0\",\n  {\n    variants: {\n      size: {\n        sm: \"h-8 px-2\",\n        default: \"h-9 px-2.5\",\n        lg: \"h-10 px-3\",\n      },\n    },\n    defaultVariants: {\n      size: \"default\",\n    },\n  }\n)\n\nfunction Toggle({\n  className,\n  size,\n  ...props\n}: TogglePrimitive.Props & VariantProps<typeof toggleVariants>) {\n  return (\n    <TogglePrimitive\n      data-slot=\"toggle\"\n      className={cn(toggleVariants({ size }), className)}\n      {...props}\n    />\n  )\n}\n\nexport { Toggle, toggleVariants }\n"
+    }
+  ],
+  "docs": "https://wunderui.com/components/toggle",
+  "meta": {
+    "group": "Core Elements",
+    "exports": [
+      "Toggle",
+      "ToggleButton"
+    ]
+  }
+}

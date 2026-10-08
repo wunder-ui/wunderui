@@ -1,0 +1,31 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "toast",
+  "type": "registry:ui",
+  "title": "Toast",
+  "description": "A temporary notification that appears in the corner of the screen, with success/error/warning/info types.",
+  "dependencies": [
+    "@base-ui/react@^1.8.0",
+    "cn@^0.3.0"
+  ],
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/styles.json"
+  ],
+  "files": [
+    {
+      "path": "components/ui/toast.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/toast.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Toast as ToastPrimitive } from \"@base-ui/react/toast\"\nimport { cn } from \"cn\"\n\nconst TOAST_TYPE_COLOR: Record<string, string> = {\n  success: \"var(--success)\",\n  error: \"var(--destructive)\",\n  warning: \"#FACA4A\",\n  info: \"var(--primary)\",\n}\n\nfunction ToastProvider({ children, timeout = 5000, ...props }: ToastPrimitive.Provider.Props) {\n  return (\n    <ToastPrimitive.Provider timeout={timeout} {...props}>\n      {children}\n    </ToastPrimitive.Provider>\n  )\n}\n\nfunction ToastViewport({ className, position = \"top-right\", ...props }: ToastPrimitive.Viewport.Props & { position?: \"top-right\" | \"bottom-right\" }) {\n  return (\n    <ToastPrimitive.Portal>\n      <ToastPrimitive.Viewport\n        data-slot=\"toast-viewport\"\n        data-position={position}\n        className={cn(\n          \"group/toast-viewport fixed right-4 z-[100] flex w-[420px] max-w-[calc(100vw-2rem)] flex-col gap-2\",\n          position === \"bottom-right\" ? \"bottom-4\" : \"top-4\",\n          className\n        )}\n        {...props}\n      />\n    </ToastPrimitive.Portal>\n  )\n}\n\nfunction ToastList() {\n  const { toasts } = ToastPrimitive.useToastManager()\n  return toasts.map((toast, index) => (\n    <ToastPrimitive.Root\n      key={toast.id}\n      toast={toast}\n      data-slot=\"toast\"\n      className={cn(\n        // Stacked at rest: each older toast sits a little lower, slightly\n        // smaller and fainter behind the newest (--toast-index from Base UI);\n        // hovering the viewport expands the stack into a list (--toast-offset-y).\n        \"absolute right-0 left-0 flex flex-col gap-1 rounded-md border border-border bg-card p-3 shadow-lg group-data-[position=top-right]/toast-viewport:top-0 group-data-[position=bottom-right]/toast-viewport:bottom-0\",\n        \"transition-[transform,opacity,translate,scale] duration-slow ease-entrance\",\n        \"group-data-[position=top-right]/toast-viewport:[transform:translateY(calc(min(var(--toast-index),3)*10px))_scale(calc(1-min(var(--toast-index),3)*0.05))]\",\n        \"group-data-[position=top-right]/toast-viewport:data-[expanded]:[transform:translateY(var(--toast-offset-y))_scale(1)]\",\n        \"group-data-[position=bottom-right]/toast-viewport:[transform:translateY(calc(min(var(--toast-index),3)*-10px))_scale(calc(1-min(var(--toast-index),3)*0.05))]\",\n        \"group-data-[position=bottom-right]/toast-viewport:data-[expanded]:[transform:translateY(calc(var(--toast-offset-y)*-1))_scale(1)]\",\n        \"data-[ending-style]:opacity-0 data-[ending-style]:[transform:translateX(calc(100%+1rem))]\",\n        \"data-[starting-style]:opacity-0 data-[starting-style]:[transform:translateX(calc(100%+1rem))]\",\n        \"data-[expanded]:relative\"\n      )}\n      style={{ zIndex: 100 - index, opacity: index > 3 ? 0 : undefined }}\n    >\n      <ToastPrimitive.Content data-slot=\"toast-content\" className=\"flex items-start gap-3\">\n        <span\n          className=\"mt-1 size-2 shrink-0 rounded-full\"\n          style={{ backgroundColor: TOAST_TYPE_COLOR[toast.type ?? \"info\"] }}\n        />\n        <div className=\"flex flex-1 flex-col gap-0.5\">\n          <ToastPrimitive.Title data-slot=\"toast-title\" className=\"text-sm font-bold text-foreground\" />\n          {toast.description && (\n            <ToastPrimitive.Description\n              data-slot=\"toast-description\"\n              className=\"text-[13px] text-text-secondary\"\n            />\n          )}\n          {toast.actionProps && (\n            // Figma Notification · Show action: inline text link (e.g. \"Undo\")\n            <ToastPrimitive.Action\n              data-slot=\"toast-action\"\n              className=\"mt-0.5 w-fit text-[13px] font-semibold text-text-link hover:underline\"\n            />\n          )}\n        </div>\n        <ToastPrimitive.Close\n          data-slot=\"toast-close\"\n          aria-label=\"Close\"\n          className=\"shrink-0 text-text-tertiary hover:text-foreground\"\n        >\n          ×\n        </ToastPrimitive.Close>\n      </ToastPrimitive.Content>\n    </ToastPrimitive.Root>\n  ))\n}\n\nfunction Toaster({\n  children,\n  position = \"top-right\",\n}: {\n  children: React.ReactNode\n  /** Corner the stack lives in. */\n  position?: \"top-right\" | \"bottom-right\"\n}) {\n  return (\n    <ToastProvider>\n      {children}\n      <ToastViewport position={position}>\n        <ToastList />\n      </ToastViewport>\n    </ToastProvider>\n  )\n}\n\nconst useToast = ToastPrimitive.useToastManager\n\nexport { Toaster, ToastProvider, ToastViewport, useToast }\n"
+    }
+  ],
+  "docs": "https://wunderui.com/components/toast",
+  "meta": {
+    "group": "Feedback & Overlays",
+    "exports": [
+      "ToastProvider",
+      "ToastViewport",
+      "Toaster"
+    ]
+  }
+}

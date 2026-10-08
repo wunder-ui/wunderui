@@ -1,0 +1,34 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "empty-state",
+  "type": "registry:ui",
+  "title": "Empty State",
+  "description": "Placeholder shown when a list or search has no results.",
+  "dependencies": [
+    "cn@^0.3.0"
+  ],
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/styles.json"
+  ],
+  "files": [
+    {
+      "path": "components/wunderui/stat-card.tsx",
+      "type": "registry:component",
+      "target": "components/wunderui/stat-card.tsx",
+      "content": "\"use client\"\n\nimport { type ReactNode } from \"react\"\nimport { cn } from \"@/lib/utils\"\n\nconst EMPTY_STATE_VARIANTS = {\n  /** No frame — just centered content (Figma Style=default). */\n  default: \"\",\n  outline: \"rounded-2xl border border-border\",\n  dashed: \"rounded-2xl border border-dashed border-border\",\n  background: \"rounded-2xl bg-muted/60\",\n} as const\n\nfunction EmptyState({\n  icon,\n  title,\n  description,\n  action,\n  variant = \"dashed\",\n  className,\n}: {\n  icon?: ReactNode\n  title: string\n  description?: string\n  action?: ReactNode\n  /** Frame style — mirrors the Figma Empty State \"Style\" variants. */\n  variant?: keyof typeof EMPTY_STATE_VARIANTS\n  className?: string\n}) {\n  return (\n    <div data-slot=\"empty-state\" className={cn(\"flex flex-col items-center justify-center gap-3 p-10 text-center\", EMPTY_STATE_VARIANTS[variant], className)}>\n      {icon && (\n        <div className=\"grid size-12 place-items-center rounded-full bg-muted text-text-secondary [&_svg]:size-6\">\n          {icon}\n        </div>\n      )}\n      <div>\n        <p className=\"text-sm font-semibold text-foreground\">{title}</p>\n        {description && <p className=\"mt-1 text-sm text-text-secondary\">{description}</p>}\n      </div>\n      {action}\n    </div>\n  )\n}\n\nexport { EmptyState }\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "export { cn } from \"cn\"\n"
+    }
+  ],
+  "docs": "https://wunderui.com/components/empty-state",
+  "meta": {
+    "group": "Core Elements",
+    "exports": [
+      "EmptyState"
+    ]
+  }
+}

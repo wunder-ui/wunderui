@@ -1,0 +1,41 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "field",
+  "type": "registry:ui",
+  "title": "Field",
+  "description": "Labelling and validation for a single form control — label, description, and error message.",
+  "dependencies": [
+    "@base-ui/react@^1.8.0",
+    "cn@^0.3.0"
+  ],
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/styles.json"
+  ],
+  "files": [
+    {
+      "path": "components/ui/fieldset.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/fieldset.tsx",
+      "content": "\"use client\"\n\nimport { Fieldset as FieldsetPrimitive } from \"@base-ui/react/fieldset\"\nimport { cn } from \"cn\"\n\nfunction Fieldset({ className, ...props }: FieldsetPrimitive.Root.Props) {\n  return (\n    <FieldsetPrimitive.Root\n      data-slot=\"fieldset\"\n      className={cn(\"flex flex-col gap-4 rounded-lg border border-border p-4\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction FieldsetLegend({ className, ...props }: FieldsetPrimitive.Legend.Props) {\n  return (\n    <FieldsetPrimitive.Legend\n      data-slot=\"fieldset-legend\"\n      className={cn(\"px-1 text-sm font-semibold text-foreground\", className)}\n      {...props}\n    />\n  )\n}\n\nexport { Fieldset, FieldsetLegend }\n"
+    },
+    {
+      "path": "components/ui/field.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/field.tsx",
+      "content": "\"use client\"\n\nimport { Field as FieldPrimitive } from \"@base-ui/react/field\"\nimport { cn } from \"cn\"\n\nfunction Field({ className, ...props }: FieldPrimitive.Root.Props) {\n  return (\n    <FieldPrimitive.Root\n      data-slot=\"field\"\n      className={cn(\"group/field flex flex-col gap-1.5\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction FieldLabel({ className, ...props }: FieldPrimitive.Label.Props) {\n  return (\n    <FieldPrimitive.Label\n      data-slot=\"field-label\"\n      className={cn(\"text-sm font-medium text-foreground\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction FieldDescription({ className, ...props }: FieldPrimitive.Description.Props) {\n  return (\n    <FieldPrimitive.Description\n      data-slot=\"field-description\"\n      className={cn(\"text-xs text-text-tertiary\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction FieldError({ className, ...props }: FieldPrimitive.Error.Props) {\n  return (\n    <FieldPrimitive.Error\n      data-slot=\"field-error\"\n      className={cn(\"text-xs text-text-error\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction FieldControl({ ...props }: FieldPrimitive.Control.Props) {\n  return <FieldPrimitive.Control data-slot=\"field-control\" {...props} />\n}\n\nexport { Field, FieldLabel, FieldDescription, FieldError, FieldControl }\n"
+    }
+  ],
+  "docs": "https://wunderui.com/components/field",
+  "meta": {
+    "group": "Forms",
+    "exports": [
+      "Field",
+      "FieldControl",
+      "FieldDescription",
+      "FieldError",
+      "FieldLabel",
+      "Fieldset",
+      "FieldsetLegend"
+    ]
+  }
+}

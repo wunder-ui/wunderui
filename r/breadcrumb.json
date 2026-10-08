@@ -1,0 +1,34 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "breadcrumb",
+  "type": "registry:ui",
+  "title": "Breadcrumb",
+  "description": "Shows the user's location in a hierarchy, in \"plain\" or bordered \"border\" style.",
+  "dependencies": [
+    "cn@^0.3.0",
+    "lucide-react@^1.46.0"
+  ],
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/styles.json"
+  ],
+  "files": [
+    {
+      "path": "components/ui/breadcrumb.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/breadcrumb.tsx",
+      "content": "import * as React from \"react\"\nimport { ChevronRight } from \"lucide-react\"\nimport { cn } from \"cn\"\n\ntype BreadcrumbVariant = \"plain\" | \"border\" | \"underline\"\nconst BreadcrumbVariantContext = React.createContext<BreadcrumbVariant>(\"plain\")\n\nfunction Breadcrumb({\n  variant = \"plain\",\n  ...props\n}: React.ComponentProps<\"nav\"> & { variant?: BreadcrumbVariant }) {\n  return (\n    <BreadcrumbVariantContext.Provider value={variant}>\n      <nav aria-label=\"breadcrumb\" data-slot=\"breadcrumb\" {...props} />\n    </BreadcrumbVariantContext.Provider>\n  )\n}\n\nfunction BreadcrumbList({ className, ...props }: React.ComponentProps<\"ol\">) {\n  const variant = React.useContext(BreadcrumbVariantContext)\n  return (\n    <ol\n      data-slot=\"breadcrumb-list\"\n      className={cn(\n        \"flex flex-wrap items-center gap-1.5 text-xs font-medium break-words\",\n        variant === \"border\" && \"overflow-hidden rounded-lg border border-border bg-card\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction BreadcrumbItem({ className, ...props }: React.ComponentProps<\"li\">) {\n  const variant = React.useContext(BreadcrumbVariantContext)\n  return (\n    <li\n      data-slot=\"breadcrumb-item\"\n      className={cn(\"flex items-center gap-2\", variant === \"border\" && \"px-2.5 py-2\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction BreadcrumbLink({ className, ...props }: React.ComponentProps<\"a\">) {\n  const variant = React.useContext(BreadcrumbVariantContext)\n  return (\n    <a\n      data-slot=\"breadcrumb-link\"\n      className={cn(\n        \"flex items-center gap-2 text-text-tertiary transition-colors duration-fast ease-move hover:text-foreground [&_svg]:size-4\",\n        variant === \"underline\" && \"underline underline-offset-4 decoration-border hover:decoration-primary\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction BreadcrumbPage({ className, ...props }: React.ComponentProps<\"span\">) {\n  return (\n    <span\n      data-slot=\"breadcrumb-page\"\n      aria-current=\"page\"\n      aria-disabled=\"true\"\n      className={cn(\"flex items-center gap-2 text-foreground [&_svg]:size-4\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction BreadcrumbSeparator({ className, children, ...props }: React.ComponentProps<\"li\">) {\n  return (\n    <li\n      data-slot=\"breadcrumb-separator\"\n      role=\"presentation\"\n      aria-hidden=\"true\"\n      className={cn(\"text-text-tertiary [&>svg]:size-4\", className)}\n      {...props}\n    >\n      {children ?? <ChevronRight />}\n    </li>\n  )\n}\n\nexport { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator }\n"
+    }
+  ],
+  "docs": "https://wunderui.com/components/breadcrumb",
+  "meta": {
+    "group": "Core Elements",
+    "exports": [
+      "Breadcrumb",
+      "BreadcrumbItem",
+      "BreadcrumbLink",
+      "BreadcrumbList",
+      "BreadcrumbPage",
+      "BreadcrumbSeparator"
+    ]
+  }
+}

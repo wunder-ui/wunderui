@@ -1,0 +1,35 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "pull-to-refresh",
+  "type": "registry:ui",
+  "title": "Pull to Refresh",
+  "description": "Drag down from the top of any content past a threshold to trigger an async refresh, with a rotating spinner and a rubber-band release.",
+  "dependencies": [
+    "cn@^0.3.0",
+    "lucide-react@^1.46.0"
+  ],
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/styles.json"
+  ],
+  "files": [
+    {
+      "path": "components/wunderui/pull-to-refresh.tsx",
+      "type": "registry:component",
+      "target": "components/wunderui/pull-to-refresh.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Loader2 } from \"lucide-react\"\nimport { cn } from \"@/lib/utils\"\n\ntype PullToRefreshProps = {\n  onRefresh: () => void | Promise<void>\n  threshold?: number\n  maxPull?: number\n  children: React.ReactNode\n  className?: string\n}\n\n// Pointer-based pull-to-refresh: drag down from the top of `children` past\n// `threshold` to trigger `onRefresh`. Rubber-bands (half-speed) up to\n// `maxPull`, and springs back once the refresh resolves. Does not gate on\n// scroll position — if `children` is itself scrollable, wrap only the part\n// that should trigger a refresh, or add a scrollTop === 0 guard at the call\n// site.\nfunction PullToRefresh({\n  onRefresh,\n  threshold = 70,\n  maxPull = 110,\n  children,\n  className,\n}: PullToRefreshProps) {\n  const [pullDistance, setPullDistance] = React.useState(0)\n  const [isDragging, setIsDragging] = React.useState(false)\n  const [refreshing, setRefreshing] = React.useState(false)\n  const startY = React.useRef<number | null>(null)\n\n  function handlePointerDown(e: React.PointerEvent<HTMLDivElement>) {\n    if (refreshing) return\n    startY.current = e.clientY\n    setIsDragging(true)\n    e.currentTarget.setPointerCapture(e.pointerId)\n  }\n\n  function handlePointerMove(e: React.PointerEvent<HTMLDivElement>) {\n    if (startY.current == null || refreshing) return\n    const delta = e.clientY - startY.current\n    setPullDistance(delta <= 0 ? 0 : Math.min(maxPull, delta * 0.5))\n  }\n\n  async function handlePointerUp() {\n    if (startY.current == null) return\n    startY.current = null\n    setIsDragging(false)\n\n    if (pullDistance >= threshold) {\n      setRefreshing(true)\n      setPullDistance(threshold)\n      await onRefresh()\n      setRefreshing(false)\n    }\n    setPullDistance(0)\n  }\n\n  const progress = Math.min(1, pullDistance / threshold)\n\n  return (\n    <div data-slot=\"pull-to-refresh\" className={cn(\"relative overflow-hidden\", className)}>\n      <div\n        data-slot=\"pull-to-refresh-indicator\"\n        className=\"pointer-events-none absolute inset-x-0 top-0 flex items-center justify-center\"\n        style={{ height: threshold, opacity: progress }}\n      >\n        <Loader2\n          className={cn(\"size-5 text-primary\", refreshing && \"animate-spin\")}\n          style={!refreshing ? { transform: `rotate(${progress * 360}deg)` } : undefined}\n        />\n      </div>\n\n      <div\n        onPointerDown={handlePointerDown}\n        onPointerMove={handlePointerMove}\n        onPointerUp={handlePointerUp}\n        onPointerCancel={handlePointerUp}\n        className=\"touch-none cursor-grab select-none active:cursor-grabbing\"\n        style={{\n          transform: `translateY(${pullDistance}px)`,\n          transition: isDragging ? \"none\" : \"transform 300ms ease\",\n        }}\n      >\n        {children}\n      </div>\n    </div>\n  )\n}\n\nexport { PullToRefresh }\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "export { cn } from \"cn\"\n"
+    }
+  ],
+  "docs": "https://wunderui.com/components/pull-to-refresh",
+  "meta": {
+    "group": "Feedback & Overlays",
+    "exports": [
+      "PullToRefresh"
+    ]
+  }
+}

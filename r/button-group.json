@@ -1,0 +1,28 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "button-group",
+  "type": "registry:ui",
+  "title": "Button Group",
+  "description": "A row of connected buttons sharing borders and outer corners, for view switchers or segmented actions.",
+  "dependencies": [
+    "cn@^0.3.0"
+  ],
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/styles.json"
+  ],
+  "files": [
+    {
+      "path": "components/ui/button-group.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/button-group.tsx",
+      "content": "import * as React from \"react\"\nimport { cn } from \"cn\"\n\ntype ButtonGroupShape = \"rounded\" | \"pill\"\n\nfunction ButtonGroup({\n  shape = \"rounded\",\n  className,\n  ...props\n}: React.ComponentProps<\"div\"> & { shape?: ButtonGroupShape }) {\n  return (\n    <div\n      role=\"group\"\n      data-slot=\"button-group\"\n      data-shape={shape}\n      className={cn(\n        \"inline-flex\",\n        \"[&>*]:rounded-none [&>*]:focus-visible:z-10\",\n        \"[&>*:not(:first-child)]:-ml-px\",\n        \"data-[shape=rounded]:[&>*:first-child]:rounded-l-md data-[shape=rounded]:[&>*:last-child]:rounded-r-md\",\n        \"data-[shape=pill]:[&>*:first-child]:rounded-l-full data-[shape=pill]:[&>*:last-child]:rounded-r-full\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nexport { ButtonGroup }\n"
+    }
+  ],
+  "docs": "https://wunderui.com/components/button-group",
+  "meta": {
+    "group": "Core Elements",
+    "exports": [
+      "ButtonGroup"
+    ]
+  }
+}

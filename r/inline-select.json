@@ -1,0 +1,46 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "inline-select",
+  "type": "registry:ui",
+  "title": "Inline Select",
+  "description": "A compact select meant to sit inline within a sentence of text.",
+  "dependencies": [
+    "@base-ui/react@^1.8.0",
+    "cn@^0.3.0",
+    "lucide-react@^1.46.0"
+  ],
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/styles.json"
+  ],
+  "files": [
+    {
+      "path": "components/ui/inline-select.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/inline-select.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Select as SelectPrimitive } from \"@base-ui/react/select\"\nimport { ChevronDown } from \"lucide-react\"\nimport { cn } from \"cn\"\nimport { collectSelectItems } from \"@/lib/select-items\"\nimport {\n  NativeSelectContent,\n  NativeSelectItem,\n} from \"@/components/ui/native-select\"\n\nfunction InlineSelect({ items, children, ...props }: SelectPrimitive.Root.Props<string>) {\n  // Derive the value → label map from the items in `children` unless given,\n  // so the trigger shows \"Germany\" for value \"de\" right away.\n  const derived = React.useMemo(() => (items ? undefined : collectSelectItems(children)), [items, children])\n  return (\n    <SelectPrimitive.Root data-slot=\"inline-select\" items={items ?? (derived && derived.length > 0 ? derived : undefined)} {...props}>\n      {children}\n    </SelectPrimitive.Root>\n  )\n}\n\nfunction InlineSelectTrigger({ className, children, ...props }: SelectPrimitive.Trigger.Props) {\n  return (\n    <SelectPrimitive.Trigger\n      data-slot=\"inline-select-trigger\"\n      className={cn(\n        \"inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-sm font-medium text-foreground outline-none hover:bg-muted focus-visible:ring-1 focus-visible:ring-ring data-disabled:pointer-events-none data-disabled:opacity-50\",\n        className\n      )}\n      {...props}\n    >\n      {children}\n      <SelectPrimitive.Icon>\n        <ChevronDown className=\"size-3.5 text-text-tertiary\" />\n      </SelectPrimitive.Icon>\n    </SelectPrimitive.Trigger>\n  )\n}\n\nconst InlineSelectValue = SelectPrimitive.Value\nconst InlineSelectContent = NativeSelectContent\nconst InlineSelectItem = NativeSelectItem\n\nexport { InlineSelect, InlineSelectTrigger, InlineSelectValue, InlineSelectContent, InlineSelectItem }\n"
+    },
+    {
+      "path": "components/ui/native-select.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/native-select.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { Select as SelectPrimitive } from \"@base-ui/react/select\"\nimport { Check, ChevronDown } from \"lucide-react\"\nimport { cn } from \"cn\"\nimport { collectSelectItems } from \"@/lib/select-items\"\n\nfunction NativeSelect({ items, children, ...props }: SelectPrimitive.Root.Props<string>) {\n  // Derive the value → label map from the items in `children` unless given,\n  // so the trigger shows \"Germany\" for value \"de\" right away.\n  const derived = React.useMemo(() => (items ? undefined : collectSelectItems(children)), [items, children])\n  return (\n    <SelectPrimitive.Root data-slot=\"native-select\" items={items ?? (derived && derived.length > 0 ? derived : undefined)} {...props}>\n      {children}\n    </SelectPrimitive.Root>\n  )\n}\n\nfunction NativeSelectTrigger({ className, children, ...props }: SelectPrimitive.Trigger.Props) {\n  return (\n    <SelectPrimitive.Trigger\n      data-slot=\"native-select-trigger\"\n      className={cn(\n        \"flex h-11 w-full items-center justify-between gap-2 rounded-md border border-input bg-transparent px-3 text-sm text-foreground outline-none focus-visible:border-ring data-disabled:pointer-events-none data-disabled:opacity-50\",\n        className\n      )}\n      {...props}\n    >\n      {children}\n      <SelectPrimitive.Icon>\n        <ChevronDown className=\"size-4 text-text-tertiary\" />\n      </SelectPrimitive.Icon>\n    </SelectPrimitive.Trigger>\n  )\n}\n\nfunction NativeSelectValue({ ...props }: SelectPrimitive.Value.Props) {\n  return <SelectPrimitive.Value data-slot=\"native-select-value\" {...props} />\n}\n\nfunction NativeSelectContent({ className, children, ...props }: SelectPrimitive.Popup.Props) {\n  return (\n    <SelectPrimitive.Portal>\n      <SelectPrimitive.Positioner className=\"isolate z-50 outline-none\" sideOffset={4}>\n        <SelectPrimitive.Popup\n          data-slot=\"native-select-content\"\n          className={cn(\n            \"z-50 max-h-(--available-height) w-(--anchor-width) min-w-32 overflow-y-auto rounded-lg bg-popover p-1 text-popover-foreground shadow-md ring-1 ring-foreground/10 outline-none\",\n            className\n          )}\n          {...props}\n        >\n          {children}\n        </SelectPrimitive.Popup>\n      </SelectPrimitive.Positioner>\n    </SelectPrimitive.Portal>\n  )\n}\n\nfunction NativeSelectItem({ className, children, ...props }: SelectPrimitive.Item.Props) {\n  return (\n    <SelectPrimitive.Item\n      data-slot=\"native-select-item\"\n      className={cn(\n        \"relative flex cursor-default items-center rounded-md py-1.5 pr-8 pl-2 text-sm outline-hidden select-none data-highlighted:bg-accent data-highlighted:text-accent-foreground\",\n        className\n      )}\n      {...props}\n    >\n      <SelectPrimitive.ItemText>{children}</SelectPrimitive.ItemText>\n      <span className=\"absolute right-2 flex items-center justify-center\">\n        <SelectPrimitive.ItemIndicator>\n          <Check className=\"size-4\" />\n        </SelectPrimitive.ItemIndicator>\n      </span>\n    </SelectPrimitive.Item>\n  )\n}\n\nexport {\n  NativeSelect,\n  NativeSelectTrigger,\n  NativeSelectValue,\n  NativeSelectContent,\n  NativeSelectItem,\n}\n"
+    },
+    {
+      "path": "lib/select-items.ts",
+      "type": "registry:lib",
+      "target": "lib/select-items.ts",
+      "content": "import * as React from \"react\"\n\n/**\n * Collects `{ value, label }` pairs from `<…Item value>label</…Item>` elements\n * anywhere in a Select's children, so `<Select.Value>` can show the label\n * before the popup has ever opened (Base UI otherwise renders the raw value).\n */\nfunction collectSelectItems(children: React.ReactNode): { value: string; label: React.ReactNode }[] {\n  const items: { value: string; label: React.ReactNode }[] = []\n  const walk = (node: React.ReactNode) => {\n    React.Children.forEach(node, (child) => {\n      if (!React.isValidElement(child)) return\n      const props = child.props as { value?: unknown; children?: React.ReactNode }\n      if (typeof props.value === \"string\" && props.children !== undefined && typeof child.type !== \"string\") {\n        items.push({ value: props.value, label: props.children })\n      }\n      if (props.children) walk(props.children)\n    })\n  }\n  walk(children)\n  return items\n}\n\nexport { collectSelectItems }\n"
+    }
+  ],
+  "docs": "https://wunderui.com/components/inline-select",
+  "meta": {
+    "group": "Forms",
+    "exports": [
+      "InlineSelect",
+      "InlineSelectContent",
+      "InlineSelectItem",
+      "InlineSelectTrigger",
+      "InlineSelectValue"
+    ]
+  }
+}

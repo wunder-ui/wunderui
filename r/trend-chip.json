@@ -1,0 +1,36 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "trend-chip",
+  "type": "registry:ui",
+  "title": "Trend Chip",
+  "description": "A small pill showing a change, up or down, in seven icon styles.",
+  "dependencies": [
+    "cn@^0.3.0",
+    "lucide-react@^1.46.0"
+  ],
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/styles.json"
+  ],
+  "files": [
+    {
+      "path": "components/wunderui/trend-chip.tsx",
+      "type": "registry:component",
+      "target": "components/wunderui/trend-chip.tsx",
+      "content": "import { ArrowDown, ArrowDownRight, ArrowUp, ArrowUpRight, Minus, TrendingDown, TrendingUp } from \"lucide-react\"\nimport { cn } from \"@/lib/utils\"\n\n/** Figma Trend Chip · Icon: which glyph carries the direction. */\ntype TrendChipIcon =\n  | \"trending\"\n  | \"arrow\"\n  | \"arrow-diagonal\"\n  | \"triangle\"\n  | \"circle-trending\"\n  | \"circle-diagonal\"\n  | \"circle-arrow\"\n\n/**\n * The filled caret from the Figma icon set (Icons_Arrows · sort). Lucide has no\n * filled triangle, so these are the Figma vectors: the chip's 4 × 3 caret in its\n * 16 px box, and Number Value's 8 × 6 caret in a 14 px box (`large`).\n */\nfunction TrendCaret({ down, large, className }: { down?: boolean; large?: boolean; className?: string }) {\n  return (\n    <svg\n      viewBox={large ? \"0 0 14 14\" : \"0 0 16 16\"}\n      aria-hidden\n      className={cn(large ? \"size-3.5\" : \"size-4\", \"shrink-0\", down && \"rotate-180\", className)}\n    >\n      <path\n        fill=\"currentColor\"\n        d={\n          large\n            ? \"M7.05967 4.5C7.44558 4.50012 7.81159 4.67115 8.05967 4.9668L10.8146 8.24805C11.1407 8.63695 11.2123 9.17962 10.9981 9.63965C10.7836 10.0997 10.3212 10.3945 9.81358 10.3945H4.30576C3.79822 10.3946 3.33666 10.0996 3.12217 9.63965C2.90786 9.17955 2.97948 8.63685 3.30576 8.24805L6.05869 4.9668C6.30686 4.67101 6.67359 4.5 7.05967 4.5Z\"\n            : \"M8.07212 6.66667C8.26909 6.66674 8.45625 6.75405 8.58286 6.90495L9.98814 8.57975C10.1547 8.77831 10.1914 9.05486 10.0819 9.28971C9.97239 9.5245 9.73651 9.67448 9.4774 9.67448H6.66685C6.40773 9.67456 6.17185 9.5245 6.06236 9.28971C5.95293 9.05489 5.98958 8.7782 6.15611 8.57975L7.56138 6.90495C7.68805 6.75399 7.87506 6.66667 8.07212 6.66667Z\"\n        }\n      />\n    </svg>\n  )\n}\n\n/* The three circled glyphs are the Figma vectors (14 px box, 1 px stroke);\n   lucide only has the plain circled arrow, and that one is drawn heavier. */\nconst CIRCLE = \"M12.25 7C12.25 4.10051 9.8995 1.75 7.00001 1.75C4.10051 1.75 1.75001 4.10051 1.75001 7C1.75001 9.8995 4.10051 12.25 7.00001 12.25C9.8995 12.25 12.25 9.8995 12.25 7Z\"\nconst CIRCLE_GLYPH: Record<\"circle-trending\" | \"circle-diagonal\" | \"circle-arrow\", string> = {\n  \"circle-trending\": \"M9.62499 5.5418L7.17499 7.9918L6.24166 6.5918L4.37499 8.45847M9.62499 6.70847V5.5418H8.45832\",\n  \"circle-diagonal\": \"M6.41667 5.25H8.75001V7.58334M8.75001 5.25L5.25001 8.75\",\n  \"circle-arrow\": \"M5.25 6.41667L7 4.66667L8.75 6.41667M7 4.66667V9.33334\",\n}\n\nfunction CircleGlyph({ icon, down }: { icon: keyof typeof CIRCLE_GLYPH; down?: boolean }) {\n  // down = the same glyph turned: the trend line mirrors, the diagonal turns a\n  // quarter, the arrow a half — exactly the Figma \"down\" variants.\n  const turn = icon === \"circle-trending\" ? \"-scale-y-100\" : icon === \"circle-diagonal\" ? \"rotate-90\" : \"rotate-180\"\n  return (\n    <svg viewBox=\"0 0 14 14\" aria-hidden className={cn(\"size-3.5 shrink-0\", down && turn)} fill=\"none\" stroke=\"currentColor\" strokeLinecap=\"round\" strokeLinejoin=\"round\">\n      <path d={CIRCLE} />\n      <path d={CIRCLE_GLYPH[icon]} />\n    </svg>\n  )\n}\n\nfunction TrendGlyph({ icon, down }: { icon: TrendChipIcon; down: boolean }) {\n  switch (icon) {\n    case \"trending\":\n      return down ? <TrendingDown className=\"size-3 shrink-0\" /> : <TrendingUp className=\"size-3 shrink-0\" />\n    case \"arrow\":\n      return down ? <ArrowDown className=\"size-4 shrink-0\" /> : <ArrowUp className=\"size-4 shrink-0\" />\n    case \"arrow-diagonal\":\n      return down ? <ArrowDownRight className=\"size-4 shrink-0\" /> : <ArrowUpRight className=\"size-4 shrink-0\" />\n    case \"triangle\":\n      return <TrendCaret down={down} />\n    default:\n      return <CircleGlyph icon={icon} down={down} />\n  }\n}\n\n/* Figma: the 16 px glyphs sit on 8 px of padding, the 14 px circles and the\n   caret pull the pill in to 4 px on the icon side; the trend line has 6 px to\n   the label, everything else 4 px. */\nconst CHIP_SPACING: Record<TrendChipIcon, string> = {\n  trending: \"gap-1.5 px-2\",\n  arrow: \"gap-1 px-2\",\n  \"arrow-diagonal\": \"gap-1 px-2\",\n  triangle: \"gap-1 pl-1 pr-2\",\n  \"circle-trending\": \"gap-1 pl-1 pr-2\",\n  \"circle-diagonal\": \"gap-1 pl-1 pr-2\",\n  \"circle-arrow\": \"gap-1 pl-1 pr-2\",\n}\n\nfunction TrendChip({\n  value,\n  direction = \"up\",\n  icon = \"trending\",\n  className,\n}: {\n  value: string\n  /** Figma Trend Chip · Trend; `flat` is the old name for `neutral`. */\n  direction?: \"up\" | \"down\" | \"neutral\" | \"flat\"\n  /** Figma Trend Chip · Icon; the same glyph turns for `down`. */\n  icon?: TrendChipIcon\n  className?: string\n}) {\n  const positive = direction === \"up\"\n  const negative = direction === \"down\"\n  const neutral = direction === \"neutral\" || direction === \"flat\"\n\n  return (\n    <span\n      data-slot=\"trend-chip\"\n      className={cn(\n        \"inline-flex h-5 items-center rounded-full py-0.5 text-xs font-semibold leading-4\",\n        neutral ? \"gap-1 px-2 bg-muted text-text-secondary\" : CHIP_SPACING[icon],\n        positive && \"bg-tint-green text-tint-text-green\",\n        negative && \"bg-tint-red text-tint-text-red\",\n        className\n      )}\n    >\n      {neutral ? <Minus className=\"size-3 shrink-0\" /> : <TrendGlyph icon={icon} down={negative} />}\n      {value}\n    </span>\n  )\n}\n\nexport type { TrendChipIcon }\nexport { TrendChip, TrendCaret }\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "export { cn } from \"cn\"\n"
+    }
+  ],
+  "docs": "https://wunderui.com/components/trend-chip",
+  "meta": {
+    "group": "Feedback & Overlays",
+    "exports": [
+      "TrendChip",
+      "TrendChipIcon"
+    ]
+  }
+}
