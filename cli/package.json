@@ -8,7 +8,7 @@
     "components",
     "tailwindcss",
     "design-system",
-    "shadcn",
+    "base-ui",
     "cli",
     "registry"
   ],

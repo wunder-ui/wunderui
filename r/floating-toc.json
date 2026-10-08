@@ -1,5 +1,4 @@
 {
-  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "floating-toc",
   "type": "registry:ui",
   "title": "Floating TOC",

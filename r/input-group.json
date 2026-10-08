@@ -1,5 +1,4 @@
 {
-  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "input-group",
   "type": "registry:ui",
   "title": "Input Group",

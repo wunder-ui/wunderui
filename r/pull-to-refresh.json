@@ -1,5 +1,4 @@
 {
-  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "pull-to-refresh",
   "type": "registry:ui",
   "title": "Pull to Refresh",

@@ -22,7 +22,7 @@ import readline from "node:readline/promises"
  */
 
 const DEFAULT_REGISTRY = "https://wunderui.com"
-/** The free components as shadcn registry items (r/<name>.json). */
+/** The free components as registry items (r/<name>.json) in the public repo. */
 const DEFAULT_COMPONENTS = "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r"
 const CONFIG_FILE = "wunderui.json"
 const GLOBAL_CONFIG = path.join(homedir(), ".wunderui", "config.json")

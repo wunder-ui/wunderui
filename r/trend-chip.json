@@ -1,5 +1,4 @@
 {
-  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "trend-chip",
   "type": "registry:ui",
   "title": "Trend Chip",

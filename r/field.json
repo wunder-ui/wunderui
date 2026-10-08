@@ -1,5 +1,4 @@
 {
-  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "field",
   "type": "registry:ui",
   "title": "Field",

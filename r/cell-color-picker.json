@@ -1,5 +1,4 @@
 {
-  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "cell-color-picker",
   "type": "registry:ui",
   "title": "Cell Color Picker",

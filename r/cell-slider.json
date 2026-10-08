@@ -1,5 +1,4 @@
 {
-  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "cell-slider",
   "type": "registry:ui",
   "title": "Cell Slider",

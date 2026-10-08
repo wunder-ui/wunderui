@@ -1,5 +1,4 @@
 {
-  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "color-picker",
   "type": "registry:ui",
   "title": "Color Picker",

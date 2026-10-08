@@ -1,5 +1,4 @@
 {
-  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "file-tree",
   "type": "registry:ui",
   "title": "File Tree",

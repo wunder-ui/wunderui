@@ -1,5 +1,4 @@
 {
-  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "radio-button-group",
   "type": "registry:ui",
   "title": "Radio Button Group",

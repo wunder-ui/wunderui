@@ -1,5 +1,4 @@
 {
-  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "date-picker",
   "type": "registry:ui",
   "title": "Date Picker",

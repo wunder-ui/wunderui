@@ -1,5 +1,4 @@
 {
-  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "cell-switch",
   "type": "registry:ui",
   "title": "Cell Switch",

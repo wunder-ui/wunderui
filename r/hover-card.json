@@ -1,5 +1,4 @@
 {
-  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
   "name": "hover-card",
   "type": "registry:ui",
   "title": "Hover Card",
