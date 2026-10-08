@@ -11,7 +11,7 @@
 
 <p align="center">
   <img alt="MIT licence" src="https://img.shields.io/badge/licence-MIT-555CF3">
-  <img alt="76 free components" src="https://img.shields.io/badge/free%20components-76-555CF3">
+  <img alt="76 of 201 components free" src="https://img.shields.io/badge/free%20components-76%20of%20201-555CF3">
   <img alt="React 19" src="https://img.shields.io/badge/React-19-555CF3">
   <img alt="Tailwind CSS v4" src="https://img.shields.io/badge/Tailwind%20CSS-v4-555CF3">
   <img alt="Base UI" src="https://img.shields.io/badge/built%20on-Base%20UI-555CF3">
@@ -19,7 +19,7 @@
 
 # WunderUI Free
 
-**76 React components from the WunderUI design system, as source you own.** Built on Base UI and Tailwind CSS v4, styled by the same tokens as the WunderUI Figma library, light and dark, accessible (WCAG AA contrast on every token pair), and documented with live examples on [wunderui.com](https://wunderui.com).
+**76 of the 201 WunderUI React components, free as source you own.** Built on Base UI and Tailwind CSS v4, styled by the same tokens as the WunderUI Figma library, light and dark, accessible (WCAG AA contrast on every token pair), and documented with live examples on [wunderui.com](https://wunderui.com).
 
 Copy the files into your project and they are yours: no package to update, no lock-in, MIT licence.
 
