@@ -393,6 +393,7 @@ const HELP = `
     list [--components]      the free components and the blocks
     login <key>              store your licence key for every project
     init                     create ${CONFIG_FILE} in this project
+    --version                print the version
 
   ${c.bold("Options for add")}
     --overwrite              replace files that already exist
@@ -412,7 +413,7 @@ const HELP = `
 function parseArgs(argv) {
   const args = []
   const flags = {}
-  const BOOLEAN = new Set(["overwrite", "dry-run", "no-install", "components", "screens", "help"])
+  const BOOLEAN = new Set(["overwrite", "dry-run", "no-install", "components", "screens", "help", "version"])
   for (let i = 0; i < argv.length; i++) {
     const token = argv[i]
     if (!token.startsWith("--")) {
@@ -436,6 +437,12 @@ const COMMANDS = { init: commandInit, login: commandLogin, list: commandList, ad
 export async function run(argv) {
   const { args, flags } = parseArgs(argv)
   const [command, ...rest] = args
+
+  if (flags.version || command === "version") {
+    const pkg = await readJson(new URL("../package.json", import.meta.url))
+    log(pkg?.version ?? "unknown")
+    return
+  }
 
   if (!command || flags.help || command === "help") {
     log(HELP)
