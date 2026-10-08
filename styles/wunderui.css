@@ -1,0 +1,824 @@
+/*
+ * WunderUI design tokens, theme and base styles (Free, MIT).
+ *
+ * In your Tailwind v4 entry file, after Tailwind:
+ *
+ *   @import "tailwindcss";
+ *   @import "./styles/wunderui.css";
+ *   @source "./components";
+ *
+ * Adjust both paths to where you copied the folders. The @source line lets
+ * Tailwind see the utility classes the copied components use.
+ */
+
+/* `.light` re-applies the light token set inside a dark document (used by block
+   previews), and `.dark` the dark set inside a light one (dark landing sections,
+   previews). The dark variant follows the nearest of the two: it applies on and
+   under a .dark element unless a .light element sits between, so a dark section
+   on a light page gets its dark: utilities too (before, any .light ancestor —
+   including a light <html> — switched them off). */
+@custom-variant dark (&:is(.dark, .dark *):not(:is(.dark .light, .dark .light *)));
+
+@theme inline {
+  --font-heading: var(--font-sans);
+  --font-sans: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-code-border: var(--code-border);
+  --color-border: var(--border);
+  --color-border-control: var(--border-control);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  /* Figma Label/Small — dense rows in menus. */
+  --text-label-sm: 0.8125rem;
+  --text-label-sm--line-height: 1.25rem;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-brand-primary: var(--brand-primary);
+  --color-brand-primary-foreground: var(--brand-primary-foreground);
+  --color-brand-secondary: var(--brand-secondary);
+  --color-brand-secondary-foreground: var(--brand-secondary-foreground);
+  --color-brand-tertiary: var(--brand-tertiary);
+  --color-brand-tertiary-foreground: var(--brand-tertiary-foreground);
+  --color-brand-quaternary: var(--brand-quaternary);
+  --color-brand-quaternary-foreground: var(--brand-quaternary-foreground);
+  --color-text-link: var(--text-link);
+  --color-text-success: var(--text-success);
+  --color-text-error: var(--text-error);
+  --color-text-error-inverse: var(--text-error-inverse);
+  --color-text-warning: var(--text-warning);
+  --color-text-inverse: var(--text-inverse);
+  --color-inverse: var(--inverse);
+  --color-subtle: var(--subtle);
+  --color-tint-indigo: var(--tint-indigo);
+  --color-tint-blue: var(--tint-blue);
+  --color-tint-purple: var(--tint-purple);
+  --color-tint-pink: var(--tint-pink);
+  --color-tint-red: var(--tint-red);
+  --color-tint-orange: var(--tint-orange);
+  --color-tint-yellow: var(--tint-yellow);
+  --color-tint-green: var(--tint-green);
+  --color-tint-alternative: var(--tint-alternative);
+  --color-tint-text-indigo: var(--tint-text-indigo);
+  --color-tint-text-blue: var(--tint-text-blue);
+  --color-tint-text-purple: var(--tint-text-purple);
+  --color-tint-text-pink: var(--tint-text-pink);
+  --color-tint-text-red: var(--tint-text-red);
+  --color-tint-text-orange: var(--tint-text-orange);
+  --color-tint-text-yellow: var(--tint-text-yellow);
+  --color-tint-text-green: var(--tint-text-green);
+  --color-tint-text-alternative: var(--tint-text-alternative);
+  /* Figma-named aliases for the semantic tokens above (bg-page = the tinted page canvas,
+     bg-surface = card, text-primary = foreground, error = destructive). */
+  --color-bg-page: var(--bg-page);
+  --color-bg-surface: var(--card);
+  --color-bg-subtle: var(--subtle);
+  --color-bg-inverse: var(--inverse);
+  --color-text-primary: var(--foreground);
+  --color-text-muted: var(--muted-foreground);
+  --color-error: var(--destructive);
+  --color-brand-quinary: var(--brand-quinary);
+  --color-brand-senary: var(--brand-senary);
+  --color-brand-septenary: var(--brand-septenary);
+  --color-brand-octonary: var(--brand-octonary);
+  /* Primitives collection (mode-independent): dark/light/blue/indigo/purple/pink/
+     red/orange/yellow/green/alternative 100–1000 and the neutral set. They replace
+     Tailwind's palette for those names, so `bg-indigo-600` is the Figma indigo/600. */
+  --color-dark-100: var(--dark-100);
+  --color-dark-200: var(--dark-200);
+  --color-dark-300: var(--dark-300);
+  --color-dark-400: var(--dark-400);
+  --color-dark-500: var(--dark-500);
+  --color-dark-600: var(--dark-600);
+  --color-dark-700: var(--dark-700);
+  --color-dark-800: var(--dark-800);
+  --color-dark-900: var(--dark-900);
+  --color-dark-1000: var(--dark-1000);
+  --color-light-100: var(--light-100);
+  --color-light-200: var(--light-200);
+  --color-light-300: var(--light-300);
+  --color-light-400: var(--light-400);
+  --color-light-500: var(--light-500);
+  --color-light-600: var(--light-600);
+  --color-light-700: var(--light-700);
+  --color-light-800: var(--light-800);
+  --color-light-900: var(--light-900);
+  --color-light-1000: var(--light-1000);
+  --color-blue-100: var(--blue-100);
+  --color-blue-200: var(--blue-200);
+  --color-blue-300: var(--blue-300);
+  --color-blue-400: var(--blue-400);
+  --color-blue-500: var(--blue-500);
+  --color-blue-600: var(--blue-600);
+  --color-blue-700: var(--blue-700);
+  --color-blue-800: var(--blue-800);
+  --color-blue-900: var(--blue-900);
+  --color-blue-1000: var(--blue-1000);
+  --color-indigo-100: var(--indigo-100);
+  --color-indigo-200: var(--indigo-200);
+  --color-indigo-300: var(--indigo-300);
+  --color-indigo-400: var(--indigo-400);
+  --color-indigo-500: var(--indigo-500);
+  --color-indigo-600: var(--indigo-600);
+  --color-indigo-700: var(--indigo-700);
+  --color-indigo-800: var(--indigo-800);
+  --color-indigo-900: var(--indigo-900);
+  --color-indigo-1000: var(--indigo-1000);
+  --color-purple-100: var(--purple-100);
+  --color-purple-200: var(--purple-200);
+  --color-purple-300: var(--purple-300);
+  --color-purple-400: var(--purple-400);
+  --color-purple-500: var(--purple-500);
+  --color-purple-600: var(--purple-600);
+  --color-purple-700: var(--purple-700);
+  --color-purple-800: var(--purple-800);
+  --color-purple-900: var(--purple-900);
+  --color-purple-1000: var(--purple-1000);
+  --color-pink-100: var(--pink-100);
+  --color-pink-200: var(--pink-200);
+  --color-pink-300: var(--pink-300);
+  --color-pink-400: var(--pink-400);
+  --color-pink-500: var(--pink-500);
+  --color-pink-600: var(--pink-600);
+  --color-pink-700: var(--pink-700);
+  --color-pink-800: var(--pink-800);
+  --color-pink-900: var(--pink-900);
+  --color-pink-1000: var(--pink-1000);
+  --color-red-100: var(--red-100);
+  --color-red-200: var(--red-200);
+  --color-red-300: var(--red-300);
+  --color-red-400: var(--red-400);
+  --color-red-500: var(--red-500);
+  --color-red-600: var(--red-600);
+  --color-red-700: var(--red-700);
+  --color-red-800: var(--red-800);
+  --color-red-900: var(--red-900);
+  --color-red-1000: var(--red-1000);
+  --color-orange-100: var(--orange-100);
+  --color-orange-200: var(--orange-200);
+  --color-orange-300: var(--orange-300);
+  --color-orange-400: var(--orange-400);
+  --color-orange-500: var(--orange-500);
+  --color-orange-600: var(--orange-600);
+  --color-orange-700: var(--orange-700);
+  --color-orange-800: var(--orange-800);
+  --color-orange-900: var(--orange-900);
+  --color-orange-1000: var(--orange-1000);
+  --color-yellow-100: var(--yellow-100);
+  --color-yellow-200: var(--yellow-200);
+  --color-yellow-300: var(--yellow-300);
+  --color-yellow-400: var(--yellow-400);
+  --color-yellow-500: var(--yellow-500);
+  --color-yellow-600: var(--yellow-600);
+  --color-yellow-700: var(--yellow-700);
+  --color-yellow-800: var(--yellow-800);
+  --color-yellow-900: var(--yellow-900);
+  --color-yellow-1000: var(--yellow-1000);
+  --color-green-100: var(--green-100);
+  --color-green-200: var(--green-200);
+  --color-green-300: var(--green-300);
+  --color-green-400: var(--green-400);
+  --color-green-500: var(--green-500);
+  --color-green-600: var(--green-600);
+  --color-green-700: var(--green-700);
+  --color-green-800: var(--green-800);
+  --color-green-900: var(--green-900);
+  --color-green-1000: var(--green-1000);
+  --color-alternative-100: var(--alternative-100);
+  --color-alternative-200: var(--alternative-200);
+  --color-alternative-300: var(--alternative-300);
+  --color-alternative-400: var(--alternative-400);
+  --color-alternative-500: var(--alternative-500);
+  --color-alternative-600: var(--alternative-600);
+  --color-alternative-700: var(--alternative-700);
+  --color-alternative-800: var(--alternative-800);
+  --color-alternative-900: var(--alternative-900);
+  --color-alternative-1000: var(--alternative-1000);
+  --color-neutral-black: var(--neutral-black);
+  --color-neutral-white: var(--neutral-white);
+  --color-neutral-dark-secondary: var(--neutral-dark-secondary);
+  --color-neutral-dark-content: var(--neutral-dark-content);
+  --color-neutral-dark-borders: var(--neutral-dark-borders);
+  --color-neutral-dark-grey: var(--neutral-dark-grey);
+  --color-neutral-light-background: var(--neutral-light-background);
+  --color-neutral-alternative-secondary: var(--neutral-alternative-secondary);
+  --color-neutral-error-base: var(--neutral-error-base);
+  --color-neutral-dark-muted: var(--neutral-dark-muted);
+  /* Effect styles (Figma Shadow/Small … XLarge) mapped onto the shadow scale. */
+  --shadow-xs: 0 1px 2px 0 var(--effect-shadow-3);
+  --shadow-sm: 0 2px 4px 0 var(--effect-shadow);
+  --shadow-md: 0 4px 8px 0 rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 8px 16px 0 rgb(0 0 0 / 0.12);
+  --shadow-xl: 0 16px 32px -4px rgb(0 0 0 / 0.16);
+  /* Gradient paint styles (Figma Gradient/<Hue>) → `bg-gradient-<hue>`, plus the
+     three gradients built from the gradient/* variables. */
+  --background-image-gradient-blue: linear-gradient(135deg, #12D0FF 0%, #10A8E0 100%);
+  --background-image-gradient-yellow: linear-gradient(135deg, #FFD44A 0%, #F5A623 100%);
+  --background-image-gradient-red: linear-gradient(135deg, #FF6EB0 0%, #F0366A 100%);
+  --background-image-gradient-indigo: linear-gradient(135deg, #999DF8 0%, #555CF3 100%);
+  --background-image-gradient-purple: linear-gradient(135deg, #C9B5F8 0%, #A584F3 100%);
+  --background-image-gradient-pink: linear-gradient(135deg, #FEA6D6 0%, #FE6BBA 100%);
+  --background-image-gradient-orange: linear-gradient(135deg, #F8A392 0%, #F3654A 100%);
+  --background-image-gradient-green: linear-gradient(135deg, #76E6C1 0%, #1AD598 100%);
+  --background-image-gradient-alternative: linear-gradient(135deg, #A8A7B6 0%, #6E6D86 100%);
+  --background-image-gradient-dark: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+  --background-image-gradient-slate: linear-gradient(135deg, var(--gradient-start-2) 0%, var(--gradient-end-2) 100%);
+  --background-image-gradient-primary: linear-gradient(180deg, var(--gradient-start-3) 0%, var(--brand-primary) 100%);
+
+}
+
+/* Motion — easing curves. `ease-*` is a real Tailwind v4 namespace, so these
+   become the utilities `ease-entrance`, `ease-exit`, `ease-move`,
+   `ease-overshoot`. Deliberately NOT ease-in-out: a symmetric curve reads as
+   mechanical, and it is the default every generator reaches for.
+
+   This block is plain `@theme`, not `@theme inline`, on purpose: the non-inline
+   form makes each utility emit `var(--ease-…)` instead of the literal curve, so
+   redefining the variable on any wrapper element retimes everything inside it.
+   That is what the motion playground at /foundations/motion uses, and what lets
+   a consumer give one section its own feel without forking the components. */
+@theme {
+  --ease-entrance: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --ease-move: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-overshoot: cubic-bezier(0.34, 1.35, 0.64, 1);
+}
+
+/* Generated from the Figma "Color" variable collection — every value here
+   traces back 1:1 to a Figma variable; change the token in Figma first,
+   then mirror the value here. */
+:root,
+.light {
+  /* Tells the browser which palette its own UI should use: native scrollbars,
+     form controls, select and date popups, caret and spellcheck underlines,
+     and anything written with light-dark(). Without it the .dark class below
+     repaints the page but leaves all of that in light mode. */
+  color-scheme: light;
+
+  --background: #FFFFFF;
+  /* Figma bg-page: the tinted canvas behind cards (neutral/light-background). */
+  --bg-page: #F9FBFC;
+  --foreground: #000000;
+  --card: #FFFFFF;
+  --card-foreground: #000000;
+  --popover: #FFFFFF;
+  --popover-foreground: #000000;
+  --primary: var(--brand-600);
+  --primary-foreground: #FFFFFF;
+  --brand-primary: var(--brand-600);
+  --brand-primary-foreground: #FFFFFF;
+  --brand-secondary: #12AFF0;
+  --brand-secondary-foreground: #25272A;
+  --brand-tertiary: #F47690;
+  --brand-tertiary-foreground: #25272A;
+  --brand-quaternary: #FACA4A;
+  --brand-quaternary-foreground: #25272A;
+  --secondary: #FFFFFF;
+  --secondary-foreground: #000000;
+  --muted: #F1F5F7;
+  --muted-foreground: #5A7383;
+  --accent: #F1F5F7;
+  --accent-foreground: #000000;
+  --destructive: #D42A2D;
+  --destructive-foreground: #FFFFFF;
+  --border: #F1F5F7;
+  --input: #7694AD; /* field rim: 3:1 on page, card and bg-page (WCAG 1.4.11) */
+  /* Code boxes: border and muted are the same grey, so a code box needs its own edge. */
+  --code-border: var(--light-300);
+  /* Rim of plain controls (plain button, icon button, white badge, avatar ring).
+     Figma border-control: light/300 in light, the dark border grey in dark. */
+  --border-control: var(--light-300);
+  /* Focus: a single 1 px line in the link indigo (Figma text-link), 4.99:1 on white. */
+  --ring: var(--brand-600);
+  --text-secondary: #454648;
+  --text-tertiary: #6E6E70;
+  --success: #1AD598;
+  --success-foreground: #17181A;
+  --chart-1: var(--brand-600);
+  --chart-2: #F3654A;
+  --chart-3: #A584F3;
+  --chart-4: #FACA4A;
+  --chart-5: #1AD598;
+  --radius: 0.75rem;
+  --sidebar: #F9FBFC;
+  --sidebar-foreground: #000000;
+  --sidebar-primary: var(--brand-600);
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #F1F5F7;
+  --sidebar-accent-foreground: #000000;
+  --sidebar-border: #F1F5F7;
+    --sidebar-ring: var(--brand-600);
+  /* Semantic text/surface tokens added with the Sep 2026 WCAG AA pass — mirror
+     Figma "Color" collection: text-link, text-success, text-error, text-warning,
+     bg-inverse, text-inverse, bg-subtle, tint/<hue>, tint-text/<hue>. */
+  --text-link: var(--brand-600);
+  --text-success: #0C7E5A; /* 4.5:1 also on muted/subtle; green-800 was 4.49 */
+  --text-error: #D42A2D;
+  --text-warning: #64511E;
+  --inverse: #000000;
+  --text-error-inverse: #F8ADBC;
+  --text-inverse: #FFFFFF;
+  --subtle: #F1F5F7;
+  --tint-indigo: var(--brand-50);
+  --tint-blue: #E7F7FE;
+  --tint-purple: #F6F3FE;
+  --tint-pink: #FFF0F8;
+  --tint-red: #FEF1F4;
+  --tint-orange: #FEF0ED;
+  --tint-yellow: #FFFAED;
+  --tint-green: #E8FBF5;
+  --tint-alternative: #F1F0F3;
+  --tint-text-indigo: var(--brand-800);
+  --tint-text-blue: #0B6990;
+  --tint-text-purple: #634F92;
+  --tint-text-pink: #984070;
+  --tint-text-red: #924756;
+  --tint-text-orange: #923D2C;
+  --tint-text-yellow: #64511E;
+  --tint-text-green: #10805B;
+  --tint-text-alternative: #424150;
+  /* Brand accents 5–8 (purple, pink, orange, slate) — same value in both modes. */
+  --brand-quinary: #A584F3;
+  --brand-senary: #FE6BBA;
+  --brand-septenary: #F3654A;
+  --brand-octonary: #6E6D86;
+  /* Effect colours (Figma effect/shadow*) and gradient stops (gradient/*). */
+  --effect-shadow: rgb(0 0 0 / 0.08);
+  --effect-shadow-2: rgb(16 24 40 / 0.05);
+  --effect-shadow-3: rgb(0 0 0 / 0.05);
+  --gradient-start: #494F60;
+  --gradient-end: #0B0C33;
+  --gradient-start-2: #777FA1;
+  --gradient-end-2: #1F2059;
+  --gradient-start-3: #6F74F5;
+  /* Primitives (Figma "Primitives" collection, identical in light and dark). */
+  --dark-100: #E8E8E8;
+  --dark-200: #D1D1D1;
+  --dark-300: #A2A3A3;
+  --dark-400: #6E6E70;
+  --dark-500: #454648;
+  --dark-600: #17181A;
+  --dark-700: #121315;
+  --dark-800: #0E0E10;
+  --dark-900: #090A0A;
+  --dark-1000: #050505;
+  --light-100: #FFFFFF;
+  --light-200: #F1F5F7;
+  --light-300: #D9E1E7;
+  --light-400: #B3C5D4;
+  --light-500: #99B2C6;
+  --light-600: #809FB8;
+  --light-700: #5A7383;
+  --light-800: #4D5F6E;
+  --light-900: #33404A;
+  --light-1000: #1A2025;
+  --blue-100: #E7F7FE;
+  --blue-200: #D0EFFC;
+  --blue-300: #A0DFF9;
+  --blue-400: #71CFF6;
+  --blue-500: #41BFF3;
+  --blue-600: #12AFF0;
+  --blue-700: #0E8CC0;
+  --blue-800: #0B6990;
+  --blue-900: #074660;
+  --blue-1000: #042330;
+  --indigo-100: #EEEFFE;
+  --indigo-200: #DDDEFD;
+  --indigo-300: #BBBEFA;
+  --indigo-400: #999DF8;
+  --indigo-500: #777DF5;
+  --indigo-600: #555CF3;
+  --indigo-700: #444AC2;
+  --indigo-800: #333792;
+  --indigo-900: #222561;
+  --indigo-1000: #111231;
+
+  /* Brand scale. The semantic brand tokens (primary, ring, text-link, chart-1,
+     the indigo tint pair) read from here, not from indigo-* directly, so a
+     customer theme overrides these eleven values and the whole library
+     follows. For WunderUI itself brand = indigo, so nothing changes. */
+  --brand-50: #F4F5FF;
+  --brand-100: var(--indigo-100);
+  --brand-200: var(--indigo-200);
+  --brand-300: var(--indigo-300);
+  --brand-400: var(--indigo-400);
+  --brand-500: var(--indigo-500);
+  --brand-600: var(--indigo-600);
+  --brand-700: var(--indigo-700);
+  --brand-800: var(--indigo-800);
+  --brand-900: var(--indigo-900);
+  --brand-1000: var(--indigo-1000);
+  --purple-100: #F6F3FE;
+  --purple-200: #EDE6FD;
+  --purple-300: #DBCEFA;
+  --purple-400: #C9B5F8;
+  --purple-500: #B79DF5;
+  --purple-600: #A584F3;
+  --purple-700: #846AC2;
+  --purple-800: #634F92;
+  --purple-900: #423561;
+  --purple-1000: #211A31;
+  --pink-100: #FFF0F8;
+  --pink-200: #FFE1F1;
+  --pink-300: #FFC4E3;
+  --pink-400: #FEA6D6;
+  --pink-500: #FE89C8;
+  --pink-600: #FE6BBA;
+  --pink-700: #CB5695;
+  --pink-800: #984070;
+  --pink-900: #662B4A;
+  --pink-1000: #331525;
+  --red-100: #FEF1F4;
+  --red-200: #FDE4E9;
+  --red-300: #FBC8D3;
+  --red-400: #F8ADBC;
+  --red-500: #F691A6;
+  --red-600: #F47690;
+  --red-700: #C35E73;
+  --red-800: #924756;
+  --red-900: #622F3A;
+  --red-1000: #31181D;
+  --orange-100: #FEF0ED;
+  --orange-200: #FDE0DB;
+  --orange-300: #FAC1B7;
+  --orange-400: #F8A392;
+  --orange-500: #F5846E;
+  --orange-600: #F3654A;
+  --orange-700: #C2513B;
+  --orange-800: #923D2C;
+  --orange-900: #61281E;
+  --orange-1000: #31140F;
+  --yellow-100: #FFFAED;
+  --yellow-200: #FEF4DB;
+  --yellow-300: #FDEAB7;
+  --yellow-400: #FCDF92;
+  --yellow-500: #FBD56E;
+  --yellow-600: #FACA4A;
+  --yellow-700: #C8A23B;
+  --yellow-800: #96792C;
+  --yellow-900: #64511E;
+  --yellow-1000: #32280F;
+  --green-100: #E8FBF5;
+  --green-200: #D1F7EA;
+  --green-300: #A3EED6;
+  --green-400: #76E6C1;
+  --green-500: #48DDAD;
+  --green-600: #1AD598;
+  --green-700: #15AA7A;
+  --green-800: #10805B;
+  --green-900: #0A553D;
+  --green-1000: #052B1E;
+  --alternative-100: #F1F0F3;
+  --alternative-200: #E2E2E7;
+  --alternative-300: #C5C5CF;
+  --alternative-400: #A8A7B6;
+  --alternative-500: #8B8A9E;
+  --alternative-600: #6E6D86;
+  --alternative-700: #58576B;
+  --alternative-800: #424150;
+  --alternative-900: #2C2C36;
+  --alternative-1000: #16161B;
+  --neutral-black: #000000;
+  --neutral-white: #FFFFFF;
+  --neutral-dark-secondary: #1C1D20;
+  --neutral-dark-content: #25272A;
+  --neutral-dark-borders: #323438;
+  --neutral-dark-grey: #384455;
+  --neutral-light-background: #F9FBFC;
+  --neutral-alternative-secondary: #ACB3C7;
+  --neutral-error-base: #D42A2D;
+  --neutral-dark-muted: #949EAD;
+}
+
+.dark {
+  color-scheme: dark;
+
+  --background: #17181A;
+  --bg-page: #17181A;
+  --foreground: #FFFFFF;
+  --card: #1C1D20;
+  --card-foreground: #FFFFFF;
+  --popover: #1C1D20;
+  --popover-foreground: #FFFFFF;
+  --primary: var(--brand-600);
+  --primary-foreground: #FFFFFF;
+  --brand-primary: var(--brand-600);
+  --brand-primary-foreground: #FFFFFF;
+  --brand-secondary: #12AFF0;
+  --brand-secondary-foreground: #25272A;
+  --brand-tertiary: #F47690;
+  --brand-tertiary-foreground: #25272A;
+  --brand-quaternary: #FACA4A;
+  --brand-quaternary-foreground: #25272A;
+  --secondary: #1C1D20;
+  --secondary-foreground: #FFFFFF;
+  --muted: #323438;
+  --muted-foreground: #949EAD; /* 4.5:1 on muted; #8791A0 was 3.91 */
+  --accent: #323438;
+  --accent-foreground: #FFFFFF;
+  --destructive: #D42A2D;
+  --destructive-foreground: #FFFFFF;
+  --border: #323438;
+  --input: #6E6E70; /* dark/400: 3:1 on background and card */
+  --code-border: color-mix(in srgb, var(--foreground) 14%, var(--muted));
+  --border-control: #323438;
+  --ring: var(--brand-400);
+  --text-secondary: #D1D1D1;
+  --text-tertiary: #A2A3A3;
+  --success: #1AD598;
+  --success-foreground: #17181A;
+  --chart-1: var(--brand-600);
+  --chart-2: #F3654A;
+  --chart-3: #A584F3;
+  --chart-4: #FACA4A;
+  --chart-5: #1AD598;
+  --sidebar: #17181A;
+  --sidebar-foreground: #FFFFFF;
+  --sidebar-primary: var(--brand-600);
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #323438;
+  --sidebar-accent-foreground: #FFFFFF;
+  --sidebar-border: #323438;
+    --sidebar-ring: var(--brand-400);
+  --text-link: var(--brand-400);
+  --text-success: #76E6C1;
+  --text-error: #F8ADBC;
+  --text-warning: #FCDF92;
+  --inverse: #FFFFFF;
+  --text-error-inverse: #D42A2D;
+  --text-inverse: #000000;
+  --subtle: #25272A;
+  --tint-indigo: var(--brand-900);
+  --tint-blue: #074660;
+  --tint-purple: #423561;
+  --tint-pink: #662B4A;
+  --tint-red: #622F3A;
+  --tint-orange: #61281E;
+  --tint-yellow: #64511E;
+  --tint-green: #0A553D;
+  --tint-alternative: #2C2C36;
+  --tint-text-indigo: var(--brand-300);
+  --tint-text-blue: #A0DFF9;
+  --tint-text-purple: #DBCEFA;
+  --tint-text-pink: #FFC4E3;
+  --tint-text-red: #FBC8D3;
+  --tint-text-orange: #FAC1B7;
+  --tint-text-yellow: #FDEAB7;
+  --tint-text-green: #A3EED6;
+  --tint-text-alternative: #C5C5CF;
+}
+
+/* ---------------------------------------------------------------- motion
+   Mode-independent: motion does not change between light and dark.
+
+   Calibrated for interface work, not for demos. A micro-interaction at 300ms
+   reads as sluggish; 150ms reads as responsive. Exits are shorter than
+   entrances because a thing leaving has already been decided on. Every value
+   below is one an existing WunderUI component was already using — the tokens
+   consolidate the scale, they do not re-time the library. */
+/* A nested .light or .dark section re-resolves --surface against its own
+   background — declared only on :root it would keep the page's colour, and a
+   dark card on a light page would ring its avatars in white. */
+.light,
+.dark {
+  --surface: var(--background);
+}
+
+:root {
+  /* The colour of whatever an element sits on. Containers override it with
+     their own fill (cards, popovers, dialogs, sheets), so a ring or cut-out
+     can match its surroundings instead of the page. */
+  --surface: var(--background);
+
+  --duration-instant: 80ms;      /* tooltip dismiss, press release */
+  --duration-fast: 150ms;        /* the default exit; hover, focus, checkbox */
+  --duration-base: 250ms;        /* dropdown, popover, tab, backdrop, collapse */
+  --duration-slow: 350ms;        /* dialog, toast, switch — a surface arriving */
+  --duration-deliberate: 450ms;  /* sheet, full-width panel, orchestrated beats */
+  --duration-ambient: 700ms;     /* progress and meter fills — data, not chrome */
+
+  /* Travel distances. Restraint is the point: a menu that slides 20px looks
+     like it fell in. Anything anchored to a trigger barely moves at all. */
+  --travel-xs: 2px;   /* tooltip — stays glued to its anchor */
+  --travel-sm: 4px;   /* popover, dropdown, context menu */
+  --travel-md: 8px;   /* dialog, toast, inline panel */
+  --travel-lg: 16px;  /* section reveal on scroll */
+
+  --scale-press: 0.97;   /* pressed button */
+  --scale-enter: 0.96;   /* dialog arriving */
+}
+
+/* Borders default to the theme border colour. Tailwind v4's preflight uses
+   currentColor, so without this a plain `border` on a table row, card or
+   divider draws in the text colour (black). Utilities still override it. */
+@layer base {
+  *,
+  ::before,
+  ::after,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--border);
+  }
+}
+
+/* Tailwind v4 has no `--duration-*` theme namespace, so the scale is exposed
+   as named utilities instead of `duration-[var(--duration-base)]`. Each one
+   sets --tw-duration as well, which is what tw-animate-css reads for
+   `animate-in` / `animate-out`, so `data-open:duration-base` works. */
+@utility duration-instant {
+  --tw-duration: var(--duration-instant);
+  transition-duration: var(--duration-instant);
+  animation-duration: var(--duration-instant);
+}
+@utility duration-fast {
+  --tw-duration: var(--duration-fast);
+  transition-duration: var(--duration-fast);
+  animation-duration: var(--duration-fast);
+}
+@utility duration-base {
+  --tw-duration: var(--duration-base);
+  transition-duration: var(--duration-base);
+  animation-duration: var(--duration-base);
+}
+@utility duration-slow {
+  --tw-duration: var(--duration-slow);
+  transition-duration: var(--duration-slow);
+  animation-duration: var(--duration-slow);
+}
+@utility duration-deliberate {
+  --tw-duration: var(--duration-deliberate);
+  transition-duration: var(--duration-deliberate);
+  animation-duration: var(--duration-deliberate);
+}
+@utility duration-ambient {
+  --tw-duration: var(--duration-ambient);
+  transition-duration: var(--duration-ambient);
+  animation-duration: var(--duration-ambient);
+}
+
+@keyframes wunderui-copied-ring {
+  0% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--success) 60%, transparent); }
+  100% { box-shadow: 0 0 0 8px transparent; }
+}
+
+@keyframes wunderui-shimmer {
+  100% { translate: 100% 0; }
+}
+
+@keyframes wunderui-text-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Logo loader: the three strokes of the mark drift apart and click back in.
+   Offsets come from --logo-dx/--logo-dy (travel tokens, set per stroke);
+   the small pass through centre at 26% is the settle. Timing per segment is
+   the element's --ease-move; the segments approximate deliberate (gather),
+   slow (hold), slow (release), base (rest) of one --logo-cycle. */
+@keyframes wunderui-logo-assemble {
+  0%, 100% { translate: var(--logo-dx, 0px) var(--logo-dy, 0px); }
+  26% { translate: calc(var(--logo-dx, 0px) * -0.2) calc(var(--logo-dy, 0px) * -0.2); }
+  34%, 60% { translate: 0 0; }
+  84% { translate: var(--logo-dx, 0px) var(--logo-dy, 0px); }
+}
+
+/* Switch thumb travel: overshoot past the end, swing back, settle. Skipped
+   on mount (see Switch's data-init) so switches don't bounce on page load. */
+/* Tailwind v4 moves the thumb with the `translate` property, so the bounce
+   has to animate `translate` too — animating `transform` would stack a second
+   14px shift on top and push the thumb out of the track. */
+@keyframes wunderui-switch-on {
+  0% { translate: 0 0; }
+  55% { translate: calc(var(--switch-travel, 22px) + 1px) 0; }
+  80% { translate: var(--switch-travel, 22px) 0; }
+  100% { translate: var(--switch-travel, 22px) 0; }
+}
+@keyframes wunderui-switch-off {
+  0% { translate: var(--switch-travel, 22px) 0; }
+  55% { translate: -1px 0; }
+  80% { translate: 0 0; }
+  100% { translate: 0 0; }
+}
+
+/* Chart appear (useInViewAppear in chart.tsx): Line, Area and Candlestick
+   charts and Sparkline wait until a quarter of them is on screen, then the
+   box fades and rises in while the series arrive — lines draw left to right
+   (recharts, or the stroke-dashoffset below for Sparkline), area fills fade
+   and rise in just after, candles and volume bars grow from their baseline
+   with a short stagger (--chart-stagger 0…1, set per candle). The attribute
+   is "hidden" before, "in" for the sequence, then "done"/"static" — the
+   animations only exist while it is "in", so later re-renders, resizes and
+   tooltips never replay them. Transforms only: nothing shifts the layout. */
+[data-chart-appear="hidden"] {
+  opacity: 0;
+  transform: translateY(var(--travel-md));
+}
+[data-chart-appear="in"] {
+  animation: wunderui-chart-rise var(--duration-slow) var(--ease-entrance) both;
+}
+[data-chart-appear="in"] .recharts-area-area,
+[data-chart-appear="in"] [data-chart-fade] {
+  animation: wunderui-chart-fade var(--duration-deliberate) var(--ease-entrance) var(--duration-base) both;
+}
+[data-chart-appear="in"] [data-chart-grow] {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: wunderui-chart-grow var(--duration-slow) var(--ease-entrance) both;
+  animation-delay: calc(var(--chart-stagger, 0) * 250ms);
+}
+[data-chart-appear="in"] [data-chart-draw] {
+  stroke-dasharray: 1;
+  animation: wunderui-chart-draw var(--duration-ambient) var(--ease-entrance) both;
+}
+@keyframes wunderui-chart-rise {
+  from { opacity: 0; transform: translateY(var(--travel-md)); }
+}
+@keyframes wunderui-chart-fade {
+  from { opacity: 0; transform: translateY(var(--travel-sm)); }
+}
+@keyframes wunderui-chart-grow {
+  from { transform: scaleY(0); }
+}
+@keyframes wunderui-chart-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* useInViewAppear already skips the sequence; this covers the moment
+     before hydration, when the server-rendered box is still "hidden". */
+  [data-chart-appear] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+  [data-chart-appear],
+  [data-chart-appear] * {
+    animation: none !important;
+  }
+  /* A transition is motion too, and until now only animations were covered.
+     This drops the moving properties out of every transition while keeping the
+     ones that are not motion, so hover and focus states still feel alive:
+     the switch thumb stops sliding, the accordion and collapsible panels stop
+     animating their height, and the six disclosure chevrons stop rotating,
+     without anyone having to remember a motion-reduce: utility on each one.
+
+     Consumers who want a specific transform transition back can re-declare
+     transition-property with !important on that element. Verified by the
+     reduced-motion sweep in /scripts — see MOTION-SOURCES.md. */
+  *,
+  *::before,
+  *::after {
+    transition-property: color, background-color, border-color, outline-color,
+      text-decoration-color, fill, stroke, opacity, box-shadow, filter,
+      backdrop-filter !important;
+  }
+
+  [data-slot="switch-thumb"] { animation: none !important; }
+  /* Covers every dropdown/dialog/popover/tooltip/sheet's data-open:animate-in
+     and data-closed:animate-out (tw-animate-css) — that plugin ships no
+     reduced-motion guard of its own. */
+  [data-open], [data-closed] {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+  }
+}

@@ -1,0 +1,1011 @@
+[
+  {
+    "slug": "accordion",
+    "title": "Accordion",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A vertically stacked set of collapsible panels, in card or divider style.",
+    "exports": [
+      "Accordion",
+      "AccordionContent",
+      "AccordionItem",
+      "AccordionTrigger"
+    ],
+    "docs": "https://wunderui.com/components/accordion"
+  },
+  {
+    "slug": "avatar",
+    "title": "Avatar",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A user or entity's profile image with a text fallback.",
+    "exports": [
+      "Avatar",
+      "AvatarBadge",
+      "AvatarColor",
+      "AvatarFallback",
+      "AvatarGroup",
+      "AvatarGroupCount",
+      "AvatarImage",
+      "AvatarStack"
+    ],
+    "docs": "https://wunderui.com/components/avatar"
+  },
+  {
+    "slug": "avatar-group",
+    "title": "Avatar Group",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A stack of overlapping avatars, with an optional overflow count.",
+    "exports": [
+      "AvatarGroup",
+      "AvatarGroupCount"
+    ],
+    "docs": "https://wunderui.com/components/avatar-group"
+  },
+  {
+    "slug": "badge",
+    "title": "Badge",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A small status or category label in 12 colors and 6 styles.",
+    "exports": [
+      "Badge",
+      "BadgeCell",
+      "BadgeColor",
+      "BadgeStyle"
+    ],
+    "docs": "https://wunderui.com/components/badge"
+  },
+  {
+    "slug": "breadcrumb",
+    "title": "Breadcrumb",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "Shows the user's location in a hierarchy, in \"plain\" or bordered \"border\" style.",
+    "exports": [
+      "Breadcrumb",
+      "BreadcrumbItem",
+      "BreadcrumbLink",
+      "BreadcrumbList",
+      "BreadcrumbPage",
+      "BreadcrumbSeparator"
+    ],
+    "docs": "https://wunderui.com/components/breadcrumb"
+  },
+  {
+    "slug": "button",
+    "title": "Button",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "The main action trigger, in 10 variants, 2 shapes and 5 sizes.",
+    "exports": [
+      "Button",
+      "ButtonCell",
+      "ButtonGroup"
+    ],
+    "docs": "https://wunderui.com/components/button"
+  },
+  {
+    "slug": "icon-button",
+    "title": "Icon Button",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A square or circular button for a single icon action.",
+    "exports": [
+      "IconButton",
+      "IconButtonTextCell"
+    ],
+    "docs": "https://wunderui.com/components/icon-button"
+  },
+  {
+    "slug": "button-group",
+    "title": "Button Group",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A row of connected buttons sharing borders and outer corners, for view switchers or segmented actions.",
+    "exports": [
+      "ButtonGroup"
+    ],
+    "docs": "https://wunderui.com/components/button-group"
+  },
+  {
+    "slug": "card",
+    "title": "Card",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A bordered container for grouping related content.",
+    "exports": [
+      "Card",
+      "CardAction",
+      "CardContent",
+      "CardDescription",
+      "CardFooter",
+      "CardHeader",
+      "CardMedia",
+      "CardTitle",
+      "CardVariant"
+    ],
+    "docs": "https://wunderui.com/components/card"
+  },
+  {
+    "slug": "checkbox",
+    "title": "Checkbox",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A single choice that is on or off, with an indeterminate state for “some selected”.",
+    "exports": [
+      "Checkbox",
+      "CheckboxButtonGroup",
+      "CheckboxField",
+      "CheckboxFieldProps"
+    ],
+    "docs": "https://wunderui.com/components/checkbox"
+  },
+  {
+    "slug": "switch",
+    "title": "Switch",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A toggle control for a binary setting.",
+    "exports": [
+      "Switch",
+      "SwitchItemCell"
+    ],
+    "docs": "https://wunderui.com/components/switch"
+  },
+  {
+    "slug": "radio-group",
+    "title": "Radio Group",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A set of mutually exclusive options.",
+    "exports": [
+      "RadioGroup",
+      "RadioGroupItem"
+    ],
+    "docs": "https://wunderui.com/components/radio-group"
+  },
+  {
+    "slug": "input",
+    "title": "Input",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A single-line text field with sm/default/lg sizes and error state.",
+    "exports": [
+      "Input",
+      "InputGroup",
+      "InputGroupAddon"
+    ],
+    "docs": "https://wunderui.com/components/input"
+  },
+  {
+    "slug": "textarea",
+    "title": "Textarea",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A multi-line text field with sm/default/lg sizes and an optional character counter.",
+    "exports": [
+      "Textarea",
+      "TextareaField",
+      "TextareaFieldProps"
+    ],
+    "docs": "https://wunderui.com/components/textarea"
+  },
+  {
+    "slug": "progress",
+    "title": "Progress",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A horizontal bar showing completion of a task.",
+    "exports": [
+      "Progress",
+      "ProgressCell",
+      "ProgressIndicator",
+      "ProgressLabel",
+      "ProgressTrack",
+      "ProgressValue"
+    ],
+    "docs": "https://wunderui.com/components/progress"
+  },
+  {
+    "slug": "slider",
+    "title": "Slider",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A draggable control for selecting one value or a range along a track.",
+    "exports": [
+      "Slider",
+      "SliderControl",
+      "SliderIndicator",
+      "SliderLabel",
+      "SliderThumb",
+      "SliderTrack",
+      "SliderValue"
+    ],
+    "docs": "https://wunderui.com/components/slider"
+  },
+  {
+    "slug": "pagination",
+    "title": "Pagination",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "Page navigation with Prev/Next and numbered pages, or a simple \"Page X of Y\" mode.",
+    "exports": [
+      "Pagination",
+      "PaginationSimple"
+    ],
+    "docs": "https://wunderui.com/components/pagination"
+  },
+  {
+    "slug": "separator",
+    "title": "Separator",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A thin dividing line, horizontal or vertical, solid or dashed.",
+    "exports": [
+      "Separator"
+    ],
+    "docs": "https://wunderui.com/components/separator"
+  },
+  {
+    "slug": "divider-with-label",
+    "title": "Divider with Label",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A separator with a centered text label, e.g. for \"or\" between two sign-in options.",
+    "exports": [
+      "DividerWithLabel"
+    ],
+    "docs": "https://wunderui.com/components/divider-with-label"
+  },
+  {
+    "slug": "skeleton",
+    "title": "Skeleton",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A pulsing placeholder shown while content is loading.",
+    "exports": [
+      "Skeleton"
+    ],
+    "docs": "https://wunderui.com/components/skeleton"
+  },
+  {
+    "slug": "tooltip",
+    "title": "Tooltip",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A short label shown on hover, in any of 4 directions.",
+    "exports": [
+      "Tooltip",
+      "TooltipContent",
+      "TooltipTrigger"
+    ],
+    "docs": "https://wunderui.com/components/tooltip"
+  },
+  {
+    "slug": "dialog",
+    "title": "Dialog",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A modal window for focused tasks, built on Base UI.",
+    "exports": [
+      "Dialog",
+      "DialogClose",
+      "DialogContent",
+      "DialogDescription",
+      "DialogFooter",
+      "DialogHeader",
+      "DialogIcon",
+      "DialogOverlay",
+      "DialogPortal",
+      "DialogTitle",
+      "DialogTrigger"
+    ],
+    "docs": "https://wunderui.com/components/dialog"
+  },
+  {
+    "slug": "alert-dialog",
+    "title": "Alert Dialog",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A dialog for confirmations and destructive actions: a click outside does not close it, only a button or Escape does.",
+    "exports": [
+      "AlertDialog",
+      "AlertDialogAction",
+      "AlertDialogCancel",
+      "AlertDialogContent",
+      "AlertDialogDescription",
+      "AlertDialogFooter",
+      "AlertDialogHeader",
+      "AlertDialogOverlay",
+      "AlertDialogPortal",
+      "AlertDialogTitle",
+      "AlertDialogTrigger"
+    ],
+    "docs": "https://wunderui.com/components/alert-dialog"
+  },
+  {
+    "slug": "collapsible",
+    "title": "Collapsible",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A single collapsible panel controlled by a trigger button.",
+    "exports": [
+      "Collapsible",
+      "CollapsibleContent",
+      "CollapsibleTrigger"
+    ],
+    "docs": "https://wunderui.com/components/collapsible"
+  },
+  {
+    "slug": "toggle",
+    "title": "Toggle",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A standalone two-state button that can be pressed or unpressed.",
+    "exports": [
+      "Toggle",
+      "ToggleButton"
+    ],
+    "docs": "https://wunderui.com/components/toggle"
+  },
+  {
+    "slug": "meter",
+    "title": "Meter",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A graphical display of a fixed value within a range, e.g. disk usage.",
+    "exports": [
+      "Meter",
+      "MeterIndicator",
+      "MeterLabel",
+      "MeterTrack",
+      "MeterValue"
+    ],
+    "docs": "https://wunderui.com/components/meter"
+  },
+  {
+    "slug": "kbd",
+    "title": "Kbd",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "Displays a keyboard key or shortcut, e.g. inside a search input.",
+    "exports": [
+      "Kbd",
+      "KbdGroup"
+    ],
+    "docs": "https://wunderui.com/components/kbd"
+  },
+  {
+    "slug": "spinner",
+    "title": "Spinner",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A spinning indicator for an in-progress loading state.",
+    "exports": [
+      "Spinner"
+    ],
+    "docs": "https://wunderui.com/components/spinner"
+  },
+  {
+    "slug": "toolbar",
+    "title": "Toolbar",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A container for grouping a set of buttons and controls.",
+    "exports": [
+      "Toolbar",
+      "ToolbarButton",
+      "ToolbarGroup",
+      "ToolbarLink",
+      "ToolbarSeparator"
+    ],
+    "docs": "https://wunderui.com/components/toolbar"
+  },
+  {
+    "slug": "hover-card",
+    "title": "Hover Card",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A rich preview popup shown on hovering a trigger.",
+    "exports": [
+      "HoverCard",
+      "HoverCardContent",
+      "HoverCardTrigger"
+    ],
+    "docs": "https://wunderui.com/components/hover-card"
+  },
+  {
+    "slug": "popover",
+    "title": "Popover",
+    "group": "Feedback & Overlays",
+    "category": "Overlays",
+    "description": "A floating panel anchored to a trigger element.",
+    "exports": [
+      "Popover",
+      "PopoverClose",
+      "PopoverContent",
+      "PopoverTrigger"
+    ],
+    "docs": "https://wunderui.com/components/popover"
+  },
+  {
+    "slug": "tabs",
+    "title": "Tabs",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "Switches between related views in the same context.",
+    "exports": [
+      "Tabs",
+      "TabsContent",
+      "TabsIndicator",
+      "TabsList",
+      "TabsTrigger"
+    ],
+    "docs": "https://wunderui.com/components/tabs"
+  },
+  {
+    "slug": "agenda",
+    "title": "Agenda",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A time-ordered list of scheduled events.",
+    "exports": [
+      "Agenda",
+      "AgendaEvent",
+      "AgendaEventProps",
+      "AgendaItem"
+    ],
+    "docs": "https://wunderui.com/components/agenda"
+  },
+  {
+    "slug": "action-bar",
+    "title": "Action Bar",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A floating bar of bulk actions for a selection.",
+    "exports": [
+      "ActionBar"
+    ],
+    "docs": "https://wunderui.com/components/action-bar"
+  },
+  {
+    "slug": "carousel",
+    "title": "Carousel",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A horizontally scrollable row of items with arrow controls.",
+    "exports": [
+      "Carousel"
+    ],
+    "docs": "https://wunderui.com/components/carousel"
+  },
+  {
+    "slug": "empty-state",
+    "title": "Empty State",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "Placeholder shown when a list or search has no results.",
+    "exports": [
+      "EmptyState"
+    ],
+    "docs": "https://wunderui.com/components/empty-state"
+  },
+  {
+    "slug": "file-tree",
+    "title": "File Tree",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A collapsible, indented tree of folders and files.",
+    "exports": [
+      "FileTree",
+      "FileTreeNode"
+    ],
+    "docs": "https://wunderui.com/components/file-tree"
+  },
+  {
+    "slug": "floating-toc",
+    "title": "Floating TOC",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A sticky table of contents with an active-section indicator.",
+    "exports": [
+      "FloatingToc"
+    ],
+    "docs": "https://wunderui.com/components/floating-toc"
+  },
+  {
+    "slug": "holo-card",
+    "title": "Holo Card",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A card with a mouse-tracking spotlight/gradient shine effect.",
+    "exports": [
+      "HoloCard"
+    ],
+    "docs": "https://wunderui.com/components/holo-card"
+  },
+  {
+    "slug": "item-card",
+    "title": "Item Card",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A generic row card: icon, title, description, meta, action.",
+    "exports": [
+      "ItemCard",
+      "ItemCardGroup"
+    ],
+    "docs": "https://wunderui.com/components/item-card"
+  },
+  {
+    "slug": "timeline",
+    "title": "Timeline",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A vertical sequence of dated, dot-connected events.",
+    "exports": [
+      "Timeline",
+      "TimelineEvent",
+      "TimelineEventProps",
+      "TimelineItem"
+    ],
+    "docs": "https://wunderui.com/components/timeline"
+  },
+  {
+    "slug": "widget",
+    "title": "Widget",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A generic dashboard widget shell: header, body, footer.",
+    "exports": [
+      "Widget"
+    ],
+    "docs": "https://wunderui.com/components/widget"
+  },
+  {
+    "slug": "native-select",
+    "title": "Native Select",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "A full-width styled select trigger and popup list.",
+    "exports": [
+      "NativeSelect",
+      "NativeSelectContent",
+      "NativeSelectItem",
+      "NativeSelectTrigger",
+      "NativeSelectValue"
+    ],
+    "docs": "https://wunderui.com/components/native-select"
+  },
+  {
+    "slug": "inline-select",
+    "title": "Inline Select",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "A compact select meant to sit inline within a sentence of text.",
+    "exports": [
+      "InlineSelect",
+      "InlineSelectContent",
+      "InlineSelectItem",
+      "InlineSelectTrigger",
+      "InlineSelectValue"
+    ],
+    "docs": "https://wunderui.com/components/inline-select"
+  },
+  {
+    "slug": "checkbox-button-group",
+    "title": "Checkbox Button Group",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "A multi-select group of toggle-styled buttons.",
+    "exports": [
+      "CheckboxButtonGroup"
+    ],
+    "docs": "https://wunderui.com/components/checkbox-button-group"
+  },
+  {
+    "slug": "radio-button-group",
+    "title": "Radio Button Group",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "A single-select group of toggle-styled buttons.",
+    "exports": [
+      "RadioButtonGroup"
+    ],
+    "docs": "https://wunderui.com/components/radio-button-group"
+  },
+  {
+    "slug": "number-stepper",
+    "title": "Number Stepper",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "A +/- increment control for a bounded numeric value.",
+    "exports": [
+      "NumberStepper"
+    ],
+    "docs": "https://wunderui.com/components/number-stepper"
+  },
+  {
+    "slug": "drop-zone",
+    "title": "Drop Zone",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "A drag-and-drop file upload target with a click-to-browse fallback.",
+    "exports": [
+      "DropZone"
+    ],
+    "docs": "https://wunderui.com/components/drop-zone"
+  },
+  {
+    "slug": "rich-text-editor",
+    "title": "Rich Text Editor",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "A Tiptap-powered WYSIWYG editor with a formatting toolbar.",
+    "exports": [
+      "RichTextEditor",
+      "RichTextEditorProps",
+      "RichTextEditorSkeleton"
+    ],
+    "docs": "https://wunderui.com/components/rich-text-editor"
+  },
+  {
+    "slug": "color-picker",
+    "title": "Color Picker",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "Pick a colour: saturation and brightness, hue, opacity, eyedropper, HEX/RGB/HSL values and saved colours — inline or from a trigger field.",
+    "exports": [
+      "ColorPicker",
+      "ColorPickerProps",
+      "ColorPickerTrigger"
+    ],
+    "docs": "https://wunderui.com/components/color-picker"
+  },
+  {
+    "slug": "cell-color-picker",
+    "title": "Cell Color Picker",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "A compact color swatch picker for inline use in a Data Grid cell.",
+    "exports": [
+      "CellColorPicker"
+    ],
+    "docs": "https://wunderui.com/components/cell-color-picker"
+  },
+  {
+    "slug": "cell-slider",
+    "title": "Cell Slider",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "A compact progress/value slider for inline use in a Data Grid cell.",
+    "exports": [
+      "CellSlider"
+    ],
+    "docs": "https://wunderui.com/components/cell-slider"
+  },
+  {
+    "slug": "cell-select",
+    "title": "Cell Select",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "A compact select for inline use in a Data Grid cell.",
+    "exports": [
+      "CellSelect"
+    ],
+    "docs": "https://wunderui.com/components/cell-select"
+  },
+  {
+    "slug": "cell-switch",
+    "title": "Cell Switch",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "A compact switch for inline use in a Data Grid cell.",
+    "exports": [
+      "CellSwitch"
+    ],
+    "docs": "https://wunderui.com/components/cell-switch"
+  },
+  {
+    "slug": "selector-item",
+    "title": "Selector Item",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "A list row pairing a leading icon/avatar and label/description with a trailing radio, checkbox, or switch.",
+    "exports": [
+      "SelectorItem",
+      "SelectorItemGroup"
+    ],
+    "docs": "https://wunderui.com/components/selector-item"
+  },
+  {
+    "slug": "label",
+    "title": "Label",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "An accessible label for a form control.",
+    "exports": [
+      "Label"
+    ],
+    "docs": "https://wunderui.com/components/label"
+  },
+  {
+    "slug": "field",
+    "title": "Field",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "Labelling and validation for a single form control — label, description, and error message.",
+    "exports": [
+      "Field",
+      "FieldControl",
+      "FieldDescription",
+      "FieldError",
+      "FieldLabel",
+      "Fieldset",
+      "FieldsetLegend"
+    ],
+    "docs": "https://wunderui.com/components/field"
+  },
+  {
+    "slug": "fieldset",
+    "title": "Fieldset",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "A native fieldset with a legend, for grouping related fields.",
+    "exports": [
+      "Fieldset",
+      "FieldsetLegend"
+    ],
+    "docs": "https://wunderui.com/components/fieldset"
+  },
+  {
+    "slug": "form",
+    "title": "Form",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "A form wrapper that simplifies validation and submission.",
+    "exports": [
+      "Form",
+      "FormActions"
+    ],
+    "docs": "https://wunderui.com/components/form"
+  },
+  {
+    "slug": "input-group",
+    "title": "Input Group",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "Groups an input with leading/trailing addons — icons, buttons, or text.",
+    "exports": [
+      "InputGroup",
+      "InputGroupAddon"
+    ],
+    "docs": "https://wunderui.com/components/input-group"
+  },
+  {
+    "slug": "number-field",
+    "title": "Number Field",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "A numeric input with increment/decrement buttons.",
+    "exports": [
+      "NumberField",
+      "NumberFieldDecrement",
+      "NumberFieldGroup",
+      "NumberFieldIncrement",
+      "NumberFieldInput"
+    ],
+    "docs": "https://wunderui.com/components/number-field"
+  },
+  {
+    "slug": "otp-field",
+    "title": "OTP Field",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "A segmented input for one-time passwords and verification codes.",
+    "exports": [
+      "OtpField",
+      "OtpFieldInput"
+    ],
+    "docs": "https://wunderui.com/components/otp-field"
+  },
+  {
+    "slug": "combobox",
+    "title": "Combobox",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "An input combined with a filterable list of predefined items to select.",
+    "exports": [
+      "Combobox",
+      "ComboboxEmpty",
+      "ComboboxGroup",
+      "ComboboxGroupLabel",
+      "ComboboxInput",
+      "ComboboxInputGroup",
+      "ComboboxItem",
+      "ComboboxList",
+      "ComboboxPopup",
+      "ComboboxPortal",
+      "ComboboxTrigger"
+    ],
+    "docs": "https://wunderui.com/components/combobox"
+  },
+  {
+    "slug": "autocomplete",
+    "title": "Autocomplete",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "An input that suggests options as you type.",
+    "exports": [
+      "Autocomplete",
+      "AutocompleteEmpty",
+      "AutocompleteInput",
+      "AutocompleteInputGroup",
+      "AutocompleteItem",
+      "AutocompleteList",
+      "AutocompletePopup",
+      "AutocompletePortal"
+    ],
+    "docs": "https://wunderui.com/components/autocomplete"
+  },
+  {
+    "slug": "calendar",
+    "title": "Calendar",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "A month-grid date picker with single or range selection.",
+    "exports": [
+      "Calendar",
+      "CalendarProps"
+    ],
+    "docs": "https://wunderui.com/components/calendar"
+  },
+  {
+    "slug": "date-picker",
+    "title": "Date Picker",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "A Calendar inside a Popover, with Cancel/Apply actions.",
+    "exports": [
+      "DatePicker",
+      "DatePickerProps"
+    ],
+    "docs": "https://wunderui.com/components/date-picker"
+  },
+  {
+    "slug": "alert",
+    "title": "Alert",
+    "group": "Feedback & Overlays",
+    "category": "Feedback",
+    "description": "An inline banner in 5 colors and 2 sizes, with an optional close button and action.",
+    "exports": [
+      "Alert",
+      "AlertDescription",
+      "AlertDialog",
+      "AlertDialogAction",
+      "AlertDialogCancel",
+      "AlertDialogContent",
+      "AlertDialogDescription",
+      "AlertDialogFooter",
+      "AlertDialogHeader",
+      "AlertDialogOverlay",
+      "AlertDialogPortal",
+      "AlertDialogTitle",
+      "AlertDialogTrigger",
+      "AlertTitle"
+    ],
+    "docs": "https://wunderui.com/components/alert"
+  },
+  {
+    "slug": "toast",
+    "title": "Toast",
+    "group": "Feedback & Overlays",
+    "category": "Feedback",
+    "description": "A temporary notification that appears in the corner of the screen, with success/error/warning/info types.",
+    "exports": [
+      "ToastProvider",
+      "ToastViewport",
+      "Toaster"
+    ],
+    "docs": "https://wunderui.com/components/toast"
+  },
+  {
+    "slug": "pull-to-refresh",
+    "title": "Pull to Refresh",
+    "group": "Feedback & Overlays",
+    "category": "Feedback",
+    "description": "Drag down from the top of any content past a threshold to trigger an async refresh, with a rotating spinner and a rubber-band release.",
+    "exports": [
+      "PullToRefresh"
+    ],
+    "docs": "https://wunderui.com/components/pull-to-refresh"
+  },
+  {
+    "slug": "rating",
+    "title": "Rating",
+    "group": "Feedback & Overlays",
+    "category": "Feedback",
+    "description": "An interactive star rating input.",
+    "exports": [
+      "Rating",
+      "RatingCell",
+      "RatingLabel",
+      "RatingType"
+    ],
+    "docs": "https://wunderui.com/components/rating"
+  },
+  {
+    "slug": "number-value",
+    "title": "Number Value",
+    "group": "Feedback & Overlays",
+    "category": "Feedback",
+    "description": "A large number with its change beside it: caret up or down, green or red.",
+    "exports": [
+      "NumberValue"
+    ],
+    "docs": "https://wunderui.com/components/number-value"
+  },
+  {
+    "slug": "trend-chip",
+    "title": "Trend Chip",
+    "group": "Feedback & Overlays",
+    "category": "Feedback",
+    "description": "A small pill showing a change, up or down, in seven icon styles.",
+    "exports": [
+      "TrendChip",
+      "TrendChipIcon"
+    ],
+    "docs": "https://wunderui.com/components/trend-chip"
+  },
+  {
+    "slug": "pressable-feedback",
+    "title": "Pressable Feedback",
+    "group": "Feedback & Overlays",
+    "category": "Feedback",
+    "description": "Wraps any content with a scale-down press animation.",
+    "exports": [
+      "PressableFeedback"
+    ],
+    "docs": "https://wunderui.com/components/pressable-feedback"
+  },
+  {
+    "slug": "emoji-reaction-button",
+    "title": "Emoji Reaction Button",
+    "group": "Feedback & Overlays",
+    "category": "Feedback",
+    "description": "A toggleable emoji reaction with a count, like a Slack reaction.",
+    "exports": [
+      "EmojiReactionButton"
+    ],
+    "docs": "https://wunderui.com/components/emoji-reaction-button"
+  },
+  {
+    "slug": "emoji-picker",
+    "title": "Emoji Picker",
+    "group": "Feedback & Overlays",
+    "category": "Overlays",
+    "description": "A grid of selectable emoji, typically shown inside a Popover.",
+    "exports": [
+      "EmojiPicker"
+    ],
+    "docs": "https://wunderui.com/components/emoji-picker"
+  },
+  {
+    "slug": "sheet",
+    "title": "Sheet",
+    "group": "Feedback & Overlays",
+    "category": "Overlays",
+    "description": "A panel that slides in from an edge of the screen — left, right, or bottom.",
+    "exports": [
+      "Sheet",
+      "SheetClose",
+      "SheetContent",
+      "SheetDescription",
+      "SheetHeader",
+      "SheetTitle",
+      "SheetTrigger"
+    ],
+    "docs": "https://wunderui.com/components/sheet"
+  }
+]
