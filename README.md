@@ -27,6 +27,16 @@ Copy the files into your project and they are yours: no package to update, no lo
 
 Requirements: React 19, Tailwind CSS v4, and the `@/*` path alias pointing at your source root (the default in Next.js and shadcn/ui projects).
 
+**The quick way:** add components with the CLI — it writes the files, installs the dependencies and adds the styles:
+
+```bash
+npx wunderui add button badge input
+```
+
+Then import the styles once (step 3) and use the components (step 4). `npx wunderui list --components` shows all 76. Every component is also a [shadcn registry item](https://ui.shadcn.com/docs/registry): `npx shadcn add https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/button.json`.
+
+**By hand:**
+
 **1. Get the source** and copy `components/`, `lib/` and `styles/wunderui.css` into your source root (where `@/` points):
 
 ```bash

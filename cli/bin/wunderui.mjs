@@ -1,0 +1,7 @@
+#!/usr/bin/env node
+import { run } from "../src/index.mjs"
+
+run(process.argv.slice(2)).catch((error) => {
+  console.error(`\n  ${error instanceof Error ? error.message : String(error)}\n`)
+  process.exit(1)
+})

@@ -1,0 +1,42 @@
+{
+  "name": "wunderui",
+  "version": "1.0.0",
+  "description": "Add WunderUI components and blocks to your project as source: npx wunderui add button",
+  "keywords": [
+    "wunderui",
+    "react",
+    "components",
+    "tailwindcss",
+    "design-system",
+    "shadcn",
+    "cli",
+    "registry"
+  ],
+  "homepage": "https://wunderui.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wunder-ui/wunderui.git",
+    "directory": "cli"
+  },
+  "bugs": {
+    "url": "https://github.com/wunder-ui/wunderui/issues"
+  },
+  "author": "WunderUI",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "wunderui": "bin/wunderui.mjs"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  }
+}
