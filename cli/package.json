@@ -1,7 +1,7 @@
 {
-  "name": "wunderui",
+  "name": "wunderui-cli",
   "version": "1.0.0",
-  "description": "Add WunderUI components and blocks to your project as source: npx wunderui add button",
+  "description": "Add WunderUI components and blocks to your project as source: npx wunderui-cli add button",
   "keywords": [
     "wunderui",
     "react",
@@ -28,6 +28,7 @@
     "node": ">=20"
   },
   "bin": {
+    "wunderui-cli": "bin/wunderui.mjs",
     "wunderui": "bin/wunderui.mjs"
   },
   "files": [

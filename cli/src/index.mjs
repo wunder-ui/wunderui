@@ -8,11 +8,11 @@ import readline from "node:readline/promises"
 /**
  * The WunderUI CLI.
  *
- *   wunderui add button badge     free components: source from the public registry
+ *   wunderui-cli add button badge     free components: source from the public registry
  *                                 (github.com/wunder-ui/wunderui, MIT) with every file
  *                                 they need, their dependencies and, on first use, the
  *                                 WunderUI styles
- *   wunderui add auth/sign-in     a block (WunderUI Pro): source from wunderui.com with
+ *   wunderui-cli add auth/sign-in     a block (WunderUI Pro): source from wunderui.com with
  *                                 a licence key
  *
  * From then on the code is the user's to edit, the same deal as a design template.
@@ -90,10 +90,10 @@ async function fetchJson(url, key) {
   if (!res) throw new Error(`Could not reach the registry at ${url}.`)
   if (res.status === 401) {
     throw new Error(
-      "This block is part of WunderUI Pro.\n  Run `wunderui login <key>`, or buy a licence at https://wunderui.com/#pricing."
+      "This block is part of WunderUI Pro.\n  Run `wunderui-cli login <key>`, or buy a licence at https://wunderui.com/#pricing."
     )
   }
-  if (res.status === 404) throw new Error("No such block. Run `wunderui list` to see what exists.")
+  if (res.status === 404) throw new Error("No such block. Run `wunderui-cli list` to see what exists.")
   if (!res.ok) throw new Error(`The registry answered ${res.status}.`)
   return res.json()
 }
@@ -234,7 +234,7 @@ async function addComponents(names, flags, config) {
     log(`\n  ${c.bold("Core / Pro:")} ${notFree.join(", ")}`)
     log(`  ${c.dim("Their source comes with WunderUI Core or Pro — https://wunderui.com/#pricing")}`)
   }
-  if (unknown.length) log(`\n  ${c.red("Not found:")} ${unknown.join(", ")} ${c.dim("— run `wunderui list --components` to see every free component.")}`)
+  if (unknown.length) log(`\n  ${c.red("Not found:")} ${unknown.join(", ")} ${c.dim("— run `wunderui-cli list --components` to see every free component.")}`)
   log()
   if (!added.length && (notFree.length || unknown.length)) process.exitCode = 1
 }
@@ -291,12 +291,12 @@ async function commandInit() {
   await writeFile(file, `${JSON.stringify(config, null, 2)}\n`, "utf8")
 
   log(`\n  ${c.green("✓")} Wrote ${c.bold(CONFIG_FILE)}`)
-  log(`\n  Next: ${c.cyan("npx wunderui add button")} ${c.dim("— a component with its files, dependencies and the WunderUI styles")}\n`)
+  log(`\n  Next: ${c.cyan("npx wunderui-cli add button")} ${c.dim("— a component with its files, dependencies and the WunderUI styles")}\n`)
 }
 
 async function commandLogin(args, flags) {
   const key = args[0] ?? flags.key
-  if (!key) throw new Error("Usage: wunderui login <license-key>")
+  if (!key) throw new Error("Usage: wunderui-cli login <license-key>")
 
   const { registry } = await projectConfig()
   const res = await fetch(`${registry}/api/license`, {
@@ -321,7 +321,7 @@ async function commandList(_args, flags) {
   const free = await fetch(`${components}/index.json`).then((r) => (r.ok ? r.json() : null)).catch(() => null)
   if (free) {
     let group = null
-    log(`\n  ${c.bold("Free components")} ${c.dim("— MIT · wunderui add <name>")}`)
+    log(`\n  ${c.bold("Free components")} ${c.dim("— MIT · wunderui-cli add <name>")}`)
     for (const item of [...free.items].sort((a, b) => a.group.localeCompare(b.group) || a.name.localeCompare(b.name))) {
       if (item.group !== group) {
         group = item.group
@@ -334,7 +334,7 @@ async function commandList(_args, flags) {
 
   const data = await fetchJson(`${registry}/api/registry/index`, null)
   let category = null
-  log(`\n  ${c.bold("Blocks")} ${c.dim("— WunderUI Pro · wunderui add <category>/<block>")}`)
+  log(`\n  ${c.bold("Blocks")} ${c.dim("— WunderUI Pro · wunderui-cli add <category>/<block>")}`)
   for (const block of data.blocks) {
     if (block.categoryTitle !== category) {
       category = block.categoryTitle
@@ -343,11 +343,11 @@ async function commandList(_args, flags) {
     log(`    ${c.cyan(block.id.padEnd(34))} ${c.dim(`${block.screens.length} screens`)}`)
     if (flags.screens) for (const screen of block.screens) log(`      ${c.dim(screen.slug)}`)
   }
-  log(`\n  ${c.dim("wunderui add <id>  ·  --screen <slug> for a single screen")}\n`)
+  log(`\n  ${c.dim("wunderui-cli add <id>  ·  --screen <slug> for a single screen")}\n`)
 }
 
 async function commandAdd(args, flags) {
-  if (!args.length) throw new Error("Usage: wunderui add <component…>  or  wunderui add <category>/<block> [--screen <slug>]")
+  if (!args.length) throw new Error("Usage: wunderui-cli add <component…>  or  wunderui-cli add <category>/<block> [--screen <slug>]")
   if (!args[0].includes("/")) return addComponents(args, flags, await projectConfig())
 
   const id = args[0]
@@ -384,7 +384,7 @@ async function commandAdd(args, flags) {
 /* ---------------------------------------------------------------- dispatcher */
 
 const HELP = `
-  ${c.bold("wunderui")} — add WunderUI components and blocks to your project as source
+  ${c.bold("wunderui-cli")} — add WunderUI components and blocks to your project as source
 
   ${c.bold("Commands")}
     add <name…>              free components (button, badge, date-picker …) with their files,
@@ -403,10 +403,10 @@ const HELP = `
     --key <license-key>      a block: use this key instead of the stored one
 
   ${c.bold("Examples")}
-    npx wunderui add button badge input
-    npx wunderui list --components
-    npx wunderui login WUI-XXXX-XXXX
-    npx wunderui add auth/sign-in
+    npx wunderui-cli add button badge input
+    npx wunderui-cli list --components
+    npx wunderui-cli login WUI-XXXX-XXXX
+    npx wunderui-cli add auth/sign-in
 `
 
 function parseArgs(argv) {
