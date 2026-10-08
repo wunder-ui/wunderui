@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://wunderui.com"><img src="assets/banner.png" alt="WunderUI — React components and a matching Figma library" width="100%"></a>
+  <a href="https://wunderui.com"><img src="assets/logo.png" alt="WunderUI" width="96" height="96"></a>
 </p>
 
 <p align="center">
