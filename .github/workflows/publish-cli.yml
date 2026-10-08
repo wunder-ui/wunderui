@@ -19,6 +19,13 @@ jobs:
           node-version: 24
           registry-url: https://registry.npmjs.org
       - run: node --check bin/wunderui.mjs && node --check src/index.mjs && node bin/wunderui.mjs --help > /dev/null
-      - run: npm publish --provenance --access public
+      - name: Publish (the npm error goes to the run summary)
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if [ -z "$NODE_AUTH_TOKEN" ]; then echo "::error::No NPM_TOKEN secret in this repository"; exit 1; fi
+          set +e
+          npm publish --provenance --access public > publish.log 2>&1
+          code=$?
+          cat publish.log
+          if [ $code -ne 0 ]; then grep -E "npm error|ERR" publish.log | head -8 | while read -r l; do echo "::error::$l"; done; exit $code; fi
