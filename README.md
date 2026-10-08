@@ -17,10 +17,6 @@
   <img alt="Base UI" src="https://img.shields.io/badge/built%20on-Base%20UI-555CF3">
 </p>
 
-<p align="center">
-  <a href="https://wunderui.com"><img src="assets/launch.gif" alt="WunderUI: from prompt to dashboard, components and theme builder" width="100%"></a>
-</p>
-
 # WunderUI Free
 
 **76 of the 201 WunderUI React components, free as source you own.** Built on Base UI and Tailwind CSS v4, styled by the same tokens as the WunderUI Figma library, light and dark, accessible (WCAG AA contrast on every token pair), and documented with live examples on [wunderui.com](https://wunderui.com).
