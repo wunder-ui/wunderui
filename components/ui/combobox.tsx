@@ -13,7 +13,7 @@ function ComboboxInputGroup({ className, ...props }: ComboboxPrimitive.InputGrou
     <ComboboxPrimitive.InputGroup
       data-slot="combobox-input-group"
       className={cn(
-        "flex h-11 w-full items-center gap-2 rounded-md border border-input bg-transparent px-3 text-sm transition-colors has-[input:focus-visible]:border-ring dark:bg-muted/30",
+        "flex h-11 w-full items-center gap-2 rounded-md border border-input bg-card px-3 text-sm transition-colors duration-fast ease-entrance has-[input:focus-visible]:border-ring",
         className
       )}
       {...props}

@@ -132,7 +132,7 @@ function Calendar({ mode = "single", selected, onSelect, month, defaultMonth, on
                 type="button"
                 onClick={() => handleDayClick(day)}
                 className={cn(
-                  "flex size-8 items-center justify-center rounded-full text-sm transition-colors hover:bg-muted",
+                  "flex size-8 items-center justify-center rounded-full text-sm transition-colors duration-fast ease-entrance hover:bg-muted",
                   outside && "text-text-tertiary",
                   !outside && !isSelected && "text-foreground",
                   isToday && !isSelected && "font-semibold text-text-link",

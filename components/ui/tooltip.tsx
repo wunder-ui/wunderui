@@ -41,7 +41,7 @@ function TooltipContent({
           className={cn(
             // fill-mode-both: the popup is invisible during the enter delay and stays
             // invisible after the exit — without it, it flashes at full opacity at both ends.
-            "z-50 inline-flex items-center rounded-[6px] bg-neutral-dark-content px-4 py-2 text-xs font-medium text-neutral-white shadow-md fill-mode-both data-open:animate-in data-open:fade-in-0 data-open:zoom-in-98 data-open:duration-fast data-open:delay-80 data-open:ease-entrance data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-98 data-closed:duration-instant data-closed:ease-exit",
+            "z-50 inline-flex items-center rounded-[6px] bg-neutral-dark-content px-4 py-2 text-xs font-medium text-neutral-white shadow-md fill-mode-both data-open:animate-in data-open:data-instant:animate-none data-closed:data-instant:animate-none data-open:fade-in-0 origin-(--transform-origin) data-open:zoom-in-98 data-open:duration-fast data-open:delay-80 data-open:ease-entrance data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-98 data-closed:duration-instant data-closed:ease-exit",
             linger &&
               "data-open:delay-0 data-open:slide-in-from-bottom-1 data-closed:zoom-out-100 data-closed:slide-out-to-top-1 data-closed:duration-ambient data-closed:ease-[cubic-bezier(0.33,0,0.25,1)]",
             className

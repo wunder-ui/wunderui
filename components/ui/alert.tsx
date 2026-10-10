@@ -68,7 +68,7 @@ function Alert({
             onClick={onClose}
             aria-label="Dismiss"
             data-slot="alert-close"
-            className="shrink-0 rounded-sm opacity-70 outline-none transition-opacity hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring"
+            className="shrink-0 rounded-sm opacity-70 outline-none transition-opacity duration-fast ease-entrance hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring"
           >
             <X className="size-4" />
           </button>

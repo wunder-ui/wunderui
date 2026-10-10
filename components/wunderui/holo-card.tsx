@@ -32,7 +32,7 @@ function HoloCard({
       style={{ "--holo-x": "50%", "--holo-y": "50%" } as React.CSSProperties}
     >
       <div
-        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity ease-entrance duration-fast group-hover:opacity-100"
         style={{
           background:
             "radial-gradient(320px circle at var(--holo-x) var(--holo-y), color-mix(in srgb, var(--primary) 25%, transparent), transparent 70%)",

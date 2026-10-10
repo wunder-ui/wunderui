@@ -24,7 +24,7 @@ function FileTreeItem({ node, depth = 0 }: { node: FileTreeNode; depth?: number 
       >
         {isFolder ? (
           <ChevronRight
-            className={cn("size-3.5 shrink-0 text-text-tertiary transition-transform", open && "rotate-90")}
+            className={cn("size-3.5 shrink-0 text-text-tertiary transition-transform duration-fast ease-entrance", open && "rotate-90")}
           />
         ) : (
           <span className="inline-block size-3.5 shrink-0" />

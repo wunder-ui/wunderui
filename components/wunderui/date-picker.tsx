@@ -112,7 +112,7 @@ function DatePicker(props: DatePickerProps) {
                 const r = p.range()
                 const active = draftRange?.from?.toDateString() === r.from?.toDateString() && draftRange?.to?.toDateString() === r.to?.toDateString()
                 return (
-                  <button key={p.label} type="button" onClick={() => (setDraft(r), setMonth(addMonths(r.from ?? new Date(), 0)))} className={cn("rounded-lg px-3 py-2 text-left text-xs font-medium transition-colors", active ? "bg-subtle font-semibold text-foreground" : "text-text-secondary hover:bg-subtle hover:text-foreground")}>
+                  <button key={p.label} type="button" onClick={() => (setDraft(r), setMonth(addMonths(r.from ?? new Date(), 0)))} className={cn("rounded-lg px-3 py-2 text-left text-xs font-medium transition-colors duration-fast ease-entrance", active ? "bg-subtle font-semibold text-foreground" : "text-text-secondary hover:bg-subtle hover:text-foreground")}>
                     {p.label}
                   </button>
                 )

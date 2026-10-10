@@ -166,7 +166,7 @@ function AvatarGroup({ className, children, ...props }: React.ComponentProps<"di
         <div
           data-avatar-hover-item
           onMouseEnter={() => setShifts(index, "in")}
-          className="origin-center transition-transform duration-slow will-change-transform [transform:translateY(var(--avatar-shift,0px))_scale(var(--avatar-scale-active,1))] motion-reduce:[transform:none] motion-reduce:transition-none"
+          className="origin-center transition-transform ease-entrance duration-slow will-change-transform [transform:translateY(var(--avatar-shift,0px))_scale(var(--avatar-scale-active,1))] motion-reduce:[transform:none] motion-reduce:transition-none"
         >
           {child}
         </div>

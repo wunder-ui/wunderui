@@ -330,11 +330,13 @@
   --text-tertiary: #6E6E70;
   --success: #1AD598;
   --success-foreground: #17181A;
+  /* Chart spectrum (owner, Oct 8 2026): indigo leads, cool neighbours follow,
+     grey last — no orange/yellow next to indigo. All from the badge palette. */
   --chart-1: var(--brand-600);
-  --chart-2: #F3654A;
+  --chart-2: #12AFF0;
   --chart-3: #A584F3;
-  --chart-4: #FACA4A;
-  --chart-5: #1AD598;
+  --chart-4: #1AD598;
+  --chart-5: #A2A3A3;
   --radius: 0.75rem;
   --sidebar: #F9FBFC;
   --sidebar-foreground: #000000;
@@ -564,10 +566,10 @@
   --success: #1AD598;
   --success-foreground: #17181A;
   --chart-1: var(--brand-600);
-  --chart-2: #F3654A;
-  --chart-3: #A584F3;
-  --chart-4: #FACA4A;
-  --chart-5: #1AD598;
+  --chart-2: #3CC2F5;
+  --chart-3: #B79CF6;
+  --chart-4: #3DDBA6;
+  --chart-5: #6E7078;
   --sidebar: #17181A;
   --sidebar-foreground: #FFFFFF;
   --sidebar-primary: var(--brand-600);
@@ -722,24 +724,6 @@
   84% { translate: var(--logo-dx, 0px) var(--logo-dy, 0px); }
 }
 
-/* Switch thumb travel: overshoot past the end, swing back, settle. Skipped
-   on mount (see Switch's data-init) so switches don't bounce on page load. */
-/* Tailwind v4 moves the thumb with the `translate` property, so the bounce
-   has to animate `translate` too — animating `transform` would stack a second
-   14px shift on top and push the thumb out of the track. */
-@keyframes wunderui-switch-on {
-  0% { translate: 0 0; }
-  55% { translate: calc(var(--switch-travel, 22px) + 1px) 0; }
-  80% { translate: var(--switch-travel, 22px) 0; }
-  100% { translate: var(--switch-travel, 22px) 0; }
-}
-@keyframes wunderui-switch-off {
-  0% { translate: var(--switch-travel, 22px) 0; }
-  55% { translate: -1px 0; }
-  80% { translate: 0 0; }
-  100% { translate: 0 0; }
-}
-
 /* Chart appear (useInViewAppear in chart.tsx): Line, Area and Candlestick
    charts and Sparkline wait until a quarter of them is on screen, then the
    box fades and rises in while the series arrive — lines draw left to right
@@ -756,7 +740,9 @@
 [data-chart-appear="in"] {
   animation: wunderui-chart-rise var(--duration-slow) var(--ease-entrance) both;
 }
-[data-chart-appear="in"] .recharts-area-area,
+/* Area fills are not faded here: recharts already reveals them left to right with
+   the line, and swaps the path element when its animation ends — a CSS fade on it
+   would restart then and make the fill blink (Oct 8 2026). */
 [data-chart-appear="in"] [data-chart-fade] {
   animation: wunderui-chart-fade var(--duration-deliberate) var(--ease-entrance) var(--duration-base) both;
 }
@@ -813,12 +799,63 @@
       backdrop-filter !important;
   }
 
-  [data-slot="switch-thumb"] { animation: none !important; }
-  /* Covers every dropdown/dialog/popover/tooltip/sheet's data-open:animate-in
-     and data-closed:animate-out (tw-animate-css) — that plugin ships no
-     reduced-motion guard of its own. */
+  /* M15: tw-animate-css (every animate-in / animate-out: dropdowns, dialogs,
+     popovers, tooltips, sheets, badges) ships no reduced-motion guard. Instead of
+     cutting the animation to 0.01ms — which also removed the fade — the movement
+     is zeroed: no zoom, no slide, no spin, no blur. The opacity fade stays, so
+     things still arrive and leave visibly, just without moving. */
+  *,
+  *::before,
+  *::after {
+    --tw-enter-scale: 1 !important;
+    --tw-enter-rotate: 0 !important;
+    --tw-enter-translate-x: 0 !important;
+    --tw-enter-translate-y: 0 !important;
+    --tw-enter-blur: 0 !important;
+    --tw-exit-scale: 1 !important;
+    --tw-exit-rotate: 0 !important;
+    --tw-exit-translate-x: 0 !important;
+    --tw-exit-translate-y: 0 !important;
+    --tw-exit-blur: 0 !important;
+  }
   [data-open], [data-closed] {
-    animation-duration: 0.01ms !important;
     animation-delay: 0s !important;
+  }
+}
+
+/* Touch targets (WCAG 2.5.8 / Apple and Material guidance: 44 px). On touch
+   screens every WunderUI control gets an invisible hit area of at least
+   44 × 44 px, centred on it — the visible size stays the same, so dense
+   toolbars, tables and sidebars keep their layout. In @layer base on purpose:
+   `position: relative` must lose to an `absolute` / `fixed` utility on the
+   same element (a dialog's close button), and the pseudo-element only exists
+   where a component does not draw its own ::after. Controls that already
+   extend their hit area (checkbox, switch, radio) are not listed. Tooltip triggers count when they are
+   buttons (icon-only toolbar and copy buttons). */
+@layer base {
+  @media (pointer: coarse) {
+    :where([data-slot="button"], [data-slot="icon-button"], [data-slot="tabs-trigger"], [data-slot="toggle"], [data-slot="toggle-button"], [data-slot="segment"] button, button[data-slot="tooltip-trigger"], [data-slot="input-group-addon"] button, [data-hit]) {
+      position: relative;
+    }
+    :where([data-slot="button"], [data-slot="icon-button"], [data-slot="tabs-trigger"], [data-slot="toggle"], [data-slot="toggle-button"], [data-slot="segment"] button, button[data-slot="tooltip-trigger"], [data-slot="input-group-addon"] button, [data-hit])::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: max(100%, 44px);
+      height: max(100%, 44px);
+      transform: translate(-50%, -50%);
+    }
+  }
+}
+
+/* Text fields at 16 px on phones and touch screens: Safari on iOS zooms the
+   whole page when a field under 16 px gets focus. Unlayered on purpose so it
+   outranks `text-sm` on the field; the code-entry cells keep their own size. */
+@media (pointer: coarse), (max-width: 639.98px) {
+  input:not([type="checkbox"], [type="radio"], [type="range"], [type="color"], [type="file"], [type="button"], [type="submit"], [data-slot="otp-field-input"]),
+  select,
+  textarea {
+    font-size: 16px;
   }
 }

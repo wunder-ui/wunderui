@@ -22,7 +22,7 @@ function NativeSelectTrigger({ className, children, ...props }: SelectPrimitive.
     <SelectPrimitive.Trigger
       data-slot="native-select-trigger"
       className={cn(
-        "flex h-11 w-full items-center justify-between gap-2 rounded-md border border-input bg-transparent px-3 text-sm text-foreground outline-none focus-visible:border-ring data-disabled:pointer-events-none data-disabled:opacity-50",
+        "flex h-11 w-full items-center justify-between gap-2 rounded-md border border-input bg-card px-3 text-sm text-foreground outline-none focus-visible:border-ring data-disabled:pointer-events-none data-disabled:opacity-50",
         className
       )}
       {...props}

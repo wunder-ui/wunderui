@@ -7,7 +7,7 @@ import { cn } from "cn"
 import { Tooltip, TooltipContent } from "./tooltip"
 
 const inputVariants = cva(
-  "w-full min-w-0 rounded-md border border-input bg-transparent text-sm transition-colors outline-none file:inline-flex file:h-6 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:border-ring disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-muted/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-0 aria-invalid:focus-visible:ring-1 aria-invalid:focus-visible:ring-destructive dark:bg-muted/30 dark:disabled:bg-muted/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",
+  "w-full min-w-0 rounded-md border border-input bg-card text-sm transition-colors duration-fast ease-entrance outline-none file:inline-flex file:h-6 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:border-ring disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-muted/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-0 aria-invalid:focus-visible:ring-1 aria-invalid:focus-visible:ring-destructive dark:disabled:bg-muted/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40",
   {
     variants: {
       size: {

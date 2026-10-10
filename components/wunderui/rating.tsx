@@ -62,7 +62,7 @@ function Rating({
     items = EMOJIS.map((emoji, i) => {
       const selected = value === i + 1
       return (
-        <button key={emoji} type="button" disabled={readOnly} aria-pressed={selected} aria-label={emoji} onClick={() => !readOnly && onValueChange?.(selected ? 0 : i + 1)} className={cn("flex size-12 items-center justify-center rounded-md border text-xl transition-colors disabled:cursor-default", selected ? "border-primary bg-tint-indigo" : "border-transparent bg-background hover:bg-subtle")}>
+        <button key={emoji} type="button" disabled={readOnly} aria-pressed={selected} aria-label={emoji} onClick={() => !readOnly && onValueChange?.(selected ? 0 : i + 1)} className={cn("flex size-12 items-center justify-center rounded-md border text-xl transition-colors duration-fast ease-entrance disabled:cursor-default", selected ? "border-primary bg-tint-indigo" : "border-transparent bg-background hover:bg-subtle")}>
           {emoji}
         </button>
       )
@@ -71,7 +71,7 @@ function Rating({
     items = Array.from({ length: count }).map((_, i) => {
       const selected = value === i
       return (
-        <button key={i} type="button" disabled={readOnly} aria-pressed={selected} onClick={() => !readOnly && onValueChange?.(i)} className={cn("flex size-10 items-center justify-center rounded-md text-xs font-semibold tabular-nums transition-colors disabled:cursor-default", selected ? "bg-primary text-primary-foreground" : "bg-background text-text-secondary hover:bg-subtle hover:text-foreground")}>
+        <button key={i} type="button" disabled={readOnly} aria-pressed={selected} onClick={() => !readOnly && onValueChange?.(i)} className={cn("flex size-10 items-center justify-center rounded-md text-xs font-semibold tabular-nums transition-colors duration-base ease-entrance disabled:cursor-default", selected ? "bg-primary text-primary-foreground" : "bg-background text-text-secondary hover:bg-subtle hover:text-foreground")}>
           {i}
         </button>
       )

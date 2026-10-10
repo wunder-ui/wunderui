@@ -12,7 +12,7 @@ function NumberFieldGroup({ className, ...props }: NumberFieldPrimitive.Group.Pr
   return (
     <NumberFieldPrimitive.Group
       data-slot="number-field-group"
-      className={cn("flex h-9 w-fit items-stretch overflow-hidden rounded-md border border-input has-[input:focus-visible]:border-ring dark:bg-muted/30", className)}
+      className={cn("flex h-9 w-fit items-stretch overflow-hidden rounded-md border border-input bg-card has-[input:focus-visible]:border-ring", className)}
       {...props}
     />
   )
@@ -23,7 +23,7 @@ function NumberFieldDecrement({ className, ...props }: NumberFieldPrimitive.Decr
     <NumberFieldPrimitive.Decrement
       data-slot="number-field-decrement"
       className={cn(
-        "flex w-9 shrink-0 items-center justify-center border-r border-input text-text-secondary transition-colors hover:bg-muted disabled:pointer-events-none disabled:opacity-40",
+        "flex w-9 shrink-0 items-center justify-center border-r border-input text-text-secondary transition-colors duration-fast ease-entrance hover:bg-muted disabled:pointer-events-none disabled:opacity-40",
         className
       )}
       {...props}
@@ -38,7 +38,7 @@ function NumberFieldIncrement({ className, ...props }: NumberFieldPrimitive.Incr
     <NumberFieldPrimitive.Increment
       data-slot="number-field-increment"
       className={cn(
-        "flex w-9 shrink-0 items-center justify-center border-l border-input text-text-secondary transition-colors hover:bg-muted disabled:pointer-events-none disabled:opacity-40",
+        "flex w-9 shrink-0 items-center justify-center border-l border-input text-text-secondary transition-colors duration-fast ease-entrance hover:bg-muted disabled:pointer-events-none disabled:opacity-40",
         className
       )}
       {...props}

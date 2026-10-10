@@ -11,7 +11,7 @@
 
 <p align="center">
   <img alt="MIT licence" src="https://img.shields.io/badge/licence-MIT-555CF3">
-  <img alt="76 of 201 components free" src="https://img.shields.io/badge/free%20components-76%20of%20201-555CF3">
+  <img alt="76 of 204 components free" src="https://img.shields.io/badge/free%20components-76%20of%20204-555CF3">
   <img alt="React 19" src="https://img.shields.io/badge/React-19-555CF3">
   <img alt="Tailwind CSS v4" src="https://img.shields.io/badge/Tailwind%20CSS-v4-555CF3">
   <img alt="Base UI" src="https://img.shields.io/badge/built%20on-Base%20UI-555CF3">
@@ -19,7 +19,7 @@
 
 # WunderUI Free
 
-**76 of the 201 WunderUI React components, free as source you own.** Built on Base UI and Tailwind CSS v4, styled by the same tokens as the WunderUI Figma library, light and dark, accessible (WCAG AA contrast on every token pair), and documented with live examples on [wunderui.com](https://wunderui.com).
+**76 of the 204 WunderUI React components, free as source you own.** Built on Base UI and Tailwind CSS v4, styled by the same tokens as the WunderUI Figma library, light and dark, accessible (WCAG AA contrast on every token pair), and documented with live examples on [wunderui.com](https://wunderui.com).
 
 Copy the files into your project and they are yours: no package to update, no lock-in, MIT licence.
 
@@ -180,16 +180,33 @@ claude mcp add wunderui -- npx -y wunderui-mcp
 
 Works with Claude Code, Cursor, Windsurf, Cline and Codex ([wunderui-mcp](https://github.com/Kl-webmedia/wunderui-mcp)). The repository also includes [`AGENTS.md`](AGENTS.md) with the rules agents should follow.
 
+## Agent skills
+
+4 free skills that teach Claude Code, Codex, Cursor and other agents to set WunderUI up, build screens from the components, theme it in your brand colour and keep the tokens clean.
+
+```bash
+npx skills add wunder-ui/wunderui
+```
+
+| Skill | What it does |
+| --- | --- |
+| [`wunderui-screen`](skills/wunderui-screen/SKILL.md) | Builds a complete React screen with WunderUI from a one-sentence request, within the user's plan (Free uses only the free components) — picks the components and a matching block layout, fills props from design.json, adds the empty, loading and error states that generated screens usually forget, uses motion tokens instead of raw milliseconds, and finishes with a typecheck and a build. |
+| [`wunderui-setup`](skills/wunderui-setup/SKILL.md) | Sets up WunderUI in a React project from scratch to the first rendered screen — detects the framework, Tailwind version and existing tokens, puts DESIGN.md and design.json into the project, registers the WunderUI MCP server, wires styles.css and the @source path, renders a probe component and writes a setup report. |
+| [`wunderui-theme`](skills/wunderui-theme/SKILL.md) | Generates a complete WunderUI brand theme from one brand colour (hex) — optionally an accent colour, a radius preference and a font — the eleven-step brand scale (--brand-50 … --brand-1000), the brand tokens derived from it (primary, primary-foreground, text-link, ring, tint and tint text, chart 1) for light and dark, a WCAG AA check of every key pair with shades moved automatically until they pass, and one CSS file to import after @wunderui/react/styles.css (globally or for one subtree), plus a report. |
+| [`wunderui-token-check`](skills/wunderui-token-check/SKILL.md) | Finds hard-coded colours, spacing and radii that bypass the WunderUI design tokens, maps each literal to the nearest token with a measured distance (ΔE for colour, px for spacing and radius), separates safe swaps from values too far from any token, replaces the safe ones and reports how much the look changed. |
+
+More skills (motion audit, accessibility, Figma sync, refactor to WunderUI, the UI/UX auditor) come with [WunderUI Pro](https://wunderui.com/skills).
+
 ## WunderUI Core and Pro
 
-The free components are the foundation. [WunderUI Core and Pro](https://wunderui.com/#pricing) add the rest of the system: 119 more components, ready-made screens and templates, the full Figma library and agent skills.
+The free components are the foundation. [WunderUI Core and Pro](https://wunderui.com/#pricing) add the rest of the system: 122 more components, ready-made screens and templates, the full Figma library and agent skills.
 
 | Group | Components | Includes |
 | --- | --- | --- |
 | AI & Agents | 45 | Activity Item, Agent Avatar, Agent Grid, Agent Lane, Agent Plan, Agent Status, … |
 | Block Parts | 44 | Auth Heading, Backup Code, Checklist Task, Checkout Steps, Column Header, Command Item Row, … |
 | Core Elements | 4 | Dropdown Menu, Kanban, List View, Table |
-| Data & Charts | 14 | Area Chart, Bar Chart, Bubble Chart, Candlestick Chart, Column Chart, Composed Chart, … |
+| Data & Charts | 17 | Area Chart, Bar Chart, Bubble Chart, Candlestick Chart, Column Chart, Composed Chart, … |
 | KPI / Metric Card | 3 | KPI, KPI Group, Metric Card |
 | Navigation & Layout | 9 | App Layout, Command, Context Menu, Navbar, Resizable, Scroll Area, … |
 
@@ -197,6 +214,6 @@ The free components are the foundation. [WunderUI Core and Pro](https://wunderui
 
 ## Licence
 
-The code in this repository is MIT licensed. WunderUI Core and Pro components, blocks, templates and the Figma library are covered by the [WunderUI licence](https://wunderui.com/legal/license).
+The code and the agent skills in this repository are MIT licensed. WunderUI Core and Pro components, blocks, templates and the Figma library are covered by the [WunderUI licence](https://wunderui.com/legal/license).
 
 This repository is generated from the WunderUI source with every release, so it does not take pull requests; please report bugs and ideas in [Issues](https://github.com/wunder-ui/wunderui/issues).

@@ -26,6 +26,7 @@ type PaginationProps = {
 
 // Matches the Figma Pagination component: bordered pill container, Prev/Next
 // text+chevron buttons, numbered pages with the current page in --primary.
+// Below sm the Prev/Next labels are screen-reader only, so the row fits 320 px.
 function Pagination({ page, pageCount, onPageChange, className }: PaginationProps) {
   const pages = getPageList(page, pageCount)
 
@@ -39,10 +40,10 @@ function Pagination({ page, pageCount, onPageChange, className }: PaginationProp
         type="button"
         onClick={() => onPageChange(page - 1)}
         disabled={page <= 1}
-        className="flex items-center gap-1 rounded-md border border-border bg-card px-3 py-2 text-sm font-medium text-text-secondary transition-colors hover:bg-muted disabled:pointer-events-none disabled:opacity-40"
+        className="flex items-center gap-1 rounded-md border border-border bg-card px-3 py-2 text-sm font-medium text-text-secondary transition-colors duration-fast ease-entrance hover:bg-muted disabled:pointer-events-none disabled:opacity-40"
       >
         <ChevronLeft className="size-4" />
-        Prev
+        <span className="sr-only sm:not-sr-only">Prev</span>
       </button>
 
       <div className="flex items-center gap-1">
@@ -58,7 +59,7 @@ function Pagination({ page, pageCount, onPageChange, className }: PaginationProp
               aria-current={p === page ? "page" : undefined}
               onClick={() => onPageChange(p)}
               className={cn(
-                "flex h-10 min-w-10 items-center justify-center rounded-md px-1 text-[13px] font-medium tabular-nums transition-colors",
+                "flex h-10 min-w-10 items-center justify-center rounded-md px-1 text-[13px] font-medium tabular-nums transition-colors duration-base ease-entrance",
                 p === page
                   ? "bg-primary text-primary-foreground"
                   : "text-text-secondary hover:bg-muted"
@@ -74,9 +75,9 @@ function Pagination({ page, pageCount, onPageChange, className }: PaginationProp
         type="button"
         onClick={() => onPageChange(page + 1)}
         disabled={page >= pageCount}
-        className="flex items-center gap-1 rounded-md border border-border bg-card px-3 py-2 text-sm font-medium text-text-secondary transition-colors hover:bg-muted disabled:pointer-events-none disabled:opacity-40"
+        className="flex items-center gap-1 rounded-md border border-border bg-card px-3 py-2 text-sm font-medium text-text-secondary transition-colors duration-fast ease-entrance hover:bg-muted disabled:pointer-events-none disabled:opacity-40"
       >
-        Next
+        <span className="sr-only sm:not-sr-only">Next</span>
         <ChevronRight className="size-4" />
       </button>
     </nav>
@@ -102,7 +103,7 @@ function PaginationSimple({ page, pageCount, onPageChange, className }: Paginati
         type="button"
         onClick={() => onPageChange(page - 1)}
         disabled={page <= 1}
-        className="flex items-center gap-2 rounded-md border border-border bg-card px-3.5 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted disabled:pointer-events-none disabled:opacity-40"
+        className="flex items-center gap-2 rounded-md border border-border bg-card px-3.5 py-2 text-sm font-medium text-foreground transition-colors duration-fast ease-entrance hover:bg-muted disabled:pointer-events-none disabled:opacity-40"
       >
         <ChevronLeft className="size-4" />
         Previous
@@ -114,7 +115,7 @@ function PaginationSimple({ page, pageCount, onPageChange, className }: Paginati
         type="button"
         onClick={() => onPageChange(page + 1)}
         disabled={page >= pageCount}
-        className="flex items-center gap-2 rounded-md border border-border bg-card px-3.5 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted disabled:pointer-events-none disabled:opacity-40"
+        className="flex items-center gap-2 rounded-md border border-border bg-card px-3.5 py-2 text-sm font-medium text-foreground transition-colors duration-fast ease-entrance hover:bg-muted disabled:pointer-events-none disabled:opacity-40"
       >
         Next
         <ChevronRight className="size-4" />

@@ -27,7 +27,7 @@ function PopoverContent({
           data-slot="popover-content"
           className={cn(
             "z-50 rounded-lg border border-border bg-popover [--surface:var(--popover)] p-3 text-popover-foreground shadow-lg outline-none",
-            "data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-open:duration-base data-open:ease-overshoot data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-99 data-closed:duration-fast data-closed:ease-exit",
+            "data-open:animate-in data-open:fade-in-0 origin-(--transform-origin) data-open:zoom-in-95 data-open:duration-base data-open:ease-overshoot data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-99 data-closed:duration-fast data-closed:ease-exit",
             className
           )}
           {...props}

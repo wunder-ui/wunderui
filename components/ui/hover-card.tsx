@@ -25,7 +25,7 @@ function HoverCardContent({
           data-slot="hover-card-content"
           className={cn(
             "z-50 w-72 rounded-md border border-border bg-popover p-4 text-sm text-popover-foreground shadow-lg outline-none",
-            "data-open:animate-in data-open:fade-in-0 data-open:zoom-in-97 data-open:duration-base data-open:ease-entrance data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-99 data-closed:duration-fast data-closed:ease-exit",
+            "data-open:animate-in data-open:fade-in-0 origin-(--transform-origin) data-open:zoom-in-97 data-open:duration-base data-open:ease-entrance data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-99 data-closed:duration-fast data-closed:ease-exit",
             className
           )}
           {...props}

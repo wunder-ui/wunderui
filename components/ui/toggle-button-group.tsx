@@ -41,7 +41,7 @@ function ToggleButton({
     <Toggle
       data-slot="toggle-button"
       className={cn(
-        "rounded-md border border-border-control px-3 py-1.5 text-sm font-medium text-text-secondary transition-colors data-pressed:border-primary data-pressed:bg-tint-indigo data-pressed:text-tint-text-indigo hover:bg-muted",
+        "rounded-md border border-border-control px-3 py-1.5 text-sm font-medium text-text-secondary transition-colors duration-fast ease-entrance data-pressed:border-primary data-pressed:bg-tint-indigo data-pressed:text-tint-text-indigo hover:bg-muted",
         className
       )}
       {...props}

@@ -7,7 +7,7 @@ function Fieldset({ className, ...props }: FieldsetPrimitive.Root.Props) {
   return (
     <FieldsetPrimitive.Root
       data-slot="fieldset"
-      className={cn("flex flex-col gap-4 rounded-lg border border-border p-4", className)}
+      className={cn("flex flex-col gap-4 rounded-lg border border-border bg-card p-4", className)}
       {...props}
     />
   )

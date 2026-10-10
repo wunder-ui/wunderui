@@ -9,7 +9,7 @@ function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
     <CheckboxPrimitive.Root
       data-slot="checkbox"
       className={cn(
-        "peer relative flex size-5 shrink-0 items-center justify-center rounded-[4px] border-[1.5px] border-muted-foreground transition-colors hover:not-data-checked:border-primary outline-none group-has-disabled/field:opacity-50 group-has-[:focus-visible]/field-label:ring-0 group-has-[:focus-visible]/field-label:not-data-checked:border-muted-foreground after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 aria-invalid:aria-checked:border-primary dark:bg-muted/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 data-checked:border-primary data-checked:bg-primary data-checked:text-primary-foreground group-has-[:focus-visible]/field-label:data-checked:border-primary dark:data-checked:bg-primary data-indeterminate:border-primary data-indeterminate:bg-primary data-indeterminate:text-primary-foreground",
+        "peer relative flex size-5 shrink-0 items-center justify-center rounded-[6px] border-[1.5px] border-muted-foreground transition-colors duration-fast ease-entrance hover:not-data-checked:border-primary outline-none group-has-disabled/field:opacity-50 group-has-[:focus-visible]/field-label:ring-0 group-has-[:focus-visible]/field-label:not-data-checked:border-muted-foreground after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 aria-invalid:aria-checked:border-primary dark:bg-muted/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 data-checked:border-primary data-checked:bg-primary data-checked:text-primary-foreground group-has-[:focus-visible]/field-label:data-checked:border-primary dark:data-checked:bg-primary data-indeterminate:border-primary data-indeterminate:bg-primary data-indeterminate:text-primary-foreground",
         className
       )}
       {...props}
@@ -18,7 +18,7 @@ function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
         keepMounted
         data-slot="checkbox-indicator"
         className={cn(
-          "grid place-content-center text-current opacity-0 transition-opacity duration-fast data-checked:opacity-100 data-indeterminate:opacity-100 [&>svg]:size-4 [&>svg:last-child]:hidden data-indeterminate:[&>svg:first-child]:hidden data-indeterminate:[&>svg:last-child]:block",
+          "grid place-content-center text-current opacity-0 transition-opacity ease-entrance duration-fast data-checked:opacity-100 data-indeterminate:opacity-100 [&>svg]:size-4 [&>svg:last-child]:hidden data-indeterminate:[&>svg:first-child]:hidden data-indeterminate:[&>svg:last-child]:block",
           // The box fills instantly (see Root's data-checked:bg-primary above);
           // the check stroke draws in after via stroke-dashoffset. 23 is
           // lucide's CheckIcon path length (getTotalLength()), rounded up by 1

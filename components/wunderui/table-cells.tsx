@@ -434,7 +434,7 @@ function CellColorPicker({
               aria-pressed={value === swatch}
               onClick={() => onValueChange(swatch)}
               className={cn(
-                "size-6 rounded-full transition-transform hover:scale-110",
+                "size-6 rounded-full transition-transform duration-fast ease-entrance hover:scale-110",
                 value === swatch && "ring-2 ring-foreground ring-offset-2 ring-offset-popover"
               )}
               style={{ backgroundColor: swatch }}

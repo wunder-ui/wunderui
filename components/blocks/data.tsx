@@ -47,7 +47,7 @@ const EVENT_BAR: Record<EventColor, string> = {
   purple: "bg-chart-3",
   pink: "bg-brand-tertiary",
   red: "bg-destructive",
-  orange: "bg-chart-2",
+  orange: "bg-brand-septenary",
   yellow: "bg-brand-quaternary",
   green: "bg-success",
 }
