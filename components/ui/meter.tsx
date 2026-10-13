@@ -1,5 +1,6 @@
 "use client"
 
+import type * as React from "react"
 import { Meter as MeterPrimitive } from "@base-ui/react/meter"
 import { cn } from "@/lib/utils"
 
@@ -35,11 +36,23 @@ function MeterTrack({ className, ...props }: MeterPrimitive.Track.Props) {
   )
 }
 
+/** Renders the fill at full width scaled to the value, instead of animating its width. */
+function scaleFill(props: React.ComponentProps<"div">) {
+  const width = props.style?.width
+  if (typeof width !== "string" || !width.endsWith("%")) return <div {...props} />
+  const { width: _width, ...style } = props.style ?? {}
+  return <div {...props} style={{ ...style, width: "100%", scale: `${Number.parseFloat(width) / 100} 1` }} />
+}
+
 function MeterIndicator({ className, ...props }: MeterPrimitive.Indicator.Props) {
   return (
     <MeterPrimitive.Indicator
       data-slot="meter-indicator"
-      className={cn("h-full bg-primary transition-[width] duration-ambient ease-entrance", className)}
+      // Base UI sizes the fill with an inline width (e.g. 65%); `scaleFill`
+      // turns that into a scale of a full-width fill (M2), clipped round by
+      // the track exactly as the narrower fill was.
+      render={scaleFill}
+      className={cn("h-full origin-left bg-primary transition-transform duration-ambient ease-entrance", className)}
       {...props}
     />
   )

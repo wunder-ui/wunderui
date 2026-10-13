@@ -824,9 +824,11 @@
       "ComboboxInput",
       "ComboboxInputGroup",
       "ComboboxItem",
+      "ComboboxItemGroup",
       "ComboboxList",
       "ComboboxPopup",
       "ComboboxPortal",
+      "ComboboxProps",
       "ComboboxTrigger"
     ],
     "docs": "https://wunderui.com/components/combobox"

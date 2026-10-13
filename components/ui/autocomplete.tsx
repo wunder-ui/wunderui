@@ -3,8 +3,21 @@
 import { Autocomplete as AutocompletePrimitive } from "@base-ui/react/autocomplete"
 import { cn } from "@/lib/utils"
 
-function Autocomplete(props: AutocompletePrimitive.Root.Props<any>) {
-  return <AutocompletePrimitive.Root data-slot="autocomplete" {...props} />
+/**
+ * Generic like Base UI's root: `ItemValue` is inferred from `items`, so
+ * `filter`, `itemToStringValue` and the list's render function are typed from
+ * usage. `value` / `onValueChange` are the input's text (`string`).
+ */
+function Autocomplete<ItemValue>({ items, ...props }: AutocompletePrimitive.Root.Props<ItemValue>) {
+  // Base UI types flat and grouped `items` as two overloads of the same root;
+  // at runtime both shapes go through unchanged.
+  return (
+    <AutocompletePrimitive.Root
+      data-slot="autocomplete"
+      {...props}
+      items={items as readonly ItemValue[] | undefined}
+    />
+  )
 }
 
 function AutocompleteInputGroup({ className, ...props }: AutocompletePrimitive.InputGroup.Props) {

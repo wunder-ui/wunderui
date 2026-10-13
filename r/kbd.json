@@ -14,7 +14,7 @@
       "path": "components/ui/kbd.tsx",
       "type": "registry:ui",
       "target": "components/ui/kbd.tsx",
-      "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\nfunction Kbd({ className, ...props }: React.ComponentProps<\"kbd\">) {\n  return (\n    <kbd\n      data-slot=\"kbd\"\n      className={cn(\n        \"inline-flex h-[22px] min-w-5 items-center justify-center rounded-[4px] border border-border bg-subtle px-1.5 text-xs font-medium text-text-secondary\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction KbdGroup({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"kbd-group\"\n      className={cn(\"inline-flex items-center gap-1\", className)}\n      {...props}\n    />\n  )\n}\n\nexport { Kbd, KbdGroup }\n"
+      "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\nfunction Kbd({ className, ...props }: React.ComponentProps<\"kbd\">) {\n  return (\n    <kbd\n      data-slot=\"kbd\"\n      className={cn(\n        \"inline-flex h-[22px] min-w-5 items-center justify-center rounded-sm border border-border bg-subtle px-1.5 text-xs font-medium text-text-secondary\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction KbdGroup({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"kbd-group\"\n      className={cn(\"inline-flex items-center gap-1\", className)}\n      {...props}\n    />\n  )\n}\n\nexport { Kbd, KbdGroup }\n"
     },
     {
       "path": "lib/utils.ts",

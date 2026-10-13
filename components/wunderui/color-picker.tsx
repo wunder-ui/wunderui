@@ -194,7 +194,7 @@ function ColorGrid({ hex, onPick }: { hex: string; onPick: (hex: string) => void
           onClick={() => onPick(c)}
           className={cn(
             "relative outline-none focus-visible:z-10 focus-visible:rounded-[3px] focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-1 focus-visible:ring-offset-black/40",
-            i === selected && "z-10 rounded-[4px] ring-[2.5px] ring-white shadow-[0_1px_3px_rgb(0_0_0/0.35)]"
+            i === selected && "z-10 rounded-sm ring-[2.5px] ring-white shadow-[0_1px_3px_rgb(0_0_0/0.35)]"
           )}
           style={{ background: c }}
         />
@@ -573,7 +573,7 @@ function ColorPickerTrigger({
           className
         )}
       >
-        <span className="size-5 shrink-0 rounded-[4px] ring-1 ring-black/10 ring-inset" style={{ background: hex }} />
+        <span className="size-5 shrink-0 rounded-sm ring-1 ring-black/10 ring-inset" style={{ background: hex }} />
         <span className="flex-1 text-[13px] text-foreground uppercase tabular-nums">{hex}</span>
         <ChevronDown className="size-4 shrink-0 text-text-tertiary transition-transform duration-fast ease-entrance group-data-popup-open/cp:rotate-180" />
       </PopoverTrigger>

@@ -142,16 +142,22 @@ function AccordionTrigger({
 }
 
 function AccordionContent({ className, children, ...props }: AccordionPrimitive.Panel.Props) {
+  // Opens and closes on grid-template-rows 0fr ↔ 1fr instead of height: the
+  // single row follows the content, so nothing has to be measured, and the
+  // frames match the old height transition. The clip sits on the row's child;
+  // the padding one level further in, so it shrinks away with the content.
   return (
     <AccordionPrimitive.Panel
       data-slot="accordion-content"
       className={cn(
-        "h-[var(--accordion-panel-height)] overflow-hidden text-sm text-text-secondary transition-[height] duration-base ease-entrance data-[ending-style]:h-0 data-[starting-style]:h-0",
+        "grid grid-rows-[1fr] text-sm text-text-secondary transition-[grid-template-rows] duration-base ease-entrance data-[ending-style]:grid-rows-[0fr] data-[starting-style]:grid-rows-[0fr]",
         className
       )}
       {...props}
     >
-      <div className="px-4 pb-4">{children}</div>
+      <div className="min-h-0 overflow-hidden">
+        <div className="px-4 pb-4">{children}</div>
+      </div>
     </AccordionPrimitive.Panel>
   )
 }

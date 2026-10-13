@@ -21,6 +21,13 @@
    including a light <html> — switched them off). */
 @custom-variant dark (&:is(.dark, .dark *):not(:is(.dark .light, .dark .light *)));
 
+/* Base UI marks orientation as data-orientation="horizontal|vertical"; Tabs and
+   Separator style it with data-horizontal: / data-vertical:. Without these two
+   variants Tailwind reads them as [data-horizontal] attributes, which nothing
+   sets — the docs only worked because they also load shadcn/tailwind.css. */
+@custom-variant data-horizontal (&:where([data-orientation="horizontal"]));
+@custom-variant data-vertical (&:where([data-orientation="vertical"]));
+
 @theme inline {
   --font-heading: var(--font-sans);
   --font-sans: var(--font-sans);

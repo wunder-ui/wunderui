@@ -1,11 +1,67 @@
 "use client"
 
-import { Combobox as ComboboxPrimitive } from "@base-ui/react/combobox"
+import type * as React from "react"
+import { Combobox as ComboboxPrimitive, type ComboboxItemCollection } from "@base-ui/react/combobox"
 import { Check, ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-function Combobox(props: ComboboxPrimitive.Root.Props<any, any>) {
-  return <ComboboxPrimitive.Root data-slot="combobox" {...props} />
+/** A group of items: `{ items }` plus any fields of your own (e.g. a label). */
+type ComboboxItemGroup<Item> = { readonly items: readonly Item[]; readonly [key: string]: unknown }
+
+type ComboboxProps<Value, Multiple extends boolean | undefined = false, Item = Value> = Omit<
+  ComboboxPrimitive.Root.Props<Value, Multiple, Item>,
+  "items" | "onValueChange"
+> & {
+  /**
+   * The items to list: a flat array, an array of groups (`{ items }`), or a
+   * collection from Base UI's `Combobox.createItems()`. A flat array or groups
+   * type `Value`.
+   */
+  items?: readonly Value[] | readonly ComboboxItemGroup<Value>[] | ComboboxItemCollection<Item, Value> | undefined
+  /**
+   * Called with the new selection. In single mode it is `null` when the
+   * selection is cleared, so keep the state as `useState<Value | null>`.
+   */
+  onValueChange?:
+    | ((
+        value: Multiple extends true ? Value[] : Value | null,
+        eventDetails: ComboboxPrimitive.Root.ChangeEventDetails
+      ) => void)
+    | undefined
+}
+
+/**
+ * Generic like Base UI's root: `Value` is inferred from `items`, `value`,
+ * `defaultValue` or the item callbacks, so `onValueChange`,
+ * `itemToStringLabel`, `itemToStringValue` and `isItemEqualToValue` are typed
+ * from usage. `multiple` switches the value to `Value[]`.
+ */
+function Combobox<Value, Multiple extends boolean | undefined = false, Item = Value>(
+  props: ComboboxProps<Value, Multiple, Item>
+): React.JSX.Element
+/**
+ * Backward compatible: a handler that does not take `null` (e.g. the setter of
+ * a `useState<string>`) still compiles. It does receive `null` when the
+ * selection is cleared — widen the state to `Value | null` when you can.
+ */
+function Combobox<Value, Multiple extends boolean | undefined = false, Item = Value>(
+  props: Omit<ComboboxProps<Value, Multiple, Item>, "onValueChange"> & {
+    onValueChange?: ((value: Multiple extends true ? Value[] : Value, eventDetails: ComboboxPrimitive.Root.ChangeEventDetails) => void) | undefined
+  }
+): React.JSX.Element
+function Combobox<Value, Multiple extends boolean | undefined = false, Item = Value>({
+  items,
+  onValueChange,
+  ...props
+}: ComboboxProps<Value, Multiple, Item>) {
+  return (
+    <ComboboxPrimitive.Root<Value, Multiple, Item>
+      data-slot="combobox"
+      {...props}
+      items={items}
+      onValueChange={onValueChange as ComboboxPrimitive.Root.Props<Value, Multiple, Item>["onValueChange"]}
+    />
+  )
 }
 
 function ComboboxInputGroup({ className, ...props }: ComboboxPrimitive.InputGroup.Props) {
@@ -115,6 +171,7 @@ function ComboboxItem({ className, children, ...props }: ComboboxPrimitive.Item.
   )
 }
 
+export type { ComboboxProps, ComboboxItemGroup }
 export {
   Combobox,
   ComboboxInputGroup,

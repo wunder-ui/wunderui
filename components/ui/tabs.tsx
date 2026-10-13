@@ -1,5 +1,6 @@
 "use client"
 
+import * as React from "react"
 import { Tabs as TabsPrimitive } from "@base-ui/react/tabs"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
@@ -12,6 +13,10 @@ function Tabs({
   return (
     <TabsPrimitive.Root
       data-slot="tabs"
+      // Passed on as well, so Base UI knows it too: the arrow keys follow the
+      // axis (↑/↓ when vertical), the list says aria-orientation, and the
+      // indicator measures the right edge.
+      orientation={orientation}
       data-orientation={orientation}
       className={cn(
         "group/tabs flex gap-2 data-horizontal:flex-col data-vertical:flex-row data-vertical:items-start data-vertical:gap-6",
@@ -95,23 +100,44 @@ function TabsList({
   )
 }
 
+/** Base length (px) the indicator is scaled from; any constant works. */
+const INDICATOR_BASE = 100
+
 /**
- * The underline of the `line` variant, positioned by Base UI through the
- * --active-tab-* variables so it glides from one label to the next.
+ * The underline of the `line` variant. Base UI measures the active tab; the
+ * indicator follows it with `translate` and `scale` only (M2), from a fixed
+ * 100 px base, so it glides from one label to the next on the compositor.
+ * Before hydration the --active-tab-* variables Base UI's inline script sets
+ * place it (width/height from the variables, no transition).
  */
-function TabsIndicator({ className, ...props }: TabsPrimitive.Indicator.Props) {
+function TabsIndicator({ className, style, ...props }: TabsPrimitive.Indicator.Props) {
+  // The first measured position must not animate from the pre-hydration box.
+  const positioned = React.useRef(false)
   return (
     <TabsPrimitive.Indicator
       data-slot="tabs-indicator"
       renderBeforeHydration
       className={cn(
-        "pointer-events-none absolute z-0 bg-primary transition-[left,top,width,height] duration-base ease-entrance motion-reduce:transition-none",
+        "pointer-events-none absolute z-0 bg-primary transition-transform duration-base ease-entrance motion-reduce:transition-none",
         // Horizontal: flush with the list's bottom edge, covering the baseline.
-        "group-data-horizontal/tabs:bottom-0 group-data-horizontal/tabs:left-(--active-tab-left) group-data-horizontal/tabs:h-0.5 group-data-horizontal/tabs:w-(--active-tab-width)",
+        "group-data-horizontal/tabs:bottom-0 group-data-horizontal/tabs:left-0 group-data-horizontal/tabs:h-0.5 group-data-horizontal/tabs:w-(--active-tab-width) group-data-horizontal/tabs:translate-x-(--active-tab-left) group-data-horizontal/tabs:origin-left",
         // Vertical: sits on the rail (the list's left border), covering it.
-        "group-data-vertical/tabs:top-(--active-tab-top) group-data-vertical/tabs:-left-px group-data-vertical/tabs:h-(--active-tab-height) group-data-vertical/tabs:w-0.5",
+        "group-data-vertical/tabs:top-0 group-data-vertical/tabs:-left-px group-data-vertical/tabs:h-(--active-tab-height) group-data-vertical/tabs:w-0.5 group-data-vertical/tabs:translate-y-(--active-tab-top) group-data-vertical/tabs:origin-top",
         className
       )}
+      style={(state) => {
+        const own = typeof style === "function" ? style(state) : style
+        const pos = state.activeTabPosition
+        const size = state.activeTabSize
+        if (!pos || !size) return own
+        const first = !positioned.current
+        positioned.current = true
+        const placed: React.CSSProperties =
+          state.orientation === "vertical"
+            ? { height: INDICATOR_BASE, translate: `0 ${pos.top}px`, scale: `1 ${size.height / INDICATOR_BASE}` }
+            : { width: INDICATOR_BASE, translate: `${pos.left}px 0`, scale: `${size.width / INDICATOR_BASE} 1` }
+        return { ...placed, ...(first ? { transition: "none" } : null), ...own }
+      }}
       {...props}
     />
   )

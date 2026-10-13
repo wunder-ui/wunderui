@@ -12,6 +12,24 @@ function typeName(type: string) {
   return (t.split("/")[1] ?? t).toUpperCase()
 }
 
+/**
+ * A FileList of its own for the consumer. The input's list is emptied when
+ * its value is reset (so the same file can be chosen again), and a drop's list
+ * belongs to the drag event; the copy keeps the files either way.
+ */
+function copyFileList(files: FileList): FileList {
+  const list = Array.from(files)
+  try {
+    const transfer = new DataTransfer()
+    for (const file of list) transfer.items.add(file)
+    return transfer.files
+  } catch {
+    // No DataTransfer constructor (older browsers, test DOMs): an array that
+    // answers like a FileList (length, index, item(), iteration).
+    return Object.assign(list, { item: (index: number) => list[index] ?? null }) as unknown as FileList
+  }
+}
+
 function DropZone({
   onFiles,
   accept,
@@ -39,7 +57,7 @@ function DropZone({
       onDrop={(e) => {
         e.preventDefault()
         setIsDragging(false)
-        if (e.dataTransfer.files.length) onFiles?.(e.dataTransfer.files)
+        if (e.dataTransfer.files.length) onFiles?.(copyFileList(e.dataTransfer.files))
       }}
       className={cn(
         "flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-border p-10 text-center transition-colors duration-fast ease-entrance has-[input:focus-visible]:border-ring",
@@ -53,7 +71,14 @@ function DropZone({
         multiple
         aria-describedby={hintId}
         className="sr-only"
-        onChange={(e) => e.target.files && onFiles?.(e.target.files)}
+        onChange={(e) => {
+          const input = e.currentTarget
+          if (!input.files?.length) return
+          const files = copyFileList(input.files)
+          // Reset, so choosing the same file again fires another change.
+          input.value = ""
+          onFiles?.(files)
+        }}
       />
       <UploadCloud className="size-8 text-text-tertiary" aria-hidden />
       <p className="text-sm font-medium text-foreground">
