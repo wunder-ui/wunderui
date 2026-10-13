@@ -3,7 +3,7 @@
 import * as React from "react"
 import { Input as InputPrimitive } from "@base-ui/react/input"
 import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 import { Tooltip, TooltipContent } from "./tooltip"
 
 const inputVariants = cva(
@@ -11,9 +11,11 @@ const inputVariants = cva(
   {
     variants: {
       size: {
-        sm: "h-9 px-3 text-[13px]",
-        default: "h-11 px-3",
-        lg: "h-[52px] px-3",
+        // Field heights are density tokens (styles.css): compact 32/36/40 — the
+        // Button sm/md/lg — and data-density="comfortable" 36/44/52.
+        sm: "h-(--field-sm) px-3 text-[13px]",
+        default: "h-(--field-md) px-3",
+        lg: "h-(--field-lg) px-3",
       },
     },
     defaultVariants: {
@@ -66,7 +68,9 @@ function Input({
           event.preventDefault()
           const input = event.currentTarget
           // Every invalid field fires; only the first one in the form speaks.
-          const first = input.form?.querySelector<HTMLElement>(":invalid")
+          // Controls only: a <fieldset> around an invalid field matches :invalid too
+          // and comes first in document order, which would silence every field in it.
+          const first = input.form?.querySelector<HTMLElement>(":is(input, select, textarea):invalid")
           if (first && first !== input) return
           input.focus()
           setMessage(input.validationMessage)

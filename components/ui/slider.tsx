@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { Slider as SliderPrimitive } from "@base-ui/react/slider"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 
 // No dedicated Figma page yet for Slider — styled to match the Progress
 // track/indicator tokens (bg-muted track, bg-primary fill) for consistency.

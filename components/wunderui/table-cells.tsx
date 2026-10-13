@@ -96,7 +96,7 @@ function CurrencyCell({ value, currency = "$" }: { value: number; currency?: str
   return (
     <span className="text-sm font-semibold text-muted-foreground">
       {currency}
-      {value.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+      {value.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
     </span>
   )
 }
@@ -345,6 +345,7 @@ function ActionItemsCell({ actions }: { actions: { label: string; onClick?: () =
       {actions.map((a) => (
         <button
           key={a.label}
+          type="button"
           onClick={a.onClick}
           className={cn("text-[13px] font-medium", a.muted ? "text-muted-foreground" : "text-text-link")}
         >

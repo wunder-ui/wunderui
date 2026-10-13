@@ -2,12 +2,12 @@
 
 import * as React from "react"
 import { Toast as ToastPrimitive } from "@base-ui/react/toast"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 
 const TOAST_TYPE_COLOR: Record<string, string> = {
   success: "var(--success)",
   error: "var(--destructive)",
-  warning: "#FACA4A",
+  warning: "var(--yellow-600)",
   info: "var(--primary)",
 }
 
@@ -83,7 +83,7 @@ function ToastList() {
         <ToastPrimitive.Close
           data-slot="toast-close"
           aria-label="Close"
-          className="shrink-0 text-text-tertiary hover:text-foreground"
+          className="-my-1 -mr-1 inline-flex size-6 shrink-0 items-center justify-center rounded-sm text-text-tertiary hover:text-foreground"
         >
           ×
         </ToastPrimitive.Close>

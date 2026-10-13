@@ -2,7 +2,7 @@
 
 import { Combobox as ComboboxPrimitive } from "@base-ui/react/combobox"
 import { Check, ChevronDown } from "lucide-react"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 
 function Combobox(props: ComboboxPrimitive.Root.Props<any, any>) {
   return <ComboboxPrimitive.Root data-slot="combobox" {...props} />
@@ -13,7 +13,7 @@ function ComboboxInputGroup({ className, ...props }: ComboboxPrimitive.InputGrou
     <ComboboxPrimitive.InputGroup
       data-slot="combobox-input-group"
       className={cn(
-        "flex h-11 w-full items-center gap-2 rounded-md border border-input bg-card px-3 text-sm transition-colors duration-fast ease-entrance has-[input:focus-visible]:border-ring",
+        "flex h-(--field-md) w-full items-center gap-2 rounded-md border border-input bg-card px-3 text-sm transition-colors duration-fast ease-entrance has-[input:focus-visible]:border-ring",
         className
       )}
       {...props}

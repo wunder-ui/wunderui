@@ -3,7 +3,7 @@
 import * as React from "react"
 import { Accordion as AccordionPrimitive } from "@base-ui/react/accordion"
 import { ChevronDown, Minus, Plus, X } from "lucide-react"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 
 function Accordion({ className, ...props }: AccordionPrimitive.Root.Props) {
   return (

@@ -6,8 +6,8 @@
 //                  [--parity] [--json] [--force]
 //   theme.mjs check [wunderui-theme.css] [--report .wunderui/theme-report.md] [--json]
 //
-// The generator is a line-by-line port of the website's Theme Builder (apps/docs/lib/brand-theme.ts,
-// https://wunderui.com/theme-builder): for the same colour, the scale, the token map, the contrast
+// The generator is a line-by-line port of the website's Theme Builder
+// (https://wunderui.com/theme-builder): for the same colour, the scale, the token map, the contrast
 // checks and the theme CSS are identical. Everything this script adds on top (cascade corrections,
 // accent, radius, font, subtree scope) goes into a clearly marked block after that CSS; `--parity`
 // leaves it out and writes exactly what the Theme Builder shows.

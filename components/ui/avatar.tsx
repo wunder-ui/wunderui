@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { Avatar as AvatarPrimitive } from "@base-ui/react/avatar"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 
 /** Tinted initials — mirrors the Figma Avatar "Style=<hue>_primary" variants
  *  (tint/<hue> background + tint-text/<hue> text, both mode-aware tokens). */
@@ -119,6 +119,7 @@ function AvatarBadge({ className, ...props }: React.ComponentProps<"span">) {
         "group-data-[size=xs]/avatar:size-2 group-data-[size=xs]/avatar:[&>svg]:hidden",
         "group-data-[size=default]/avatar:size-2 group-data-[size=default]/avatar:[&>svg]:size-2",
         "group-data-[size=lg]/avatar:size-3 group-data-[size=lg]/avatar:[&>svg]:size-2",
+        "group-data-[size=xl]/avatar:size-3 group-data-[size=xl]/avatar:[&>svg]:size-2",
         className
       )}
       {...props}
@@ -137,7 +138,7 @@ function AvatarGroup({ className, children, ...props }: React.ComponentProps<"di
   function setShifts(activeIndex: number | null, phase: "in" | "out") {
     const items = rootRef.current?.querySelectorAll<HTMLElement>("[data-avatar-hover-item]")
     if (!items) return
-    const timing = phase === "out" ? "cubic-bezier(0.34, 3.85, 0.64, 1)" : "cubic-bezier(0.22, 1, 0.36, 1)"
+    const timing = phase === "out" ? "var(--ease-overshoot)" : "cubic-bezier(0.22, 1, 0.36, 1)"
     items.forEach((el, index) => {
       el.style.transitionTimingFunction = timing
       if (activeIndex == null) {

@@ -1,6 +1,6 @@
 # How the theme is derived
 
-Source of truth: `apps/docs/lib/brand-theme.ts` in the WunderUI repository (the Theme Builder at https://wunderui.com/theme-builder). `scripts/theme.mjs` is a line-by-line port; `T make --parity` reproduces the Theme Builder's `theme.css` byte for byte.
+Source of truth: the Theme Builder at https://wunderui.com/theme-builder. `scripts/theme.mjs` is a line-by-line port; `T make --parity` reproduces the Theme Builder's `theme.css` byte for byte.
 
 ## 1. The scale
 

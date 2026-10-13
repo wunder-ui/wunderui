@@ -3,7 +3,7 @@
 import * as React from "react"
 import { Select as SelectPrimitive } from "@base-ui/react/select"
 import { ChevronDown } from "lucide-react"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 import { collectSelectItems } from "@/lib/select-items"
 import {
   NativeSelectContent,

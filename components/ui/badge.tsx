@@ -1,7 +1,7 @@
 import { mergeProps } from "@base-ui/react/merge-props"
 import { useRender } from "@base-ui/react/use-render"
 import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 
 // Hex per color - the same hue set as the Figma "Badge" component (600 step
 // of each Primitives scale). Kept as plain hex (not CSS vars) so color-mix()

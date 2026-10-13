@@ -3,8 +3,18 @@
 import * as React from "react"
 import { Select as SelectPrimitive } from "@base-ui/react/select"
 import { Check, ChevronDown } from "lucide-react"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 import { collectSelectItems } from "@/lib/select-items"
+
+/**
+ * Opens like the DropdownMenu: below the trigger (never over it, unlike a
+ * macOS select), out of its anchor on --duration-base, quickly out again.
+ */
+const POPUP_MOTION =
+  "origin-(--transform-origin) transition-[opacity,scale,translate] duration-base ease-entrance motion-reduce:transition-none " +
+  "data-starting-style:opacity-0 data-starting-style:scale-(--scale-enter) " +
+  "data-ending-style:opacity-0 data-ending-style:scale-(--scale-enter) data-ending-style:duration-fast data-ending-style:ease-exit " +
+  "data-[side=bottom]:data-starting-style:-translate-y-(--travel-sm) data-[side=top]:data-starting-style:translate-y-(--travel-sm)"
 
 function NativeSelect({ items, children, ...props }: SelectPrimitive.Root.Props<string>) {
   // Derive the value → label map from the items in `children` unless given,
@@ -22,7 +32,7 @@ function NativeSelectTrigger({ className, children, ...props }: SelectPrimitive.
     <SelectPrimitive.Trigger
       data-slot="native-select-trigger"
       className={cn(
-        "flex h-11 w-full items-center justify-between gap-2 rounded-md border border-input bg-card px-3 text-sm text-foreground outline-none focus-visible:border-ring data-disabled:pointer-events-none data-disabled:opacity-50",
+        "flex h-(--field-md) w-full items-center justify-between gap-2 rounded-md border border-input bg-card px-3 text-sm text-foreground outline-none transition-colors duration-fast ease-entrance focus-visible:border-ring data-popup-open:border-ring data-disabled:pointer-events-none data-disabled:opacity-50",
         className
       )}
       {...props}
@@ -42,11 +52,12 @@ function NativeSelectValue({ ...props }: SelectPrimitive.Value.Props) {
 function NativeSelectContent({ className, children, ...props }: SelectPrimitive.Popup.Props) {
   return (
     <SelectPrimitive.Portal>
-      <SelectPrimitive.Positioner className="isolate z-50 outline-none" sideOffset={4}>
+      <SelectPrimitive.Positioner className="isolate z-50 outline-none" side="bottom" align="start" sideOffset={4} alignItemWithTrigger={false}>
         <SelectPrimitive.Popup
           data-slot="native-select-content"
           className={cn(
             "z-50 max-h-(--available-height) w-(--anchor-width) min-w-32 overflow-y-auto rounded-lg bg-popover p-1 text-popover-foreground shadow-md ring-1 ring-foreground/10 outline-none",
+            POPUP_MOTION,
             className
           )}
           {...props}

@@ -3,7 +3,7 @@
 import * as React from "react"
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog"
 import { XIcon } from "lucide-react"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 import { IconButton } from "@/components/ui/icon-button"
 
 function Sheet({ ...props }: DialogPrimitive.Root.Props) {
@@ -35,7 +35,7 @@ function SheetContent({
       <DialogPrimitive.Popup
         data-slot="sheet-content"
         className={cn(
-          "fixed z-50 flex flex-col gap-4 bg-popover [--surface:var(--popover)] p-5 text-popover-foreground shadow-xl outline-none data-open:duration-deliberate data-open:ease-overshoot data-open:blur-in-2 data-closed:duration-slow data-closed:ease-exit data-closed:blur-out-2",
+          "fixed z-50 flex flex-col gap-4 bg-popover [--surface:var(--popover)] p-(--card-padding) text-popover-foreground shadow-xl outline-none data-open:duration-deliberate data-open:ease-overshoot data-open:blur-in-2 data-closed:duration-slow data-closed:ease-exit data-closed:blur-out-2",
           side === "right" && "inset-y-0 right-0 h-full w-full max-w-sm border-l border-border data-open:animate-in data-open:slide-in-from-right data-closed:animate-out data-closed:slide-out-to-right",
           side === "left" && "inset-y-0 left-0 h-full w-full max-w-sm border-r border-border data-open:animate-in data-open:slide-in-from-left data-closed:animate-out data-closed:slide-out-to-left",
           side === "bottom" && "inset-x-0 bottom-0 max-h-[80vh] rounded-t-xl border-t border-border data-open:animate-in data-open:slide-in-from-bottom data-closed:animate-out data-closed:slide-out-to-bottom",

@@ -1,7 +1,7 @@
 "use client"
 
 import { Autocomplete as AutocompletePrimitive } from "@base-ui/react/autocomplete"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 
 function Autocomplete(props: AutocompletePrimitive.Root.Props<any>) {
   return <AutocompletePrimitive.Root data-slot="autocomplete" {...props} />
@@ -12,7 +12,7 @@ function AutocompleteInputGroup({ className, ...props }: AutocompletePrimitive.I
     <AutocompletePrimitive.InputGroup
       data-slot="autocomplete-input-group"
       className={cn(
-        "flex h-11 w-full items-center gap-2 rounded-md border border-input bg-card px-3 text-sm transition-colors duration-fast ease-entrance has-[input:focus-visible]:border-ring",
+        "flex h-(--field-md) w-full items-center gap-2 rounded-md border border-input bg-card px-3 text-sm transition-colors duration-fast ease-entrance has-[input:focus-visible]:border-ring",
         className
       )}
       {...props}

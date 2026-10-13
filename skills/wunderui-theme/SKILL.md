@@ -52,5 +52,11 @@ In Figma, the eleven scale values go into the `brand/50` … `brand/1000` variab
 - Run **wunderui-token-check** (`scan`): hard-coded colours in the project do not follow the theme — they show up there with the token to use instead.
 - Look at one screen with buttons, links, a badge/tint and a focused input in light and dark.
 
+### 5b. Naming extra tokens
+If the user adds colours beyond the brand scale, name them by role, never by hue or number: `--text-link`, `--bg-highlight`, `--border-strong`, not `--blue-600`. Pair a surface with the text that sits on it (`--bg-x` / `--text-on-x`), add states as suffixes (`-hover`, `-active`, `-disabled`), and keep raw scale values (`brand-50 … brand-1000`) out of components — components read roles only, so a re-theme never touches them.
+
+### 5c. APCA as a second opinion
+WCAG 2 AA (4.5:1 / 3:1) stays the pass/fail gate. For text that passes but looks weak — light weights, small sizes, dark mode — also look at the APCA lightness contrast (Lc): about 75 for body text, 60 for large or bold text, 45 for non-text UI and placeholders. Report it as advice next to the WCAG ratio, never instead of it.
+
 ### 6. Report
 Brand colour and the files written, the adjustments (which token moved to which step, with the ratio), anything still below AA with the proposed alternative colour, the install lines, and that the same result can be explored live at https://wunderui.com/theme-builder.

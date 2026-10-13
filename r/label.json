@@ -14,7 +14,13 @@
       "path": "components/ui/label.tsx",
       "type": "registry:ui",
       "target": "components/ui/label.tsx",
-      "content": "import * as React from \"react\"\nimport { cn } from \"cn\"\n\nfunction Label({ className, ...props }: React.ComponentProps<\"label\">) {\n  return (\n    <label\n      data-slot=\"label\"\n      className={cn(\n        \"flex select-none items-center gap-2 text-sm leading-none font-medium text-foreground group-has-disabled/field:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nexport { Label }\n"
+      "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\nfunction Label({ className, ...props }: React.ComponentProps<\"label\">) {\n  return (\n    <label\n      data-slot=\"label\"\n      className={cn(\n        \"flex select-none items-center gap-2 text-sm leading-none font-medium text-foreground group-has-disabled/field:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nexport { Label }\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "import type { CnFunction } from \"cn\"\nimport { createCn } from \"cn/config\"\n\n/**\n * clsx + tailwind-merge, taught WunderUI's own theme utilities so they merge\n * in the right group: `text-label-sm` is a font size (not a text colour, which\n * dropped it next to `text-text-tertiary`), `bg-gradient-*` a background image\n * (not a colour that `bg-card` would remove), and the motion utilities\n * `ease-entrance …` and `duration-fast …` replace each other.\n */\nexport const cn: CnFunction = createCn({\n  extend: {\n    classGroups: {\n      \"font-size\": [{ text: [\"label-sm\"] }],\n      \"bg-image\": [\n        {\n          bg: [\n            \"gradient-primary\",\n            \"gradient-indigo\",\n            \"gradient-blue\",\n            \"gradient-purple\",\n            \"gradient-pink\",\n            \"gradient-red\",\n            \"gradient-orange\",\n            \"gradient-yellow\",\n            \"gradient-green\",\n            \"gradient-alternative\",\n            \"gradient-slate\",\n            \"gradient-dark\",\n          ],\n        },\n      ],\n      ease: [{ ease: [\"entrance\", \"exit\", \"move\", \"overshoot\", \"spring\"] }],\n      duration: [{ duration: [\"instant\", \"fast\", \"base\", \"slow\", \"deliberate\", \"ambient\"] }],\n    },\n  },\n})\n"
     }
   ],
   "docs": "https://wunderui.com/components/label",

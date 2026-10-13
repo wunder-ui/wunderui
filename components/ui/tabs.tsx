@@ -2,7 +2,7 @@
 
 import { Tabs as TabsPrimitive } from "@base-ui/react/tabs"
 import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 
 function Tabs({
   className,
@@ -51,13 +51,14 @@ const tabsListVariants = cva(
         // 2 px indicator, painted above it, covers it: one line, no gap.
         line: "gap-6 group-data-horizontal/tabs:w-full group-data-horizontal/tabs:shadow-[inset_0_-1px_0_var(--border)] group-data-vertical/tabs:gap-0 group-data-vertical/tabs:border-l group-data-vertical/tabs:border-border",
       },
-      // Figma Tab Button · Size: regular 36, medium 40, large 44 — the Button heights.
+      // The Button heights, from the density tokens: compact 32/36/40,
+      // data-density="comfortable" 36/40/44 (Figma Tab Button regular/medium/large).
       size: {
         // Horizontal: the row has the height and every tab fills it.
         // Vertical: each tab takes the height itself (--tab-h).
-        sm: "[--tab-h:36px] group-data-horizontal/tabs:h-(--tab-h) [&_[data-slot=tabs-trigger]]:text-sm",
-        md: "[--tab-h:40px] group-data-horizontal/tabs:h-(--tab-h) [&_[data-slot=tabs-trigger]]:text-sm",
-        lg: "[--tab-h:44px] group-data-horizontal/tabs:h-(--tab-h) [&_[data-slot=tabs-trigger]]:text-sm",
+        sm: "[--tab-h:var(--control-sm)] group-data-horizontal/tabs:h-(--tab-h) [&_[data-slot=tabs-trigger]]:text-sm",
+        md: "[--tab-h:var(--control-md)] group-data-horizontal/tabs:h-(--tab-h) [&_[data-slot=tabs-trigger]]:text-sm",
+        lg: "[--tab-h:var(--control-lg)] group-data-horizontal/tabs:h-(--tab-h) [&_[data-slot=tabs-trigger]]:text-sm",
       },
       shape: {
         rounded: "[&_[data-slot=tabs-trigger]]:rounded-md",

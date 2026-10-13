@@ -104,7 +104,8 @@ function Calendar({ mode = "single", selected, onSelect, month, defaultMonth, on
           <ChevronLeft className="size-4" />
         </IconButton>
         <p className="text-sm font-semibold text-foreground">
-          {visibleMonth.toLocaleDateString(undefined, { month: "long", year: "numeric" })}
+          {/* Fixed locale like the weekday labels, so server and browser render the same text. */}
+          {visibleMonth.toLocaleDateString("en-US", { month: "long", year: "numeric" })}
         </p>
         <IconButton
           type="button"
@@ -131,6 +132,9 @@ function Calendar({ mode = "single", selected, onSelect, month, defaultMonth, on
               <button
                 type="button"
                 onClick={() => handleDayClick(day)}
+                aria-label={day.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" })}
+                aria-pressed={isSelected}
+                aria-current={isToday ? "date" : undefined}
                 className={cn(
                   "flex size-8 items-center justify-center rounded-full text-sm transition-colors duration-fast ease-entrance hover:bg-muted",
                   outside && "text-text-tertiary",

@@ -34,9 +34,28 @@ function PressableFeedback({
   }
 
   if (asChild && React.isValidElement(children)) {
-    const child = children as React.ReactElement<{ className?: string; onClick?: (event: React.MouseEvent) => void }>
+    type MouseHandler = (event: React.MouseEvent) => void
+    const child = children as React.ReactElement<{
+      className?: string
+      onClick?: MouseHandler
+      onMouseDown?: MouseHandler
+      onMouseUp?: MouseHandler
+      onMouseLeave?: MouseHandler
+    }>
+    // Chain the child's own mouse handlers instead of replacing them.
     return React.cloneElement(child, {
-      ...handlers,
+      onMouseDown: (event: React.MouseEvent) => {
+        child.props.onMouseDown?.(event)
+        handlers.onMouseDown()
+      },
+      onMouseUp: (event: React.MouseEvent) => {
+        child.props.onMouseUp?.(event)
+        handlers.onMouseUp()
+      },
+      onMouseLeave: (event: React.MouseEvent) => {
+        child.props.onMouseLeave?.(event)
+        handlers.onMouseLeave()
+      },
       className: cn(child.props.className, classes),
       onClick: (event: React.MouseEvent) => {
         child.props.onClick?.(event)

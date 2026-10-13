@@ -48,7 +48,7 @@ Files with the same name as components already in your project (`button.tsx`, `b
 **2. Install the dependencies:**
 
 ```bash
-npm install @base-ui/react @tiptap/extension-placeholder @tiptap/react @tiptap/starter-kit class-variance-authority cn lucide-react
+npm install @base-ui/react @tiptap/extension-placeholder @tiptap/react @tiptap/starter-kit class-variance-authority cn lucide-react tw-animate-css
 ```
 
 **3. Add the styles** to your Tailwind entry file, after Tailwind:

@@ -1,6 +1,8 @@
+"use client"
+
 import * as React from "react"
 import { ChevronRight } from "lucide-react"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 
 type BreadcrumbVariant = "plain" | "border" | "underline"
 const BreadcrumbVariantContext = React.createContext<BreadcrumbVariant>("plain")

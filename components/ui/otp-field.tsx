@@ -1,7 +1,7 @@
 "use client"
 
 import { OTPField as OTPFieldPrimitive } from "@base-ui/react/otp-field"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 
 function OtpField({ className, ...props }: OTPFieldPrimitive.Root.Props) {
   return (
@@ -18,7 +18,7 @@ function OtpFieldInput({ className, ...props }: OTPFieldPrimitive.Input.Props) {
     <OTPFieldPrimitive.Input
       data-slot="otp-field-input"
       className={cn(
-        "size-11 rounded-md border border-input bg-card text-center text-lg font-medium text-foreground outline-none transition-colors duration-fast ease-entrance focus-visible:border-ring",
+        "size-(--control-lg) rounded-md border border-input bg-card text-center text-lg font-medium text-foreground outline-none transition-colors duration-fast ease-entrance focus-visible:border-ring",
         className
       )}
       {...props}

@@ -9,7 +9,8 @@ import { cn } from "@/lib/utils"
 
 function formatDate(date?: Date) {
   if (!date) return undefined
-  return date.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })
+  // Fixed locale (as in Calendar), so server and browser render the same text.
+  return date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
 }
 
 function formatRange(range?: DateRange) {

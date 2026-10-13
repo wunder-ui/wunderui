@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { CircleCheck, TriangleAlert, X } from "lucide-react"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 
 type AlertVariant = "plain" | "positive" | "primary" | "negative" | "warning"
 type AlertSize = "small" | "large"

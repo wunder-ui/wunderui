@@ -20,6 +20,7 @@ function EmojiReactionButton({
     <button
       type="button"
       onClick={onToggle}
+      aria-pressed={!!active}
       className={cn(
         "flex items-center gap-1 rounded-full border px-2 py-1 text-xs font-medium transition-colors duration-fast ease-entrance",
         active

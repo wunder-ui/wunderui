@@ -51,8 +51,14 @@ function PullToRefresh({
     if (pullDistance >= threshold) {
       setRefreshing(true)
       setPullDistance(threshold)
-      await onRefresh()
-      setRefreshing(false)
+      // A failed refresh must not leave the spinner running and the pull locked.
+      try {
+        await onRefresh()
+      } finally {
+        setRefreshing(false)
+        setPullDistance(0)
+      }
+      return
     }
     setPullDistance(0)
   }
@@ -80,7 +86,7 @@ function PullToRefresh({
         className="touch-none cursor-grab select-none active:cursor-grabbing"
         style={{
           transform: `translateY(${pullDistance}px)`,
-          transition: isDragging ? "none" : "transform 300ms ease",
+          transition: isDragging ? "none" : "transform var(--duration-slow) var(--ease-entrance)",
         }}
       >
         {children}

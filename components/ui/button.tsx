@@ -1,6 +1,6 @@
 import { Button as ButtonPrimitive } from "@base-ui/react/button"
 import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 
 // --primary/--brand-primary is the indigo brand color; its text uses
 // --primary-foreground/--brand-primary-foreground (white), which is AA-safe
@@ -52,11 +52,13 @@ const buttonVariants = cva(
         pill: "rounded-full",
       },
       size: {
-        sm: "h-9 px-3.5 text-sm has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3",
-        md: "h-10 px-4 text-sm has-data-[icon=inline-end]:pr-3.5 has-data-[icon=inline-start]:pl-3.5",
-        lg: "h-11 px-[18px] text-sm has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4",
-        xl: "h-12 px-5 text-base has-data-[icon=inline-end]:pr-4.5 has-data-[icon=inline-start]:pl-4.5",
-        "2xl": "h-14 px-6 text-lg has-data-[icon=inline-end]:pr-5 has-data-[icon=inline-start]:pl-5",
+        // Heights and paddings are density tokens (styles.css): compact 32/36/40/44/48,
+        // data-density="comfortable" 36/40/44/48/56. The icon side sits 2 px tighter (2xl 4 px).
+        sm: "h-(--control-sm) px-(--control-px-sm) text-sm has-data-[icon=inline-end]:pr-[calc(var(--control-px-sm)-0.125rem)] has-data-[icon=inline-start]:pl-[calc(var(--control-px-sm)-0.125rem)]",
+        md: "h-(--control-md) px-(--control-px-md) text-sm has-data-[icon=inline-end]:pr-[calc(var(--control-px-md)-0.125rem)] has-data-[icon=inline-start]:pl-[calc(var(--control-px-md)-0.125rem)]",
+        lg: "h-(--control-lg) px-(--control-px-lg) text-sm has-data-[icon=inline-end]:pr-[calc(var(--control-px-lg)-0.125rem)] has-data-[icon=inline-start]:pl-[calc(var(--control-px-lg)-0.125rem)]",
+        xl: "h-(--control-xl) px-(--control-px-xl) text-base has-data-[icon=inline-end]:pr-[calc(var(--control-px-xl)-0.125rem)] has-data-[icon=inline-start]:pl-[calc(var(--control-px-xl)-0.125rem)]",
+        "2xl": "h-(--control-2xl) px-(--control-px-2xl) text-lg has-data-[icon=inline-end]:pr-[calc(var(--control-px-2xl)-0.25rem)] has-data-[icon=inline-start]:pl-[calc(var(--control-px-2xl)-0.25rem)]",
       },
     },
     defaultVariants: {

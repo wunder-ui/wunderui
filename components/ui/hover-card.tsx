@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { PreviewCard } from "@base-ui/react/preview-card"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 
 function HoverCard({ ...props }: PreviewCard.Root.Props) {
   return <PreviewCard.Root data-slot="hover-card" {...props} />

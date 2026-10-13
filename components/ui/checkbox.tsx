@@ -1,7 +1,7 @@
 "use client"
 
 import { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 import { CheckIcon, MinusIcon } from "lucide-react"
 
 function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
@@ -9,7 +9,7 @@ function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
     <CheckboxPrimitive.Root
       data-slot="checkbox"
       className={cn(
-        "peer relative flex size-5 shrink-0 items-center justify-center rounded-[6px] border-[1.5px] border-muted-foreground transition-colors duration-fast ease-entrance hover:not-data-checked:border-primary outline-none group-has-disabled/field:opacity-50 group-has-[:focus-visible]/field-label:ring-0 group-has-[:focus-visible]/field-label:not-data-checked:border-muted-foreground after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 aria-invalid:aria-checked:border-primary dark:bg-muted/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 data-checked:border-primary data-checked:bg-primary data-checked:text-primary-foreground group-has-[:focus-visible]/field-label:data-checked:border-primary dark:data-checked:bg-primary data-indeterminate:border-primary data-indeterminate:bg-primary data-indeterminate:text-primary-foreground",
+        "peer relative flex size-5 shrink-0 items-center justify-center rounded-[6px] border-[1.5px] border-muted-foreground transition-colors duration-fast ease-entrance hover:not-data-checked:border-primary outline-none group-has-disabled/field:opacity-50 group-has-[:focus-visible]/field-label:ring-0 group-has-[:focus-visible]/field-label:not-data-checked:border-muted-foreground after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-ring data-checked:focus-visible:outline-solid data-checked:focus-visible:outline-1 data-checked:focus-visible:outline-offset-2 data-checked:focus-visible:outline-ring data-indeterminate:focus-visible:outline-solid data-indeterminate:focus-visible:outline-1 data-indeterminate:focus-visible:outline-offset-2 data-indeterminate:focus-visible:outline-ring disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 aria-invalid:aria-checked:border-primary dark:bg-muted/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 data-checked:border-primary data-checked:bg-primary data-checked:text-primary-foreground group-has-[:focus-visible]/field-label:data-checked:border-primary dark:data-checked:bg-primary data-indeterminate:border-primary data-indeterminate:bg-primary data-indeterminate:text-primary-foreground",
         className
       )}
       {...props}
@@ -24,8 +24,10 @@ function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
           // lucide's CheckIcon path length (getTotalLength()), rounded up by 1
           // so the draw never over/under-shoots. Uncheck reverses fast with no
           // draw — transitioning offset (not toggling display) is what lets a
-          // mid-draw uncheck reverse cleanly instead of jumping.
-          "[&_svg_path]:[stroke-dasharray:23] [&_svg_path]:[stroke-dashoffset:23] [&_svg_path]:transition-[stroke-dashoffset] [&_svg_path]:duration-fast [&_svg_path]:ease-entrance data-checked:[&_svg_path]:[stroke-dashoffset:0] data-checked:[&_svg_path]:duration-slow"
+          // mid-draw uncheck reverse cleanly instead of jumping. The offset is
+          // negative because lucide's path starts at the top-right end: the
+          // tick draws from its short stroke up to the long one, like by hand.
+          "[&_svg_path]:[stroke-dasharray:23] [&_svg_path]:[stroke-dashoffset:-23] [&_svg_path]:transition-[stroke-dashoffset] [&_svg_path]:duration-fast [&_svg_path]:ease-entrance data-checked:[&_svg_path]:[stroke-dashoffset:0] data-checked:[&_svg_path]:duration-slow"
         )}
       >
         <CheckIcon />

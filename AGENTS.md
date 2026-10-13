@@ -13,7 +13,7 @@ Components live in `components/` and import each other through the `@/*` alias. 
 7. **Prefer a composite over rebuilding one.** Before writing a table, a board, a stat row or a chat bubble by hand, check the task table and the inventory below — it probably exists.
 8. **Charts take a `loading` prop**; do not build your own skeleton.
 9. **A KPI chart ends on the trend line.** In a metric card, a sparkline or mini chart beside the value sits on the same horizontal line as the bottom of the trend chip — `MetricCard` does this by default for `MetricSparkline`. Never centre it vertically or let it float above the chip.
-10. **Motion comes from tokens too.** Duration is `duration-instant|fast|base|slow|deliberate|ambient`, easing is `ease-entrance|exit|move|overshoot`. Never write a raw `duration-300` and never write `ease-in-out` — both are the default every generator reaches for, and both read as mechanical.
+10. **Motion comes from tokens too.** Duration is `duration-instant|fast|base|slow|deliberate|ambient`, easing is `ease-entrance|exit|move|overshoot|spring`. Never write a raw `duration-300` and never write `ease-in-out` — both are the default every generator reaches for, and both read as mechanical.
 11. **Agent UI has its own components.** A run's state, its steps, an approval gate, its spend and its failure each have one — `AgentStatus`, `RunTimeline`, `ApprovalCard`, `CostMeter`, `RunError`. Do not assemble these from badges and divs.
 
 

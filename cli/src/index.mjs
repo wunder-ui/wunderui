@@ -76,9 +76,39 @@ async function storedKey() {
   return (await readJson(GLOBAL_CONFIG))?.licenseKey ?? null
 }
 
-async function resolveKey(flags) {
-  return flags.key ?? process.env.WUNDERUI_LICENSE_KEY ?? (await storedKey())
+/** wunderui.com, or a local dev server. A project's wunderui.json can name any registry. */
+function trustedRegistry(registry) {
+  try {
+    const { protocol, hostname } = new URL(registry)
+    return (protocol === "https:" && (hostname === "wunderui.com" || hostname === "www.wunderui.com")) || ["localhost", "127.0.0.1", "[::1]"].includes(hostname)
+  } catch {
+    return false
+  }
 }
+
+async function resolveKey(flags, registry) {
+  if (flags.key) return flags.key
+  // the stored or environment key goes to wunderui.com only — a cloned project's
+  // wunderui.json must not be able to send it to another server
+  if (!trustedRegistry(registry)) {
+    log(`  ${c.dim(`${registry} is not wunderui.com — your stored licence key is not sent there (pass --key to send one).`)}`)
+    return null
+  }
+  return process.env.WUNDERUI_LICENSE_KEY ?? (await storedKey())
+}
+
+/** `root/rel`, refusing paths from a registry that would land outside `root`. */
+function inside(root, rel) {
+  const target = path.resolve(root, rel)
+  const back = path.relative(root, target)
+  if (!rel || path.isAbsolute(rel) || back.startsWith("..") || path.isAbsolute(back)) {
+    throw new Error(`The registry sent a file path outside the target folder: ${rel}`)
+  }
+  return target
+}
+
+/** npm package specs only (name, optional version range) — they are passed to a shell. */
+const SAFE_SPEC = /^(?:@[a-z0-9][\w.-]*\/)?[a-z0-9][\w.-]*(?:@[\w.^~<>=|*+-]+)?$/i
 
 /* ---------------------------------------------------------------- registry */
 
@@ -103,7 +133,12 @@ async function fetchJson(url, key) {
 /** JSON with comments and trailing commas, as tsconfig files are written. */
 function looseJson(raw) {
   try {
-    return JSON.parse(raw.replace(/\/\*[\s\S]*?\*\/|^\s*\/\/.*$/gm, "").replace(/,(\s*[}\]])/g, "$1"))
+    return JSON.parse(raw)
+  } catch {}
+  try {
+    // strings first, so "@/*" and "**/*.ts" are never read as the start or end of a comment
+    const stripped = raw.replace(/("(?:[^"\\]|\\.)*")|\/\*[\s\S]*?\*\/|\/\/[^\n]*/g, (m, str) => str ?? "")
+    return JSON.parse(stripped.replace(/,(\s*[}\]])/g, "$1"))
   } catch {
     return null
   }
@@ -186,7 +221,7 @@ async function addComponents(names, flags, config) {
   const skipped = []
   let stylesWritten = false
   for (const [rel, content] of files) {
-    const target = path.join(root, rel)
+    const target = inside(root, rel)
     const isStyles = rel === "styles/wunderui.css"
     if (!flags.overwrite && (await exists(target))) {
       if (!isStyles) skipped.push(path.relative(process.cwd(), target))
@@ -206,6 +241,8 @@ async function addComponents(names, flags, config) {
   if (flags["dry-run"]) log(`\n  ${c.dim("Dry run — nothing was written.")}`)
   else if (skipped.length) log(`\n  ${c.dim("Pass --overwrite to replace the skipped files.")}`)
 
+  const unsafe = deps.filter((spec) => !SAFE_SPEC.test(spec))
+  if (unsafe.length) throw new Error(`The registry listed dependencies that are not npm package names: ${unsafe.join(", ")}`)
   const missing = await missingDependencies(deps)
   if (missing.length) {
     const pm = packageManager()
@@ -254,7 +291,7 @@ async function writeFiles(files, { root, alias, overwrite, dryRun }) {
   const skipped = []
 
   for (const file of files) {
-    const target = path.join(root, file.path)
+    const target = inside(root, file.path)
     if (!overwrite && (await exists(target))) {
       skipped.push(path.relative(process.cwd(), target))
       continue
@@ -298,7 +335,9 @@ async function commandLogin(args, flags) {
   const key = args[0] ?? flags.key
   if (!key) throw new Error("Usage: wunderui-cli login <license-key>")
 
-  const { registry } = await projectConfig()
+  // the key is only ever checked against wunderui.com (or a local dev server), whatever wunderui.json says
+  const configured = (await projectConfig()).registry
+  const registry = trustedRegistry(configured) ? configured : DEFAULT_REGISTRY
   const res = await fetch(`${registry}/api/license`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -355,7 +394,7 @@ async function commandAdd(args, flags) {
   if (!category || !block) throw new Error(`"${id}" is not a block id — try e.g. auth/sign-in.`)
 
   const config = await projectConfig()
-  const key = await resolveKey(flags)
+  const key = await resolveKey(flags, config.registry)
 
   const url = new URL(`${config.registry}/api/registry/block/${category}/${block}`)
   if (flags.screen) url.searchParams.set("screen", flags.screen)
@@ -377,8 +416,16 @@ async function commandAdd(args, flags) {
   if (flags["dry-run"]) log(`\n  ${c.dim("Dry run — nothing was written.")}`)
   else if (result.skipped.length) log(`\n  ${c.dim("Pass --overwrite to replace the skipped files.")}`)
 
+  // @wunderui/react is not on npm: it comes from the buyer's wunderui-core repo
+  const requires = data.requires ?? ["@wunderui/react"]
+  const npmDeps = (data.dependencies ?? []).filter((d) => !requires.includes(d))
+  const pm = packageManager()
   log(`\n  Make sure these are installed:`)
-  log(`    ${c.cyan(`npm install ${data.dependencies.join(" ")}`)}\n`)
+  if (requires.includes("@wunderui/react")) {
+    log(`    ${c.cyan("@wunderui/react")} ${c.dim("from your wunderui-core repo — https://wunderui.com/installation")}`)
+  }
+  if (npmDeps.length) log(`    ${c.cyan(`${pm} ${pm === "npm" ? "install" : "add"} ${npmDeps.join(" ")}`)}`)
+  log()
 }
 
 /* ---------------------------------------------------------------- dispatcher */

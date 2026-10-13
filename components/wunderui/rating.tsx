@@ -51,7 +51,8 @@ function Rating({
   if (type === "stars" || type === "hearts") {
     const Icon = type === "stars" ? Star : Heart
     items = Array.from({ length: count }).map((_, i) => {
-      const filled = i < display
+      // Rounded, so 3.2 fills three stars and 4.5 five (it filled four and five before: any fraction rounded up).
+      const filled = i < Math.round(display)
       return (
         <button key={i} type="button" disabled={readOnly} aria-label={`${i + 1} of ${count}`} onMouseEnter={() => !readOnly && setHover(i + 1)} onMouseLeave={() => !readOnly && setHover(null)} onClick={() => !readOnly && onValueChange?.(i + 1)} className="grid size-6 place-items-center rounded-sm outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-default">
           <Icon className={cn("size-4", filled ? (type === "stars" ? "fill-brand-quaternary text-brand-quaternary" : "fill-brand-tertiary text-brand-tertiary") : "fill-none text-border-control")} />

@@ -104,6 +104,7 @@ function TrendChip({
   return (
     <span
       data-slot="trend-chip"
+      data-direction={neutral ? "neutral" : direction}
       className={cn(
         "inline-flex h-5 items-center rounded-full py-0.5 text-xs font-semibold leading-4",
         neutral ? "gap-1 px-2 bg-muted text-text-secondary" : CHIP_SPACING[icon],

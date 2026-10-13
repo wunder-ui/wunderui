@@ -27,7 +27,7 @@ Write down, in four lines: the screen's job, its data (entities and fields), the
 ### 2. Search the blocks
 `C find "<keywords>"` searches the WunderUI block registry (public index at wunderui.com) and the components in `.wunderui/design.json`, and prints the best matches with the components each block uses.
 - On Free, `find` lists only free components and shows each block's free and Pro parts — use the free parts as the blueprint and `references/free-plan.md` for the rest.
-- With WunderUI Pro, take the closest block as the starting point: `npx @wunderui/cli add <category>/<block> --screen <slug>` (or the CLI in the `wunderui-core` checkout) and adapt it.
+- With WunderUI Pro, take the closest block as the starting point: `npx wunderui-cli add <category>/<block> --screen <slug>` (or the CLI in the `wunderui-core` checkout) and adapt it.
 - Without Pro, use the block's "uses" list as the blueprint and build from components.
 
 ### 3. Pick the layout
@@ -35,6 +35,9 @@ From `references/layouts.md`: app shell with sidebar (`AppLayout`), top-bar only
 
 ### 4. Place the components
 Build the screen top-down: shell, page header (title, description, primary action), then regions. For every component, read its props first. Keep the data in a typed array at the top of the file (or the user's data hook) so the UI and the states share one source.
+
+### 4b. Polish while you build
+Go through `references/polish.md`: concentric corners, optical centring, borders for structure and shadows for elevation, image hairlines, hit areas, `tabular-nums` on changing numbers, `text-balance`/`text-pretty`, one icon stroke per surface with `currentColor` states, grouping and reading order, room for translations, logical (mirror-ready) spacing, and announced status changes.
 
 ### 5. Add the states
 Follow `references/states.md`. Each data region gets:
@@ -44,7 +47,7 @@ Follow `references/states.md`. Each data region gets:
 Make the states reachable: a `status` prop or a `?state=empty|loading|error` switch in development, so they can be looked at.
 
 ### 6. Motion
-Only from tokens (`.wunderui/DESIGN.md` → Motion): `duration-fast|base|slow`, `ease-entrance` in, `ease-exit` out, only `transform` and `opacity`. Overlays already animate — do not add your own. Never fade in the page's headline (it is the LCP element). Wrap custom keyframes in `@media (prefers-reduced-motion: no-preference)`. Craft rules 11–15: nothing animates that is used by keyboard or 100+ times a day; anchored popups grow from `origin-(--transform-origin)` and never from `scale(0)`; toggles use transitions, not state keyframes; hover only via `hover:`; reduced motion keeps fades. Finish with `wunderui-motion-audit scan` on the new files.
+Only from tokens (`.wunderui/DESIGN.md` → Motion): `duration-fast|base|slow`, `ease-entrance` in, `ease-exit` out, only `transform` and `opacity`. Overlays already animate — do not add your own. Never fade in the page's headline (it is the LCP element). Wrap custom keyframes in `@media (prefers-reduced-motion: no-preference)`. Craft rules 11–23: nothing animates that is used by keyboard or 100+ times a day; anchored popups grow from `origin-(--transform-origin)` and never from `scale(0)`; toggles use transitions, not state keyframes; hover only via `hover:`; reduced motion keeps fades; stagger only the first entrance (30–60 ms); pressables answer with `active:scale-[0.97]`; icon swaps crossfade with scale and blur; no entrance on every page load. Finish with `wunderui-motion-audit scan` on the new files.
 
 ### 7. Check and build
 `C check <file…>` lints the new files against rules 1–3 and 6 (raw colours, raw motion, missing states, deep imports, hand-built tables). Fix every error. Then run the project's typecheck and build (`npx tsc --noEmit`, `npm run build`, or what `package.json` defines) and fix what fails. Report: the file(s), the components used, the states and how to see them, anything you defaulted — and on Free, which Pro components the screen would use with Pro.

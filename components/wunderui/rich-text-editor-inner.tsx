@@ -86,6 +86,7 @@ function RichTextEditorToolbar({ editor }: { editor: Editor }) {
         active={editor.isActive("link")}
         onClick={() => {
           const url = window.prompt("URL")
+          if (url === null) return // Cancel keeps the link as it is.
           if (url) editor.chain().focus().setLink({ href: url }).run()
           else editor.chain().focus().unsetLink().run()
         }}
@@ -106,6 +107,9 @@ function RichTextEditorInner({
 }: RichTextEditorProps) {
   const editor = useEditor({
     immediatelyRender: false,
+    // TipTap 3 no longer re-renders on every transaction by default; the
+    // toolbar reads isActive() at render, so without this it goes stale.
+    shouldRerenderOnTransaction: true,
     extensions: [
       StarterKit.configure({
         link: { openOnClick: false, autolink: true },

@@ -2,7 +2,7 @@
 // WunderUI setup helper — no dependencies, Node 20+. Run in the project root.
 //
 //   setup.mjs detect        → .wunderui/setup.json (framework, Tailwind, CSS entry, package, tokens; --plan free|core|pro)
-//   setup.mjs install       → @wunderui/react from node_modules, a packed checkout copy, or npm
+//   setup.mjs install       → @wunderui/react from node_modules or a packed checkout copy (it is not on npm)
 //   setup.mjs agent-files   → .wunderui/DESIGN.md + design.json
 //   setup.mjs mcp           → MCP server entry for Claude Code / Cursor / VS Code
 //   setup.mjs styles        → @import + @source in the CSS entry
@@ -135,18 +135,22 @@ function install() {
   const s = state()
   const changes = []
   if (s.package?.source === "node_modules") { log({ note: `@wunderui/react ${s.package.version} is installed already.` }); return }
-  let target = "@wunderui/react"
-  if (s.package?.source === "checkout") {
-    const pkgDir = join(s.package.path, "packages", "react")
-    if (!existsSync(join(pkgDir, "dist", "index.js"))) { log({ error: `${posix(pkgDir)}/dist is missing — run \`npm install && npm run build\` in the checkout first.` }); process.exit(1) }
-    const out = join(cwd, ".wunderui")
-    mkdirSync(out, { recursive: true })
-    const packed = execSync(`npm pack "${pkgDir}" --pack-destination "${out}" --silent`, { cwd, encoding: "utf8" }).trim().split("\n").pop()
-    target = `./.wunderui/${packed}`
-    changes.push(`.wunderui/${packed}`)
+  // @wunderui/react is not on the public npm registry: Core/Pro install it from their wunderui-core checkout
+  if (s.package?.source !== "checkout") {
+    log({ error: "No wunderui-core checkout found. Core/Pro: accept the GitHub invitation from your purchase, clone wunder-ui/wunderui-core next to this project (or pass --checkout <path> to detect), run `npm install && npm run build` in it, then run install again. Free plan: `npx wunderui-cli add <name…>` writes the free components into the project instead." })
+    process.exit(1)
   }
-  if (DRY) { log({ would: `npm install ${target}` }); return }
-  execSync(`npm install ${target}`, { cwd, stdio: "inherit" })
+  const pkgDir = join(s.package.path, "packages", "react")
+  if (!existsSync(join(pkgDir, "dist", "index.js"))) { log({ error: `${posix(pkgDir)}/dist is missing — run \`npm install && npm run build\` in the checkout first.` }); process.exit(1) }
+  const out = join(cwd, ".wunderui")
+  mkdirSync(out, { recursive: true })
+  const packed = execSync(`npm pack "${pkgDir}" --pack-destination "${out}" --silent`, { cwd, encoding: "utf8" }).trim().split("\n").pop()
+  const target = `./.wunderui/${packed}`
+  changes.push(`.wunderui/${packed}`)
+  // the project's own package manager — `npm install` in a pnpm/yarn/bun project mixes lockfiles and breaks node_modules
+  const pm = existsSync(join(cwd, "pnpm-lock.yaml")) ? "pnpm add" : existsSync(join(cwd, "yarn.lock")) ? "yarn add" : existsSync(join(cwd, "bun.lockb")) || existsSync(join(cwd, "bun.lock")) ? "bun add" : "npm install"
+  if (DRY) { log({ would: `${pm} ${target}` }); return }
+  execSync(`${pm} ${target}`, { cwd, stdio: "inherit" })
   changes.push("package.json")
   save({ ...state(), package: { ...s.package, installed: target } })
   log({ installed: target, changed: changes, note: s.package?.source === "checkout" ? "Re-run `setup.mjs install` after `git pull` + build in the checkout to update." : undefined })

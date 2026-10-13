@@ -28,8 +28,17 @@ function TextareaField({ label, helper, error, optional, id: idProp, wrapperClas
           {optional && <span className="ml-1 font-normal text-text-tertiary">(optional)</span>}
         </label>
       )}
-      <Textarea id={id} aria-invalid={error ? true : undefined} {...props} />
-      {error ? <p className="text-xs text-text-error">{error}</p> : helper && <p className="text-xs text-text-tertiary">{helper}</p>}
+      <Textarea
+        id={id}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={error ? `${id}-error` : helper ? `${id}-helper` : undefined}
+        {...props}
+      />
+      {error ? (
+        <p id={`${id}-error`} className="text-xs text-text-error">{error}</p>
+      ) : (
+        helper && <p id={`${id}-helper`} className="text-xs text-text-tertiary">{helper}</p>
+      )}
     </div>
   )
 }

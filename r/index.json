@@ -9,7 +9,8 @@
       "group": "Core Elements",
       "description": "A vertically stacked set of collapsible panels, in card or divider style.",
       "files": [
-        "components/ui/accordion.tsx"
+        "components/ui/accordion.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -25,8 +26,8 @@
       "files": [
         "components/blocks/data.tsx",
         "components/ui/icon-button.tsx",
-        "components/ui/avatar.tsx",
-        "lib/utils.ts"
+        "lib/utils.ts",
+        "components/ui/avatar.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -41,7 +42,8 @@
       "group": "Core Elements",
       "description": "A stack of overlapping avatars, with an optional overflow count.",
       "files": [
-        "components/ui/avatar.tsx"
+        "components/ui/avatar.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -54,7 +56,8 @@
       "group": "Core Elements",
       "description": "A small status or category label in 12 colors and 6 styles.",
       "files": [
-        "components/ui/badge.tsx"
+        "components/ui/badge.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -68,7 +71,8 @@
       "group": "Core Elements",
       "description": "Shows the user's location in a hierarchy, in \"plain\" or bordered \"border\" style.",
       "files": [
-        "components/ui/breadcrumb.tsx"
+        "components/ui/breadcrumb.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "cn",
@@ -82,6 +86,7 @@
       "description": "The main action trigger, in 10 variants, 2 shapes and 5 sizes.",
       "files": [
         "components/ui/button-group.tsx",
+        "lib/utils.ts",
         "components/ui/button.tsx"
       ],
       "dependencies": [
@@ -96,7 +101,8 @@
       "group": "Core Elements",
       "description": "A square or circular button for a single icon action.",
       "files": [
-        "components/ui/icon-button.tsx"
+        "components/ui/icon-button.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -110,7 +116,8 @@
       "group": "Core Elements",
       "description": "A row of connected buttons sharing borders and outer corners, for view switchers or segmented actions.",
       "files": [
-        "components/ui/button-group.tsx"
+        "components/ui/button-group.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "cn"
@@ -122,7 +129,8 @@
       "group": "Core Elements",
       "description": "A bordered container for grouping related content.",
       "files": [
-        "components/ui/card.tsx"
+        "components/ui/card.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "cn"
@@ -136,8 +144,8 @@
       "files": [
         "components/blocks/form.tsx",
         "components/ui/checkbox.tsx",
-        "components/ui/textarea.tsx",
         "lib/utils.ts",
+        "components/ui/textarea.tsx",
         "components/ui/toggle-button-group.tsx"
       ],
       "dependencies": [
@@ -153,7 +161,8 @@
       "group": "Core Elements",
       "description": "A toggle control for a binary setting.",
       "files": [
-        "components/ui/switch.tsx"
+        "components/ui/switch.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -166,7 +175,8 @@
       "group": "Core Elements",
       "description": "A set of mutually exclusive options.",
       "files": [
-        "components/ui/radio-group.tsx"
+        "components/ui/radio-group.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -180,6 +190,7 @@
       "description": "A single-line text field with sm/default/lg sizes and error state.",
       "files": [
         "components/ui/input-group.tsx",
+        "lib/utils.ts",
         "components/ui/input.tsx",
         "components/ui/tooltip.tsx"
       ],
@@ -197,8 +208,8 @@
       "files": [
         "components/blocks/form.tsx",
         "components/ui/checkbox.tsx",
-        "components/ui/textarea.tsx",
-        "lib/utils.ts"
+        "lib/utils.ts",
+        "components/ui/textarea.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -213,7 +224,8 @@
       "group": "Core Elements",
       "description": "A horizontal bar showing completion of a task.",
       "files": [
-        "components/ui/progress.tsx"
+        "components/ui/progress.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -226,7 +238,8 @@
       "group": "Core Elements",
       "description": "A draggable control for selecting one value or a range along a track.",
       "files": [
-        "components/ui/slider.tsx"
+        "components/ui/slider.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -239,7 +252,8 @@
       "group": "Core Elements",
       "description": "Page navigation with Prev/Next and numbered pages, or a simple \"Page X of Y\" mode.",
       "files": [
-        "components/ui/pagination.tsx"
+        "components/ui/pagination.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "cn",
@@ -252,7 +266,8 @@
       "group": "Core Elements",
       "description": "A thin dividing line, horizontal or vertical, solid or dashed.",
       "files": [
-        "components/ui/separator.tsx"
+        "components/ui/separator.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -280,7 +295,8 @@
       "group": "Core Elements",
       "description": "A pulsing placeholder shown while content is loading.",
       "files": [
-        "components/ui/skeleton.tsx"
+        "components/ui/skeleton.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "class-variance-authority",
@@ -293,7 +309,8 @@
       "group": "Core Elements",
       "description": "A short label shown on hover, in any of 4 directions.",
       "files": [
-        "components/ui/tooltip.tsx"
+        "components/ui/tooltip.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -308,6 +325,7 @@
       "files": [
         "components/ui/dialog.tsx",
         "components/ui/icon-button.tsx",
+        "lib/utils.ts",
         "components/ui/button.tsx"
       ],
       "dependencies": [
@@ -326,6 +344,7 @@
         "components/ui/alert-dialog.tsx",
         "components/ui/dialog.tsx",
         "components/ui/icon-button.tsx",
+        "lib/utils.ts",
         "components/ui/button.tsx"
       ],
       "dependencies": [
@@ -341,7 +360,8 @@
       "group": "Core Elements",
       "description": "A single collapsible panel controlled by a trigger button.",
       "files": [
-        "components/ui/collapsible.tsx"
+        "components/ui/collapsible.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -356,6 +376,7 @@
       "description": "A standalone two-state button that can be pressed or unpressed.",
       "files": [
         "components/ui/toggle-button-group.tsx",
+        "lib/utils.ts",
         "components/ui/toggle.tsx"
       ],
       "dependencies": [
@@ -370,7 +391,8 @@
       "group": "Core Elements",
       "description": "A graphical display of a fixed value within a range, e.g. disk usage.",
       "files": [
-        "components/ui/meter.tsx"
+        "components/ui/meter.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -383,7 +405,8 @@
       "group": "Core Elements",
       "description": "Displays a keyboard key or shortcut, e.g. inside a search input.",
       "files": [
-        "components/ui/kbd.tsx"
+        "components/ui/kbd.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "cn"
@@ -395,7 +418,8 @@
       "group": "Core Elements",
       "description": "A spinning indicator for an in-progress loading state.",
       "files": [
-        "components/ui/spinner.tsx"
+        "components/ui/spinner.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "cn",
@@ -408,7 +432,8 @@
       "group": "Core Elements",
       "description": "A container for grouping a set of buttons and controls.",
       "files": [
-        "components/ui/toolbar.tsx"
+        "components/ui/toolbar.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -421,7 +446,8 @@
       "group": "Core Elements",
       "description": "A rich preview popup shown on hovering a trigger.",
       "files": [
-        "components/ui/hover-card.tsx"
+        "components/ui/hover-card.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -434,7 +460,8 @@
       "group": "Feedback & Overlays",
       "description": "A floating panel anchored to a trigger element.",
       "files": [
-        "components/ui/popover.tsx"
+        "components/ui/popover.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -447,7 +474,8 @@
       "group": "Core Elements",
       "description": "Switches between related views in the same context.",
       "files": [
-        "components/ui/tabs.tsx"
+        "components/ui/tabs.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -463,8 +491,8 @@
       "files": [
         "components/blocks/data.tsx",
         "components/ui/icon-button.tsx",
-        "components/ui/avatar.tsx",
         "lib/utils.ts",
+        "components/ui/avatar.tsx",
         "components/wunderui/agenda.tsx"
       ],
       "dependencies": [
@@ -580,8 +608,8 @@
       "files": [
         "components/blocks/application.tsx",
         "components/ui/badge.tsx",
-        "components/ui/avatar.tsx",
         "lib/utils.ts",
+        "components/ui/avatar.tsx",
         "components/wunderui/timeline.tsx"
       ],
       "dependencies": [
@@ -611,7 +639,8 @@
       "description": "A full-width styled select trigger and popup list.",
       "files": [
         "components/ui/native-select.tsx",
-        "lib/select-items.ts"
+        "lib/select-items.ts",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -627,7 +656,8 @@
       "files": [
         "components/ui/inline-select.tsx",
         "components/ui/native-select.tsx",
-        "lib/select-items.ts"
+        "lib/select-items.ts",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -641,7 +671,8 @@
       "group": "Forms",
       "description": "A multi-select group of toggle-styled buttons.",
       "files": [
-        "components/ui/toggle-button-group.tsx"
+        "components/ui/toggle-button-group.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -654,7 +685,8 @@
       "group": "Forms",
       "description": "A single-select group of toggle-styled buttons.",
       "files": [
-        "components/ui/toggle-button-group.tsx"
+        "components/ui/toggle-button-group.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -668,6 +700,7 @@
       "description": "A +/- increment control for a bounded numeric value.",
       "files": [
         "components/ui/number-stepper.tsx",
+        "lib/utils.ts",
         "components/ui/icon-button.tsx"
       ],
       "dependencies": [
@@ -719,10 +752,10 @@
       "files": [
         "components/wunderui/color-picker.tsx",
         "components/ui/popover.tsx",
+        "lib/utils.ts",
         "components/ui/native-select.tsx",
         "lib/select-items.ts",
-        "components/ui/icon-button.tsx",
-        "lib/utils.ts"
+        "components/ui/icon-button.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -858,7 +891,8 @@
       "group": "Forms",
       "description": "An accessible label for a form control.",
       "files": [
-        "components/ui/label.tsx"
+        "components/ui/label.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "cn"
@@ -871,6 +905,7 @@
       "description": "Labelling and validation for a single form control — label, description, and error message.",
       "files": [
         "components/ui/fieldset.tsx",
+        "lib/utils.ts",
         "components/ui/field.tsx"
       ],
       "dependencies": [
@@ -884,7 +919,8 @@
       "group": "Forms",
       "description": "A native fieldset with a legend, for grouping related fields.",
       "files": [
-        "components/ui/fieldset.tsx"
+        "components/ui/fieldset.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -899,8 +935,8 @@
       "files": [
         "components/blocks/form.tsx",
         "components/ui/checkbox.tsx",
-        "components/ui/textarea.tsx",
         "lib/utils.ts",
+        "components/ui/textarea.tsx",
         "components/ui/form.tsx"
       ],
       "dependencies": [
@@ -916,7 +952,8 @@
       "group": "Forms",
       "description": "Groups an input with leading/trailing addons — icons, buttons, or text.",
       "files": [
-        "components/ui/input-group.tsx"
+        "components/ui/input-group.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "cn"
@@ -928,7 +965,8 @@
       "group": "Forms",
       "description": "A numeric input with increment/decrement buttons.",
       "files": [
-        "components/ui/number-field.tsx"
+        "components/ui/number-field.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -942,7 +980,8 @@
       "group": "Forms",
       "description": "A segmented input for one-time passwords and verification codes.",
       "files": [
-        "components/ui/otp-field.tsx"
+        "components/ui/otp-field.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -955,7 +994,8 @@
       "group": "Forms",
       "description": "An input combined with a filterable list of predefined items to select.",
       "files": [
-        "components/ui/combobox.tsx"
+        "components/ui/combobox.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -969,7 +1009,8 @@
       "group": "Forms",
       "description": "An input that suggests options as you type.",
       "files": [
-        "components/ui/autocomplete.tsx"
+        "components/ui/autocomplete.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -1022,6 +1063,7 @@
         "components/ui/alert-dialog.tsx",
         "components/ui/dialog.tsx",
         "components/ui/icon-button.tsx",
+        "lib/utils.ts",
         "components/ui/button.tsx",
         "components/ui/alert.tsx"
       ],
@@ -1038,7 +1080,8 @@
       "group": "Feedback & Overlays",
       "description": "A temporary notification that appears in the corner of the screen, with success/error/warning/info types.",
       "files": [
-        "components/ui/toast.tsx"
+        "components/ui/toast.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -1148,7 +1191,8 @@
       "description": "A panel that slides in from an edge of the screen — left, right, or bottom.",
       "files": [
         "components/ui/sheet.tsx",
-        "components/ui/icon-button.tsx"
+        "components/ui/icon-button.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",

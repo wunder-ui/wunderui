@@ -1,7 +1,7 @@
 "use client"
 
 import { Meter as MeterPrimitive } from "@base-ui/react/meter"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 
 /** A fixed-point-in-range gauge (e.g. disk usage, a score) — visually like
  *  Progress, but semantically for a static value rather than a task's

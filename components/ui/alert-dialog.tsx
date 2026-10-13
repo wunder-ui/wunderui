@@ -2,7 +2,7 @@
 
 import type * as React from "react"
 import { AlertDialog as AlertDialogPrimitive } from "@base-ui/react/alert-dialog"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 
 import { Button } from "@/components/ui/button"
 import { DialogIcon } from "@/components/ui/dialog"
@@ -118,15 +118,9 @@ function AlertDialogAction({
   return (
     <AlertDialogPrimitive.Close
       data-slot="alert-dialog-action"
-      render={
-        <Button
-          variant="primary"
-          className={cn(
-            variant === "destructive" && "border-destructive bg-destructive text-white hover:bg-destructive/90",
-            className
-          )}
-        />
-      }
+      // Button's own destructive variant: its hover darkens (brightness-95) and keeps
+      // the label at AA; the former bg-destructive/90 hover lightened it to 4.44:1.
+      render={<Button variant={variant} className={className} />}
       {...props}
     />
   )

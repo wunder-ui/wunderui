@@ -3,7 +3,7 @@
 import * as React from "react"
 import { Minus, Plus } from "lucide-react"
 import { IconButton } from "@/components/ui/icon-button"
-import { cn } from "cn"
+import { cn } from "@/lib/utils"
 
 function NumberStepper({
   value,
@@ -26,12 +26,16 @@ function NumberStepper({
 }) {
   const clamp = (n: number) => Math.min(max, Math.max(min, n))
 
+  // At a limit the button turns disabled but stays focusable (aria-disabled), so a
+  // keyboard user pressing Enter repeatedly keeps focus instead of dropping to <body>.
   return (
     <div role="group" className={cn("inline-flex items-center gap-2", className)} {...props}>
       <IconButton
         variant="plain"
         size="sm"
         disabled={value <= min}
+        focusableWhenDisabled
+        className="data-disabled:opacity-40"
         onClick={() => onValueChange(clamp(value - step))}
         aria-label="Decrease"
       >
@@ -44,6 +48,8 @@ function NumberStepper({
         variant="plain"
         size="sm"
         disabled={value >= max}
+        focusableWhenDisabled
+        className="data-disabled:opacity-40"
         onClick={() => onValueChange(clamp(value + step))}
         aria-label="Increase"
       >

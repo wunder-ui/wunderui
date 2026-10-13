@@ -11,6 +11,8 @@
  * Tailwind see the utility classes the copied components use.
  */
 
+@import "tw-animate-css";
+
 /* `.light` re-applies the light token set inside a dark document (used by block
    previews), and `.dark` the dark set inside a light one (dark landing sections,
    previews). The dark variant follows the nearest of the two: it applies on and
@@ -265,7 +267,7 @@
 
 /* Motion — easing curves. `ease-*` is a real Tailwind v4 namespace, so these
    become the utilities `ease-entrance`, `ease-exit`, `ease-move`,
-   `ease-overshoot`. Deliberately NOT ease-in-out: a symmetric curve reads as
+   `ease-overshoot` and `ease-spring`. Deliberately NOT ease-in-out: a symmetric curve reads as
    mechanical, and it is the default every generator reaches for.
 
    This block is plain `@theme`, not `@theme inline`, on purpose: the non-inline
@@ -278,6 +280,11 @@
   --ease-exit: cubic-bezier(0.4, 0, 1, 1);
   --ease-move: cubic-bezier(0.65, 0, 0.35, 1);
   --ease-overshoot: cubic-bezier(0.34, 1.35, 0.64, 1);
+  /* A spring sampled into linear(): one soft overshoot (to 1.1), then it
+     settles. For things that should feel physical — a thumb landing, an
+     arrow settling, a sheet let go. Never on a data value. Same curve as
+     @wunderui/motion's wm-spring-standard. */
+  --ease-spring: linear(0, 0.35 9%, 0.78 19%, 1.04 27%, 1.1 32%, 1.03 41%, 0.98 50%, 1.01 62%, 1);
 }
 
 /* Generated from the Figma "Color" variable collection — every value here
@@ -330,7 +337,7 @@
   --text-tertiary: #6E6E70;
   --success: #1AD598;
   --success-foreground: #17181A;
-  /* Chart spectrum (owner, Oct 8 2026): indigo leads, cool neighbours follow,
+  /* Chart spectrum: indigo leads, cool neighbours follow,
      grey last — no orange/yellow next to indigo. All from the badge palette. */
   --chart-1: var(--brand-600);
   --chart-2: #12AFF0;
@@ -646,6 +653,80 @@
   --scale-enter: 0.96;   /* dialog arriving */
 }
 
+/* ---------------------------------------------------------------- density
+   Every size that sets how dense the components are lives here, once.
+   Components read these tokens (`h-(--control-md)`, `py-(--row-py)` …); page
+   layout — the consumer's own paddings, gaps and widths — never does, so a
+   density change resizes controls, rows and surfaces but not the page grid.
+
+   Compact (default since Oct 2026): one scale for buttons and fields,
+   sm 32 · md 36 · lg 40 · xl 44 · 2xl 48.
+   Comfortable (the sizes before Oct 2026, Figma 1:1): set
+   `data-density="comfortable"` on <html> or any wrapper; `data-density="compact"`
+   switches a subtree back. To make comfortable the default again, move
+   `:root,` from the first selector list to the second — nothing else changes.
+
+   Values are plain lengths on purpose: a token built from another token with
+   calc() would be computed once at :root and would not follow a nested
+   data-density. Components do the arithmetic where they use a token. */
+:root,
+[data-density="compact"] {
+  /* Control heights — Button, Tabs, Segment, Pagination, table head, search
+     triggers, Command input. */
+  --control-sm: 2rem;      /* 32 */
+  --control-md: 2.25rem;   /* 36 */
+  --control-lg: 2.5rem;    /* 40 */
+  --control-xl: 2.75rem;   /* 44 */
+  --control-2xl: 3rem;     /* 48 */
+  /* Button inline padding per size (the icon side takes 2 px less, 2xl 4 px). */
+  --control-px-sm: 0.75rem;    /* 12 */
+  --control-px-md: 0.875rem;   /* 14 */
+  --control-px-lg: 1rem;       /* 16 */
+  --control-px-xl: 1.125rem;   /* 18 */
+  --control-px-2xl: 1.25rem;   /* 20 */
+  /* Field heights — Input, InputGroup, NativeSelect, Combobox, Autocomplete,
+     TextField. Same steps as the controls, so a field and a button of the
+     same size line up. */
+  --field-sm: 2rem;        /* 32 */
+  --field-md: 2.25rem;     /* 36 */
+  --field-lg: 2.5rem;      /* 40 */
+  /* Textarea minimum heights. */
+  --textarea-sm: 4.5rem;   /* 72 */
+  --textarea-md: 6rem;     /* 96 */
+  --textarea-lg: 8rem;     /* 128 */
+  /* Rows: table cells (row ≈ 33 px with one line of text-sm), list rows,
+     menu items (32), sidebar and nav items (36). */
+  --row-py: 0.375rem;      /* 6 */
+  --list-row-py: 0.5rem;   /* 8 */
+  --menu-item-py: 0.375rem; /* 6 */
+  --nav-item-py: 0.5rem;   /* 8 */
+  /* Surfaces: Card (default size) and Sheet padding. */
+  --card-padding: 1rem;    /* 16 */
+}
+[data-density="comfortable"] {
+  --control-sm: 2.25rem;   /* 36 */
+  --control-md: 2.5rem;    /* 40 */
+  --control-lg: 2.75rem;   /* 44 */
+  --control-xl: 3rem;      /* 48 */
+  --control-2xl: 3.5rem;   /* 56 */
+  --control-px-sm: 0.875rem;   /* 14 */
+  --control-px-md: 1rem;       /* 16 */
+  --control-px-lg: 1.125rem;   /* 18 */
+  --control-px-xl: 1.25rem;    /* 20 */
+  --control-px-2xl: 1.5rem;    /* 24 */
+  --field-sm: 2.25rem;     /* 36 */
+  --field-md: 2.75rem;     /* 44 */
+  --field-lg: 3.25rem;     /* 52 */
+  --textarea-sm: 5rem;     /* 80 */
+  --textarea-md: 7rem;     /* 112 */
+  --textarea-lg: 9rem;     /* 144 */
+  --row-py: 0.625rem;      /* 10 */
+  --list-row-py: 0.75rem;  /* 12 */
+  --menu-item-py: 0.5rem;  /* 8 */
+  --nav-item-py: 0.625rem; /* 10 */
+  --card-padding: 1.25rem; /* 20 */
+}
+
 /* Borders default to the theme border colour. Tailwind v4's preflight uses
    currentColor, so without this a plain `border` on a table row, card or
    divider draws in the text colour (black). Utilities still override it. */
@@ -750,7 +831,7 @@
   transform-box: fill-box;
   transform-origin: 50% 100%;
   animation: wunderui-chart-grow var(--duration-slow) var(--ease-entrance) both;
-  animation-delay: calc(var(--chart-stagger, 0) * 250ms);
+  animation-delay: calc(var(--chart-stagger, 0) * var(--duration-base));
 }
 [data-chart-appear="in"] [data-chart-draw] {
   stroke-dasharray: 1;

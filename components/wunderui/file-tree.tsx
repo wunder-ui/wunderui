@@ -18,6 +18,7 @@ function FileTreeItem({ node, depth = 0 }: { node: FileTreeNode; depth?: number 
     <div>
       <button
         type="button"
+        aria-expanded={isFolder ? open : undefined}
         onClick={() => isFolder && setOpen((o) => !o)}
         className="flex w-full items-center gap-1.5 rounded-md py-1.5 text-left text-sm text-foreground hover:bg-muted"
         style={{ paddingLeft: depth * 16 + 8 }}
@@ -36,11 +37,22 @@ function FileTreeItem({ node, depth = 0 }: { node: FileTreeNode; depth?: number 
         )}
         <span className="truncate">{node.name}</span>
       </button>
-      {isFolder && open && (
-        <div>
-          {node.children!.map((child) => (
-            <FileTreeItem key={child.id} node={child} depth={depth + 1} />
-          ))}
+      {isFolder && (
+        // Opening and closing slide the rows in and out (grid rows 0fr <-> 1fr)
+        // instead of popping them: open on the entrance curve, close one step
+        // faster on the exit curve. Closed rows are inert, so focus skips them.
+        <div
+          inert={!open}
+          className={cn(
+            "grid transition-[grid-template-rows,opacity] motion-reduce:transition-none",
+            open ? "grid-rows-[1fr] opacity-100 duration-base ease-entrance" : "grid-rows-[0fr] opacity-0 duration-fast ease-exit"
+          )}
+        >
+          <div className="min-h-0 overflow-hidden">
+            {node.children!.map((child) => (
+              <FileTreeItem key={child.id} node={child} depth={depth + 1} />
+            ))}
+          </div>
         </div>
       )}
     </div>

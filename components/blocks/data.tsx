@@ -19,8 +19,8 @@ function AvatarStack({ people, size = "sm", max = 3, className }: { people: Pers
   const rest = people.length - shown.length
   return (
     <div data-slot="avatar-stack" className={cn("flex items-center -space-x-1", className)}>
-      {shown.map((p) => (
-        <Avatar key={p.name} size={size} color={p.src ? undefined : (p.color ?? "indigo")} className="ring-2 ring-card" title={p.name}>
+      {shown.map((p, i) => (
+        <Avatar key={`${p.name}-${i}`} size={size} color={p.src ? undefined : (p.color ?? "indigo")} className="ring-2 ring-card" title={p.name}>
           {p.src && <AvatarImage src={p.src} alt={p.name} />}
           <AvatarFallback className="text-[10px]">{initialsOf(p)}</AvatarFallback>
         </Avatar>

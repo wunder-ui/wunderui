@@ -66,7 +66,7 @@ async function find(q) {
     blocks: top(blocks, 8).map(({ score, ...b }) => (FREE
       // on Free a block is a blueprint: which of its parts exist in Free, which need Pro
       ? { id: b.id, screen: b.screen, title: b.title, freeParts: b.uses.filter((u) => tierOf(u) === "free"), proParts: b.uses.filter((u) => tierOf(u) === "pro") }
-      : { ...b, add: `npx @wunderui/cli add ${b.id} --screen ${b.screen}` })),
+      : { ...b, add: `npx wunderui-cli add ${b.id} --screen ${b.screen}` })),
     components: top(FREE ? comps.filter((c) => c.plan === "free") : comps, 12).map(({ score, ...c }) => c),
     ...(FREE && matchedPro.length ? { proWouldAdd: matchedPro.map((c) => `${c.name} — ${c.description}`) } : {}),
     // the Free stand-ins for the Pro parts the request needs (references/free-plan.md)
