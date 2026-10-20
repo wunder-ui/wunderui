@@ -26,9 +26,10 @@ function AvatarStack({ people, size = "sm", max = 3, className }: { people: Pers
         </Avatar>
       ))}
       {rest > 0 && (
-        <span className="grid size-6 place-items-center rounded-full bg-muted text-[10px] font-medium text-text-secondary ring-2 ring-card">
-          +{rest}
-        </span>
+        // An Avatar of the same size, so the count is as big as the faces next to it.
+        <Avatar size={size} className="ring-2 ring-card">
+          <AvatarFallback className="text-[10px] font-medium text-text-secondary">+{rest}</AvatarFallback>
+        </Avatar>
       )}
     </div>
   )
@@ -70,7 +71,7 @@ function AgendaEvent({ start, end, title, meta, color = "purple", guests, onMenu
     // the menu sits above it, so no interactive element is nested in another.
     <div
       data-slot="agenda-event"
-      className={cn("relative flex items-center gap-3 border-b border-border px-5 py-3", onClick && "cursor-pointer hover:bg-muted/40 has-[[data-stretch]:focus-visible]:ring-1 has-[[data-stretch]:focus-visible]:ring-ring has-[[data-stretch]:focus-visible]:ring-inset", className)}
+      className={cn("relative flex items-center gap-3 border-b border-border px-5 py-3", onClick && "cursor-pointer hover:bg-muted/50 has-[[data-stretch]:focus-visible]:ring-1 has-[[data-stretch]:focus-visible]:ring-ring has-[[data-stretch]:focus-visible]:ring-inset", className)}
     >
       <div className="flex w-16 shrink-0 flex-col">
         <span className="text-xs font-medium text-foreground">{start}</span>
@@ -97,18 +98,5 @@ function AgendaEvent({ start, end, title, meta, color = "purple", guests, onMenu
   )
 }
 
-/* ------------------------------------------------------------------ */
-/* Person Cell — avatar + name + role (+ capacity bar)                 */
-/* Figma: ❖ Avatar / Person Cell (722:177)                             */
-/* ------------------------------------------------------------------ */
-
-type PersonCellProps = {
-  person: Person
-  role?: React.ReactNode
-  /** Size=lg adds a capacity bar: value 0–100 and a label like "32h". */
-  capacity?: { value: number; label?: React.ReactNode }
-  className?: string
-}
-
 export { AvatarStack, AgendaEvent }
-export type { Person, EventColor, AgendaEventProps, PersonCellProps }
+export type { Person, EventColor, AgendaEventProps }

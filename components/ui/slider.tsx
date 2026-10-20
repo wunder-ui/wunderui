@@ -17,7 +17,7 @@ function Slider({ className, children, value, defaultValue, "aria-label": ariaLa
       data-slot="slider"
       value={value}
       defaultValue={defaultValue}
-      className={cn("flex flex-col gap-3", className)}
+      className={cn("flex flex-col gap-3 data-[orientation=vertical]:h-full data-[orientation=vertical]:flex-row", className)}
       {...props}
     >
       {children}
@@ -37,7 +37,12 @@ function SliderControl({ className, ...props }: SliderPrimitive.Control.Props) {
   return (
     <SliderPrimitive.Control
       data-slot="slider-control"
-      className={cn("relative flex w-full items-center py-2 select-none touch-none", className)}
+      className={cn(
+        "relative flex w-full items-center py-2 select-none touch-none",
+        // Vertical: the control stands up, the thumb travels from the bottom to the top.
+        "data-[orientation=vertical]:h-full data-[orientation=vertical]:w-auto data-[orientation=vertical]:min-h-32 data-[orientation=vertical]:flex-col data-[orientation=vertical]:px-2 data-[orientation=vertical]:py-0",
+        className
+      )}
       {...props}
     />
   )
@@ -47,7 +52,7 @@ function SliderTrack({ className, ...props }: SliderPrimitive.Track.Props) {
   return (
     <SliderPrimitive.Track
       data-slot="slider-track"
-      className={cn("relative h-1.5 w-full rounded-full bg-muted", className)}
+      className={cn("relative h-1.5 w-full rounded-full bg-muted data-[orientation=vertical]:h-full data-[orientation=vertical]:w-1.5", className)}
       {...props}
     />
   )
@@ -57,7 +62,7 @@ function SliderIndicator({ className, ...props }: SliderPrimitive.Indicator.Prop
   return (
     <SliderPrimitive.Indicator
       data-slot="slider-indicator"
-      className={cn("h-full rounded-full bg-primary", className)}
+      className={cn("h-full rounded-full bg-primary data-[orientation=vertical]:h-auto data-[orientation=vertical]:w-full", className)}
       {...props}
     />
   )

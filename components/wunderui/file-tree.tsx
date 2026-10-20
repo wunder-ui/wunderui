@@ -20,7 +20,8 @@ function FileTreeItem({ node, depth = 0 }: { node: FileTreeNode; depth?: number 
         type="button"
         aria-expanded={isFolder ? open : undefined}
         onClick={() => isFolder && setOpen((o) => !o)}
-        className="flex w-full items-center gap-1.5 rounded-md py-1.5 text-left text-sm text-foreground hover:bg-muted"
+        // pr-2 equals the 8 px the indent starts with, so the hover fill has the same room left and right of the content
+        className="flex w-full items-center gap-1.5 rounded-md py-1.5 pr-2 text-left text-sm text-foreground hover:bg-muted/50"
         style={{ paddingLeft: depth * 16 + 8 }}
       >
         {isFolder ? (

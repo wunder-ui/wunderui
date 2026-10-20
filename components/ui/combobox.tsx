@@ -81,7 +81,7 @@ function ComboboxInput({ className, ...props }: ComboboxPrimitive.Input.Props) {
   return (
     <ComboboxPrimitive.Input
       data-slot="combobox-input"
-      className={cn("h-full flex-1 border-none bg-transparent p-0 text-sm text-foreground outline-none", className)}
+      className={cn("h-full min-w-0 flex-1 border-none bg-transparent p-0 text-sm text-foreground outline-none", className)}
       {...props}
     />
   )
@@ -131,7 +131,7 @@ function ComboboxEmpty({ className, ...props }: ComboboxPrimitive.Empty.Props) {
   return (
     <ComboboxPrimitive.Empty
       data-slot="combobox-empty"
-      className={cn("px-2 py-4 text-center text-sm text-text-tertiary", className)}
+      className={cn("px-2 py-4 text-center text-sm text-text-tertiary empty:hidden", className)}
       {...props}
     />
   )

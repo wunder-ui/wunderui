@@ -28,7 +28,7 @@ function EmojiPicker({
           key={emoji}
           type="button"
           onClick={() => onSelect?.(emoji)}
-          className="flex size-8 items-center justify-center rounded-md text-lg outline-none hover:bg-muted focus-visible:ring-1 focus-visible:ring-ring"
+          className="flex size-8 items-center justify-center rounded-md text-lg outline-none hover:bg-muted/50 focus-visible:ring-1 focus-visible:ring-ring"
         >
           {emoji}
         </button>

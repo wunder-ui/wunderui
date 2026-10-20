@@ -27,22 +27,24 @@ import { cn } from "@/lib/utils"
 // carries the rest of the raised look. Its hover brightened (brightness-105,
 // 3.52:1); it now darkens like the other filled variants (4.71:1 top).
 const buttonVariants = cva(
-  "group/button inline-flex shrink-0 items-center justify-center gap-2 border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition duration-fast ease-entrance outline-none select-none shadow-[0px_1px_1px_0px_rgba(16,24,40,0.05)] active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-40 focus-visible:border-ring [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "group/button inline-flex shrink-0 items-center justify-center gap-2 border border-transparent text-sm font-medium whitespace-nowrap transition duration-fast ease-entrance outline-none select-none shadow-[0px_1px_1px_0px_rgba(16,24,40,0.05)] active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-40 focus-visible:border-ring focus-visible:outline-solid focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-ring [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
-        plain: "bg-card border-border-control text-foreground hover:bg-muted",
+        plain: "bg-card border-border-control text-foreground hover:bg-muted/50",
         primary: "border-primary bg-primary text-primary-foreground hover:brightness-95",
         brand:
           "border-brand-primary bg-brand-primary text-brand-primary-foreground hover:brightness-95",
         gradient:
           "border-primary bg-gradient-to-b from-[#5a5ef4] to-primary text-primary-foreground shadow-[inset_0px_1px_2px_0px_rgba(255,255,255,0.35)] hover:brightness-95",
         dark: "bg-inverse text-text-inverse hover:bg-(--dark-400) hover:text-white",
-        light: "bg-white text-primary hover:bg-(--light-200)",
+        light: "bg-white bg-clip-padding text-primary hover:bg-(--light-200)",
         // Figma Type=blue_outline: indigo rim, link-coloured label, indigo tint on hover.
         outline: "bg-card border-primary text-text-link hover:bg-tint-indigo hover:text-tint-text-indigo",
+        // Indigo tint: the selected-option look of the button group and segmented selectors.
+        tint: "bg-tint-indigo text-tint-text-indigo hover:bg-tint-indigo hover:brightness-95",
         // Figma Type=ghost / destructive / link (added Sep 2026)
-        ghost: "bg-transparent text-foreground shadow-none hover:bg-muted",
+        ghost: "bg-transparent text-foreground shadow-none hover:bg-muted/50",
         destructive:
           "border-destructive bg-destructive text-destructive-foreground hover:brightness-95",
         link: "bg-transparent px-0! text-text-link shadow-none underline-offset-4 hover:underline",

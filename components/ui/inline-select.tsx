@@ -26,7 +26,7 @@ function InlineSelectTrigger({ className, children, ...props }: SelectPrimitive.
     <SelectPrimitive.Trigger
       data-slot="inline-select-trigger"
       className={cn(
-        "inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-sm font-medium text-foreground outline-none hover:bg-muted focus-visible:ring-1 focus-visible:ring-ring data-disabled:pointer-events-none data-disabled:opacity-50",
+        "inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-sm font-medium text-foreground outline-none hover:bg-muted/50 focus-visible:ring-1 focus-visible:ring-ring data-disabled:pointer-events-none data-disabled:opacity-50",
         className
       )}
       {...props}

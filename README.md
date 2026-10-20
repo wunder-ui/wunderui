@@ -11,7 +11,7 @@
 
 <p align="center">
   <img alt="MIT licence" src="https://img.shields.io/badge/licence-MIT-555CF3">
-  <img alt="76 of 204 components free" src="https://img.shields.io/badge/free%20components-76%20of%20204-555CF3">
+  <img alt="77 of 205 components free" src="https://img.shields.io/badge/free%20components-77%20of%20205-555CF3">
   <img alt="React 19" src="https://img.shields.io/badge/React-19-555CF3">
   <img alt="Tailwind CSS v4" src="https://img.shields.io/badge/Tailwind%20CSS-v4-555CF3">
   <img alt="Base UI" src="https://img.shields.io/badge/built%20on-Base%20UI-555CF3">
@@ -19,7 +19,7 @@
 
 # WunderUI Free
 
-**76 of the 204 WunderUI React components, free as source you own.** Built on Base UI and Tailwind CSS v4, styled by the same tokens as the WunderUI Figma library, light and dark, accessible (WCAG AA contrast on every token pair), and documented with live examples on [wunderui.com](https://wunderui.com).
+**77 of the 205 WunderUI React components, free as source you own.** Built on Base UI and Tailwind CSS v4, styled by the same tokens as the WunderUI Figma library, light and dark, accessible (WCAG AA contrast on every token pair), and documented with live examples on [wunderui.com](https://wunderui.com).
 
 Copy the files into your project and they are yours: no package to update, no lock-in, MIT licence.
 
@@ -33,7 +33,7 @@ Requirements: React 19, Tailwind CSS v4, and the `@/*` path alias pointing at yo
 npx wunderui-cli add button badge input
 ```
 
-Then import the styles once (step 3) and use the components (step 4). `npx wunderui-cli list --components` shows all 76.
+Then import the styles once (step 3) and use the components (step 4). `npx wunderui-cli list --components` shows all 77.
 
 **By hand:**
 
@@ -48,7 +48,7 @@ Files with the same name as components already in your project (`button.tsx`, `b
 **2. Install the dependencies:**
 
 ```bash
-npm install @base-ui/react @tiptap/extension-placeholder @tiptap/react @tiptap/starter-kit class-variance-authority cn lucide-react tw-animate-css
+npm install @base-ui/react @tiptap/extension-placeholder @tiptap/react @tiptap/starter-kit class-variance-authority cn lucide-react next-themes tw-animate-css
 ```
 
 **3. Add the styles** to your Tailwind entry file, after Tailwind:
@@ -79,7 +79,7 @@ Every component has a page with examples, props and the matching Figma component
 
 ## Components
 
-### Core Elements (41)
+### Core Elements (42)
 
 | Component | What it does | Import |
 | --- | --- | --- |
@@ -117,6 +117,7 @@ Every component has a page with examples, props and the matching Figma component
 | [Slider](https://wunderui.com/components/slider) | A draggable control for selecting one value or a range along a track. | `Slider` |
 | [Spinner](https://wunderui.com/components/spinner) | A spinning indicator for an in-progress loading state. | `Spinner` |
 | [Switch](https://wunderui.com/components/switch) | A toggle control for a binary setting. | `Switch` |
+| [Table](https://wunderui.com/components/table) | Rows and columns with 23 ready-made cell types; for sorting and search use Data Grid. | `Table` |
 | [Tabs](https://wunderui.com/components/tabs) | Switches between related views in the same context. | `Tabs` |
 | [Textarea](https://wunderui.com/components/textarea) | A multi-line text field with sm/default/lg sizes and an optional character counter. | `Textarea` |
 | [Timeline](https://wunderui.com/components/timeline) | A vertical sequence of dated, dot-connected events. | `Timeline` |
@@ -205,8 +206,8 @@ The free components are the foundation. [WunderUI Core and Pro](https://wunderui
 | --- | --- | --- |
 | AI & Agents | 45 | Activity Item, Agent Avatar, Agent Grid, Agent Lane, Agent Plan, Agent Status, … |
 | Block Parts | 44 | Auth Heading, Backup Code, Checklist Task, Checkout Steps, Column Header, Command Item Row, … |
-| Core Elements | 4 | Dropdown Menu, Kanban, List View, Table |
-| Data & Charts | 17 | Area Chart, Bar Chart, Bubble Chart, Candlestick Chart, Column Chart, Composed Chart, … |
+| Core Elements | 3 | Dropdown Menu, Kanban, List View |
+| Data & Charts | 18 | Area Chart, Bar Chart, Bubble Chart, Candlestick Chart, Column Chart, Composed Chart, … |
 | KPI / Metric Card | 3 | KPI, KPI Group, Metric Card |
 | Navigation & Layout | 9 | App Layout, Command, Context Menu, Navbar, Resizable, Scroll Area, … |
 

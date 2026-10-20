@@ -158,7 +158,7 @@ function TabsTrigger({ className, ...props }: TabsPrimitive.Tab.Props) {
         "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         // Tab Button: bordered, filling with the indigo tint when active.
         "group-data-horizontal/tabs:group-data-[variant=default]/tabs-list:flex-1 group-data-[variant=default]/tabs-list:border group-data-[variant=default]/tabs-list:border-border group-data-[variant=default]/tabs-list:bg-card group-data-[variant=default]/tabs-list:px-4",
-        "group-data-[variant=default]/tabs-list:hover:bg-muted",
+        "group-data-[variant=default]/tabs-list:hover:bg-muted/50",
         "group-data-[variant=default]/tabs-list:data-active:bg-tint-indigo group-data-[variant=default]/tabs-list:data-active:text-text-link",
         // Tab Item: nothing but the label and the underline below it.
         "group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:px-0 group-data-[variant=line]/tabs-list:data-active:text-text-link",

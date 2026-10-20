@@ -23,7 +23,7 @@ function NumberFieldDecrement({ className, ...props }: NumberFieldPrimitive.Decr
     <NumberFieldPrimitive.Decrement
       data-slot="number-field-decrement"
       className={cn(
-        "flex w-9 shrink-0 items-center justify-center border-r border-input text-text-secondary transition-colors duration-fast ease-entrance hover:bg-muted disabled:pointer-events-none disabled:opacity-40",
+        "flex w-9 shrink-0 items-center justify-center border-r border-input text-text-secondary transition-colors duration-fast ease-entrance hover:bg-muted/50 disabled:pointer-events-none disabled:opacity-40",
         className
       )}
       {...props}
@@ -38,7 +38,7 @@ function NumberFieldIncrement({ className, ...props }: NumberFieldPrimitive.Incr
     <NumberFieldPrimitive.Increment
       data-slot="number-field-increment"
       className={cn(
-        "flex w-9 shrink-0 items-center justify-center border-l border-input text-text-secondary transition-colors duration-fast ease-entrance hover:bg-muted disabled:pointer-events-none disabled:opacity-40",
+        "flex w-9 shrink-0 items-center justify-center border-l border-input text-text-secondary transition-colors duration-fast ease-entrance hover:bg-muted/50 disabled:pointer-events-none disabled:opacity-40",
         className
       )}
       {...props}

@@ -332,7 +332,7 @@
   --destructive: #D42A2D;
   --destructive-foreground: #FFFFFF;
   --border: #F1F5F7;
-  --input: #7694AD; /* field rim: 3:1 on page, card and bg-page (WCAG 1.4.11) */
+  --input: var(--border-control); /* field rim: the same light grey as the button rim (#D9E1E7). It was #7694AD (a blue-grey, 3:1 for WCAG 1.4.11); the style asks for the lighter, neutral grey. */
   /* Code boxes: border and muted are the same grey, so a code box needs its own edge. */
   --code-border: var(--light-300);
   /* Rim of plain controls (plain button, icon button, white badge, avatar ring).
@@ -648,6 +648,7 @@
   --duration-slow: 350ms;        /* dialog, toast, switch — a surface arriving */
   --duration-deliberate: 450ms;  /* sheet, full-width panel, orchestrated beats */
   --duration-ambient: 700ms;     /* progress and meter fills — data, not chrome */
+  --duration-loop: 1800ms;       /* one cycle of an endless ambient loop (skeleton shimmer, pulse) — never a transition */
 
   /* Travel distances. Restraint is the point: a menu that slides 20px looks
      like it fell in. Anything anchored to a trigger barely moves at all. */
@@ -780,6 +781,21 @@
   --tw-duration: var(--duration-ambient);
   transition-duration: var(--duration-ambient);
   animation-duration: var(--duration-ambient);
+}
+
+/* `delay-instant` is the `--duration-instant` step used as a delay (the
+   tooltip's hover intent). It also sets --tw-animation-delay, which
+   tw-animate-css reads for `animate-in`, so `data-open:delay-instant` works. */
+@utility delay-instant {
+  --tw-animation-delay: var(--duration-instant);
+  transition-delay: var(--duration-instant);
+  animation-delay: var(--duration-instant);
+}
+
+/* The looping sweep shared by Skeleton and ChartSkeleton, used on their
+   ::before as `before:animate-shimmer`. */
+@utility animate-shimmer {
+  animation: wunderui-shimmer var(--duration-loop) var(--ease-move) infinite;
 }
 
 @keyframes wunderui-copied-ring {
@@ -946,4 +962,12 @@
   textarea {
     font-size: 16px;
   }
+}
+
+/* A chart is not a control. Clicking it moves the focus to one of its SVG layers, and the
+   browser draws its default focus ring around that layer (a box around the plot). That ring
+   is hidden for a mouse click; a keyboard focus (:focus-visible) keeps its ring. */
+.recharts-wrapper:focus:not(:focus-visible),
+.recharts-wrapper *:focus:not(:focus-visible) {
+  outline: none;
 }

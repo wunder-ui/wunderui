@@ -32,7 +32,7 @@ function RichTextEditorToolbarButton({
       disabled={disabled}
       onClick={onClick}
       className={cn(
-        "flex size-7 items-center justify-center rounded-md text-text-secondary outline-none hover:bg-muted focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-40 [&_svg]:size-4",
+        "flex size-7 items-center justify-center rounded-md text-text-secondary outline-none hover:bg-muted/50 focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-40 [&_svg]:size-4",
         active && "bg-muted text-foreground"
       )}
     >
@@ -65,7 +65,7 @@ function RichTextEditorToolbar({ editor }: { editor: Editor }) {
       >
         <UnderlineIcon />
       </RichTextEditorToolbarButton>
-      <Separator orientation="vertical" className="mx-1 h-5" />
+      <Separator orientation="vertical" className="mx-1 h-5 data-vertical:self-center" />
       <RichTextEditorToolbarButton
         label="Bulleted list"
         active={editor.isActive("bulletList")}
@@ -80,7 +80,7 @@ function RichTextEditorToolbar({ editor }: { editor: Editor }) {
       >
         <ListOrdered />
       </RichTextEditorToolbarButton>
-      <Separator orientation="vertical" className="mx-1 h-5" />
+      <Separator orientation="vertical" className="mx-1 h-5 data-vertical:self-center" />
       <RichTextEditorToolbarButton
         label="Link"
         active={editor.isActive("link")}
@@ -129,7 +129,7 @@ function RichTextEditorInner({
   if (!editor) return <RichTextEditorSkeleton placeholder={placeholder} className={className} />
 
   return (
-    <div className={cn("flex flex-col rounded-lg border border-input has-[[contenteditable]:focus]:border-ring", className)}>
+    <div className={cn("flex flex-col rounded-lg border border-input bg-card has-[[contenteditable]:focus]:border-ring", className)}>
       <RichTextEditorToolbar editor={editor} />
       <EditorContent editor={editor} />
     </div>

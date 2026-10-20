@@ -12,7 +12,7 @@ type RichTextEditorProps = {
 
 function RichTextEditorSkeleton({ placeholder, className }: Pick<RichTextEditorProps, "placeholder" | "className">) {
   return (
-    <div className={cn("flex flex-col rounded-lg border border-input", className)}>
+    <div className={cn("flex flex-col rounded-lg border border-input bg-card", className)}>
       <div className="h-[38px] border-b border-border" />
       <div className="min-h-32 p-3 text-sm text-text-tertiary">{placeholder}</div>
     </div>

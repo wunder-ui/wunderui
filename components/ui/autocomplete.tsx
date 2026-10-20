@@ -37,7 +37,7 @@ function AutocompleteInput({ className, ...props }: AutocompletePrimitive.Input.
   return (
     <AutocompletePrimitive.Input
       data-slot="autocomplete-input"
-      className={cn("h-full flex-1 border-none bg-transparent p-0 text-sm text-foreground outline-none", className)}
+      className={cn("h-full min-w-0 flex-1 border-none bg-transparent p-0 text-sm text-foreground outline-none", className)}
       {...props}
     />
   )
@@ -74,7 +74,7 @@ function AutocompleteEmpty({ className, ...props }: AutocompletePrimitive.Empty.
   return (
     <AutocompletePrimitive.Empty
       data-slot="autocomplete-empty"
-      className={cn("px-2 py-4 text-center text-sm text-text-tertiary", className)}
+      className={cn("px-2 py-4 text-center text-sm text-text-tertiary empty:hidden", className)}
       {...props}
     />
   )

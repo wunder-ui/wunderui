@@ -40,7 +40,7 @@ function Pagination({ page, pageCount, onPageChange, className }: PaginationProp
         type="button"
         onClick={() => onPageChange(page - 1)}
         disabled={page <= 1}
-        className="flex h-(--control-md) items-center gap-1 rounded-md border border-border bg-card px-3 text-sm font-medium text-text-secondary transition-colors duration-fast ease-entrance hover:bg-muted disabled:pointer-events-none disabled:opacity-40"
+        className="flex h-(--control-md) items-center gap-1 rounded-md border border-border bg-card px-3 text-sm font-medium text-text-secondary transition-colors duration-fast ease-entrance hover:bg-muted/50 disabled:pointer-events-none disabled:opacity-40"
       >
         <ChevronLeft className="size-4" />
         <span className="sr-only sm:not-sr-only">Prev</span>
@@ -62,7 +62,7 @@ function Pagination({ page, pageCount, onPageChange, className }: PaginationProp
                 "flex h-(--control-md) min-w-(--control-md) items-center justify-center rounded-md px-1 text-[13px] font-medium tabular-nums transition-colors duration-base ease-entrance",
                 p === page
                   ? "bg-primary text-primary-foreground"
-                  : "text-text-secondary hover:bg-muted"
+                  : "text-text-secondary hover:bg-muted/50"
               )}
             >
               {p}
@@ -75,7 +75,7 @@ function Pagination({ page, pageCount, onPageChange, className }: PaginationProp
         type="button"
         onClick={() => onPageChange(page + 1)}
         disabled={page >= pageCount}
-        className="flex h-(--control-md) items-center gap-1 rounded-md border border-border bg-card px-3 text-sm font-medium text-text-secondary transition-colors duration-fast ease-entrance hover:bg-muted disabled:pointer-events-none disabled:opacity-40"
+        className="flex h-(--control-md) items-center gap-1 rounded-md border border-border bg-card px-3 text-sm font-medium text-text-secondary transition-colors duration-fast ease-entrance hover:bg-muted/50 disabled:pointer-events-none disabled:opacity-40"
       >
         <span className="sr-only sm:not-sr-only">Next</span>
         <ChevronRight className="size-4" />
@@ -103,7 +103,7 @@ function PaginationSimple({ page, pageCount, onPageChange, className }: Paginati
         type="button"
         onClick={() => onPageChange(page - 1)}
         disabled={page <= 1}
-        className="flex h-(--control-md) items-center gap-2 rounded-md border border-border bg-card px-3.5 text-sm font-medium text-foreground transition-colors duration-fast ease-entrance hover:bg-muted disabled:pointer-events-none disabled:opacity-40"
+        className="flex h-(--control-md) items-center gap-2 rounded-md border border-border bg-card px-3.5 text-sm font-medium text-foreground transition-colors duration-fast ease-entrance hover:bg-muted/50 disabled:pointer-events-none disabled:opacity-40"
       >
         <ChevronLeft className="size-4" />
         Previous
@@ -115,7 +115,7 @@ function PaginationSimple({ page, pageCount, onPageChange, className }: Paginati
         type="button"
         onClick={() => onPageChange(page + 1)}
         disabled={page >= pageCount}
-        className="flex h-(--control-md) items-center gap-2 rounded-md border border-border bg-card px-3.5 text-sm font-medium text-foreground transition-colors duration-fast ease-entrance hover:bg-muted disabled:pointer-events-none disabled:opacity-40"
+        className="flex h-(--control-md) items-center gap-2 rounded-md border border-border bg-card px-3.5 text-sm font-medium text-foreground transition-colors duration-fast ease-entrance hover:bg-muted/50 disabled:pointer-events-none disabled:opacity-40"
       >
         Next
         <ChevronRight className="size-4" />

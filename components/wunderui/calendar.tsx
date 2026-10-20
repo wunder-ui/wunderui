@@ -127,8 +127,23 @@ function Calendar({ mode = "single", selected, onSelect, month, defaultMonth, on
           const outside = day.getMonth() !== visibleMonth.getMonth()
           const { selected: isSelected, inRange, rangeStart, rangeEnd } = dayState(day)
           const isToday = isSameDay(day, today)
+          // The band runs under the two end circles up to their centres, so it reads as one
+          // continuous shape: the start circle covers its left half, the end circle its right half.
+          const band = mode === "range" && !!(selected as DateRange | undefined)?.from && !!(selected as DateRange | undefined)?.to && !isSameDay((selected as DateRange).from, (selected as DateRange).to)
+          const weekday = i % 7
           return (
-            <div key={i} className={cn("flex h-9 items-center justify-center", inRange && "bg-accent", rangeStart && "rounded-l-full", rangeEnd && "rounded-r-full")}>
+            <div
+              key={i}
+              className={cn(
+                "relative flex h-9 items-center justify-center",
+                inRange && "bg-accent",
+                // the band is rounded where a week starts and ends
+                inRange && weekday === 0 && "rounded-l-full",
+                inRange && weekday === 6 && "rounded-r-full",
+                band && rangeStart && "before:absolute before:inset-y-0 before:right-0 before:left-1/2 before:bg-accent before:content-['']",
+                band && rangeEnd && "before:absolute before:inset-y-0 before:right-1/2 before:left-0 before:bg-accent before:content-['']"
+              )}
+            >
               <button
                 type="button"
                 onClick={() => handleDayClick(day)}
@@ -136,7 +151,7 @@ function Calendar({ mode = "single", selected, onSelect, month, defaultMonth, on
                 aria-pressed={isSelected}
                 aria-current={isToday ? "date" : undefined}
                 className={cn(
-                  "flex size-8 items-center justify-center rounded-full text-sm transition-colors duration-fast ease-entrance hover:bg-muted",
+                  "relative flex size-8 items-center justify-center rounded-full text-sm transition-colors duration-fast ease-entrance hover:bg-muted/50",
                   outside && "text-text-tertiary",
                   !outside && !isSelected && "text-foreground",
                   isToday && !isSelected && "font-semibold text-text-link",

@@ -569,7 +569,7 @@ function ColorPickerTrigger({
         data-slot="color-picker-trigger"
         aria-label={`${label}: ${hex}`}
         className={cn(
-          "group/cp inline-flex h-(--field-md) w-60 max-w-full items-center gap-2 rounded-md border border-border-control bg-card pr-2.5 pl-2 text-left outline-none transition-colors duration-fast ease-entrance hover:bg-muted focus-visible:border-ring data-popup-open:border-ring",
+          "group/cp inline-flex h-(--field-md) w-60 max-w-full items-center gap-2 rounded-md border border-border-control bg-card pr-2.5 pl-2 text-left outline-none transition-colors duration-fast ease-entrance hover:bg-muted/50 focus-visible:border-ring data-popup-open:border-ring",
           className
         )}
       >

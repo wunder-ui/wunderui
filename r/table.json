@@ -1,0 +1,46 @@
+{
+  "name": "table",
+  "type": "registry:ui",
+  "title": "Table",
+  "description": "Rows and columns with 23 ready-made cell types; for sorting and search use Data Grid.",
+  "dependencies": [
+    "cn@^0.3.0"
+  ],
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/styles.json"
+  ],
+  "files": [
+    {
+      "path": "components/ui/table.tsx",
+      "type": "registry:ui",
+      "target": "components/ui/table.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\nimport { useOverflowX } from \"@/lib/use-overflow-x\"\n\nfunction Table({ className, ...props }: React.ComponentProps<\"table\">) {\n  const containerRef = React.useRef<HTMLDivElement>(null)\n  // A table wider than its container scrolls sideways: then the container takes\n  // focus so keyboard users can scroll it with the arrow keys.\n  const scrolls = useOverflowX(containerRef)\n  return (\n    <div\n      ref={containerRef}\n      data-slot=\"table-container\"\n      tabIndex={scrolls ? 0 : undefined}\n      role={scrolls ? \"region\" : undefined}\n      aria-label={scrolls ? (props[\"aria-label\"] ?? \"Table\") : undefined}\n      className=\"relative w-full overflow-x-auto rounded-[inherit] outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset\"\n    >\n      <table\n        data-slot=\"table\"\n        className={cn(\"w-full caption-bottom text-sm\", className)}\n        {...props}\n      />\n    </div>\n  )\n}\n\nfunction TableHeader({ className, ...props }: React.ComponentProps<\"thead\">) {\n  return (\n    <thead\n      data-slot=\"table-header\"\n      className={cn(\"[&_tr]:border-b\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction TableBody({ className, ...props }: React.ComponentProps<\"tbody\">) {\n  return (\n    <tbody\n      data-slot=\"table-body\"\n      className={cn(\"[&_tr:last-child]:border-0\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction TableFooter({ className, ...props }: React.ComponentProps<\"tfoot\">) {\n  return (\n    <tfoot\n      data-slot=\"table-footer\"\n      className={cn(\n        \"border-t bg-muted/50 font-medium [&>tr]:last:border-b-0\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction TableRow({ className, ...props }: React.ComponentProps<\"tr\">) {\n  return (\n    <tr\n      data-slot=\"table-row\"\n      className={cn(\n        \"border-b transition-colors duration-fast ease-entrance hover:bg-muted/50 has-aria-expanded:bg-muted/50 data-[state=selected]:bg-muted\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction TableHead({ className, ...props }: React.ComponentProps<\"th\">) {\n  return (\n    <th\n      data-slot=\"table-head\"\n      className={cn(\n        \"h-(--control-md) px-3 text-left align-middle font-medium whitespace-nowrap text-foreground first:pl-4 last:pr-4 [&:has([role=checkbox])]:pr-0\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction TableCell({ className, ...props }: React.ComponentProps<\"td\">) {\n  return (\n    <td\n      data-slot=\"table-cell\"\n      className={cn(\n        \"px-3 py-(--row-py) align-middle whitespace-nowrap first:pl-4 last:pr-4 [&:has([role=checkbox])]:pr-0\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nfunction TableCaption({\n  className,\n  ...props\n}: React.ComponentProps<\"caption\">) {\n  return (\n    <caption\n      data-slot=\"table-caption\"\n      className={cn(\"mt-4 text-sm text-muted-foreground\", className)}\n      {...props}\n    />\n  )\n}\n\nexport {\n  Table,\n  TableHeader,\n  TableBody,\n  TableFooter,\n  TableHead,\n  TableRow,\n  TableCell,\n  TableCaption,\n}\n"
+    },
+    {
+      "path": "lib/use-overflow-x.ts",
+      "type": "registry:lib",
+      "target": "lib/use-overflow-x.ts",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\n/** True while the element's content is wider than the element (it scrolls sideways). */\nexport function useOverflowX<T extends HTMLElement>(ref: React.RefObject<T | null>) {\n  const [overflow, setOverflow] = React.useState(false)\n  React.useEffect(() => {\n    const el = ref.current\n    if (!el) return\n    const check = () => setOverflow(el.scrollWidth > el.clientWidth + 1)\n    check()\n    const ro = new ResizeObserver(check)\n    ro.observe(el)\n    // Every child, and children added later: a new Kanban column widens the\n    // content without resizing the element or its first child.\n    const watch = () => {\n      for (const child of Array.from(el.children)) ro.observe(child)\n      check()\n    }\n    watch()\n    const mo = new MutationObserver(watch)\n    mo.observe(el, { childList: true })\n    return () => {\n      ro.disconnect()\n      mo.disconnect()\n    }\n  }, [ref])\n  return overflow\n}\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "import type { CnFunction } from \"cn\"\nimport { createCn } from \"cn/config\"\n\n/**\n * clsx + tailwind-merge, taught WunderUI's own theme utilities so they merge\n * in the right group: `text-label-sm` is a font size (not a text colour, which\n * dropped it next to `text-text-tertiary`), `bg-gradient-*` a background image\n * (not a colour that `bg-card` would remove), and the motion utilities\n * `ease-entrance …` and `duration-fast …` replace each other.\n */\nexport const cn: CnFunction = createCn({\n  extend: {\n    classGroups: {\n      \"font-size\": [{ text: [\"label-sm\"] }],\n      \"bg-image\": [\n        {\n          bg: [\n            \"gradient-primary\",\n            \"gradient-indigo\",\n            \"gradient-blue\",\n            \"gradient-purple\",\n            \"gradient-pink\",\n            \"gradient-red\",\n            \"gradient-orange\",\n            \"gradient-yellow\",\n            \"gradient-green\",\n            \"gradient-alternative\",\n            \"gradient-slate\",\n            \"gradient-dark\",\n          ],\n        },\n      ],\n      ease: [{ ease: [\"entrance\", \"exit\", \"move\", \"overshoot\", \"spring\"] }],\n      duration: [{ duration: [\"instant\", \"fast\", \"base\", \"slow\", \"deliberate\", \"ambient\"] }],\n    },\n  },\n})\n"
+    }
+  ],
+  "docs": "https://wunderui.com/components/table",
+  "meta": {
+    "group": "Core Elements",
+    "exports": [
+      "Table",
+      "TableBody",
+      "TableCaption",
+      "TableCell",
+      "TableFooter",
+      "TableHead",
+      "TableHeader",
+      "TableRow"
+    ]
+  }
+}

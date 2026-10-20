@@ -4,10 +4,10 @@ import { type ReactNode } from "react"
 import { cn } from "@/lib/utils"
 
 const EMPTY_STATE_VARIANTS = {
-  /** No frame — just centered content (Figma Style=default). */
-  default: "",
-  outline: "rounded-2xl border border-border",
-  dashed: "rounded-2xl border border-dashed border-border",
+  /** No frame and no line — centered content on the white card surface (Figma Style=default). */
+  default: "rounded-xl bg-card",
+  outline: "rounded-xl border border-border bg-card",
+  dashed: "rounded-xl border border-dashed border-border bg-card",
   background: "rounded-2xl bg-muted/60",
 } as const
 

@@ -30,6 +30,10 @@ function AccordionItem({
         data-slot="accordion-item"
         className={cn(
           "group/accordion-item transition-colors duration-fast ease-move",
+          // The hover fill belongs to the whole item: an open item lights up
+          // completely (title and answer), a closed one is only its title row.
+          // The trigger itself stays transparent, so the two never stack.
+          "hover:bg-muted/50 has-data-[disabled]:hover:bg-transparent",
           // Horizontal padding lives on the trigger and the panel, not here, so
           // the hover fill of a row reaches the full width of the item.
           // The Figma focused state tints the container, not just the control:
@@ -114,10 +118,13 @@ function AccordionTrigger({
     <AccordionPrimitive.Header className="flex">
       <AccordionPrimitive.Trigger
         data-slot="accordion-trigger"
+        data-icon={icon ? iconVariant : undefined}
+        data-indicator={indicatorVariant}
+        data-indicator-position={indicatorPosition}
         className={cn(
           "group/accordion-trigger flex flex-1 items-center gap-4 px-4 py-3 text-left outline-none focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset",
-          // Only the row itself lights up — never the answer it revealed.
-          "transition-colors duration-fast ease-move hover:bg-muted data-disabled:hover:bg-transparent",
+          // The hover fill sits on the item (see AccordionItem), not on the row.
+          "transition-colors duration-fast ease-move",
           itemVariant === "divider" && "py-4",
           className
         )}
@@ -146,17 +153,27 @@ function AccordionContent({ className, children, ...props }: AccordionPrimitive.
   // single row follows the content, so nothing has to be measured, and the
   // frames match the old height transition. The clip sits on the row's child;
   // the padding one level further in, so it shrinks away with the content.
+  // The text starts where the label starts: the trigger tells (data-icon,
+  // data-indicator, data-indicator-position) what sits before and after the
+  // label, and the item's group variants turn that into the three indent
+  // variables below. Pure CSS, so there is no layout shift on first paint.
   return (
     <AccordionPrimitive.Panel
       data-slot="accordion-content"
       className={cn(
         "grid grid-rows-[1fr] text-sm text-text-secondary transition-[grid-template-rows] duration-base ease-entrance data-[ending-style]:grid-rows-[0fr] data-[starting-style]:grid-rows-[0fr]",
+        // leading icon: box 2.5rem or bare 1.25rem, plus the 1rem gap
+        "group-has-[[data-icon=box]]/accordion-item:[--acc-icon:3.5rem] group-has-[[data-icon=plain]]/accordion-item:[--acc-icon:2.25rem]",
+        // leading indicator: +/− box and chevron are 1.25rem, the bare +/× is 1rem, plus the 1rem gap
+        "group-has-[[data-indicator-position=leading][data-indicator=button]]/accordion-item:[--acc-lead:2.25rem] group-has-[[data-indicator-position=leading][data-indicator=chevron]]/accordion-item:[--acc-lead:2.25rem] group-has-[[data-indicator-position=leading][data-indicator=plus]]/accordion-item:[--acc-lead:2rem]",
+        // trailing indicator: the same widths on the other side
+        "group-has-[[data-indicator-position=trailing][data-indicator=button]]/accordion-item:[--acc-trail:2.25rem] group-has-[[data-indicator-position=trailing][data-indicator=chevron]]/accordion-item:[--acc-trail:2.25rem] group-has-[[data-indicator-position=trailing][data-indicator=plus]]/accordion-item:[--acc-trail:2rem]",
         className
       )}
       {...props}
     >
       <div className="min-h-0 overflow-hidden">
-        <div className="px-4 pb-4">{children}</div>
+        <div className="pr-[calc(1rem+var(--acc-trail,0rem))] pb-4 pl-[calc(1rem+var(--acc-icon,0rem)+var(--acc-lead,0rem))]">{children}</div>
       </div>
     </AccordionPrimitive.Panel>
   )

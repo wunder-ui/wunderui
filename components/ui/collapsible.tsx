@@ -36,16 +36,23 @@ function CollapsibleContent({
   children,
   ...props
 }: CollapsiblePrimitive.Panel.Props) {
+  // Same technique as the Accordion panel: the row animates between 0fr and
+  // 1fr, the clip sits on its child and the padding one level further in, so
+  // the padding shrinks away with the content. A padding on the panel itself
+  // (or a measured height) would stay behind until the panel is hidden, and
+  // the row would jump at the very end of closing.
   return (
     <CollapsiblePrimitive.Panel
       data-slot="collapsible-content"
       className={cn(
-        "h-[var(--collapsible-panel-height)] overflow-hidden text-sm text-text-secondary transition-[height] duration-base ease-entrance data-[ending-style]:h-0 data-[starting-style]:h-0",
+        "grid grid-rows-[1fr] text-sm text-text-secondary transition-[grid-template-rows] duration-base ease-entrance data-[ending-style]:grid-rows-[0fr] data-[starting-style]:grid-rows-[0fr]",
         className
       )}
       {...props}
     >
-      <div className="pt-3">{children}</div>
+      <div className="min-h-0 overflow-hidden">
+        <div className="pt-3">{children}</div>
+      </div>
     </CollapsiblePrimitive.Panel>
   )
 }

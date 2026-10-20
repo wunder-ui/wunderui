@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils"
 const skeletonVariants = cva(
   // Shimmer wave instead of a plain pulse: a soft highlight sweeps across each
   // placeholder every 1.8 s (keyframes in styles.css, off for reduced motion).
-  "relative isolate overflow-hidden bg-muted before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-foreground/6 before:to-transparent before:[animation:wunderui-shimmer_1.8s_ease-in-out_infinite] motion-reduce:before:animate-none dark:before:via-foreground/10",
+  "relative isolate overflow-hidden bg-muted before:absolute before:inset-0 before:-translate-x-full before:bg-gradient-to-r before:from-transparent before:via-foreground/6 before:to-transparent before:animate-shimmer motion-reduce:before:animate-none dark:before:via-foreground/10",
   {
   variants: {
     variant: {

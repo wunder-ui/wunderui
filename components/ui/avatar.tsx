@@ -115,6 +115,9 @@ function AvatarBadge({ className, ...props }: React.ComponentProps<"span">) {
       data-slot="avatar-badge"
       className={cn(
         "absolute right-0 bottom-0 z-10 inline-flex items-center justify-center rounded-full bg-primary text-primary-foreground bg-blend-color ring-[1.5px] ring-(--surface) select-none",
+        // A square avatar has a real corner: the dot is centred on it, half outside, so it
+        // reads as sitting on the corner. A circle has no corner and keeps the dot inside the edge.
+        "group-data-[shape=square]/avatar:translate-x-1/2 group-data-[shape=square]/avatar:translate-y-1/2",
         "group-data-[size=sm]/avatar:size-2 group-data-[size=sm]/avatar:[&>svg]:hidden",
         "group-data-[size=xs]/avatar:size-2 group-data-[size=xs]/avatar:[&>svg]:hidden",
         "group-data-[size=default]/avatar:size-2 group-data-[size=default]/avatar:[&>svg]:size-2",

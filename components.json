@@ -82,7 +82,9 @@
     "exports": [
       "Button",
       "ButtonCell",
-      "ButtonGroup"
+      "ButtonGroup",
+      "ButtonGroupOrientation",
+      "ButtonGroupShape"
     ],
     "docs": "https://wunderui.com/components/button"
   },
@@ -105,7 +107,9 @@
     "category": "Primitives",
     "description": "A row of connected buttons sharing borders and outer corners, for view switchers or segmented actions.",
     "exports": [
-      "ButtonGroup"
+      "ButtonGroup",
+      "ButtonGroupOrientation",
+      "ButtonGroupShape"
     ],
     "docs": "https://wunderui.com/components/button-group"
   },
@@ -431,6 +435,24 @@
     "docs": "https://wunderui.com/components/popover"
   },
   {
+    "slug": "table",
+    "title": "Table",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "Rows and columns with 23 ready-made cell types; for sorting and search use Data Grid.",
+    "exports": [
+      "Table",
+      "TableBody",
+      "TableCaption",
+      "TableCell",
+      "TableFooter",
+      "TableHead",
+      "TableHeader",
+      "TableRow"
+    ],
+    "docs": "https://wunderui.com/components/table"
+  },
+  {
     "slug": "tabs",
     "title": "Tabs",
     "group": "Core Elements",
@@ -477,7 +499,9 @@
     "category": "Primitives",
     "description": "A horizontally scrollable row of items with arrow controls.",
     "exports": [
-      "Carousel"
+      "Carousel",
+      "CarouselNavigationShape",
+      "CarouselProps"
     ],
     "docs": "https://wunderui.com/components/carousel"
   },

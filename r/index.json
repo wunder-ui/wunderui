@@ -469,6 +469,20 @@
       ]
     },
     {
+      "name": "table",
+      "title": "Table",
+      "group": "Core Elements",
+      "description": "Rows and columns with 23 ready-made cell types; for sorting and search use Data Grid.",
+      "files": [
+        "components/ui/table.tsx",
+        "lib/use-overflow-x.ts",
+        "lib/utils.ts"
+      ],
+      "dependencies": [
+        "cn"
+      ]
+    },
+    {
       "name": "tabs",
       "title": "Tabs",
       "group": "Core Elements",
@@ -610,7 +624,8 @@
         "components/ui/badge.tsx",
         "lib/utils.ts",
         "components/ui/avatar.tsx",
-        "components/wunderui/timeline.tsx"
+        "components/wunderui/timeline.tsx",
+        "lib/readable-on.ts"
       ],
       "dependencies": [
         "@base-ui/react",

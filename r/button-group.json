@@ -14,7 +14,7 @@
       "path": "components/ui/button-group.tsx",
       "type": "registry:ui",
       "target": "components/ui/button-group.tsx",
-      "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ntype ButtonGroupShape = \"rounded\" | \"pill\"\n\nfunction ButtonGroup({\n  shape = \"rounded\",\n  className,\n  ...props\n}: React.ComponentProps<\"div\"> & { shape?: ButtonGroupShape }) {\n  return (\n    <div\n      role=\"group\"\n      data-slot=\"button-group\"\n      data-shape={shape}\n      className={cn(\n        \"inline-flex\",\n        \"[&>*]:rounded-none [&>*]:focus-visible:z-10\",\n        \"[&>*:not(:first-child)]:-ml-px\",\n        \"data-[shape=rounded]:[&>*:first-child]:rounded-l-md data-[shape=rounded]:[&>*:last-child]:rounded-r-md\",\n        \"data-[shape=pill]:[&>*:first-child]:rounded-l-full data-[shape=pill]:[&>*:last-child]:rounded-r-full\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nexport { ButtonGroup }\n"
+      "content": "import * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ntype ButtonGroupShape = \"rounded\" | \"pill\"\ntype ButtonGroupOrientation = \"horizontal\" | \"vertical\"\n\nfunction ButtonGroup({\n  shape = \"rounded\",\n  orientation = \"horizontal\",\n  className,\n  ...props\n}: React.ComponentProps<\"div\"> & {\n  shape?: ButtonGroupShape\n  /** \"horizontal\" puts the buttons in a row, \"vertical\" stacks them with shared edges. */\n  orientation?: ButtonGroupOrientation\n}) {\n  return (\n    <div\n      role=\"group\"\n      data-slot=\"button-group\"\n      data-shape={shape}\n      data-orientation={orientation}\n      aria-orientation={orientation === \"vertical\" ? \"vertical\" : undefined}\n      className={cn(\n        \"inline-flex data-[orientation=vertical]:flex-col\",\n        \"[&>*]:rounded-none [&>*]:focus-visible:z-10\",\n        // The buttons share one edge: the next one overlaps the border of the previous by 1 px.\n        \"data-[orientation=horizontal]:[&>*:not(:first-child)]:-ml-px data-[orientation=vertical]:[&>*:not(:first-child)]:-mt-px\",\n        // Only the two outer ends are rounded: left and right in a row, top and bottom in a stack.\n        \"data-[orientation=horizontal]:data-[shape=rounded]:[&>*:nth-child(1_of_:not([data-base-ui-focus-guard],[aria-owns]))]:rounded-l-md data-[orientation=horizontal]:data-[shape=rounded]:[&>*:nth-last-child(1_of_:not([data-base-ui-focus-guard],[aria-owns]))]:rounded-r-md\",\n        \"data-[orientation=horizontal]:data-[shape=pill]:[&>*:nth-child(1_of_:not([data-base-ui-focus-guard],[aria-owns]))]:rounded-l-full data-[orientation=horizontal]:data-[shape=pill]:[&>*:nth-last-child(1_of_:not([data-base-ui-focus-guard],[aria-owns]))]:rounded-r-full\",\n        \"data-[orientation=vertical]:data-[shape=rounded]:[&>*:nth-child(1_of_:not([data-base-ui-focus-guard],[aria-owns]))]:rounded-t-md data-[orientation=vertical]:data-[shape=rounded]:[&>*:nth-last-child(1_of_:not([data-base-ui-focus-guard],[aria-owns]))]:rounded-b-md\",\n        \"data-[orientation=vertical]:data-[shape=pill]:[&>*:nth-child(1_of_:not([data-base-ui-focus-guard],[aria-owns]))]:rounded-t-xl data-[orientation=vertical]:data-[shape=pill]:[&>*:nth-last-child(1_of_:not([data-base-ui-focus-guard],[aria-owns]))]:rounded-b-xl\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nexport { ButtonGroup }\nexport type { ButtonGroupOrientation, ButtonGroupShape }\n"
     },
     {
       "path": "lib/utils.ts",
@@ -27,7 +27,9 @@
   "meta": {
     "group": "Core Elements",
     "exports": [
-      "ButtonGroup"
+      "ButtonGroup",
+      "ButtonGroupOrientation",
+      "ButtonGroupShape"
     ]
   }
 }
