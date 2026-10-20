@@ -1,0 +1,1005 @@
+{
+  "$schema": "./figma-map.schema.json",
+  "file": "I1s6PJIaRNRb0ZeBgRi2PD",
+  "docsBase": "https://wunderui.com/components/",
+  "sourceBase": "https://github.com/wunder-ui/wunderui/blob/main/",
+  "note": "Figma component set → React mapping. Replaces Code Connect: `docs` is the component page (or an explicit `docs` URL for UI-Block molecules), `source` the implementing file, `props` maps Figma variant/property names to React props. Consumed by llms.txt / AI agents; the same URLs are written into each Figma set as documentationLinks.",
+  "sets": [
+    {
+      "page": "Accordion",
+      "set": "Accordion Item",
+      "id": "113:7286",
+      "slug": "accordion",
+      "components": [
+        "Accordion",
+        "AccordionItem",
+        "AccordionTrigger",
+        "AccordionContent"
+      ],
+      "source": "components/ui/accordion.tsx"
+    },
+    {
+      "page": "Avatar",
+      "set": "Avatar",
+      "id": "26:274",
+      "slug": "avatar",
+      "components": [
+        "Avatar",
+        "AvatarFallback"
+      ],
+      "source": "components/ui/avatar.tsx",
+      "props": {
+        "Size": "size",
+        "Avatar": "children (image | initials | icon)",
+        "Status": "status"
+      }
+    },
+    {
+      "page": "Avatar",
+      "set": "Avatargroup",
+      "id": "113:5829",
+      "slug": "avatar-group",
+      "components": [
+        "AvatarGroup",
+        "AvatarGroupCount"
+      ],
+      "source": "components/ui/avatar.tsx"
+    },
+    {
+      "page": "Badge",
+      "set": "Badge",
+      "id": "606:13881",
+      "slug": "badge",
+      "components": [
+        "Badge"
+      ],
+      "source": "components/ui/badge.tsx",
+      "props": {
+        "Color": "color",
+        "State": "badgeStyle (primary → plain, secondary → light, outline → border_color, ghost → ghost)",
+        "Form": "shape (pill | square)"
+      }
+    },
+    {
+      "page": "Badge",
+      "set": "Chip",
+      "id": "533:13656",
+      "slug": "badge",
+      "components": [
+        "Badge"
+      ],
+      "source": "components/ui/badge.tsx",
+      "note": "Chip = Badge badgeStyle=\"light\" shape=\"pill\"."
+    },
+    {
+      "page": "Breadcrumb",
+      "set": "Breadcrumb",
+      "id": "138:16199",
+      "slug": "breadcrumb",
+      "components": [
+        "Breadcrumb",
+        "BreadcrumbList",
+        "BreadcrumbItem",
+        "BreadcrumbLink",
+        "BreadcrumbPage",
+        "BreadcrumbSeparator"
+      ],
+      "source": "components/ui/breadcrumb.tsx"
+    },
+    {
+      "page": "Button",
+      "set": ".Button (legacy — use Button)",
+      "id": "31:315",
+      "slug": "button",
+      "components": [
+        "Button"
+      ],
+      "source": "components/ui/button.tsx",
+      "note": "Deprecated in Figma; use the Button set."
+    },
+    {
+      "page": "Button",
+      "set": "Button",
+      "id": "192:3411",
+      "slug": "button",
+      "components": [
+        "Button"
+      ],
+      "source": "components/ui/button.tsx",
+      "props": {
+        "Type": "variant (blue_primary → primary, plain → plain, dark → dark, light → light, primary_outline → outline, ghost → ghost, destructive → destructive, primary_gradient → gradient)",
+        "Size": "size (small → sm 36, regular → md 40, medium → lg 44, large → xl 48, xlarge → 2xl 56)",
+        "Style": "shape (rounded | pill)",
+        "Text": "children",
+        "Show Icon Leading / Icon Leading": "leading icon child",
+        "Show Icon Trailing / Icon Trailing": "trailing icon child"
+      }
+    },
+    {
+      "page": "Button",
+      "set": "Buttongroup",
+      "id": "152:1859",
+      "slug": "button-group",
+      "components": [
+        "ButtonGroup"
+      ],
+      "source": "components/ui/button-group.tsx"
+    },
+    {
+      "page": "Rating",
+      "set": "Rating",
+      "id": "152:11001",
+      "slug": "rating",
+      "components": [
+        "Rating"
+      ],
+      "source": "components/wunderui/rating.tsx",
+      "props": {
+        "Type": "type (stars | hearts | emojis | scale)",
+        "Value": "value",
+        "Label": "label (none | right | left | tooltip)"
+      }
+    },
+    {
+      "page": "Icon Button",
+      "set": "Icon Button",
+      "id": "32:322",
+      "slug": "icon-button",
+      "components": [
+        "IconButton"
+      ],
+      "source": "components/ui/icon-button.tsx",
+      "props": {
+        "Type": "variant",
+        "Size": "size",
+        "Style": "shape (rounded | circle)"
+      }
+    },
+    {
+      "page": "Selectors",
+      "set": "Checkbox",
+      "id": "33:208",
+      "slug": "checkbox",
+      "components": [
+        "Checkbox"
+      ],
+      "source": "components/ui/checkbox.tsx"
+    },
+    {
+      "page": "Selectors",
+      "set": "Toggle Switch",
+      "id": "33:221",
+      "slug": "switch",
+      "components": [
+        "Switch"
+      ],
+      "source": "components/ui/switch.tsx"
+    },
+    {
+      "page": "Selectors",
+      "set": "Radio",
+      "id": "33:235",
+      "slug": "radio-group",
+      "components": [
+        "RadioGroup",
+        "RadioGroupItem"
+      ],
+      "source": "components/ui/radio-group.tsx"
+    },
+    {
+      "page": "Selectors",
+      "set": "Radio Checkbox Item",
+      "id": "113:7930",
+      "slug": "selector-item",
+      "components": [
+        "SelectorItem",
+        "SelectorItemGroup"
+      ],
+      "source": "components/wunderui/selector-item.tsx",
+      "props": {
+        "Type": "control=\"radio\""
+      }
+    },
+    {
+      "page": "Selectors",
+      "set": "Checkbox Item",
+      "id": "113:7985",
+      "slug": "selector-item",
+      "components": [
+        "SelectorItem"
+      ],
+      "source": "components/wunderui/selector-item.tsx",
+      "props": {
+        "Type": "control=\"checkbox\""
+      }
+    },
+    {
+      "page": "Selectors",
+      "set": "Toggle Switch Item",
+      "id": "113:8040",
+      "slug": "selector-item",
+      "components": [
+        "SelectorItem"
+      ],
+      "source": "components/wunderui/selector-item.tsx",
+      "props": {
+        "Type": "control=\"switch\""
+      }
+    },
+    {
+      "page": "Tab Bar",
+      "set": "Tab Button",
+      "id": "913:1422",
+      "slug": "tabs",
+      "components": [
+        "TabsTrigger"
+      ],
+      "source": "components/ui/tabs.tsx",
+      "props": {
+        "State": "data-active / hover / disabled",
+        "Size": "size (regular → sm, medium → md, large → lg)",
+        "Label": "children"
+      }
+    },
+    {
+      "page": "Tab Bar",
+      "set": "Tabs",
+      "id": "113:8455",
+      "slug": "tabs",
+      "components": [
+        "Tabs",
+        "TabsList",
+        "TabsTrigger",
+        "TabsContent"
+      ],
+      "source": "components/ui/tabs.tsx",
+      "props": {
+        "Group": "number of TabsTrigger children",
+        "Type": "shape (rounded | pill)",
+        "Size": "size"
+      }
+    },
+    {
+      "page": "Tab Bar",
+      "set": "Tabs Vertical",
+      "id": "1091:1242",
+      "slug": "tabs",
+      "components": [
+        "Tabs",
+        "TabsList",
+        "TabsTrigger",
+        "TabsContent"
+      ],
+      "source": "components/ui/tabs.tsx",
+      "note": "orientation=\"vertical\"; Type=button → default TabsList, Type=line → variant=\"line\""
+    },
+    {
+      "page": "Table",
+      "set": "Table Item",
+      "id": "35:216",
+      "slug": "table",
+      "components": [
+        "TableRow",
+        "TableCell"
+      ],
+      "source": "components/ui/table.tsx"
+    },
+    {
+      "page": "Table",
+      "set": "Toolbar",
+      "id": "896:64102",
+      "slug": "toolbar",
+      "components": [
+        "Toolbar",
+        "ToolbarGroup",
+        "ToolbarButton",
+        "ToolbarSeparator"
+      ],
+      "source": "components/ui/toolbar.tsx"
+    },
+    {
+      "page": "Card",
+      "set": "Card",
+      "id": "40:204",
+      "slug": "card",
+      "components": [
+        "Card",
+        "CardHeader",
+        "CardTitle",
+        "CardDescription",
+        "CardAction",
+        "CardContent",
+        "CardFooter"
+      ],
+      "source": "components/ui/card.tsx",
+      "props": {
+        "Style": "variant (default | elevated | outlined)",
+        "Content": "composition (text, image → media slot, icon → icon tile, buttons → CardFooter, inputs → form fields)",
+        "Show action": "<CardAction>",
+        "Show footer": "<CardFooter>"
+      }
+    },
+    {
+      "page": "Input",
+      "set": "Input",
+      "id": "41:219",
+      "slug": "input",
+      "components": [
+        "Input"
+      ],
+      "source": "components/ui/input.tsx",
+      "props": {
+        "Size": "size",
+        "State": "aria-invalid / disabled / focus"
+      }
+    },
+    {
+      "page": "Input",
+      "set": "Text Area Field",
+      "id": "152:7182",
+      "slug": "textarea",
+      "components": [
+        "TextareaField",
+        "Textarea"
+      ],
+      "source": "components/blocks/form.tsx"
+    },
+    {
+      "page": "Tooltip",
+      "set": "Tooltip",
+      "id": "49:207",
+      "slug": "tooltip",
+      "components": [
+        "Tooltip",
+        "TooltipTrigger",
+        "TooltipContent"
+      ],
+      "source": "components/ui/tooltip.tsx"
+    },
+    {
+      "page": "Pagination",
+      "set": "Pagination",
+      "id": "152:18124",
+      "slug": "pagination",
+      "components": [
+        "Pagination",
+        "PaginationSimple"
+      ],
+      "source": "components/ui/pagination.tsx"
+    },
+    {
+      "page": "Progress Bar",
+      "set": "Progress bar",
+      "id": "152:18481",
+      "slug": "progress",
+      "components": [
+        "Progress"
+      ],
+      "source": "components/ui/progress.tsx"
+    },
+    {
+      "page": "Dialog",
+      "set": "Dialog",
+      "id": "757:97071",
+      "slug": "dialog",
+      "components": [
+        "Dialog",
+        "DialogContent",
+        "DialogHeader",
+        "DialogTitle",
+        "DialogDescription",
+        "DialogFooter"
+      ],
+      "source": "components/ui/dialog.tsx"
+    },
+    {
+      "page": "Notification",
+      "set": "Notification",
+      "id": "49:229",
+      "slug": "toast",
+      "components": [
+        "Toaster",
+        "useToast"
+      ],
+      "source": "components/ui/toast.tsx",
+      "props": {
+        "Type": "type (success | error | warning | info)",
+        "Title": "title",
+        "Description": "description",
+        "Show action": "action",
+        "Show close": "dismissible"
+      }
+    },
+    {
+      "page": "Notification",
+      "set": "Alert",
+      "id": "113:16051",
+      "slug": "alert",
+      "components": [
+        "Alert",
+        "AlertTitle",
+        "AlertDescription"
+      ],
+      "source": "components/ui/alert.tsx",
+      "props": {
+        "Style": "variant (plain | positive | primary | negative | warning)",
+        "Size": "size"
+      }
+    },
+    {
+      "page": "Skeleton",
+      "set": "Skeleton",
+      "id": "49:235",
+      "slug": "skeleton",
+      "components": [
+        "Skeleton"
+      ],
+      "source": "components/ui/skeleton.tsx"
+    },
+    {
+      "page": "Divider",
+      "set": "Divider",
+      "id": "152:4623",
+      "slug": "separator",
+      "components": [
+        "Separator",
+        "DividerWithLabel"
+      ],
+      "source": "components/ui/separator.tsx"
+    },
+    {
+      "page": "Widget",
+      "set": "Widget",
+      "id": "1242:113137",
+      "slug": "widget",
+      "components": [
+        "Widget"
+      ],
+      "source": "components/wunderui/widget.tsx"
+    },
+    {
+      "page": "Data Display",
+      "set": "Example / Item Card",
+      "id": "69:200",
+      "slug": "item-card",
+      "components": [
+        "ItemCard"
+      ],
+      "source": "components/wunderui/item-card.tsx"
+    },
+    {
+      "page": "Data Display",
+      "set": "Example / Item Card Group",
+      "id": "69:201",
+      "slug": "item-card",
+      "components": [
+        "ItemCardGroup"
+      ],
+      "source": "components/wunderui/item-card.tsx"
+    },
+    {
+      "page": "Data Display",
+      "set": "Example / Action Bar",
+      "id": "71:234",
+      "slug": "action-bar",
+      "components": [
+        "ActionBar"
+      ],
+      "source": "components/wunderui/action-bar.tsx"
+    },
+    {
+      "page": "Data Display",
+      "set": "Example / Agenda",
+      "id": "72:194",
+      "slug": "agenda",
+      "components": [
+        "Agenda"
+      ],
+      "source": "components/wunderui/agenda.tsx"
+    },
+    {
+      "page": "Data Display",
+      "set": "Timeline",
+      "id": "72:213",
+      "slug": "timeline",
+      "components": [
+        "Timeline"
+      ],
+      "source": "components/wunderui/timeline.tsx"
+    },
+    {
+      "page": "Data Display",
+      "set": "Example / Carousel",
+      "id": "73:194",
+      "slug": "carousel",
+      "components": [
+        "Carousel"
+      ],
+      "source": "components/wunderui/carousel.tsx"
+    },
+    {
+      "page": "Data Display",
+      "set": "File Tree",
+      "id": "73:207",
+      "slug": "file-tree",
+      "components": [
+        "FileTree"
+      ],
+      "source": "components/wunderui/file-tree.tsx"
+    },
+    {
+      "page": "Data Display",
+      "set": "Example / Floating TOC",
+      "id": "73:229",
+      "slug": "floating-toc",
+      "components": [
+        "FloatingToc"
+      ],
+      "source": "components/wunderui/floating-toc.tsx"
+    },
+    {
+      "page": "Data Display",
+      "set": "Example / Holo Card",
+      "id": "74:194",
+      "slug": "holo-card",
+      "components": [
+        "HoloCard"
+      ],
+      "source": "components/wunderui/holo-card.tsx"
+    },
+    {
+      "page": "Data Display",
+      "set": "Example / Hover Card",
+      "id": "74:198",
+      "slug": "hover-card",
+      "components": [
+        "HoverCard",
+        "HoverCardTrigger",
+        "HoverCardContent"
+      ],
+      "source": "components/ui/hover-card.tsx"
+    },
+    {
+      "page": "Data Display",
+      "set": "Empty State",
+      "id": "757:96774",
+      "slug": "empty-state",
+      "components": [
+        "EmptyState"
+      ],
+      "source": "components/wunderui/stat-card.tsx"
+    },
+    {
+      "page": "Forms",
+      "set": "Inline Select",
+      "id": "81:198",
+      "slug": "inline-select",
+      "components": [
+        "InlineSelect"
+      ],
+      "source": "components/ui/inline-select.tsx"
+    },
+    {
+      "page": "Forms",
+      "set": "Number Stepper",
+      "id": "81:201",
+      "slug": "number-stepper",
+      "components": [
+        "NumberStepper"
+      ],
+      "source": "components/ui/number-stepper.tsx"
+    },
+    {
+      "page": "Forms",
+      "set": "Checkbox Button Group",
+      "id": "82:194",
+      "slug": "checkbox-button-group",
+      "components": [
+        "CheckboxButtonGroup"
+      ],
+      "source": "components/ui/toggle-button-group.tsx"
+    },
+    {
+      "page": "Forms",
+      "set": "Radio Button Group",
+      "id": "82:201",
+      "slug": "radio-button-group",
+      "components": [
+        "RadioButtonGroup"
+      ],
+      "source": "components/ui/toggle-button-group.tsx"
+    },
+    {
+      "page": "Forms",
+      "set": "Drop Zone",
+      "id": "82:208",
+      "slug": "drop-zone",
+      "components": [
+        "DropZone"
+      ],
+      "source": "components/wunderui/drop-zone.tsx"
+    },
+    {
+      "page": "Forms",
+      "set": "Rich Text Editor",
+      "id": "82:212",
+      "slug": "rich-text-editor",
+      "components": [
+        "RichTextEditor"
+      ],
+      "source": "components/wunderui/rich-text-editor.tsx"
+    },
+    {
+      "set": "Color Picker",
+      "id": "1845:164",
+      "slug": "color-picker",
+      "components": [
+        "ColorPicker",
+        "ColorPickerTrigger"
+      ],
+      "source": "components/wunderui/color-picker.tsx",
+      "props": {
+        "Format": {
+          "HEX": "defaultFormat=\"hex\"",
+          "RGB": "defaultFormat=\"rgb\"",
+          "HSL": "defaultFormat=\"hsl\""
+        }
+      },
+      "related": {
+        "Color Picker Trigger": "1846:33"
+      }
+    },
+    {
+      "page": "Forms",
+      "set": "Cell Color Picker",
+      "id": "82:229",
+      "slug": "cell-color-picker",
+      "components": [
+        "CellColorPicker"
+      ],
+      "source": "components/wunderui/table-cells.tsx"
+    },
+    {
+      "page": "Forms",
+      "set": "Cell Select",
+      "id": "82:230",
+      "slug": "cell-select",
+      "components": [
+        "CellSelect"
+      ],
+      "source": "components/wunderui/table-cells.tsx"
+    },
+    {
+      "page": "Forms",
+      "set": "Cell Slider",
+      "id": "82:233",
+      "slug": "cell-slider",
+      "components": [
+        "CellSlider"
+      ],
+      "source": "components/wunderui/table-cells.tsx"
+    },
+    {
+      "page": "Forms",
+      "set": "Cell Switch",
+      "id": "82:237",
+      "slug": "cell-switch",
+      "components": [
+        "CellSwitch"
+      ],
+      "source": "components/wunderui/table-cells.tsx"
+    },
+    {
+      "page": "Forms",
+      "set": "Native Select",
+      "id": "757:96742",
+      "slug": "native-select",
+      "components": [
+        "NativeSelect"
+      ],
+      "source": "components/ui/native-select.tsx"
+    },
+    {
+      "page": "Feedback & Overlays",
+      "set": "Number Value",
+      "id": "1605:139",
+      "slug": "number-value",
+      "components": [
+        "NumberValue"
+      ],
+      "source": "components/wunderui/number-value.tsx"
+    },
+    {
+      "page": "Feedback & Overlays",
+      "set": "Trend Chip",
+      "id": "1598:173411",
+      "slug": "trend-chip",
+      "components": [
+        "TrendChip"
+      ],
+      "source": "components/wunderui/trend-chip.tsx"
+    },
+    {
+      "page": "Feedback & Overlays",
+      "set": "Pressable Feedback",
+      "id": "86:228",
+      "slug": "pressable-feedback",
+      "components": [
+        "PressableFeedback"
+      ],
+      "source": "components/wunderui/pressable-feedback.tsx"
+    },
+    {
+      "page": "Feedback & Overlays",
+      "set": "Emoji Reaction Button",
+      "id": "86:230",
+      "slug": "emoji-reaction-button",
+      "components": [
+        "EmojiReactionButton"
+      ],
+      "source": "components/wunderui/emoji-reaction-button.tsx"
+    },
+    {
+      "page": "Feedback & Overlays",
+      "set": "Emoji Picker",
+      "id": "86:233",
+      "slug": "emoji-picker",
+      "components": [
+        "EmojiPicker"
+      ],
+      "source": "components/wunderui/emoji-picker.tsx"
+    },
+    {
+      "page": "Feedback & Overlays",
+      "set": "Sheet",
+      "id": "86:247",
+      "slug": "sheet",
+      "components": [
+        "Sheet",
+        "SheetContent",
+        "SheetHeader",
+        "SheetTitle",
+        "SheetDescription"
+      ],
+      "source": "components/ui/sheet.tsx"
+    },
+    {
+      "page": "Popover",
+      "set": "Popover",
+      "id": "961:169",
+      "slug": "popover",
+      "components": [
+        "Popover",
+        "PopoverTrigger",
+        "PopoverContent"
+      ],
+      "source": "components/ui/popover.tsx",
+      "props": {
+        "Placement": "side (bottom | top | left | right)",
+        "Title / Description": "children",
+        "Show arrow": "arrow"
+      }
+    },
+    {
+      "page": "Slider",
+      "set": "Slider",
+      "id": "757:96752",
+      "slug": "slider",
+      "components": [
+        "Slider"
+      ],
+      "source": "components/ui/slider.tsx"
+    },
+    {
+      "page": "Date Picker",
+      "set": "Calendar Day",
+      "id": "951:191",
+      "slug": "calendar",
+      "components": [
+        "Calendar"
+      ],
+      "source": "components/wunderui/calendar.tsx",
+      "props": {
+        "State": "day button state (selected, today, range-start/middle/end, outside, disabled)",
+        "Size": "size"
+      }
+    },
+    {
+      "page": "Date Picker",
+      "set": "Calendar Month",
+      "id": "952:2650",
+      "slug": "calendar",
+      "components": [
+        "Calendar"
+      ],
+      "source": "components/wunderui/calendar.tsx",
+      "props": {
+        "Mode": "mode (single | range)",
+        "Header": "navigation buttons",
+        "Size": "size"
+      }
+    },
+    {
+      "page": "Date Picker",
+      "set": "Date Picker",
+      "id": "954:2478",
+      "slug": "date-picker",
+      "components": [
+        "DatePicker",
+        "Calendar",
+        "Popover"
+      ],
+      "source": "components/wunderui/date-picker.tsx",
+      "props": {
+        "Type": "mode (single | range | range + presets)",
+        "State": "open"
+      }
+    },
+    {
+      "page": "Alert Dialog",
+      "set": "Alert Dialog",
+      "id": "1007:67",
+      "slug": "alert-dialog",
+      "components": [
+        "AlertDialog",
+        "AlertDialogContent",
+        "AlertDialogHeader",
+        "AlertDialogIcon",
+        "AlertDialogTitle",
+        "AlertDialogDescription",
+        "AlertDialogFooter",
+        "AlertDialogCancel",
+        "AlertDialogAction"
+      ],
+      "source": "components/ui/alert-dialog.tsx",
+      "props": {
+        "Type": "AlertDialogAction variant (default → primary | destructive)"
+      }
+    },
+    {
+      "page": "Collapsible",
+      "set": "Collapsible",
+      "id": "1009:19",
+      "slug": "collapsible",
+      "components": [
+        "Collapsible",
+        "CollapsibleTrigger",
+        "CollapsibleContent"
+      ],
+      "source": "components/ui/collapsible.tsx",
+      "props": {
+        "State": "open (closed → false | open → true)"
+      }
+    },
+    {
+      "page": "Toggle",
+      "set": "Toggle",
+      "id": "1009:57",
+      "slug": "toggle",
+      "components": [
+        "Toggle"
+      ],
+      "source": "components/ui/toggle.tsx",
+      "props": {
+        "State": "pressed / disabled (default | hover | pressed | disabled)",
+        "Size": "size (sm | md → default | lg)",
+        "Icon": "children (icon)"
+      }
+    },
+    {
+      "page": "Meter",
+      "set": "Meter",
+      "id": "1009:95",
+      "slug": "meter",
+      "components": [
+        "Meter",
+        "MeterTrack",
+        "MeterIndicator",
+        "MeterLabel",
+        "MeterValue"
+      ],
+      "source": "components/ui/meter.tsx",
+      "props": {
+        "Value": "value (25 | 50 | 75 | 100)",
+        "Label": "MeterLabel / MeterValue rendered (none | label)"
+      }
+    },
+    {
+      "page": "Kbd",
+      "set": "Kbd",
+      "id": "1009:109",
+      "slug": "kbd",
+      "components": [
+        "Kbd",
+        "KbdGroup"
+      ],
+      "source": "components/ui/kbd.tsx",
+      "props": {
+        "Type": "single → <Kbd> | group → <KbdGroup>"
+      }
+    },
+    {
+      "page": "Spinner",
+      "set": "Spinner",
+      "id": "1009:123",
+      "slug": "spinner",
+      "components": [
+        "Spinner"
+      ],
+      "source": "components/ui/spinner.tsx",
+      "props": {
+        "Size": "className size-4 | size-6 | size-8 (sm | md | lg)",
+        "Color": "className text-primary | text-text-tertiary (primary | muted)"
+      }
+    },
+    {
+      "page": "Pull to Refresh",
+      "set": "Pull to Refresh",
+      "id": "1016:77",
+      "slug": "pull-to-refresh",
+      "components": [
+        "PullToRefresh"
+      ],
+      "source": "components/wunderui/pull-to-refresh.tsx",
+      "props": {
+        "State": "internal gesture state (idle | pulling | refreshing)"
+      }
+    },
+    {
+      "page": "B. Application & Dashboard",
+      "set": "Kbd",
+      "id": "693:60",
+      "slug": "kbd",
+      "components": [
+        "Kbd"
+      ],
+      "source": "components/ui/kbd.tsx",
+      "note": "Block-page copy of the ❖ Kbd set."
+    },
+    {
+      "page": "B. Application & Dashboard",
+      "set": "Timeline Event",
+      "id": "722:58517",
+      "slug": "activity-feed",
+      "components": [
+        "TimelineEvent"
+      ],
+      "source": "components/blocks/application.tsx",
+      "docs": "https://wunderui.com/blocks/app/activity-feed"
+    },
+    {
+      "page": "C. Data & Tables",
+      "set": "Agenda Event",
+      "id": "722:129",
+      "slug": "calendar",
+      "components": [
+        "AgendaEvent"
+      ],
+      "source": "components/blocks/data.tsx",
+      "docs": "https://wunderui.com/blocks/data/calendar"
+    },
+    {
+      "page": "C. Data & Tables",
+      "set": "Trend Delta",
+      "id": "722:186",
+      "slug": "trend-chip",
+      "components": [
+        "TrendChip"
+      ],
+      "source": "components/wunderui/trend-chip.tsx"
+    },
+    {
+      "page": "D. E-Commerce",
+      "set": "Breadcrumb/text",
+      "id": "693:44288",
+      "slug": "breadcrumb",
+      "components": [
+        "Breadcrumb",
+        "BreadcrumbItem",
+        "BreadcrumbLink"
+      ],
+      "source": "components/ui/breadcrumb.tsx",
+      "note": "Block-page text-only breadcrumb."
+    }
+  ]
+}

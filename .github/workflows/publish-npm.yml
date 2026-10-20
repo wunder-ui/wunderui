@@ -1,0 +1,49 @@
+# Publishes the npm package @wunderui/react (WunderUI Free) from this repository.
+# Manual only: Actions → "Publish @wunderui/react to npm" → Run workflow → confirm = true.
+# Needs the repository secret NPM_TOKEN (npm granular token with read and write access to @wunderui/react).
+# npm provenance links the package to this public repository (package.json "repository").
+name: Publish @wunderui/react to npm
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: "Publish @wunderui/react (Free components only) to npm — set to true to continue"
+        type: boolean
+        required: true
+        default: false
+  # later, publish when a GitHub release is published:
+  # release:
+  #   types: [published]
+
+concurrency: publish-npm
+
+permissions:
+  contents: read
+  id-token: write # npm provenance
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require confirmation
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.confirm != true }}
+        run: |
+          echo "::error::confirm is not true — nothing was published."
+          exit 1
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          registry-url: https://registry.npmjs.org
+      - run: npm ci
+      - run: npm run typecheck
+      # builds package/out and verifies it: fails on any name from package/pro-export-names.json
+      - run: npm run build:package
+      - run: npm pack --dry-run
+        working-directory: package/out
+      - name: Publish
+        run: npm publish ./package/out --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

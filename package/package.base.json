@@ -1,0 +1,34 @@
+{
+  "name": "@wunderui/react",
+  "version": "0.1.0",
+  "description": "WunderUI Free — the free React components of the WunderUI design system (Base UI, Tailwind CSS v4).",
+  "keywords": [
+    "react",
+    "components",
+    "design-system",
+    "tailwindcss",
+    "tailwind",
+    "base-ui",
+    "ui-kit",
+    "figma"
+  ],
+  "homepage": "https://wunderui.com",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wunder-ui/wunderui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/wunder-ui/wunderui/issues"
+  },
+  "author": "WunderUI",
+  "license": "MIT",
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20"
+  },
+  "peerDependencies": {
+    "react": "^19",
+    "react-dom": "^19",
+    "tailwindcss": "^4"
+  }
+}
