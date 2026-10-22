@@ -1,7 +1,7 @@
 {
   "name": "wunderui-cli",
-  "version": "1.0.2",
-  "description": "Add WunderUI components and blocks to your project as source: npx wunderui-cli add button",
+  "version": "1.1.0",
+  "description": "WunderUI in your project: add components as source, look up components, docs and playbooks offline (--json for agents), check the setup.",
   "keywords": [
     "wunderui",
     "react",
@@ -10,7 +10,9 @@
     "design-system",
     "base-ui",
     "cli",
-    "registry"
+    "registry",
+    "ai-agents",
+    "documentation"
   ],
   "homepage": "https://wunderui.com",
   "repository": {
@@ -34,6 +36,7 @@
   "files": [
     "bin",
     "src",
+    "data",
     "README.md"
   ],
   "publishConfig": {

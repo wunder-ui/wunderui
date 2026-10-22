@@ -2,7 +2,7 @@
   "name": "floating-toc",
   "type": "registry:ui",
   "title": "Floating TOC",
-  "description": "A sticky table of contents with an active-section indicator.",
+  "description": "A table of contents for an article, with a marker that follows the section in view. It does not stick by itself: put it in a `sticky` container to keep it on screen.",
   "dependencies": [
     "cn@^0.3.0"
   ],

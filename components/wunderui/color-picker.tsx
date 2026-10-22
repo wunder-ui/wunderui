@@ -577,7 +577,7 @@ function ColorPickerTrigger({
         <span className="flex-1 text-[13px] text-foreground uppercase tabular-nums">{hex}</span>
         <ChevronDown className="size-4 shrink-0 text-text-tertiary transition-transform duration-fast ease-entrance group-data-popup-open/cp:rotate-180" />
       </PopoverTrigger>
-      <PopoverContent side={side} align={align} className="w-auto border-0 bg-transparent p-0 shadow-none">
+      <PopoverContent side={side} align={align} aria-label={label} className="w-auto border-0 bg-transparent p-0 shadow-none">
         <ColorPicker
           {...pickerProps}
           value={hex}

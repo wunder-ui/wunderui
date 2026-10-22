@@ -4,6 +4,9 @@ import { spawnSync } from "node:child_process"
 import { homedir } from "node:os"
 import path from "node:path"
 import readline from "node:readline/promises"
+import { commandBuild, commandComponent, commandDocs, commandSearch } from "./commands/reference.mjs"
+import { commandDoctor } from "./commands/doctor.mjs"
+import { CliError, colorEnabled, palette } from "./output.mjs"
 
 /**
  * The WunderUI CLI.
@@ -14,6 +17,10 @@ import readline from "node:readline/promises"
  *                                 WunderUI styles
  *   wunderui-cli add auth/sign-in     a block (WunderUI Pro): source from wunderui.com with
  *                                 a licence key
+ *   wunderui-cli component button     the reference for people and agents: component, search,
+ *   wunderui-cli search "date"        docs, build (playbooks) and doctor (project check), each
+ *                                 with --json (stable envelope) and --dense (fewer tokens);
+ *                                 see commands/ and output.mjs
  *
  * From then on the code is the user's to edit, the same deal as a design template.
  *
@@ -38,13 +45,8 @@ const DEFAULT_CONFIG = {
 
 /* ------------------------------------------------------------------ output */
 
-const c = {
-  bold: (s) => `\u001b[1m${s}\u001b[0m`,
-  dim: (s) => `\u001b[2m${s}\u001b[0m`,
-  green: (s) => `\u001b[32m${s}\u001b[0m`,
-  red: (s) => `\u001b[31m${s}\u001b[0m`,
-  cyan: (s) => `\u001b[36m${s}\u001b[0m`,
-}
+/** Colour only when stdout is a terminal (set again in run() once the flags are known). */
+let c = palette(colorEnabled())
 
 const log = (line = "") => console.log(line)
 
@@ -84,6 +86,13 @@ function trustedRegistry(registry) {
   } catch {
     return false
   }
+}
+
+/** The licence key for wunderui.com, printing nothing (the reference commands may run with --json). */
+async function licenceKey(flags, registry) {
+  if (flags.key) return flags.key
+  if (!trustedRegistry(registry)) return null
+  return process.env.WUNDERUI_LICENSE_KEY ?? (await storedKey())
 }
 
 async function resolveKey(flags, registry) {
@@ -416,13 +425,13 @@ async function commandAdd(args, flags) {
   if (flags["dry-run"]) log(`\n  ${c.dim("Dry run — nothing was written.")}`)
   else if (result.skipped.length) log(`\n  ${c.dim("Pass --overwrite to replace the skipped files.")}`)
 
-  // @wunderui/react is not on npm: it comes from the buyer's wunderui-core repo
+  // the full @wunderui/react comes from the buyer's wunderui-core repo (the npm package is WunderUI Free only)
   const requires = data.requires ?? ["@wunderui/react"]
   const npmDeps = (data.dependencies ?? []).filter((d) => !requires.includes(d))
   const pm = packageManager()
   log(`\n  Make sure these are installed:`)
   if (requires.includes("@wunderui/react")) {
-    log(`    ${c.cyan("@wunderui/react")} ${c.dim("from your wunderui-core repo — https://wunderui.com/installation")}`)
+    log(`    ${c.cyan("@wunderui/react")} ${c.dim("from your wunderui-core repo, not from npm (npm has the Free edition only) — https://wunderui.com/installation")}`)
   }
   if (npmDeps.length) log(`    ${c.cyan(`${pm} ${pm === "npm" ? "install" : "add"} ${npmDeps.join(" ")}`)}`)
   log()
@@ -430,10 +439,11 @@ async function commandAdd(args, flags) {
 
 /* ---------------------------------------------------------------- dispatcher */
 
-const HELP = `
-  ${c.bold("wunderui-cli")} — add WunderUI components and blocks to your project as source
+const help = () => `
+  ${c.bold("wunderui-cli")} — WunderUI for your project: add components and blocks as source,
+  look up components, docs and playbooks, check the setup
 
-  ${c.bold("Commands")}
+  ${c.bold("Add")}
     add <name…>              free components (button, badge, date-picker …) with their files,
                              dependencies and, on first use, the WunderUI styles
     add <category>/<block>   a block (WunderUI Pro, needs a licence key)
@@ -441,6 +451,26 @@ const HELP = `
     login <key>              store your licence key for every project
     init                     create ${CONFIG_FILE} in this project
     --version                print the version
+
+  ${c.bold("Reference")}            ${c.dim("offline, for people and agents")}
+    component <name>         props (type, values, default, required), variants, keyboard
+                             and ARIA, example, plan
+    component --list         every component in this edition
+    search "<question>"      components, blocks, docs topics and tokens, ranked
+                             (--kind component,block,docs,token  --limit 10)
+    docs [topic]             tokens, motion, theming, install, a11y, rules … (no topic: the list)
+    build "<task>"           a playbook: components, order, states, token/motion/a11y rules,
+                             checks — "settings page", "dashboard", "login" … (--list)
+    doctor                   check this project: package and edition, versions, styles and
+                             @source, tokens, DESIGN.md, MCP, ThemeProvider, Node, one React
+                             (--fix shows safe changes, --fix --write applies them, --offline)
+
+  ${c.bold("Output")}
+    --json                   one JSON envelope on stdout: { ok, data, error: { code, message } }
+    --dense                  compact output (fewer lines, fewer tokens; also with --json)
+    --source monorepo        inside the WunderUI monorepo: all components, full playbooks
+    exit codes               0 ok · 1 error or failed check · 2 usage · 3 not found
+                             4 licence required · 5 network · 6 data missing
 
   ${c.bold("Options for add")}
     --overwrite              replace files that already exist
@@ -452,24 +482,36 @@ const HELP = `
 
   ${c.bold("Examples")}
     npx wunderui-cli add button badge input
-    npx wunderui-cli list --components
+    npx wunderui-cli component date-picker --dense
+    npx wunderui-cli search "confirm before delete" --json
+    npx wunderui-cli build "settings page"
+    npx wunderui-cli doctor
     npx wunderui-cli login WUI-XXXX-XXXX
     npx wunderui-cli add auth/sign-in
 `
 
-function parseArgs(argv) {
+const BOOLEAN = new Set([
+  "overwrite", "dry-run", "no-install", "components", "screens", "help", "version",
+  "json", "dense", "list", "fix", "write", "offline",
+])
+
+export function parseArgs(argv) {
   const args = []
   const flags = {}
-  const BOOLEAN = new Set(["overwrite", "dry-run", "no-install", "components", "screens", "help", "version"])
   for (let i = 0; i < argv.length; i++) {
     const token = argv[i]
-    if (!token.startsWith("--")) {
-      args.push(token)
+    if (!token.startsWith("--") || token === "--") {
+      if (token !== "--") args.push(token)
+      continue
+    }
+    const eq = token.indexOf("=")
+    if (eq > 2) {
+      flags[token.slice(2, eq)] = token.slice(eq + 1)
       continue
     }
     const name = token.slice(2)
     const next = argv[i + 1]
-    if (!BOOLEAN.has(name) && next && !next.startsWith("--")) {
+    if (!BOOLEAN.has(name) && next !== undefined && !next.startsWith("--")) {
       flags[name] = next
       i++
     } else {
@@ -479,11 +521,25 @@ function parseArgs(argv) {
   return { args, flags }
 }
 
-const COMMANDS = { init: commandInit, login: commandLogin, list: commandList, add: commandAdd }
+/** What the reference commands need from the add/login side: config and the licence key. */
+const context = { projectConfig, licenceKey, trustedRegistry, DEFAULT_REGISTRY }
+
+const COMMANDS = {
+  init: commandInit,
+  login: commandLogin,
+  list: commandList,
+  add: commandAdd,
+  component: commandComponent,
+  search: commandSearch,
+  docs: commandDocs,
+  build: commandBuild,
+  doctor: commandDoctor,
+}
 
 export async function run(argv) {
   const { args, flags } = parseArgs(argv)
   const [command, ...rest] = args
+  c = palette(colorEnabled(flags))
 
   if (flags.version || command === "version") {
     const pkg = await readJson(new URL("../package.json", import.meta.url))
@@ -492,17 +548,15 @@ export async function run(argv) {
   }
 
   if (!command || flags.help || command === "help") {
-    log(HELP)
+    log(help())
     return
   }
 
   const handler = COMMANDS[command]
   if (!handler) {
-    log(`\n  ${c.red("Unknown command")} "${command}".`)
-    log(HELP)
-    process.exitCode = 1
-    return
+    if (!flags.json) log(`\n  ${c.red("Unknown command")} "${command}".${help()}`)
+    throw new CliError("USAGE", `Unknown command "${command}". Run wunderui-cli --help.`)
   }
 
-  await handler(rest, flags)
+  await handler(rest, flags, context)
 }

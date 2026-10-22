@@ -24,16 +24,12 @@
       "group": "Core Elements",
       "description": "A user or entity's profile image with a text fallback.",
       "files": [
-        "components/blocks/data.tsx",
-        "components/ui/icon-button.tsx",
-        "lib/utils.ts",
-        "components/ui/avatar.tsx"
+        "components/ui/avatar.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
-        "class-variance-authority",
-        "cn",
-        "lucide-react"
+        "cn"
       ]
     },
     {
@@ -69,7 +65,7 @@
       "name": "breadcrumb",
       "title": "Breadcrumb",
       "group": "Core Elements",
-      "description": "Shows the user's location in a hierarchy, in \"plain\" or bordered \"border\" style.",
+      "description": "Shows the user's location in a hierarchy, in the `plain`, `border` or `underline` style.",
       "files": [
         "components/ui/breadcrumb.tsx",
         "lib/utils.ts"
@@ -85,9 +81,8 @@
       "group": "Core Elements",
       "description": "The main action trigger, in 10 variants, 2 shapes and 5 sizes.",
       "files": [
-        "components/ui/button-group.tsx",
-        "lib/utils.ts",
-        "components/ui/button.tsx"
+        "components/ui/button.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -142,15 +137,11 @@
       "group": "Core Elements",
       "description": "A single choice that is on or off, with an indeterminate state for “some selected”.",
       "files": [
-        "components/blocks/form.tsx",
         "components/ui/checkbox.tsx",
-        "lib/utils.ts",
-        "components/ui/textarea.tsx",
-        "components/ui/toggle-button-group.tsx"
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
-        "class-variance-authority",
         "cn",
         "lucide-react"
       ]
@@ -189,10 +180,9 @@
       "group": "Core Elements",
       "description": "A single-line text field with sm/default/lg sizes and error state.",
       "files": [
-        "components/ui/input-group.tsx",
-        "lib/utils.ts",
         "components/ui/input.tsx",
-        "components/ui/tooltip.tsx"
+        "components/ui/tooltip.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -206,16 +196,12 @@
       "group": "Core Elements",
       "description": "A multi-line text field with sm/default/lg sizes and an optional character counter.",
       "files": [
-        "components/blocks/form.tsx",
-        "components/ui/checkbox.tsx",
-        "lib/utils.ts",
-        "components/ui/textarea.tsx"
+        "components/ui/textarea.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
-        "@base-ui/react",
         "class-variance-authority",
-        "cn",
-        "lucide-react"
+        "cn"
       ]
     },
     {
@@ -503,24 +489,18 @@
       "group": "Core Elements",
       "description": "A time-ordered list of scheduled events.",
       "files": [
-        "components/blocks/data.tsx",
-        "components/ui/icon-button.tsx",
-        "lib/utils.ts",
-        "components/ui/avatar.tsx",
-        "components/wunderui/agenda.tsx"
+        "components/wunderui/agenda.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
-        "@base-ui/react",
-        "class-variance-authority",
-        "cn",
-        "lucide-react"
+        "cn"
       ]
     },
     {
       "name": "action-bar",
       "title": "Action Bar",
       "group": "Core Elements",
-      "description": "A floating bar of bulk actions for a selection.",
+      "description": "A pill-shaped bar of bulk actions for a selection. It sits where you place it, so fix it to the bottom of the page yourself if it should float.",
       "files": [
         "components/wunderui/action-bar.tsx",
         "lib/utils.ts",
@@ -565,7 +545,7 @@
       "name": "file-tree",
       "title": "File Tree",
       "group": "Core Elements",
-      "description": "A collapsible, indented tree of folders and files.",
+      "description": "An indented list of folders and files: a tree with arrow-key navigation whose folders open and close, and onSelect reports the chosen file or folder.",
       "files": [
         "components/wunderui/file-tree.tsx",
         "lib/utils.ts"
@@ -579,7 +559,7 @@
       "name": "floating-toc",
       "title": "Floating TOC",
       "group": "Core Elements",
-      "description": "A sticky table of contents with an active-section indicator.",
+      "description": "A table of contents for an article, with a marker that follows the section in view. It does not stick by itself: put it in a `sticky` container to keep it on screen.",
       "files": [
         "components/wunderui/floating-toc.tsx",
         "lib/utils.ts"
@@ -620,18 +600,12 @@
       "group": "Core Elements",
       "description": "A vertical sequence of dated, dot-connected events.",
       "files": [
-        "components/blocks/application.tsx",
-        "components/ui/badge.tsx",
-        "lib/utils.ts",
-        "components/ui/avatar.tsx",
         "components/wunderui/timeline.tsx",
-        "lib/readable-on.ts"
+        "lib/readable-on.ts",
+        "lib/utils.ts"
       ],
       "dependencies": [
-        "@base-ui/react",
-        "class-variance-authority",
-        "cn",
-        "lucide-react"
+        "cn"
       ]
     },
     {
@@ -919,9 +893,8 @@
       "group": "Forms",
       "description": "Labelling and validation for a single form control — label, description, and error message.",
       "files": [
-        "components/ui/fieldset.tsx",
-        "lib/utils.ts",
-        "components/ui/field.tsx"
+        "components/ui/field.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -948,17 +921,12 @@
       "group": "Forms",
       "description": "A form wrapper that simplifies validation and submission.",
       "files": [
-        "components/blocks/form.tsx",
-        "components/ui/checkbox.tsx",
-        "lib/utils.ts",
-        "components/ui/textarea.tsx",
-        "components/ui/form.tsx"
+        "components/ui/form.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
-        "class-variance-authority",
-        "cn",
-        "lucide-react"
+        "cn"
       ]
     },
     {
@@ -1036,7 +1004,7 @@
       "name": "calendar",
       "title": "Calendar",
       "group": "Forms",
-      "description": "A month-grid date picker with single or range selection.",
+      "description": "A month grid for picking one date or a range, with keyboard navigation and optional min, max and disabled days.",
       "files": [
         "components/wunderui/calendar.tsx",
         "lib/utils.ts",
@@ -1075,16 +1043,10 @@
       "group": "Feedback & Overlays",
       "description": "An inline banner in 5 colors and 2 sizes, with an optional close button and action.",
       "files": [
-        "components/ui/alert-dialog.tsx",
-        "components/ui/dialog.tsx",
-        "components/ui/icon-button.tsx",
-        "lib/utils.ts",
-        "components/ui/button.tsx",
-        "components/ui/alert.tsx"
+        "components/ui/alert.tsx",
+        "lib/utils.ts"
       ],
       "dependencies": [
-        "@base-ui/react",
-        "class-variance-authority",
         "cn",
         "lucide-react"
       ]
@@ -1208,6 +1170,114 @@
         "components/ui/sheet.tsx",
         "components/ui/icon-button.tsx",
         "lib/utils.ts"
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority",
+        "cn",
+        "lucide-react"
+      ]
+    },
+    {
+      "name": "timeline-event",
+      "title": "Timeline Event",
+      "group": "Core Elements",
+      "description": "One entry in an activity feed or history, with an avatar or status dot and a line to the next entry.",
+      "files": [
+        "components/blocks/application.tsx",
+        "components/ui/badge.tsx",
+        "lib/utils.ts",
+        "components/ui/avatar.tsx"
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority",
+        "cn",
+        "lucide-react"
+      ]
+    },
+    {
+      "name": "avatar-stack",
+      "title": "Avatar Stack",
+      "group": "Core Elements",
+      "description": "Overlapping avatars with a “+N” count for everyone past the limit.",
+      "files": [
+        "components/blocks/data.tsx",
+        "components/ui/icon-button.tsx",
+        "lib/utils.ts",
+        "components/ui/avatar.tsx"
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority",
+        "cn",
+        "lucide-react"
+      ]
+    },
+    {
+      "name": "agenda-event",
+      "title": "Agenda Event",
+      "group": "Core Elements",
+      "description": "One event in an agenda list, with its start and end time, a color bar, details and guests.",
+      "files": [
+        "components/blocks/data.tsx",
+        "components/ui/icon-button.tsx",
+        "lib/utils.ts",
+        "components/ui/avatar.tsx"
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority",
+        "cn",
+        "lucide-react"
+      ]
+    },
+    {
+      "name": "textarea-field",
+      "title": "Textarea Field",
+      "group": "Forms",
+      "description": "A multi-line text input with a label and helper or error text.",
+      "files": [
+        "components/blocks/form.tsx",
+        "components/ui/checkbox.tsx",
+        "lib/utils.ts",
+        "components/ui/textarea.tsx"
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority",
+        "cn",
+        "lucide-react"
+      ]
+    },
+    {
+      "name": "checkbox-field",
+      "title": "Checkbox Field",
+      "group": "Forms",
+      "description": "A checkbox with a clickable label and an optional description below it.",
+      "files": [
+        "components/blocks/form.tsx",
+        "components/ui/checkbox.tsx",
+        "lib/utils.ts",
+        "components/ui/textarea.tsx"
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority",
+        "cn",
+        "lucide-react"
+      ]
+    },
+    {
+      "name": "form-actions",
+      "title": "Form Actions",
+      "group": "Forms",
+      "description": "The row of buttons at the end of a form, aligned right, left or spread to both edges.",
+      "files": [
+        "components/blocks/form.tsx",
+        "components/ui/checkbox.tsx",
+        "lib/utils.ts",
+        "components/ui/textarea.tsx"
       ],
       "dependencies": [
         "@base-ui/react",

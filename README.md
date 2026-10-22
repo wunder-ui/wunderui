@@ -11,7 +11,7 @@
 
 <p align="center">
   <img alt="MIT licence" src="https://img.shields.io/badge/licence-MIT-555CF3">
-  <img alt="77 of 205 components free" src="https://img.shields.io/badge/free%20components-77%20of%20205-555CF3">
+  <img alt="83 of 222 components free" src="https://img.shields.io/badge/free%20components-83%20of%20222-555CF3">
   <img alt="React 19" src="https://img.shields.io/badge/React-19-555CF3">
   <img alt="Tailwind CSS v4" src="https://img.shields.io/badge/Tailwind%20CSS-v4-555CF3">
   <img alt="Base UI" src="https://img.shields.io/badge/built%20on-Base%20UI-555CF3">
@@ -19,7 +19,7 @@
 
 # WunderUI Free
 
-**77 of the 205 WunderUI React components, free as source you own.** Built on Base UI and Tailwind CSS v4, styled by the same tokens as the WunderUI Figma library, light and dark, accessible (WCAG AA contrast on every token pair), and documented with live examples on [wunderui.com](https://wunderui.com).
+**83 of the 222 WunderUI React components, free as source you own.** Built on Base UI and Tailwind CSS v4, styled by the same tokens as the WunderUI Figma library, light and dark, accessible (WCAG AA contrast on every token pair), and documented with live examples on [wunderui.com](https://wunderui.com).
 
 Copy the files into your project and they are yours: no package to update, no lock-in, MIT licence.
 
@@ -33,7 +33,7 @@ Requirements: React 19, Tailwind CSS v4, and the `@/*` path alias pointing at yo
 npx wunderui-cli add button badge input
 ```
 
-Then import the styles once (step 3) and use the components (step 4). `npx wunderui-cli list --components` shows all 77.
+Then import the styles once (step 3) and use the components (step 4). `npx wunderui-cli list --components` shows all 83.
 
 **By hand:**
 
@@ -79,18 +79,20 @@ Every component has a page with examples, props and the matching Figma component
 
 ## Components
 
-### Core Elements (42)
+### Core Elements (45)
 
 | Component | What it does | Import |
 | --- | --- | --- |
 | [Accordion](https://wunderui.com/components/accordion) | A vertically stacked set of collapsible panels, in card or divider style. | `Accordion` |
-| [Action Bar](https://wunderui.com/components/action-bar) | A floating bar of bulk actions for a selection. | `ActionBar` |
+| [Action Bar](https://wunderui.com/components/action-bar) | A pill-shaped bar of bulk actions for a selection. It sits where you place it, so fix it to the bottom of the page yourself if it should float. | `ActionBar` |
 | [Agenda](https://wunderui.com/components/agenda) | A time-ordered list of scheduled events. | `Agenda` |
+| [Agenda Event](https://wunderui.com/components/agenda-event) | One event in an agenda list, with its start and end time, a color bar, details and guests. | `AgendaEvent` |
 | [Alert Dialog](https://wunderui.com/components/alert-dialog) | A dialog for confirmations and destructive actions: a click outside does not close it, only a button or Escape does. | `AlertDialog` |
 | [Avatar](https://wunderui.com/components/avatar) | A user or entity's profile image with a text fallback. | `Avatar` |
 | [Avatar Group](https://wunderui.com/components/avatar-group) | A stack of overlapping avatars, with an optional overflow count. | `AvatarGroup` |
+| [Avatar Stack](https://wunderui.com/components/avatar-stack) | Overlapping avatars with a “+N” count for everyone past the limit. | `AvatarStack` |
 | [Badge](https://wunderui.com/components/badge) | A small status or category label in 12 colors and 6 styles. | `Badge` |
-| [Breadcrumb](https://wunderui.com/components/breadcrumb) | Shows the user's location in a hierarchy, in "plain" or bordered "border" style. | `Breadcrumb` |
+| [Breadcrumb](https://wunderui.com/components/breadcrumb) | Shows the user's location in a hierarchy, in the `plain`, `border` or `underline` style. | `Breadcrumb` |
 | [Button](https://wunderui.com/components/button) | The main action trigger, in 10 variants, 2 shapes and 5 sizes. | `Button` |
 | [Button Group](https://wunderui.com/components/button-group) | A row of connected buttons sharing borders and outer corners, for view switchers or segmented actions. | `ButtonGroup` |
 | [Card](https://wunderui.com/components/card) | A bordered container for grouping related content. | `Card` |
@@ -100,8 +102,8 @@ Every component has a page with examples, props and the matching Figma component
 | [Dialog](https://wunderui.com/components/dialog) | A modal window for focused tasks, built on Base UI. | `Dialog` |
 | [Divider with Label](https://wunderui.com/components/divider-with-label) | A separator with a centered text label, e.g. for "or" between two sign-in options. | `DividerWithLabel` |
 | [Empty State](https://wunderui.com/components/empty-state) | Placeholder shown when a list or search has no results. | `EmptyState` |
-| [File Tree](https://wunderui.com/components/file-tree) | A collapsible, indented tree of folders and files. | `FileTree` |
-| [Floating TOC](https://wunderui.com/components/floating-toc) | A sticky table of contents with an active-section indicator. | `FloatingToc` |
+| [File Tree](https://wunderui.com/components/file-tree) | An indented list of folders and files: a tree with arrow-key navigation whose folders open and close, and onSelect reports the chosen file or folder. | `FileTree` |
+| [Floating TOC](https://wunderui.com/components/floating-toc) | A table of contents for an article, with a marker that follows the section in view. It does not stick by itself: put it in a `sticky` container to keep it on screen. | `FloatingToc` |
 | [Holo Card](https://wunderui.com/components/holo-card) | A card with a mouse-tracking spotlight/gradient shine effect. | `HoloCard` |
 | [Hover Card](https://wunderui.com/components/hover-card) | A rich preview popup shown on hovering a trigger. | `HoverCard` |
 | [Icon Button](https://wunderui.com/components/icon-button) | A square or circular button for a single icon action. | `IconButton` |
@@ -121,6 +123,7 @@ Every component has a page with examples, props and the matching Figma component
 | [Tabs](https://wunderui.com/components/tabs) | Switches between related views in the same context. | `Tabs` |
 | [Textarea](https://wunderui.com/components/textarea) | A multi-line text field with sm/default/lg sizes and an optional character counter. | `Textarea` |
 | [Timeline](https://wunderui.com/components/timeline) | A vertical sequence of dated, dot-connected events. | `Timeline` |
+| [Timeline Event](https://wunderui.com/components/timeline-event) | One entry in an activity feed or history, with an avatar or status dot and a line to the next entry. | `TimelineEvent` |
 | [Toggle](https://wunderui.com/components/toggle) | A standalone two-state button that can be pressed or unpressed. | `Toggle` |
 | [Toolbar](https://wunderui.com/components/toolbar) | A container for grouping a set of buttons and controls. | `Toolbar` |
 | [Tooltip](https://wunderui.com/components/tooltip) | A short label shown on hover, in any of 4 directions. | `Tooltip` |
@@ -139,20 +142,21 @@ Every component has a page with examples, props and the matching Figma component
 | [Pull to Refresh](https://wunderui.com/components/pull-to-refresh) | Drag down from the top of any content past a threshold to trigger an async refresh, with a rotating spinner and a rubber-band release. | `PullToRefresh` |
 | [Rating](https://wunderui.com/components/rating) | An interactive star rating input. | `Rating` |
 | [Sheet](https://wunderui.com/components/sheet) | A panel that slides in from an edge of the screen — left, right, or bottom. | `Sheet` |
-| [Toast](https://wunderui.com/components/toast) | A temporary notification that appears in the corner of the screen, with success/error/warning/info types. | `ToastProvider` |
+| [Toast](https://wunderui.com/components/toast) | A temporary notification that appears in the corner of the screen, with success/error/warning/info types. | `Toaster` |
 | [Trend Chip](https://wunderui.com/components/trend-chip) | A small pill showing a change, up or down, in seven icon styles. | `TrendChip` |
 
-### Forms (24)
+### Forms (27)
 
 | Component | What it does | Import |
 | --- | --- | --- |
 | [Autocomplete](https://wunderui.com/components/autocomplete) | An input that suggests options as you type. | `Autocomplete` |
-| [Calendar](https://wunderui.com/components/calendar) | A month-grid date picker with single or range selection. | `Calendar` |
+| [Calendar](https://wunderui.com/components/calendar) | A month grid for picking one date or a range, with keyboard navigation and optional min, max and disabled days. | `Calendar` |
 | [Cell Color Picker](https://wunderui.com/components/cell-color-picker) | A compact color swatch picker for inline use in a Data Grid cell. | `CellColorPicker` |
 | [Cell Select](https://wunderui.com/components/cell-select) | A compact select for inline use in a Data Grid cell. | `CellSelect` |
 | [Cell Slider](https://wunderui.com/components/cell-slider) | A compact progress/value slider for inline use in a Data Grid cell. | `CellSlider` |
 | [Cell Switch](https://wunderui.com/components/cell-switch) | A compact switch for inline use in a Data Grid cell. | `CellSwitch` |
 | [Checkbox Button Group](https://wunderui.com/components/checkbox-button-group) | A multi-select group of toggle-styled buttons. | `CheckboxButtonGroup` |
+| [Checkbox Field](https://wunderui.com/components/checkbox-field) | A checkbox with a clickable label and an optional description below it. | `CheckboxField` |
 | [Color Picker](https://wunderui.com/components/color-picker) | Pick a colour: saturation and brightness, hue, opacity, eyedropper, HEX/RGB/HSL values and saved colours — inline or from a trigger field. | `ColorPicker` |
 | [Combobox](https://wunderui.com/components/combobox) | An input combined with a filterable list of predefined items to select. | `Combobox` |
 | [Date Picker](https://wunderui.com/components/date-picker) | A Calendar inside a Popover, with Cancel/Apply actions. | `DatePicker` |
@@ -160,6 +164,7 @@ Every component has a page with examples, props and the matching Figma component
 | [Field](https://wunderui.com/components/field) | Labelling and validation for a single form control — label, description, and error message. | `Field` |
 | [Fieldset](https://wunderui.com/components/fieldset) | A native fieldset with a legend, for grouping related fields. | `Fieldset` |
 | [Form](https://wunderui.com/components/form) | A form wrapper that simplifies validation and submission. | `Form` |
+| [Form Actions](https://wunderui.com/components/form-actions) | The row of buttons at the end of a form, aligned right, left or spread to both edges. | `FormActions` |
 | [Inline Select](https://wunderui.com/components/inline-select) | A compact select meant to sit inline within a sentence of text. | `InlineSelect` |
 | [Input Group](https://wunderui.com/components/input-group) | Groups an input with leading/trailing addons — icons, buttons, or text. | `InputGroup` |
 | [Label](https://wunderui.com/components/label) | An accessible label for a form control. | `Label` |
@@ -170,6 +175,7 @@ Every component has a page with examples, props and the matching Figma component
 | [Radio Button Group](https://wunderui.com/components/radio-button-group) | A single-select group of toggle-styled buttons. | `RadioButtonGroup` |
 | [Rich Text Editor](https://wunderui.com/components/rich-text-editor) | A Tiptap-powered WYSIWYG editor with a formatting toolbar. | `RichTextEditor` |
 | [Selector Item](https://wunderui.com/components/selector-item) | A list row pairing a leading icon/avatar and label/description with a trailing radio, checkbox, or switch. | `SelectorItem` |
+| [Textarea Field](https://wunderui.com/components/textarea-field) | A multi-line text input with a label and helper or error text. | `TextareaField` |
 
 ## Build with AI
 
@@ -200,15 +206,15 @@ More skills (motion audit, accessibility, Figma sync, refactor to WunderUI, the 
 
 ## WunderUI Core and Pro
 
-The free components are the foundation. [WunderUI Core and Pro](https://wunderui.com/#pricing) add the rest of the system: 122 more components, ready-made screens and templates, the full Figma library and agent skills.
+The free components are the foundation. [WunderUI Core and Pro](https://wunderui.com/#pricing) add the rest of the system: 139 more components, ready-made screens and templates, the full Figma library and agent skills.
 
 | Group | Components | Includes |
 | --- | --- | --- |
 | AI & Agents | 45 | Activity Item, Agent Avatar, Agent Grid, Agent Lane, Agent Plan, Agent Status, … |
 | Block Parts | 44 | Auth Heading, Backup Code, Checklist Task, Checkout Steps, Column Header, Command Item Row, … |
 | Core Elements | 3 | Dropdown Menu, Kanban, List View |
-| Data & Charts | 18 | Area Chart, Bar Chart, Bubble Chart, Candlestick Chart, Column Chart, Composed Chart, … |
-| KPI / Metric Card | 3 | KPI, KPI Group, Metric Card |
+| Data & Charts | 34 | Area Chart, Bar Chart, Bubble Chart, Bullet Chart, Candlestick Chart, Chart Card, … |
+| KPI / Metric Card | 4 | KPI, KPI Group, Metric Card, Metric Group |
 | Navigation & Layout | 9 | App Layout, Command, Context Menu, Navbar, Resizable, Scroll Area, … |
 
 [See plans and pricing →](https://wunderui.com/#pricing)

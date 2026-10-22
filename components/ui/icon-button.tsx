@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils"
 // 4.73:1 at rest and 4.61:1 hovered. The light variant's icon is light-1000
 // (5.93:1 on light-600) instead of light-900 (3.84:1), so a text label would pass too.
 const iconButtonVariants = cva(
-  "group/icon-button inline-flex shrink-0 items-center justify-center border border-transparent transition duration-fast ease-entrance outline-none select-none shadow-[0px_1px_1px_0px_rgba(16,24,40,0.05)] active:translate-y-px disabled:pointer-events-none disabled:opacity-40 focus-visible:border-ring focus-visible:outline-solid focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-ring [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  "group/icon-button inline-flex shrink-0 items-center justify-center border border-transparent transition duration-fast ease-entrance outline-none select-none shadow-[0px_1px_1px_0px_rgba(16,24,40,0.05)] active:scale-[0.97] motion-reduce:active:scale-100 disabled:pointer-events-none disabled:opacity-40 focus-visible:border-ring focus-visible:outline-solid focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-ring [&_svg]:pointer-events-none [&_svg]:shrink-0",
   {
     variants: {
       variant: {

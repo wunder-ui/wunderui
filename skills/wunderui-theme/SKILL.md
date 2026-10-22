@@ -29,6 +29,8 @@ Writes `./wunderui-theme.css` and `.wunderui/theme-report.md` and prints the sca
 - `--parity` writes exactly the Theme Builder's `theme.css` (no corrections, no accent/radius/font) — only for comparing with the website.
 - `--json` prints the whole theme (scale, token map, checks, CSS) for further processing.
 
+**No brand colour yet?** Offer a ready-made theme instead: `T preset list` shows them (Lagoon — cool teal-green, Ember — warm coral-red, Graphite — almost monochrome; WunderUI indigo is the default and needs no file). `T preset <name>` checks the theme and, when the installed `@wunderui/react` already ships it (Core and Pro: `node_modules/@wunderui/react/themes/<name>.css`), prints the one import line — `@import "@wunderui/react/themes/<name>.css";` — instead of writing a copy. Otherwise, or with `--out`, it writes `wunderui-theme.css` with exactly the packaged values. Never mix a preset with `make` output in one project; pick one file.
+
 ### 3. Read the report
 Show the user the scale and the contrast table (`.wunderui/theme-report.md`). Explain every adjustment in one line each, for example "Link moved to step 700 (6.20:1 on white) — 600 is too light for text". Then the special cases:
 - **"No step passes"** — the colour is too light or too grey for links or tint text in that mode. Offer a darker or more saturated variant of the brand colour and generate it next to the original so the user can compare.

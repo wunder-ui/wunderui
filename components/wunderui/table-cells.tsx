@@ -425,7 +425,7 @@ function CellColorPicker({
         className="size-6 rounded-full ring-1 ring-border ring-offset-2 ring-offset-card outline-none focus-visible:ring-1 focus-visible:ring-ring"
         style={{ backgroundColor: value }}
       />
-      <PopoverContent className="w-auto p-2">
+      <PopoverContent aria-label="Choose a colour" className="w-auto p-2">
         <div className="grid grid-cols-6 gap-1.5">
           {CELL_COLOR_SWATCHES.map((swatch) => (
             <button

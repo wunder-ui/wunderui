@@ -4,7 +4,7 @@ import * as React from "react"
 import { CalendarDays } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
-import { Calendar, type DateRange } from "@/components/wunderui/calendar"
+import { Calendar, type CalendarProps, type DateRange } from "@/components/wunderui/calendar"
 import { cn } from "@/lib/utils"
 
 function formatDate(date?: Date) {
@@ -23,6 +23,25 @@ function addMonths(date: Date, n: number) {
 }
 
 type DatePreset = { label: string; range: () => DateRange }
+
+const startOfDay = (d: Date) => new Date(d.getFullYear(), d.getMonth(), d.getDate())
+
+/** A range cut to `min` and `max` (whole days). */
+function clampRange(range: DateRange, min?: Date, max?: Date): DateRange {
+  let from = range.from && startOfDay(range.from)
+  let to = range.to && startOfDay(range.to)
+  if (min) {
+    const lo = startOfDay(min)
+    if (from && from < lo) from = lo
+    if (to && to < lo) to = lo
+  }
+  if (max) {
+    const hi = startOfDay(max)
+    if (from && from > hi) from = hi
+    if (to && to > hi) to = hi
+  }
+  return { from, to }
+}
 
 /** The quick ranges of the Figma Date Picker · Type=presets sidebar. */
 const DEFAULT_PRESETS: DatePreset[] = [
@@ -61,6 +80,12 @@ type DatePickerRangeProps = {
 
 type DatePickerProps = (DatePickerSingleProps | DatePickerRangeProps) & {
   placeholder?: string
+  /** Earliest day that can be picked (passed to Calendar). */
+  min?: Date
+  /** Latest day that can be picked (passed to Calendar). */
+  max?: Date
+  /** Days that cannot be picked: a list of dates or a test (passed to Calendar). */
+  disabled?: CalendarProps["disabled"]
   className?: string
 }
 
@@ -69,7 +94,7 @@ type DatePickerProps = (DatePickerSingleProps | DatePickerRangeProps) & {
  * Type=range (two months, start/end), Type=presets (range + quick-select sidebar).
  */
 function DatePicker(props: DatePickerProps) {
-  const { placeholder, className } = props
+  const { placeholder, className, min, max, disabled } = props
   const isRange = props.mode === "range"
   const [open, setOpen] = React.useState(false)
   const [uncontrolled, setUncontrolled] = React.useState<Date | DateRange | undefined>(props.defaultValue)
@@ -105,15 +130,18 @@ function DatePicker(props: DatePickerProps) {
         <CalendarDays className="size-4" />
         {display ?? <span className="text-text-tertiary">{placeholder ?? (isRange ? "Pick a date range" : "Pick a date")}</span>}
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
+      <PopoverContent aria-label={isRange ? "Choose a date range" : "Choose a date"} className="w-auto p-0">
         <div className="flex">
           {presets && (
             <div className="flex w-40 flex-col gap-0.5 border-r border-border p-3">
               {presets.map((p) => {
-                const r = p.range()
+                // a preset is cut to min and max; one that falls entirely outside them is switched off
+                const raw = p.range()
+                const r = clampRange(raw, min, max)
+                const unavailable = !raw.from || !raw.to || (!!min && startOfDay(raw.to) < startOfDay(min)) || (!!max && startOfDay(raw.from) > startOfDay(max))
                 const active = draftRange?.from?.toDateString() === r.from?.toDateString() && draftRange?.to?.toDateString() === r.to?.toDateString()
                 return (
-                  <button key={p.label} type="button" onClick={() => (setDraft(r), setMonth(addMonths(r.from ?? new Date(), 0)))} className={cn("rounded-lg px-3 py-2 text-left text-xs font-medium transition-colors duration-fast ease-entrance", active ? "bg-subtle font-semibold text-foreground" : "text-text-secondary hover:bg-subtle hover:text-foreground")}>
+                  <button key={p.label} type="button" disabled={unavailable} onClick={() => (setDraft(r), setMonth(addMonths(r.from ?? new Date(), 0)))} className={cn("rounded-lg px-3 py-2 disabled:pointer-events-none disabled:opacity-40 text-left text-xs font-medium transition-colors duration-fast ease-entrance", active ? "bg-subtle font-semibold text-foreground" : "text-text-secondary hover:bg-subtle hover:text-foreground")}>
                     {p.label}
                   </button>
                 )
@@ -123,9 +151,9 @@ function DatePicker(props: DatePickerProps) {
           <div className="flex gap-6 p-3">
             {Array.from({ length: months }).map((_, i) =>
               isRange ? (
-                <Calendar key={i} mode="range" selected={draftRange} onSelect={setDraft} month={addMonths(month, i)} onMonthChange={(m) => setMonth(addMonths(m, -i))} />
+                <Calendar key={i} mode="range" selected={draftRange} onSelect={setDraft} month={addMonths(month, i)} onMonthChange={(m) => setMonth(addMonths(m, -i))} min={min} max={max} disabled={disabled} />
               ) : (
-                <Calendar key={i} mode="single" selected={draft as Date | undefined} onSelect={setDraft} month={month} onMonthChange={setMonth} />
+                <Calendar key={i} mode="single" selected={draft as Date | undefined} onSelect={setDraft} month={month} onMonthChange={setMonth} min={min} max={max} disabled={disabled} />
               )
             )}
           </div>

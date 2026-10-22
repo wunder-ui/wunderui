@@ -12,6 +12,12 @@ const CARD_VARIANT = {
 
 type CardVariant = keyof typeof CARD_VARIANT
 
+/**
+ * One inset for the library's cards (owner, Oct 22 2026): the default size has
+ * 20 px on all four sides and 16 px between header, content and footer —
+ * CARD_INSET_PX / CARD_GAP_PX in lib/card-inset.ts, the same as ChartCard,
+ * StatCard and MetricCard. The small size keeps 12 px.
+ */
 function Card({
   className,
   size = "default",
@@ -24,7 +30,7 @@ function Card({
       data-size={size}
       data-variant={variant}
       className={cn(
-        "group/card flex flex-col gap-(--card-spacing) [--surface:var(--card)] overflow-hidden rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground [--card-spacing:var(--card-padding)] has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 has-[>[data-slot=card-media]:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl",
+        "group/card flex flex-col gap-(--card-gap) [--surface:var(--card)] overflow-hidden rounded-xl bg-card py-(--card-spacing) text-sm text-card-foreground [--card-spacing:--spacing(5)] [--card-gap:--spacing(4)] has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 has-[>[data-slot=card-media]:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:[--card-gap:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl",
         CARD_VARIANT[variant],
         className
       )}

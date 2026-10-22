@@ -28,9 +28,9 @@
   "meta": {
     "group": "Feedback & Overlays",
     "exports": [
+      "Toaster",
       "ToastProvider",
-      "ToastViewport",
-      "Toaster"
+      "ToastViewport"
     ]
   }
 }

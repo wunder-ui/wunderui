@@ -24,10 +24,7 @@
       "AvatarBadge",
       "AvatarColor",
       "AvatarFallback",
-      "AvatarGroup",
-      "AvatarGroupCount",
-      "AvatarImage",
-      "AvatarStack"
+      "AvatarImage"
     ],
     "docs": "https://wunderui.com/components/avatar"
   },
@@ -62,7 +59,7 @@
     "title": "Breadcrumb",
     "group": "Core Elements",
     "category": "Primitives",
-    "description": "Shows the user's location in a hierarchy, in \"plain\" or bordered \"border\" style.",
+    "description": "Shows the user's location in a hierarchy, in the `plain`, `border` or `underline` style.",
     "exports": [
       "Breadcrumb",
       "BreadcrumbItem",
@@ -81,10 +78,7 @@
     "description": "The main action trigger, in 10 variants, 2 shapes and 5 sizes.",
     "exports": [
       "Button",
-      "ButtonCell",
-      "ButtonGroup",
-      "ButtonGroupOrientation",
-      "ButtonGroupShape"
+      "ButtonCell"
     ],
     "docs": "https://wunderui.com/components/button"
   },
@@ -139,10 +133,7 @@
     "category": "Primitives",
     "description": "A single choice that is on or off, with an indeterminate state for “some selected”.",
     "exports": [
-      "Checkbox",
-      "CheckboxButtonGroup",
-      "CheckboxField",
-      "CheckboxFieldProps"
+      "Checkbox"
     ],
     "docs": "https://wunderui.com/components/checkbox"
   },
@@ -177,9 +168,7 @@
     "category": "Primitives",
     "description": "A single-line text field with sm/default/lg sizes and error state.",
     "exports": [
-      "Input",
-      "InputGroup",
-      "InputGroupAddon"
+      "Input"
     ],
     "docs": "https://wunderui.com/components/input"
   },
@@ -190,9 +179,7 @@
     "category": "Primitives",
     "description": "A multi-line text field with sm/default/lg sizes and an optional character counter.",
     "exports": [
-      "Textarea",
-      "TextareaField",
-      "TextareaFieldProps"
+      "Textarea"
     ],
     "docs": "https://wunderui.com/components/textarea"
   },
@@ -322,6 +309,7 @@
       "AlertDialogDescription",
       "AlertDialogFooter",
       "AlertDialogHeader",
+      "AlertDialogIcon",
       "AlertDialogOverlay",
       "AlertDialogPortal",
       "AlertDialogTitle",
@@ -442,13 +430,30 @@
     "description": "Rows and columns with 23 ready-made cell types; for sorting and search use Data Grid.",
     "exports": [
       "Table",
+      "ActionIconsCell",
+      "ActionItemsCell",
+      "AddressCell",
+      "CheckItemCell",
+      "CompanyCell",
+      "CTAButtonCell",
+      "CurrencyCell",
+      "DragItemCell",
+      "HeadingCell",
+      "IconTextCell",
+      "PerformanceCell",
+      "ProductCell",
+      "RadioItemCell",
       "TableBody",
       "TableCaption",
       "TableCell",
       "TableFooter",
       "TableHead",
       "TableHeader",
-      "TableRow"
+      "TableRow",
+      "TagCell",
+      "TextCell",
+      "UserAvatarCell",
+      "UserCell"
     ],
     "docs": "https://wunderui.com/components/table"
   },
@@ -475,8 +480,6 @@
     "description": "A time-ordered list of scheduled events.",
     "exports": [
       "Agenda",
-      "AgendaEvent",
-      "AgendaEventProps",
       "AgendaItem"
     ],
     "docs": "https://wunderui.com/components/agenda"
@@ -486,7 +489,7 @@
     "title": "Action Bar",
     "group": "Core Elements",
     "category": "Primitives",
-    "description": "A floating bar of bulk actions for a selection.",
+    "description": "A pill-shaped bar of bulk actions for a selection. It sits where you place it, so fix it to the bottom of the page yourself if it should float.",
     "exports": [
       "ActionBar"
     ],
@@ -521,10 +524,11 @@
     "title": "File Tree",
     "group": "Core Elements",
     "category": "Primitives",
-    "description": "A collapsible, indented tree of folders and files.",
+    "description": "An indented list of folders and files: a tree with arrow-key navigation whose folders open and close, and onSelect reports the chosen file or folder.",
     "exports": [
       "FileTree",
-      "FileTreeNode"
+      "FileTreeNode",
+      "FileTreeProps"
     ],
     "docs": "https://wunderui.com/components/file-tree"
   },
@@ -533,7 +537,7 @@
     "title": "Floating TOC",
     "group": "Core Elements",
     "category": "Primitives",
-    "description": "A sticky table of contents with an active-section indicator.",
+    "description": "A table of contents for an article, with a marker that follows the section in view. It does not stick by itself: put it in a `sticky` container to keep it on screen.",
     "exports": [
       "FloatingToc"
     ],
@@ -570,8 +574,6 @@
     "description": "A vertical sequence of dated, dot-connected events.",
     "exports": [
       "Timeline",
-      "TimelineEvent",
-      "TimelineEventProps",
       "TimelineItem"
     ],
     "docs": "https://wunderui.com/components/timeline"
@@ -765,9 +767,7 @@
       "FieldControl",
       "FieldDescription",
       "FieldError",
-      "FieldLabel",
-      "Fieldset",
-      "FieldsetLegend"
+      "FieldLabel"
     ],
     "docs": "https://wunderui.com/components/field"
   },
@@ -790,8 +790,7 @@
     "category": "Forms",
     "description": "A form wrapper that simplifies validation and submission.",
     "exports": [
-      "Form",
-      "FormActions"
+      "Form"
     ],
     "docs": "https://wunderui.com/components/form"
   },
@@ -880,7 +879,7 @@
     "title": "Calendar",
     "group": "Forms",
     "category": "Forms",
-    "description": "A month-grid date picker with single or range selection.",
+    "description": "A month grid for picking one date or a range, with keyboard navigation and optional min, max and disabled days.",
     "exports": [
       "Calendar",
       "CalendarProps"
@@ -908,17 +907,6 @@
     "exports": [
       "Alert",
       "AlertDescription",
-      "AlertDialog",
-      "AlertDialogAction",
-      "AlertDialogCancel",
-      "AlertDialogContent",
-      "AlertDialogDescription",
-      "AlertDialogFooter",
-      "AlertDialogHeader",
-      "AlertDialogOverlay",
-      "AlertDialogPortal",
-      "AlertDialogTitle",
-      "AlertDialogTrigger",
       "AlertTitle"
     ],
     "docs": "https://wunderui.com/components/alert"
@@ -930,9 +918,9 @@
     "category": "Feedback",
     "description": "A temporary notification that appears in the corner of the screen, with success/error/warning/info types.",
     "exports": [
+      "Toaster",
       "ToastProvider",
-      "ToastViewport",
-      "Toaster"
+      "ToastViewport"
     ],
     "docs": "https://wunderui.com/components/toast"
   },
@@ -980,6 +968,7 @@
     "description": "A small pill showing a change, up or down, in seven icon styles.",
     "exports": [
       "TrendChip",
+      "TrendCaret",
       "TrendChipIcon"
     ],
     "docs": "https://wunderui.com/components/trend-chip"
@@ -1033,5 +1022,75 @@
       "SheetTrigger"
     ],
     "docs": "https://wunderui.com/components/sheet"
+  },
+  {
+    "slug": "timeline-event",
+    "title": "Timeline Event",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "One entry in an activity feed or history, with an avatar or status dot and a line to the next entry.",
+    "exports": [
+      "TimelineEvent",
+      "TimelineEventProps"
+    ],
+    "docs": "https://wunderui.com/components/timeline-event"
+  },
+  {
+    "slug": "avatar-stack",
+    "title": "Avatar Stack",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "Overlapping avatars with a “+N” count for everyone past the limit.",
+    "exports": [
+      "AvatarStack"
+    ],
+    "docs": "https://wunderui.com/components/avatar-stack"
+  },
+  {
+    "slug": "agenda-event",
+    "title": "Agenda Event",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "One event in an agenda list, with its start and end time, a color bar, details and guests.",
+    "exports": [
+      "AgendaEvent",
+      "AgendaEventProps"
+    ],
+    "docs": "https://wunderui.com/components/agenda-event"
+  },
+  {
+    "slug": "textarea-field",
+    "title": "Textarea Field",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "A multi-line text input with a label and helper or error text.",
+    "exports": [
+      "TextareaField",
+      "TextareaFieldProps"
+    ],
+    "docs": "https://wunderui.com/components/textarea-field"
+  },
+  {
+    "slug": "checkbox-field",
+    "title": "Checkbox Field",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "A checkbox with a clickable label and an optional description below it.",
+    "exports": [
+      "CheckboxField",
+      "CheckboxFieldProps"
+    ],
+    "docs": "https://wunderui.com/components/checkbox-field"
+  },
+  {
+    "slug": "form-actions",
+    "title": "Form Actions",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "The row of buttons at the end of a form, aligned right, left or spread to both edges.",
+    "exports": [
+      "FormActions"
+    ],
+    "docs": "https://wunderui.com/components/form-actions"
   }
 ]

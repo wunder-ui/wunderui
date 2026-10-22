@@ -5,7 +5,6 @@
   "description": "A single choice that is on or off, with an indeterminate state for “some selected”.",
   "dependencies": [
     "@base-ui/react@^1.8.0",
-    "class-variance-authority@^0.7.1",
     "cn@^0.3.0",
     "lucide-react@^1.46.0"
   ],
@@ -13,12 +12,6 @@
     "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/styles.json"
   ],
   "files": [
-    {
-      "path": "components/blocks/form.tsx",
-      "type": "registry:component",
-      "target": "components/blocks/form.tsx",
-      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\nimport { Textarea } from \"@/components/ui/textarea\"\nimport { Checkbox } from \"@/components/ui/checkbox\"\n\n/* ------------------------------------------------------------------ */\n/* TextareaField                                                         */\n/* ------------------------------------------------------------------ */\n\ntype TextareaFieldProps = React.ComponentProps<typeof Textarea> & {\n  label?: React.ReactNode\n  helper?: React.ReactNode\n  error?: React.ReactNode\n  optional?: boolean\n  wrapperClassName?: string\n}\n\nfunction TextareaField({ label, helper, error, optional, id: idProp, wrapperClassName, ...props }: TextareaFieldProps) {\n  const autoId = React.useId()\n  const id = idProp ?? autoId\n  return (\n    <div data-slot=\"textarea-field\" className={cn(\"flex flex-col gap-1.5\", wrapperClassName)}>\n      {label && (\n        <label htmlFor={id} className=\"text-sm font-medium text-foreground\">\n          {label}\n          {optional && <span className=\"ml-1 font-normal text-text-tertiary\">(optional)</span>}\n        </label>\n      )}\n      <Textarea\n        id={id}\n        aria-invalid={error ? true : undefined}\n        aria-describedby={error ? `${id}-error` : helper ? `${id}-helper` : undefined}\n        {...props}\n      />\n      {error ? (\n        <p id={`${id}-error`} className=\"text-xs text-text-error\">{error}</p>\n      ) : (\n        helper && <p id={`${id}-helper`} className=\"text-xs text-text-tertiary\">{helper}</p>\n      )}\n    </div>\n  )\n}\n\n/* ------------------------------------------------------------------ */\n/* CheckboxField — checkbox + label (+ description)                      */\n/* Figma: ❖ Selectors / Checkbox Item (113:7985)                       */\n/* ------------------------------------------------------------------ */\n\ntype CheckboxFieldProps = React.ComponentProps<typeof Checkbox> & {\n  label: React.ReactNode\n  description?: React.ReactNode\n  wrapperClassName?: string\n}\n\nfunction CheckboxField({ label, description, id: idProp, wrapperClassName, className, ...props }: CheckboxFieldProps) {\n  const autoId = React.useId()\n  const id = idProp ?? autoId\n  return (\n    <label htmlFor={id} data-slot=\"checkbox-field\" className={cn(\"flex cursor-pointer items-start gap-2\", wrapperClassName)}>\n      <Checkbox id={id} className={cn(\"mt-0.5\", className)} {...props} />\n      <span className=\"flex flex-col gap-0.5\">\n        <span className=\"text-sm text-text-secondary [&_a]:font-medium [&_a]:text-text-link [&_a]:hover:underline\">{label}</span>\n        {description && <span className=\"text-xs text-text-tertiary\">{description}</span>}\n      </span>\n    </label>\n  )\n}\n\n/* ------------------------------------------------------------------ */\n/* FormActions — right-aligned button row used at the end of forms       */\n/* ------------------------------------------------------------------ */\n\nfunction FormActions({ children, align = \"end\", className }: { children: React.ReactNode; align?: \"start\" | \"end\" | \"between\"; className?: string }) {\n  return (\n    <div\n      data-slot=\"form-actions\"\n      className={cn(\n        \"flex flex-wrap items-center gap-3\",\n        align === \"end\" && \"justify-end\",\n        align === \"between\" && \"justify-between\",\n        className\n      )}\n    >\n      {children}\n    </div>\n  )\n}\n\nexport { TextareaField, CheckboxField, FormActions }\nexport type { TextareaFieldProps, CheckboxFieldProps }\n"
-    },
     {
       "path": "components/ui/checkbox.tsx",
       "type": "registry:ui",
@@ -30,28 +23,13 @@
       "type": "registry:lib",
       "target": "lib/utils.ts",
       "content": "import type { CnFunction } from \"cn\"\nimport { createCn } from \"cn/config\"\n\n/**\n * clsx + tailwind-merge, taught WunderUI's own theme utilities so they merge\n * in the right group: `text-label-sm` is a font size (not a text colour, which\n * dropped it next to `text-text-tertiary`), `bg-gradient-*` a background image\n * (not a colour that `bg-card` would remove), and the motion utilities\n * `ease-entrance …` and `duration-fast …` replace each other.\n */\nexport const cn: CnFunction = createCn({\n  extend: {\n    classGroups: {\n      \"font-size\": [{ text: [\"label-sm\"] }],\n      \"bg-image\": [\n        {\n          bg: [\n            \"gradient-primary\",\n            \"gradient-indigo\",\n            \"gradient-blue\",\n            \"gradient-purple\",\n            \"gradient-pink\",\n            \"gradient-red\",\n            \"gradient-orange\",\n            \"gradient-yellow\",\n            \"gradient-green\",\n            \"gradient-alternative\",\n            \"gradient-slate\",\n            \"gradient-dark\",\n          ],\n        },\n      ],\n      ease: [{ ease: [\"entrance\", \"exit\", \"move\", \"overshoot\", \"spring\"] }],\n      duration: [{ duration: [\"instant\", \"fast\", \"base\", \"slow\", \"deliberate\", \"ambient\"] }],\n    },\n  },\n})\n"
-    },
-    {
-      "path": "components/ui/textarea.tsx",
-      "type": "registry:ui",
-      "target": "components/ui/textarea.tsx",
-      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { cva, type VariantProps } from \"class-variance-authority\"\nimport { cn } from \"@/lib/utils\"\n\nconst textareaVariants = cva(\n  \"w-full min-w-0 resize-y rounded-md border border-input bg-card px-3 py-2.5 text-sm transition-colors duration-fast ease-entrance outline-none placeholder:text-muted-foreground focus-visible:border-ring disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-muted/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 aria-invalid:focus-visible:ring-destructive dark:disabled:bg-muted/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40\",\n  {\n    variants: {\n      size: {\n        // Density tokens (styles.css): compact 72/96/128, comfortable 80/112/144.\n        sm: \"min-h-(--textarea-sm)\",\n        default: \"min-h-(--textarea-md)\",\n        lg: \"min-h-(--textarea-lg) text-base\",\n      },\n    },\n    defaultVariants: {\n      size: \"default\",\n    },\n  }\n)\n\nfunction Textarea({\n  className,\n  size = \"default\",\n  showCount,\n  maxLength,\n  value,\n  defaultValue,\n  onChange,\n  ...props\n}: Omit<React.ComponentProps<\"textarea\">, \"size\"> &\n  VariantProps<typeof textareaVariants> & {\n    /** Show a \"n/maxLength\" character counter in the bottom-right corner. Requires maxLength. */\n    showCount?: boolean\n  }) {\n  const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue ?? \"\")\n  const isControlled = value !== undefined\n  const length = (isControlled ? value : uncontrolledValue)?.toString().length ?? 0\n  const withCounter = showCount && maxLength !== undefined\n\n  return (\n    <div className=\"relative\">\n      <textarea\n        data-slot=\"textarea\"\n        className={cn(textareaVariants({ size }), withCounter && \"pb-6\", className)}\n        maxLength={maxLength}\n        value={value}\n        defaultValue={defaultValue}\n        onChange={(event) => {\n          if (!isControlled) setUncontrolledValue(event.target.value)\n          onChange?.(event)\n        }}\n        {...props}\n      />\n      {withCounter && (\n        <span className=\"pointer-events-none absolute right-3 bottom-2 text-xs text-text-tertiary tabular-nums\">\n          {length}/{maxLength}\n        </span>\n      )}\n    </div>\n  )\n}\n\nexport { Textarea, textareaVariants }\n"
-    },
-    {
-      "path": "components/ui/toggle-button-group.tsx",
-      "type": "registry:ui",
-      "target": "components/ui/toggle-button-group.tsx",
-      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { ToggleGroup } from \"@base-ui/react/toggle-group\"\nimport { Toggle } from \"@base-ui/react/toggle\"\nimport { cn } from \"@/lib/utils\"\n\nfunction CheckboxButtonGroup<Value extends string>({\n  className,\n  ...props\n}: ToggleGroup.Props<Value>) {\n  return (\n    <ToggleGroup\n      data-slot=\"checkbox-button-group\"\n      multiple\n      className={cn(\"flex flex-wrap gap-2\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction RadioButtonGroup<Value extends string>({\n  className,\n  ...props\n}: Omit<ToggleGroup.Props<Value>, \"multiple\">) {\n  return (\n    <ToggleGroup\n      data-slot=\"radio-button-group\"\n      multiple={false}\n      className={cn(\"flex flex-wrap gap-2\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction ToggleButton({\n  className,\n  ...props\n}: React.ComponentProps<typeof Toggle>) {\n  return (\n    <Toggle\n      data-slot=\"toggle-button\"\n      className={cn(\n        \"rounded-md border border-border-control px-3 py-1.5 text-sm font-medium text-text-secondary transition-colors duration-fast ease-entrance data-pressed:border-primary data-pressed:bg-tint-indigo data-pressed:text-tint-text-indigo hover:bg-muted/50\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nexport { CheckboxButtonGroup, RadioButtonGroup, ToggleButton }\n"
     }
   ],
   "docs": "https://wunderui.com/components/checkbox",
   "meta": {
     "group": "Core Elements",
     "exports": [
-      "Checkbox",
-      "CheckboxButtonGroup",
-      "CheckboxField",
-      "CheckboxFieldProps"
+      "Checkbox"
     ]
   }
 }

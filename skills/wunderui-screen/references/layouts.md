@@ -6,10 +6,10 @@ Pick one per screen. All of them are `AppLayout` configurations or plain wrapper
 |---|---|---|
 | **App shell with sidebar** | Any screen inside a product: dashboards, lists, settings | `<AppLayout sidebar={<Sidebar …/>} navbar={<Navbar …/>}>` — the sidebar becomes a drawer on small screens; `AppLayoutNavigationTrigger` opens it. |
 | **App shell with aside** | A list or editor with a detail/inspector pane (inbox, file manager, agent run) | `AppLayout` with `aside` + `asideLabel`; `AppLayoutAsideTrigger` toggles it. From 64rem it is a pane, below a drawer. |
-| **Top bar only** | Marketing-adjacent pages, docs, simple tools | `AppLayout` with `navbar` and no `sidebar`, `width="narrow"` or a centred `max-w-*` container. |
+| **Top bar only** | Marketing-adjacent pages, docs, simple tools | `AppLayout` with `navbar` and no `sidebar`, `width="contained"` or a centred `max-w-*` container. |
 | **Centered card** | Sign-in, sign-up, verification, single forms | `min-h-screen` flex centre on `bg-page`, one `Card` of `max-w-sm`/`max-w-md`. |
 | **Split** | Auth with a brand panel, onboarding | Two columns from `lg`, the panel hides below `lg`. |
-| **Full bleed** | Canvas, map, kanban across the viewport | `AppLayout` with `padding={false}` / `scroll` set so the content owns the scroll. |
+| **Full bleed** | Canvas, map, kanban across the viewport | `AppLayout` with `padding="none"` / `scroll` set so the content owns the scroll. |
 
 ## Grids inside the content
 

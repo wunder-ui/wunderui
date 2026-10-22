@@ -1,6 +1,6 @@
 # Building on the Free plan
 
-The components marked `tier: "free"` in design.json (Core Elements, Feedback & Overlays, Forms — 76 components) are open source under the MIT License (github.com/wunder-ui/wunderui), so they work in any project, commercial included; each has a `sourceRaw` URL to fetch the file. Everything else needs WunderUI Core or Pro. On Free, build the best screen the free components allow and tell the user, in one sentence, what Pro would add.
+The components marked `tier: "free"` in design.json (Core Elements, Feedback & Overlays, Forms — 83 components) are open source under the MIT License (github.com/wunder-ui/wunderui), so they work in any project, commercial included; each has a `sourceRaw` URL to fetch the file. Everything else needs WunderUI Core or Pro. On Free, build the best screen the free components allow and tell the user, in one sentence, what Pro would add.
 
 ## What Free builds well
 Forms and settings, sign-in and onboarding, profile and detail pages, simple overview pages, empty and error states, dialogs and sheets.

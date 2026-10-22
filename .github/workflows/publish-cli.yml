@@ -17,7 +17,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-      - run: node --check bin/wunderui.mjs && node --check src/index.mjs && node bin/wunderui.mjs --help > /dev/null
+      - run: for f in bin/wunderui.mjs src/*.mjs src/*/*.mjs; do node --check "$f" || exit 1; done && node bin/wunderui.mjs --help > /dev/null && node bin/wunderui.mjs component button --json > /dev/null && node bin/wunderui.mjs search dialog --json --dense > /dev/null
       # npm Trusted Publishing: no token, provenance is automatic (no registry-url above: it would set a placeholder token)
       - name: Publish
         run: |

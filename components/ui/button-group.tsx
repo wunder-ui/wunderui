@@ -4,6 +4,10 @@ import { cn } from "@/lib/utils"
 type ButtonGroupShape = "rounded" | "pill"
 type ButtonGroupOrientation = "horizontal" | "vertical"
 
+/** aria-orientation is only valid on these roles (WAI-ARIA 1.2); on the default
+ *  role="group" it is an axe violation, so the stacking lives in data-orientation. */
+const ORIENTED_ROLES = new Set(["radiogroup", "toolbar", "listbox", "menu", "menubar", "tablist", "tree", "treegrid"])
+
 function ButtonGroup({
   shape = "rounded",
   orientation = "horizontal",
@@ -20,7 +24,7 @@ function ButtonGroup({
       data-slot="button-group"
       data-shape={shape}
       data-orientation={orientation}
-      aria-orientation={orientation === "vertical" ? "vertical" : undefined}
+      aria-orientation={orientation === "vertical" && props.role && ORIENTED_ROLES.has(props.role) ? "vertical" : undefined}
       className={cn(
         "inline-flex data-[orientation=vertical]:flex-col",
         "[&>*]:rounded-none [&>*]:focus-visible:z-10",

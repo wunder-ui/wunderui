@@ -170,6 +170,8 @@ writeFileSync(join(outDir, "package.json"), json({
   files,
   peerDependencies: base.peerDependencies,
   dependencies: deps,
+  // read by the wunderui-setup skill: this package is the Free edition, not the Core/Pro library
+  wunderuiEdition: "free",
 }))
 
 const site = base.homepage

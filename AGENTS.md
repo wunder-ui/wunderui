@@ -122,16 +122,16 @@ A div is not focusable, has no role, and ignores the keyboard.
 **Don't**
 
 ```tsx
-{isLoading ? <Spinner /> : <AreaChart data={data} … />}
+{isLoading ? <Spinner /> : <Table>…</Table>}
 ```
 
 **Do**
 
 ```tsx
-<AreaChart data={data} index="month" categories={["Revenue"]} loading={isLoading} />
+{isLoading ? <Skeleton className="h-60" /> : <Table>…</Table>}
 ```
 
-The built-in skeleton keeps the chart's height, so the layout does not jump.
+A skeleton in the content's height keeps the layout still while the data loads; a lone spinner collapses it.
 
 ---
 

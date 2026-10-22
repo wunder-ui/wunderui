@@ -34,13 +34,30 @@
     "group": "Core Elements",
     "exports": [
       "Table",
+      "ActionIconsCell",
+      "ActionItemsCell",
+      "AddressCell",
+      "CheckItemCell",
+      "CompanyCell",
+      "CTAButtonCell",
+      "CurrencyCell",
+      "DragItemCell",
+      "HeadingCell",
+      "IconTextCell",
+      "PerformanceCell",
+      "ProductCell",
+      "RadioItemCell",
       "TableBody",
       "TableCaption",
       "TableCell",
       "TableFooter",
       "TableHead",
       "TableHeader",
-      "TableRow"
+      "TableRow",
+      "TagCell",
+      "TextCell",
+      "UserAvatarCell",
+      "UserCell"
     ]
   }
 }

@@ -346,6 +346,138 @@ ${block("dark")}
   return { theme: t, accent: acc, radius, font, scope, css, notes }
 }
 
+/* ========================================================================= presets */
+
+// The library's surfaces (packages/react/src/styles.css): text tokens must read on all of them.
+const SURFACES = {
+  light: ["#FFFFFF", "#F9FBFC", "#F1F5F7"], // background/card/popover, bg-page, muted/subtle/accent
+  dark: ["#17181A", "#1C1D20", "#25272A", "#323438"], // background/bg-page, card/popover, subtle, muted/accent
+}
+
+const LIGHT_200 = "#F1F5F7" // hover fill of Button variant "light"
+const GRADIENT_STOP = "#5A5EF4" // top stop of Button variant "gradient" (button.tsx)
+
+// Which step of the brand scale each brand token uses. A list means "the first step that passes".
+const BRAND_STEPS = {
+  light: { primary: 600, link: [600, 700, 800, 900], ring: [600, 700, 800], tint: 50, tintText: [800, 900, 1000], chart1: 600, gradientStart: 500 },
+  dark: { primary: 600, link: [400, 300, 200, 100], ring: [400, 300, 200], tint: 900, tintText: [300, 200, 100], chart1: 600, gradientStart: 500 },
+}
+// Mono: an almost-black primary in light mode; in dark mode the mid-grey step 600 with white text, because
+// the library also sets primary as text on white (Button variant "light") and under its hard-coded gradient stop.
+const MONO_STEPS = {
+  light: { primary: 900, link: [800, 900], ring: [700, 800], tint: 100, tintText: [900, 1000], chart1: 800, gradientStart: 700 },
+  dark: { primary: 600, link: [300, 200, 100], ring: [400, 300], tint: 900, tintText: [200, 100], chart1: 300, gradientStart: 500 },
+}
+
+/** The dark-mode lift the library applies to its own chart colours (#12AFF0 → #3CC2F5). */
+const liftForDark = (hex) => {
+  const o = rgbToOklch(hexToRgb(hex))
+  return rgbToHex(oklchToRgb({ l: Math.min(0.92, o.l + 0.05), c: o.c * 0.9, h: o.h }))
+}
+
+/**
+ * The ready-made themes. Each one is a brand colour run through the same generator as `make`
+ * (step 600 = the colour, the other steps at indigo's lightness), plus the extra values it needs:
+ * `mono` uses the grey scale the other way round, `charts` replaces a chart series whose hue
+ * would sit too close to the brand. Only values of existing tokens change — no new token names.
+ * WunderUI's own indigo is the default and needs no file.
+ */
+export const PRESETS = {
+  lagoon: {
+    label: "Lagoon",
+    description: "Cool teal-green. Calm and technical — health, climate, developer tools.",
+    brand: "#0A7C72",
+    // chart-4 (green) sits next to the teal brand: an orange series keeps the five apart
+    charts: { light: { "--chart-4": "#F3654A" }, dark: { "--chart-4": liftForDark("#F3654A") } },
+  },
+  ember: {
+    label: "Ember",
+    description: "Warm coral-red. Energetic and friendly — consumer apps, commerce, media.",
+    brand: "#C73F2C",
+  },
+  graphite: {
+    label: "Graphite",
+    description: "Neutral graphite, almost monochrome. Quiet and editorial — the content brings the colour.",
+    brand: "#686F7C",
+    mono: true,
+  },
+}
+
+/**
+ * One preset as a complete theme: the scale, the token map per mode (as CSS values and as hex),
+ * the contrast checks and the CSS file. Every token the light block sets is set again for .dark,
+ * so <html class="dark"> (which also matches :root) never picks up a light value.
+ */
+export function presetTheme(name) {
+  const p = PRESETS[name]
+  if (!p) throw new Error(`unknown preset "${name}" — one of ${Object.keys(PRESETS).join(", ")}`)
+  const scale = brandScale(p.brand)
+  const steps = p.mono ? MONO_STEPS : BRAND_STEPS
+  const tokens = {}
+  const hexes = {}
+  const checks = {}
+  for (const mode of ["light", "dark"]) {
+    const s = steps[mode]
+    const surfaces = SURFACES[mode]
+    const primary = scale[s.primary]
+    const onPrimary = contrast("#FFFFFF", primary) >= contrast(INK, primary) ? "#FFFFFF" : INK
+    const link = pick(scale, s.link, surfaces, 4.5)
+    const ring = pick(scale, s.ring, [surfaces[0], surfaces[1]], 3)
+    const tintText = pick(scale, s.tintText, [scale[s.tint]], 4.5)
+    const v = (step) => `var(--brand-${step})`
+    tokens[mode] = {
+      "--primary": v(s.primary),
+      "--brand-primary": v(s.primary),
+      "--sidebar-primary": v(s.primary),
+      "--primary-foreground": onPrimary,
+      "--brand-primary-foreground": onPrimary,
+      "--sidebar-primary-foreground": onPrimary,
+      "--text-link": v(link.step),
+      "--ring": v(ring.step),
+      "--sidebar-ring": v(ring.step),
+      "--tint-indigo": v(s.tint),
+      "--tint-text-indigo": v(tintText.step),
+      "--chart-1": v(s.chart1),
+      "--gradient-start-3": v(s.gradientStart),
+      ...(p.charts?.[mode] ?? {}),
+    }
+    hexes[mode] = Object.fromEntries(Object.entries(tokens[mode]).map(([k, val]) => [k, /^var\(--brand-(\d+)\)$/.test(val) ? scale[Number(val.match(/\d+/)[0])] : val]))
+    const h = hexes[mode]
+    const page = surfaces[0]
+    const note = (picked) => (picked.failed ? "No step passes" : picked.moved ? `Moved to step ${picked.step}` : undefined)
+    const c = (name, fg, bg, min, n) => ({ name, fg, bg, ratio: contrast(fg, bg), min, pass: contrast(fg, bg) >= min, note: n })
+    checks[mode] = [
+      c("Button text on primary", h["--primary-foreground"], h["--primary"], 4.5),
+      ...surfaces.map((bg) => c(`Link on ${bg}`, h["--text-link"], bg, 4.5, note(link))),
+      c("Tint text on tint", h["--tint-text-indigo"], h["--tint-indigo"], 4.5, note(tintText)),
+      c("Focus ring on page", h["--ring"], page, 3, note(ring)),
+      c("Focus ring on card", h["--ring"], surfaces[1], 3, note(ring)),
+      c("Primary fill on page (UI)", h["--primary"], page, 3),
+      c("Chart 1 on page (UI)", h["--chart-1"], page, 3),
+      // Button variant "light" (bg-white text-primary, hover light-200) looks the same in both modes
+      c("Primary as text on white", h["--primary"], "#FFFFFF", 4.5),
+      c("Primary as text on #F1F5F7", h["--primary"], LIGHT_200, 4.5),
+      // Button variant "gradient" starts at a hard-coded indigo stop in button.tsx
+      c("Button text on gradient stop", h["--primary-foreground"], GRADIENT_STOP, 4.5),
+    ]
+  }
+  const decl = (vars) => Object.entries(vars).map(([k, val]) => `  ${k}: ${val};`).join("\n")
+  const css = `/* WunderUI theme "${p.label}" (${p.brand}) — ${p.description}
+   Import after the WunderUI stylesheet:  @import "@wunderui/react/themes/${name}.css";
+   Generated by the wunderui-theme skill (theme.mjs preset ${name}); do not edit by hand. */
+:root,
+.light {
+${STEPS.map((s) => `  --brand-${s}: ${scale[s]};`).join("\n")}
+${decl(tokens.light)}
+}
+/* Every token above is set again here: <html class="dark"> also matches :root. */
+.dark {
+${decl(tokens.dark)}
+}
+`
+  return { name, label: p.label, description: p.description, brand: p.brand, mono: Boolean(p.mono), scale, tokens, hexes, checks, css }
+}
+
 /* =========================================================================== check */
 
 function parseColor(v) {
@@ -601,12 +733,51 @@ function main() {
     return
   }
 
+  if (cmd === "preset") {
+    const name = o._[1]
+    if (!name || name === "list") {
+      console.log("Ready-made themes (WunderUI indigo is the default and needs no file):")
+      for (const [k, p] of Object.entries(PRESETS)) console.log(`  ${k.padEnd(10)} ${p.brand}  ${p.label} — ${p.description}`)
+      console.log(`\nWrite one:  preset <name> [--out wunderui-theme.css] [--force] [--json]`)
+      return
+    }
+    if (!PRESETS[name]) return fail(`unknown preset "${name}" — one of ${Object.keys(PRESETS).join(", ")} (or "list")`)
+    const res = presetTheme(name)
+    const lib = libraryCss(cwd)
+    const verify = checkCss(res.css, lib.css)
+    if (o.json) return console.log(JSON.stringify({ ...res, verify }, null, 2))
+    const packaged = join(cwd, "node_modules/@wunderui/react/themes", `${name}.css`)
+    if (existsSync(packaged) && typeof o.out !== "string") {
+      console.log(`${res.label} ships with your @wunderui/react (Core/Pro). Import it after the WunderUI stylesheet:`)
+      console.log(`  @import "@wunderui/react/themes/${name}.css";`)
+      console.log(`Pass --out <file> to write a local copy instead (to scope or extend it).`)
+    } else {
+      const outFile = resolve(cwd, typeof o.out === "string" ? o.out : "wunderui-theme.css")
+      if (existsSync(outFile) && !o.force && !/^\/\* WunderUI (brand )?theme/.test(readFileSync(outFile, "utf8"))) {
+        return fail(`${relative(cwd, outFile)} exists and was not written by this skill — pass --force to overwrite or choose --out`)
+      }
+      write(outFile, res.css)
+      console.log(`wrote ${relative(cwd, outFile).split("\\").join("/")}  — import it after @wunderui/react/styles.css`)
+    }
+    console.log(`WunderUI theme ${res.label} (${res.brand})`)
+    console.log(`  scale  ${STEPS.map((s) => `${s} ${res.scale[s]}`).join("  ")}`)
+    for (const mode of ["light", "dark"]) {
+      console.log(`${mode}:`)
+      for (const c of res.checks[mode]) console.log(line(c))
+      for (const c of verify[mode].filter((x) => !x.pass)) console.log(line({ ...c, name: `${c.name} (cascade)` }))
+    }
+    const failed = [...res.checks.light, ...res.checks.dark, ...verify.light, ...verify.dark].filter((c) => !c.pass)
+    process.exitCode = failed.length ? 2 : 0
+    return
+  }
+
   console.log(`wunderui-theme — one brand colour in, a checked WunderUI theme out
 
-  make  --brand <hex> [--accent <hex>] [--radius ${Object.keys(RADII).join("|")}] [--font <family>]
-        [--scope .class] [--out wunderui-theme.css] [--report .wunderui/theme-report.md]
-        [--parity] [--json] [--force]
-  check [wunderui-theme.css] [--report .wunderui/theme-report.md] [--json]
+  make   --brand <hex> [--accent <hex>] [--radius ${Object.keys(RADII).join("|")}] [--font <family>]
+         [--scope .class] [--out wunderui-theme.css] [--report .wunderui/theme-report.md]
+         [--parity] [--json] [--force]
+  preset list | <${Object.keys(PRESETS).join("|")}> [--out wunderui-theme.css] [--force] [--json]
+  check  [wunderui-theme.css] [--report .wunderui/theme-report.md] [--json]
 
 Exit code 2 when a pair stays below WCAG AA.`)
 }

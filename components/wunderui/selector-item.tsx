@@ -1,4 +1,6 @@
-import type { ReactNode } from "react"
+"use client"
+
+import { cloneElement, isValidElement, useId, type ReactNode } from "react"
 import { cn } from "@/lib/utils"
 
 /** A list row pairing a label/description with a trailing control — pass a
@@ -8,7 +10,12 @@ import { cn } from "@/lib/utils"
  *  The whole row is the control's label, so a click anywhere on it toggles
  *  the control. The border answers the pointer on hover and turns indigo while
  *  the control is checked — the state is read from the control itself, so it
- *  follows a radio group or a controlled checkbox without extra props. */
+ *  follows a radio group or a controlled checkbox without extra props.
+ *
+ *  The surrounding <label> only names native inputs; Base UI controls render a
+ *  role="radio" / role="checkbox" span, so the title and description are wired
+ *  to the control with aria-labelledby / aria-describedby unless the control
+ *  brings its own name. */
 function SelectorItem({
   leading,
   title,
@@ -22,6 +29,15 @@ function SelectorItem({
   control: ReactNode
   className?: string
 }) {
+  const titleId = useId()
+  const descriptionId = useId()
+  const named =
+    isValidElement<Record<string, unknown>>(control) && control.props["aria-label"] == null && control.props["aria-labelledby"] == null
+      ? cloneElement(control, {
+          "aria-labelledby": titleId,
+          "aria-describedby": (control.props["aria-describedby"] as string | undefined) ?? (description ? descriptionId : undefined),
+        })
+      : control
   return (
     <label
       data-slot="selector-item"
@@ -36,11 +52,11 @@ function SelectorItem({
       <span className="flex min-w-0 items-center gap-4">
         {leading}
         <span className="flex min-w-0 flex-col gap-2">
-          <span className="truncate text-sm font-medium text-foreground">{title}</span>
-          {description && <span className="truncate text-sm text-muted-foreground">{description}</span>}
+          <span id={titleId} className="truncate text-sm font-medium text-foreground">{title}</span>
+          {description && <span id={descriptionId} className="truncate text-sm text-muted-foreground">{description}</span>}
         </span>
       </span>
-      <span className="shrink-0">{control}</span>
+      <span className="shrink-0">{named}</span>
     </label>
   )
 }

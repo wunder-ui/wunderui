@@ -2,7 +2,7 @@
   "name": "action-bar",
   "type": "registry:ui",
   "title": "Action Bar",
-  "description": "A floating bar of bulk actions for a selection.",
+  "description": "A pill-shaped bar of bulk actions for a selection. It sits where you place it, so fix it to the bottom of the page yourself if it should float.",
   "dependencies": [
     "@base-ui/react@^1.8.0",
     "cn@^0.3.0"

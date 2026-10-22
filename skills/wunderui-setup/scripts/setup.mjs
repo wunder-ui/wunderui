@@ -2,14 +2,15 @@
 // WunderUI setup helper — no dependencies, Node 20+. Run in the project root.
 //
 //   setup.mjs detect        → .wunderui/setup.json (framework, Tailwind, CSS entry, package, tokens; --plan free|core|pro)
-//   setup.mjs install       → @wunderui/react from node_modules or a packed checkout copy (it is not on npm)
+//   setup.mjs install       → the full @wunderui/react as a packed copy of a wunderui-core checkout (Core/Pro;
+//                             npm only has WunderUI Free, which is replaced); --update reinstalls after git pull
 //   setup.mjs agent-files   → .wunderui/DESIGN.md + design.json
 //   setup.mjs mcp           → MCP server entry for Claude Code / Cursor / VS Code
 //   setup.mjs styles        → @import + @source in the CSS entry
 //   setup.mjs probe         → a probe page with Card, Button, Badge, Input
 //   setup.mjs report        → .wunderui/SETUP.md
 //
-// Options: --checkout <path to a wunderui-core checkout>, --dry (print, write nothing)
+// Options: --checkout <path to a wunderui-core checkout>, --plan free|core|pro, --update, --dry (print, write nothing)
 import { existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync, copyFileSync } from "node:fs"
 import { dirname, join, relative, resolve, sep } from "node:path"
 import { execSync } from "node:child_process"
@@ -43,6 +44,21 @@ function walk(dir, test, acc = [], depth = 0) {
   return acc
 }
 
+// `@wunderui/react` on npm is WunderUI Free: the free components only. Core and Pro need the full
+// library from their wunderui-core checkout, so a Free package in node_modules does not count as
+// installed for them. The Free build marks itself (`wunderuiEdition: "free"`); 0.1.0 predates the
+// marker, so its description and typings are checked too (no DataTable export = Free).
+function edition(dir) {
+  const pkg = readJSON(join(dir, "package.json"))
+  if (!pkg) return null
+  if (pkg.wunderuiEdition === "free" || /WunderUI Free/i.test(pkg.description ?? "")) return "free"
+  const types = join(dir, "dist", "index.d.ts")
+  if (existsSync(types) && !/\bDataTable\b/.test(readFileSync(types, "utf8"))) return "free"
+  return "full"
+}
+const NM_REACT = join(cwd, "node_modules", "@wunderui", "react")
+const paidPlan = (plan) => plan === "core" || plan === "pro"
+
 function findCheckout() {
   const given = flag("--checkout")
   const candidates = [given, join(cwd, "..", "wunderui-core"), join(cwd, "..", "..", "wunderui-core"), join(cwd, "wunderui-core")].filter(Boolean)
@@ -67,19 +83,22 @@ function detect() {
   for (const f of cssFiles) {
     for (const m of readFileSync(f, "utf8").matchAll(/(--[\w-]+)\s*:\s*(#[0-9a-f]{3,8}\b|(?:rgb|hsl|oklch)a?\([^)]*\))/gi)) tokens.push({ file: posix(relative(cwd, f)), name: m[1], value: m[2] })
   }
-  const installed = readJSON(join(cwd, "node_modules", "@wunderui", "react", "package.json"))
+  const installed = readJSON(join(NM_REACT, "package.json"))
   const checkout = findCheckout()
+  // the WunderUI plan decides which components other skills may use (free = tier "free" only)
+  const plan = ["free", "core", "pro"].includes(flag("--plan")) ? flag("--plan") : state().plan ?? null
   const s = {
     ...state(),
     project: pkg.name ?? null,
-    // the WunderUI plan decides which components other skills may use (free = tier "free" only)
-    plan: ["free", "core", "pro"].includes(flag("--plan")) ? flag("--plan") : state().plan ?? null,
+    plan,
     framework,
     react: deps.react ?? null,
     tailwind,
     tailwindV4: twMajor === 4,
     cssEntry: entry ? posix(relative(cwd, entry)) : null,
-    package: installed ? { source: "node_modules", version: installed.version } : checkout ? { source: "checkout", path: posix(checkout) } : { source: "npm" },
+    package: installed
+      ? { source: "node_modules", version: installed.version, edition: edition(NM_REACT), ...(checkout ? { path: posix(checkout) } : {}) }
+      : checkout ? { source: "checkout", path: posix(checkout) } : { source: "npm" },
     existingTokens: tokens.slice(0, 60),
     existingTokenCount: tokens.length,
     detectedAt: new Date().toISOString(),
@@ -88,6 +107,7 @@ function detect() {
   if (!framework) problems.push("No React found in package.json.")
   if (twMajor !== 4) problems.push(tailwind ? `Tailwind ${tailwind} — WunderUI needs Tailwind v4.` : "Tailwind is not installed — WunderUI needs Tailwind v4.")
   if (!entry) problems.push("No CSS file imports Tailwind yet.")
+  if (s.package.edition === "free" && paidPlan(plan)) problems.push(`node_modules has @wunderui/react ${s.package.version} from npm — WunderUI Free, the free components only. Run \`setup.mjs install\` to replace it with the full library from the wunderui-core checkout.`)
   s.problems = problems
   save(s)
   log(s)
@@ -97,8 +117,9 @@ async function agentFiles() {
   const s = state()
   const changes = []
   const out = join(cwd, ".wunderui")
+  // a Free package in node_modules only knows the free components: not a source for Core/Pro
   const sources = [
-    join(cwd, "node_modules", "@wunderui", "react"),
+    !(edition(NM_REACT) === "free" && paidPlan(s.plan)) && NM_REACT,
     s.package?.path && join(s.package.path, "agent"),
     s.package?.path && join(s.package.path, "packages", "mcp", "data"),
   ].filter(Boolean)
@@ -134,13 +155,26 @@ async function agentFiles() {
 function install() {
   const s = state()
   const changes = []
-  if (s.package?.source === "node_modules") { log({ note: `@wunderui/react ${s.package.version} is installed already.` }); return }
-  // @wunderui/react is not on the public npm registry: Core/Pro install it from their wunderui-core checkout
-  if (s.package?.source !== "checkout") {
-    log({ error: "No wunderui-core checkout found. Core/Pro: accept the GitHub invitation from your purchase, clone wunder-ui/wunderui-core next to this project (or pass --checkout <path> to detect), run `npm install && npm run build` in it, then run install again. Free plan: `npx wunderui-cli add <name…>` writes the free components into the project instead." })
+  // read node_modules now, not the state from detect: the package may have changed since
+  const installed = readJSON(join(NM_REACT, "package.json"))
+  const installedEdition = installed ? edition(NM_REACT) : null
+  const checkoutPath = flag("--checkout") ? findCheckout() : s.package?.path ?? findCheckout()
+  if (installed && installedEdition === "free") {
+    if (!paidPlan(s.plan)) {
+      log({ note: `@wunderui/react ${installed.version} from npm is installed — WunderUI Free, the free components only.${s.plan === "free" ? "" : " With Core or Pro, run `setup.mjs detect --plan core|pro`, then install again to replace it with the full library."}` })
+      return
+    }
+    // Core/Pro with the Free package: fall through and replace it with the full library from the checkout
+  } else if (installed && !args.includes("--update")) {
+    log({ note: `@wunderui/react ${installed.version} (full library) is installed already. After \`git pull\` + \`npm run build\` in the checkout, run \`setup.mjs install --update\` to update it.` })
+    return
+  }
+  // Core/Pro: the full library comes from the wunderui-core checkout (npm only has WunderUI Free)
+  if (!checkoutPath) {
+    log({ error: `No wunderui-core checkout found.${installedEdition === "free" ? ` The @wunderui/react in node_modules is WunderUI Free from npm (free components only) and does not cover ${s.plan === "pro" ? "Pro" : "Core"}.` : ""} Core/Pro: accept the GitHub invitation from your purchase, clone wunder-ui/wunderui-core next to this project (or pass --checkout <path>), run \`npm install && npm run build\` in it, then run install again. Free plan: \`npm install @wunderui/react\` (the Free package) or \`npx wunderui-cli add <name…>\` (the source files).` })
     process.exit(1)
   }
-  const pkgDir = join(s.package.path, "packages", "react")
+  const pkgDir = join(checkoutPath, "packages", "react")
   if (!existsSync(join(pkgDir, "dist", "index.js"))) { log({ error: `${posix(pkgDir)}/dist is missing — run \`npm install && npm run build\` in the checkout first.` }); process.exit(1) }
   const out = join(cwd, ".wunderui")
   mkdirSync(out, { recursive: true })
@@ -149,11 +183,13 @@ function install() {
   changes.push(`.wunderui/${packed}`)
   // the project's own package manager — `npm install` in a pnpm/yarn/bun project mixes lockfiles and breaks node_modules
   const pm = existsSync(join(cwd, "pnpm-lock.yaml")) ? "pnpm add" : existsSync(join(cwd, "yarn.lock")) ? "yarn add" : existsSync(join(cwd, "bun.lockb")) || existsSync(join(cwd, "bun.lock")) ? "bun add" : "npm install"
-  if (DRY) { log({ would: `${pm} ${target}` }); return }
+  if (DRY) { log({ would: `${pm} ${target}`, replaces: installedEdition === "free" ? `@wunderui/react ${installed.version} (WunderUI Free from npm)` : undefined }); return }
   execSync(`${pm} ${target}`, { cwd, stdio: "inherit" })
   changes.push("package.json")
-  save({ ...state(), package: { ...s.package, installed: target } })
-  log({ installed: target, changed: changes, note: s.package?.source === "checkout" ? "Re-run `setup.mjs install` after `git pull` + build in the checkout to update." : undefined })
+  const now = readJSON(join(NM_REACT, "package.json"))
+  if (edition(NM_REACT) !== "full") { log({ error: `After installing ${target}, node_modules/@wunderui/react is still not the full library — check that the checkout is wunderui-core and was built.` }); process.exit(1) }
+  save({ ...state(), package: { source: "checkout", path: posix(checkoutPath), version: now?.version, edition: "full", installed: target } })
+  log({ installed: target, changed: changes, replaced: installedEdition === "free" ? "WunderUI Free from npm" : undefined, note: "Run `setup.mjs install --update` after `git pull` + build in the checkout to update." })
 }
 
 function mcp() {
@@ -251,8 +287,9 @@ export default function WunderUIProbe() {
 function report() {
   const s = state()
   // re-read what may have changed since detect: the installed package and the project's own colour tokens
-  const installed = readJSON(join(cwd, "node_modules", "@wunderui", "react", "package.json"))
-  if (installed) s.package = { ...s.package, source: s.package?.installed?.endsWith(".tgz") ? "checkout" : "node_modules", version: installed.version }
+  const installed = readJSON(join(NM_REACT, "package.json"))
+  if (installed) s.package = { ...s.package, source: s.package?.installed?.endsWith(".tgz") ? "checkout" : "node_modules", version: installed.version, edition: edition(NM_REACT) }
+  const freeOnPaid = s.package?.edition === "free" && paidPlan(s.plan)
   if (s.cssEntry && existsSync(join(cwd, s.cssEntry))) s.existingTokenCount = [...readFileSync(join(cwd, s.cssEntry), "utf8").matchAll(/(--[\w-]+)\s*:\s*(#[0-9a-f]{3,8}\b|(?:rgb|hsl|oklch)a?\([^)]*\))/gi)].length
   const lines = [
     "# WunderUI setup",
@@ -261,14 +298,14 @@ function report() {
     "",
     "## What was found",
     `- CSS entry: ${s.cssEntry ?? "none"}`,
-    `- Package: ${s.package?.version ? `@wunderui/react ${s.package.version} installed` : "not installed yet"}${s.package?.source === "checkout" ? ` (packed from the checkout ${s.package.path})` : ""}`,
+    `- Package: ${s.package?.version ? `@wunderui/react ${s.package.version} installed` : "not installed yet"}${s.package?.edition === "free" ? " (WunderUI Free from npm: the free components only)" : ""}${s.package?.source === "checkout" ? ` (packed from the checkout ${s.package.path})` : ""}`,
     `- Existing colour tokens in the project: ${s.existingTokenCount ?? 0}`,
     "",
     "## What changed",
     ...[...(s.agentFiles ?? []), ...(s.mcp?.files ?? []), ...(s.styles?.added?.length ? [`${s.styles.file}: ${s.styles.added.join(" ")}`] : []), ...(s.probe ? [`${s.probe.file} (probe)`] : [])].map((c) => `- ${c}`),
     "",
     "## Open",
-    ...[...(s.problems ?? []), ...(s.mcp?.needsInstall ? ["Install the MCP server's dependencies in the checkout."] : []), ...(s.mcp ? ["Restart the agent so the wunderui MCP tools load."] : ["MCP server not registered yet."])].map((p) => `- ${p}`),
+    ...[...(s.problems ?? []).filter((p) => !p.includes("WunderUI Free")), ...(freeOnPaid ? ["@wunderui/react is WunderUI Free from npm — run `setup.mjs install` to replace it with the full library from wunderui-core."] : []), ...(s.mcp?.needsInstall ? ["Install the MCP server's dependencies in the checkout."] : []), ...(s.mcp ? ["Restart the agent so the wunderui MCP tools load."] : ["MCP server not registered yet."])].map((p) => `- ${p}`),
     "",
     "## Next",
     "- Build a first screen: ask for it in one sentence (skill wunderui-screen).",
@@ -282,5 +319,5 @@ function report() {
 }
 
 const commands = { detect, install, "agent-files": agentFiles, mcp, styles, probe, report }
-if (!commands[cmd]) { log("usage: setup.mjs detect | install | agent-files | mcp | styles | probe | report [--checkout <path>] [--dry]"); process.exit(cmd ? 1 : 0) }
+if (!commands[cmd]) { log("usage: setup.mjs detect | install | agent-files | mcp | styles | probe | report [--checkout <path>] [--plan free|core|pro] [--update] [--dry]"); process.exit(cmd ? 1 : 0) }
 await commands[cmd]()
