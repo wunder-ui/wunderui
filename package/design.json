@@ -1,7 +1,7 @@
 {
   "$schema": "https://wunderui.com/design.schema.json",
   "name": "@wunderui/react",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "WunderUI Free — the free components of the WunderUI design system for React.",
   "site": "https://wunderui.com",
   "generatedAt": "2026-10-23",
@@ -22606,7 +22606,7 @@
         "TrendCaret",
         "TrendChipIcon"
       ],
-      "props": "function TrendChip({ value, direction, icon, className, }: {\n    value: string;\n    /** Figma Trend Chip · Trend; `flat` is the old name for `neutral`. */\n    direction?: \"up\" | \"down\" | \"neutral\" | \"flat\";\n    /** Figma Trend Chip · Icon; the same glyph turns for `down`. */\n    icon?: TrendChipIcon;\n    className?: string;\n}): React.JSX.Element;\ntype TrendChipIcon = \"trending\" | \"arrow\" | \"arrow-diagonal\" | \"triangle\" | \"circle-trending\" | \"circle-diagonal\" | \"circle-arrow\";",
+      "props": "function TrendChip({ value, direction, icon, sentiment, className, }: {\n    value: string;\n    /** Figma Trend Chip · Trend; `flat` is the old name for `neutral`. */\n    direction?: \"up\" | \"down\" | \"neutral\" | \"flat\";\n    /** Figma Trend Chip · Icon; the same glyph turns for `down`. */\n    icon?: TrendChipIcon;\n    /**\n     * Figma Trend Chip · Sentiment: whether the change is good or bad. `auto` colours by direction\n     * (up green, down red); use `positive` for a fall that is good (churn, cost) or `negative` for\n     * a rise that is bad. The arrow always follows `direction`.\n     */\n    sentiment?: \"auto\" | \"positive\" | \"negative\" | \"neutral\";\n    className?: string;\n}): React.JSX.Element;\ntype TrendChipIcon = \"trending\" | \"arrow\" | \"arrow-diagonal\" | \"triangle\" | \"circle-trending\" | \"circle-diagonal\" | \"circle-arrow\";",
       "api": [
         {
           "name": "TrendChip",

@@ -1,6 +1,6 @@
 {
   "name": "wunderui-cli",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "WunderUI in your project: add components as source, look up components, docs and playbooks offline (--json for agents), check the setup.",
   "keywords": [
     "wunderui",
