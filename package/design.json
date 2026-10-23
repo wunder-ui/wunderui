@@ -4,7 +4,7 @@
   "version": "0.2.0",
   "description": "WunderUI Free — the free components of the WunderUI design system for React.",
   "site": "https://wunderui.com",
-  "generatedAt": "2026-10-22",
+  "generatedAt": "2026-10-23",
   "install": {
     "package": "npm install @wunderui/react",
     "import": "import { Button, Card } from \"@wunderui/react\"",
@@ -22646,6 +22646,18 @@
               ],
               "default": "\"trending\"",
               "description": "Figma Trend Chip · Icon; the same glyph turns for `down`."
+            },
+            {
+              "name": "sentiment",
+              "type": "\"auto\" | \"positive\" | \"negative\" | \"neutral\"",
+              "values": [
+                "positive",
+                "negative",
+                "auto",
+                "neutral"
+              ],
+              "default": "\"auto\"",
+              "description": "Figma Trend Chip · Sentiment: whether the change is good or bad. `auto` colours by direction (up green, down red); use `positive` for a fall that is good (churn, cost) or `negative` for a rise that is bad. The arrow always follows `directi…"
             }
           ]
         },

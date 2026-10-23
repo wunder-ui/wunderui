@@ -88,6 +88,7 @@ function TrendChip({
   value,
   direction = "up",
   icon = "trending",
+  sentiment = "auto",
   className,
 }: {
   value: string
@@ -95,25 +96,36 @@ function TrendChip({
   direction?: "up" | "down" | "neutral" | "flat"
   /** Figma Trend Chip · Icon; the same glyph turns for `down`. */
   icon?: TrendChipIcon
+  /**
+   * Figma Trend Chip · Sentiment: whether the change is good or bad. `auto` colours by direction
+   * (up green, down red); use `positive` for a fall that is good (churn, cost) or `negative` for
+   * a rise that is bad. The arrow always follows `direction`.
+   */
+  sentiment?: "auto" | "positive" | "negative" | "neutral"
   className?: string
 }) {
-  const positive = direction === "up"
-  const negative = direction === "down"
-  const neutral = direction === "neutral" || direction === "flat"
+  const flat = direction === "neutral" || direction === "flat"
+  const tone = sentiment === "auto" ? (flat ? "neutral" : direction === "up" ? "positive" : "negative") : sentiment
+  const positive = tone === "positive"
+  const negative = tone === "negative"
+  const neutral = tone === "neutral"
+  const down = direction === "down"
 
   return (
     <span
       data-slot="trend-chip"
-      data-direction={neutral ? "neutral" : direction}
+      data-direction={flat ? "neutral" : direction}
+      data-sentiment={tone}
       className={cn(
         "inline-flex h-5 items-center rounded-full py-0.5 text-xs font-semibold leading-4",
-        neutral ? "gap-1 px-2 bg-muted text-text-secondary" : CHIP_SPACING[icon],
+        flat ? "gap-1 px-2" : CHIP_SPACING[icon],
+        neutral && "bg-muted text-text-secondary",
         positive && "bg-tint-green text-tint-text-green",
         negative && "bg-tint-red text-tint-text-red",
         className
       )}
     >
-      {neutral ? <Minus className="size-3 shrink-0" /> : <TrendGlyph icon={icon} down={negative} />}
+      {flat ? <Minus className="size-3 shrink-0" /> : <TrendGlyph icon={icon} down={down} />}
       {value}
     </span>
   )
