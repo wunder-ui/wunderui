@@ -3,11 +3,35 @@
 import { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox"
 import { cn } from "@/lib/utils"
 import { CheckIcon, MinusIcon } from "lucide-react"
+import * as React from "react"
 
-function Checkbox({ className, ...props }: CheckboxPrimitive.Root.Props) {
+/**
+ * Base UI renders a hidden native <input> next to the visible control and gives it no name.
+ * It is aria-hidden, but page checkers still list it as an unlabelled form control, so the
+ * control's aria-label / aria-labelledby is mirrored onto it.
+ */
+function useNamedHiddenInput(inputRef: React.Ref<HTMLInputElement> | undefined, label?: string, labelledBy?: string) {
+  return React.useCallback(
+    (node: HTMLInputElement | null) => {
+      if (node) {
+        if (label) node.setAttribute("aria-label", label)
+        else node.removeAttribute("aria-label")
+        if (labelledBy) node.setAttribute("aria-labelledby", labelledBy)
+        else node.removeAttribute("aria-labelledby")
+      }
+      if (typeof inputRef === "function") inputRef(node)
+      else if (inputRef) (inputRef as React.RefObject<HTMLInputElement | null>).current = node
+    },
+    [inputRef, label, labelledBy]
+  )
+}
+
+function Checkbox({ className, inputRef, ...props }: CheckboxPrimitive.Root.Props) {
+  const namedInputRef = useNamedHiddenInput(inputRef, props["aria-label"], props["aria-labelledby"])
   return (
     <CheckboxPrimitive.Root
       data-slot="checkbox"
+      inputRef={namedInputRef}
       className={cn(
         "peer relative flex size-4 shrink-0 items-center justify-center rounded-[4px] border border-border-control transition-colors duration-fast ease-entrance hover:not-data-checked:border-primary outline-none group-has-disabled/field:opacity-50 group-has-[:focus-visible]/field-label:ring-0 group-has-[:focus-visible]/field-label:not-data-checked:border-border-control after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-ring/30 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 aria-invalid:aria-checked:border-primary dark:bg-muted/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 data-checked:border-primary data-checked:bg-primary data-checked:text-primary-foreground group-has-[:focus-visible]/field-label:data-checked:border-primary dark:data-checked:bg-primary data-indeterminate:border-primary data-indeterminate:bg-primary data-indeterminate:text-primary-foreground",
         className

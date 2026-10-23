@@ -843,6 +843,8 @@
 }
 [data-chart-appear="in"] {
   animation: wunderui-chart-rise var(--duration-slow) var(--ease-entrance) both;
+  /* inside a dashboard load sequence: when the chart's card has landed */
+  animation-delay: var(--load-content-delay, 0ms);
 }
 /* Area fills are not faded here: recharts already reveals them left to right with
    the line, and swaps the path element when its animation ends — a CSS fade on it
@@ -1132,21 +1134,21 @@
   [data-chart-enter] [data-enter="draw"] {
     stroke-dasharray: 1;
     animation: wunderui-chart-enter-draw var(--chart-enter) var(--ease-move) both;
-    animation-delay: calc(var(--enter-i, 0) * var(--duration-base));
+    animation-delay: calc(var(--load-content-delay, 0ms) + var(--enter-i, 0) * var(--duration-base));
   }
   [data-chart-enter] [data-enter="wipe"] {
     animation: wunderui-chart-enter-wipe var(--chart-enter) var(--ease-move) both;
-    animation-delay: calc(var(--enter-i, 0) * var(--duration-base));
+    animation-delay: calc(var(--load-content-delay, 0ms) + var(--enter-i, 0) * var(--duration-base));
   }
   [data-chart-enter] [data-enter="fade"] {
     animation: wunderui-chart-enter-fade var(--duration-slow) var(--ease-entrance) both;
-    animation-delay: calc(var(--chart-enter) * 0.7 + var(--enter-i, 0) * var(--duration-base));
+    animation-delay: calc(var(--load-content-delay, 0ms) + var(--chart-enter) * 0.7 + var(--enter-i, 0) * var(--duration-base));
   }
   [data-chart-enter] [data-enter^="grow"] {
     transform-box: fill-box;
     transform-origin: 50% 100%;
     animation: wunderui-chart-enter-grow calc(var(--chart-enter) * 0.75) var(--ease-entrance) both;
-    animation-delay: calc(var(--enter-i, 0) * var(--duration-deliberate));
+    animation-delay: calc(var(--load-content-delay, 0ms) + var(--enter-i, 0) * var(--duration-deliberate));
   }
   [data-chart-enter] [data-enter="grow-down"] {
     transform-origin: 50% 0%;
@@ -1160,7 +1162,7 @@
     transform-box: fill-box;
     transform-origin: 50% 50%;
     animation: wunderui-chart-enter-dot var(--duration-slow) var(--ease-overshoot) both;
-    animation-delay: calc(var(--enter-i, 0) * var(--duration-base));
+    animation-delay: calc(var(--load-content-delay, 0ms) + var(--enter-i, 0) * var(--duration-base));
   }
   [data-chart-enter] [data-enter="grow-x"],
   [data-chart-enter] [data-enter="grow-x-rev"] {
@@ -1175,7 +1177,7 @@
   [data-chart-enter] [data-enter="pop"] {
     transform-box: view-box;
     animation: wunderui-chart-enter-pop var(--duration-ambient) var(--ease-entrance) both;
-    animation-delay: calc(var(--enter-i, 0) * var(--duration-fast));
+    animation-delay: calc(var(--load-content-delay, 0ms) + var(--enter-i, 0) * var(--duration-fast));
   }
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -1184,6 +1186,7 @@
     transform-box: view-box;
     /* spring: overshoots a little and settles on the value */
     animation: wunderui-chart-enter-needle calc(var(--duration-ambient) * 2) var(--ease-overshoot) both;
+    animation-delay: var(--load-content-delay, 0ms);
   }
 }
 @keyframes wunderui-chart-enter-dot {
@@ -1211,6 +1214,114 @@
 }
 @keyframes wunderui-chart-enter-grow-x {
   from { transform: scaleX(0); }
+}
+
+/* Dashboard load sequence (load-sequence.tsx, owner Oct 22 2026). The root
+   carries data-load="pending" → ["loading" →] "play" → "done", its page area
+   data-load-main. The shell stays visible the whole time; only the page's
+   content waits. Nothing flies in: a card (data-load-item) just appears in
+   place at its --load-delay — opacity only, --duration-fast — top to bottom
+   in reading order, the page built within about half a second. What is inside
+   starts at --load-content-delay, once its card is there: charts (the enter
+   sequence above), fills (data-load-fill, grow from the start edge, 60 ms
+   apart) and NumberRoll digits (60 ms apart, one full turn plus their value,
+   a 2 px blur only while they move, --duration-ambient + --duration-base).
+   While "loading" (data later than LOAD_SKELETON_DELAY) the content stays
+   hidden under its skeletons (data-load-skeleton), which fade out at their
+   card's --load-delay when it plays. Reduced motion: no animation at all —
+   nothing is held back while pending, cards and numbers are simply there. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-load="pending"] [data-load-main] > :not([data-load-layer]) {
+    opacity: 0;
+  }
+}
+[data-load="loading"] [data-load-main] > :not([data-load-layer]) {
+  opacity: 0;
+}
+[data-roll-col] {
+  position: relative;
+  display: inline-block;
+  /* clips the rolling strip to one line without moving the baseline (overflow would) */
+  clip-path: inset(0 -0.25em);
+}
+[data-roll-strip] {
+  position: relative;
+  display: block;
+}
+[data-roll-above] {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+[data-load-fill] {
+  transform-origin: left center;
+}
+[dir="rtl"] [data-load-fill] {
+  transform-origin: right center;
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-load="play"] [data-load-item] {
+    animation: wunderui-load-item var(--duration-fast) var(--ease-entrance) both;
+    animation-delay: var(--load-delay, 0ms);
+  }
+  [data-load="play"] [data-load-skeleton] {
+    animation: wunderui-load-skeleton-out var(--duration-fast) var(--ease-exit)
+      both;
+    animation-delay: var(--load-delay, 0ms);
+  }
+  [data-load="play"] [data-load-fill] {
+    animation: wunderui-load-fill var(--duration-ambient) var(--ease-entrance)
+      both;
+    animation-delay: calc(
+      var(--load-content-delay, 0ms) + var(--load-fill-i, 0) *
+        var(--duration-instant) * 0.75
+    );
+  }
+  [data-roll-strip] {
+    animation:
+      wunderui-roll calc(var(--duration-ambient) + var(--duration-base))
+        var(--ease-entrance) both,
+      /* sharp while it waits for its turn, blurred only while it moves */
+        wunderui-roll-blur calc(var(--duration-ambient) + var(--duration-base))
+        var(--ease-entrance) forwards;
+    animation-delay: calc(
+      var(--load-content-delay, 0ms) + var(--roll-delay, 0ms) +
+        var(--roll-i, 0) * var(--duration-instant) * 0.75
+    );
+  }
+}
+/* opacity only: a card appears where it is, it never moves */
+@keyframes wunderui-load-item {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes wunderui-load-skeleton-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes wunderui-load-fill {
+  from {
+    scale: 0 1;
+  }
+}
+@keyframes wunderui-roll {
+  from {
+    transform: translateY(calc(var(--roll-n, 10) * 100%));
+  }
+}
+@keyframes wunderui-roll-blur {
+  from,
+  30% {
+    filter: blur(2px);
+  }
+  to {
+    filter: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

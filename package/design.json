@@ -3864,7 +3864,7 @@
       "exports": [
         "Checkbox"
       ],
-      "props": "function Checkbox({ className, ...props }: Checkbox.Root.Props): React.JSX.Element;",
+      "props": "function Checkbox({ className, inputRef, ...props }: Checkbox.Root.Props): React.JSX.Element;",
       "api": [
         {
           "name": "Checkbox",
@@ -4178,7 +4178,7 @@
         "Switch",
         "SwitchItemCell"
       ],
-      "props": "function Switch({ className, size, ...props }: Switch.Root.Props & {\n    size?: \"sm\" | \"default\";\n}): React.JSX.Element;",
+      "props": "function Switch({ className, size, inputRef, ...props }: Switch.Root.Props & {\n    size?: \"sm\" | \"default\";\n}): React.JSX.Element;",
       "api": [
         {
           "name": "Switch",
