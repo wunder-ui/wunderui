@@ -7417,11 +7417,6 @@
               "text": "one number with its trend and an optional sparkline"
             },
             {
-              "name": "Chart Card",
-              "slug": "chart-card",
-              "text": "a chart with a title, a period and a legend"
-            },
-            {
               "name": "Empty State",
               "slug": "empty-state",
               "text": "a whole region that has nothing to show yet"
@@ -28406,11 +28401,6 @@
               "name": "Card",
               "slug": "card",
               "text": "content with media, a custom header, or a tile that is one press target"
-            },
-            {
-              "name": "Chart Card",
-              "slug": "chart-card",
-              "text": "a chart with a headline value, a delta and a period switch"
             },
             {
               "name": "List Panel",

@@ -11,7 +11,7 @@
 
 <p align="center">
   <img alt="MIT licence" src="https://img.shields.io/badge/licence-MIT-555CF3">
-  <img alt="81 of 218 components free" src="https://img.shields.io/badge/free%20components-81%20of%20218-555CF3">
+  <img alt="81 of 217 components free" src="https://img.shields.io/badge/free%20components-81%20of%20217-555CF3">
   <img alt="React 19" src="https://img.shields.io/badge/React-19-555CF3">
   <img alt="Tailwind CSS v4" src="https://img.shields.io/badge/Tailwind%20CSS-v4-555CF3">
   <img alt="Base UI" src="https://img.shields.io/badge/built%20on-Base%20UI-555CF3">
@@ -19,7 +19,7 @@
 
 # WunderUI Free
 
-**81 of the 218 WunderUI React components, free as source you own.** Built on Base UI and Tailwind CSS v4, styled by the same tokens as the WunderUI Figma library, light and dark, accessible (WCAG AA contrast on every token pair), and documented with live examples on [wunderui.com](https://wunderui.com).
+**81 of the 217 WunderUI React components, free as source you own.** Built on Base UI and Tailwind CSS v4, styled by the same tokens as the WunderUI Figma library, light and dark, accessible (WCAG AA contrast on every token pair), and documented with live examples on [wunderui.com](https://wunderui.com).
 
 Copy the files into your project and they are yours: no package to update, no lock-in, MIT licence.
 
@@ -199,13 +199,13 @@ More skills (motion audit, accessibility, Figma sync, refactor to WunderUI, the 
 
 ## WunderUI Core and Pro
 
-The free components are the foundation. [WunderUI Core and Pro](https://wunderui.com/#pricing) add the rest of the system: 137 more components, ready-made screens and templates, the full Figma library and agent skills.
+The free components are the foundation. [WunderUI Core and Pro](https://wunderui.com/#pricing) add the rest of the system: 136 more components, ready-made screens and templates, the full Figma library and agent skills.
 
 | Group | Components | Includes |
 | --- | --- | --- |
 | AI & Agents | 45 | Activity Item, Agent Avatar, Agent Grid, Agent Lane, Agent Plan, Agent Status, … |
 | Block Parts | 42 | Auth Heading, Backup Code, Checklist Task, Checkout Steps, Column Header, Command Item Row, … |
-| Charts | 28 | Area Chart, Bar Chart, Bubble Chart, Bullet Chart, Candlestick Chart, Chart Card, … |
+| Charts | 27 | Area Chart, Bar Chart, Bubble Chart, Bullet Chart, Candlestick Chart, Composed Chart, … |
 | Core Elements | 2 | Kanban, List View |
 | Data & Tables | 7 | Data Grid, Data Table, Filter Menu, List Group, List Item, List Panel, … |
 | KPI / Metric Card | 4 | KPI, KPI Group, Metric Card, Metric Group |
