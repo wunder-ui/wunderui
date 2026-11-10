@@ -23,7 +23,7 @@ function PressableFeedback({
 }) {
   const [pressed, setPressed] = React.useState(false)
   const classes = cn(
-    "transition-transform duration-fast ease-move active:scale-95",
+    "transition-transform duration-fast ease-move active:scale-95 outline-none focus-ring",
     pressed && "scale-95 opacity-90",
     className
   )

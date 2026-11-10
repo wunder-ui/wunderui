@@ -17,10 +17,10 @@ function Widget({
   className?: string
 }) {
   return (
-    <div className={cn("flex flex-col gap-4 rounded-lg border border-border bg-card p-5", className)}>
+    <div className={cn("flex flex-col gap-4 rounded-xl border border-border bg-card p-4", className)}>
       {(title || action) && (
         <div className="flex items-start justify-between">
-          <div>
+          <div className="flex flex-col gap-1">
             {title && <h3 className="text-base font-bold text-foreground">{title}</h3>}
             {description && <p className="text-xs text-text-secondary">{description}</p>}
           </div>

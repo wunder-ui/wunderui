@@ -24,7 +24,7 @@ function ItemCard({
       )}
     >
       {icon && (
-        <div className="flex size-10 shrink-0 items-center justify-center rounded-md bg-muted text-text-secondary [&_svg]:size-5">
+        <div className="flex size-10 shrink-0 items-center justify-center rounded-md border border-tint-text-indigo bg-tint-indigo text-tint-text-indigo [&_svg]:size-5">
           {icon}
         </div>
       )}

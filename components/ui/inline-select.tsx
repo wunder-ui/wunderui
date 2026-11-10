@@ -26,7 +26,7 @@ function InlineSelectTrigger({ className, children, ...props }: SelectPrimitive.
     <SelectPrimitive.Trigger
       data-slot="inline-select-trigger"
       className={cn(
-        "inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-sm font-medium text-foreground outline-none hover:bg-muted/50 focus-visible:ring-1 focus-visible:ring-ring data-disabled:pointer-events-none data-disabled:opacity-50",
+        "inline-flex items-center gap-2 rounded-md px-2 py-0.5 text-sm font-medium text-foreground outline-none transition-colors duration-fast ease-entrance hover:bg-bg-page active:bg-bg-subtle data-popup-open:bg-bg-page focus-ring data-disabled:pointer-events-none data-disabled:opacity-40",
         className
       )}
       {...props}
@@ -39,7 +39,10 @@ function InlineSelectTrigger({ className, children, ...props }: SelectPrimitive.
   )
 }
 
-const InlineSelectValue = SelectPrimitive.Value
+function InlineSelectValue({ className, ...props }: SelectPrimitive.Value.Props) {
+  // flex: an option with an icon shows the icon and the label side by side in the trigger; the placeholder is quieter than a value
+  return <SelectPrimitive.Value data-slot="inline-select-value" className={cn("flex min-w-0 items-center gap-2 data-placeholder:text-text-tertiary", className)} {...props} />
+}
 const InlineSelectContent = NativeSelectContent
 const InlineSelectItem = NativeSelectItem
 

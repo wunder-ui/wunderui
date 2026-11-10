@@ -13,10 +13,10 @@ Pick one per screen. All of them are `AppLayout` configurations or plain wrapper
 
 ## Grids inside the content
 
-- **KPI row:** `KPIGroup` (or `MetricCard`s in `grid gap-4 sm:grid-cols-2 xl:grid-cols-4`).
-- **Main + side:** `grid gap-6 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]` — the `minmax(0,…)` keeps charts and tables from forcing the column wider.
+- **KPI row:** `KPIGroup` (or `MetricCard`s in `grid gap-5 sm:grid-cols-2 lg:gap-6 xl:grid-cols-4`).
+- **Main + side:** `grid gap-6 lg:gap-8 xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]` — the `minmax(0,…)` keeps charts and tables from forcing the column wider.
 - **Full-width table** under the charts: `DataGrid` directly, not inside another card unless the screen has several.
-- Spacing between regions: `gap-6` (24 px); inside cards the components bring their own padding.
+- Spacing: every value is in `references/spacing.md`. Page `px-4 pt-8 pb-12 lg:px-8`, sections `gap-8`, cards `gap-5 lg:gap-6`, card padding `p-4`.
 - Page header: `PageHeader` with `title`, `description` and `actions` (the primary action is the only primary button on the screen).
 
 ## Mobile

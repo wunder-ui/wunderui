@@ -2,6 +2,7 @@ import type { ReactNode } from "react"
 import { Separator } from "@/components/ui/separator"
 import { cn } from "@/lib/utils"
 
+/** The buttons inside have an 8 px radius and sit 8 px from the edge, so the bar is 16 px (inner radius + distance). */
 function ActionBar({
   label,
   children,
@@ -14,7 +15,7 @@ function ActionBar({
   return (
     <div
       className={cn(
-        "flex items-center gap-3 rounded-full border border-border bg-card px-4 py-2 shadow-lg",
+        "flex items-center gap-3 rounded-xl border border-border bg-card py-2 pr-2 pl-4 shadow-lg",
         className
       )}
     >
@@ -24,7 +25,7 @@ function ActionBar({
           <Separator orientation="vertical" className="h-5" />
         </>
       )}
-      <div className="flex items-center gap-1">{children}</div>
+      <div className="flex items-center gap-2">{children}</div>
     </div>
   )
 }

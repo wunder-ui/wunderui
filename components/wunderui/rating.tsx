@@ -18,8 +18,8 @@ function formatValue(value: number) {
  * Rating — mirrors the Figma Rating set (Type × Value × Label).
  * - `stars` / `hearts`: fill `value` of `max` icons (yellow / pink).
  * - `emojis`: single-select reaction 1–5 (😍 🙂 😐 🙁 😡), 0 = none.
- * - `scale`: 0–10 NPS row, the selected number is filled.
- * `label` shows the value beside the rating or as a tooltip above it.
+ * - `scale`: 0–10 NPS row, the selected number is filled. On narrow containers the cells shrink down to 32 px and wrap into two rows below 352 px.
+ * `label` shows the value beside the rating or as a tooltip above it. `tooltip` shows a dark bubble with an arrow on the rated option.
  *
  * Interactive, it is a radio group: one Tab stop (the checked option, or the
  * first), ←/→/↑/↓ move and select, Home/End jump to the ends. `readOnly`
@@ -62,6 +62,7 @@ function Rating({
   // A fractional value (3.5) has no exact option: the nearest one is checked.
   const checkedValue = Math.min(last, Math.max(first, Math.round(value)))
   const tabStop = hasChecked ? checkedValue : first
+  const tooltipTarget = checkedValue
 
   const optionLabel = (v: number) =>
     type === "stars" ? `${v} of ${count} stars` : type === "hearts" ? `${v} of ${count} hearts` : undefined
@@ -86,11 +87,7 @@ function Rating({
   }
 
   const labelNode =
-    label === "none" ? null : label === "tooltip" ? (
-      <span className="pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 rounded-md border border-border bg-card px-2 py-1 text-xs font-medium text-foreground shadow-md">
-        {text}
-      </span>
-    ) : (
+    label === "none" || label === "tooltip" ? null : (
       <span className="text-sm font-medium tabular-nums text-foreground">{text}</span>
     )
 
@@ -102,10 +99,22 @@ function Rating({
     handlers: Pick<React.ButtonHTMLAttributes<HTMLButtonElement>, "onClick" | "onMouseEnter" | "onMouseLeave">,
     name?: string
   ) {
+    const optionClassName = cn(className, "relative")
+    const bubble =
+      label === "tooltip" && v === tooltipTarget ? (
+        <span aria-hidden="true" data-slot="rating-bubble" className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-1.5 -translate-x-1/2">
+          <span className="inline-flex h-6 items-center whitespace-nowrap rounded-md bg-neutral-dark-content px-2 text-xs font-medium leading-none text-neutral-white shadow-md">{text}</span>
+          <svg width="10" height="5" viewBox="0 0 10 5" fill="none" className="absolute left-1/2 top-full -translate-x-1/2">
+            <path d="M0 0L5 5L10 0Z" className="fill-neutral-dark-content" />
+          </svg>
+        </span>
+      ) : null
+
     if (readOnly) {
       return (
-        <span key={v} className={className}>
+        <span key={v} className={optionClassName}>
           {children}
+          {bubble}
         </span>
       )
     }
@@ -121,10 +130,11 @@ function Rating({
         aria-label={name}
         tabIndex={v === tabStop ? 0 : -1}
         onKeyDown={(e) => handleKeyDown(e, v)}
-        className={className}
+        className={optionClassName}
         {...handlers}
       >
         {children}
+        {bubble}
       </button>
     )
   }
@@ -137,7 +147,7 @@ function Rating({
       const filled = i < Math.round(display)
       return option(
         i + 1,
-        "grid size-6 place-items-center rounded-sm outline-none focus-visible:ring-1 focus-visible:ring-ring",
+        "grid size-6 place-items-center rounded-sm outline-none focus-ring",
         <Icon aria-hidden className={cn("size-4", filled ? (type === "stars" ? "fill-brand-quaternary text-brand-quaternary" : "fill-brand-tertiary text-brand-tertiary") : "fill-none text-border-control")} />,
         { onMouseEnter: () => setHover(i + 1), onMouseLeave: () => setHover(null), onClick: () => select(i + 1) },
         optionLabel(i + 1)
@@ -148,7 +158,7 @@ function Rating({
       const selected = value === i + 1
       return option(
         i + 1,
-        cn("flex size-12 items-center justify-center rounded-md border text-xl transition-colors duration-fast ease-entrance", selected ? "border-primary bg-tint-indigo" : cn("border-transparent bg-background", !readOnly && "hover:bg-subtle")),
+        cn("flex size-12 items-center justify-center rounded-md border text-xl transition-colors duration-fast ease-entrance outline-none focus-ring", selected ? "border-tint-text-indigo bg-tint-indigo" : cn("border-transparent bg-background", !readOnly && "hover:bg-subtle")),
         emoji,
         // Clicking the chosen face again clears it (0 = none), as before.
         { onClick: () => onValueChange?.(selected ? 0 : i + 1) },
@@ -160,15 +170,29 @@ function Rating({
       const selected = value === i
       return option(
         i,
-        cn("flex size-10 items-center justify-center rounded-md text-xs font-semibold tabular-nums transition-colors duration-base ease-entrance", selected ? "bg-primary text-primary-foreground" : cn("bg-background text-text-secondary", !readOnly && "hover:bg-subtle hover:text-foreground")),
+        cn("flex h-10 w-full min-w-8 items-center justify-center rounded-md text-xs font-semibold tabular-nums transition-colors duration-base ease-entrance outline-none focus-ring", selected ? "bg-primary text-primary-foreground" : cn("bg-background text-text-secondary", !readOnly && "hover:bg-subtle hover:text-foreground")),
         i,
         { onClick: () => onValueChange?.(i) }
       )
     })
   }
 
-  const groupClassName = cn("flex items-center", type === "emojis" ? "gap-2" : type === "scale" ? "gap-1" : "gap-0")
-  const rootClassName = cn("relative inline-flex items-center", type === "emojis" ? "gap-2" : type === "scale" ? "gap-1" : "gap-0.5", label === "left" || label === "right" ? "gap-2.5" : "", className)
+  const groupClassName = type === "scale"
+    ? "grid grid-cols-6 gap-1 @min-[352px]:grid-cols-11 @min-[352px]:gap-0 @min-[392px]:gap-1"
+    : cn("flex items-center", type === "emojis" ? "gap-2" : "gap-0")
+  const rootClassName = cn(
+    "relative inline-flex items-center",
+    type === "emojis" ? "gap-2" : type === "scale" ? "gap-1 max-w-full" : "gap-0.5",
+    label === "left" || label === "right" ? "gap-2.5" : "",
+    className
+  )
+
+  const group = (
+    <div className={groupClassName}>{items}</div>
+  )
+  const scaleGroup = type === "scale" ? (
+    <div className="@container w-[480px] min-w-0 max-w-full">{group}</div>
+  ) : group
 
   if (readOnly) {
     // One image for assistive tech; the stars and the visible label are its picture.
@@ -181,8 +205,7 @@ function Rating({
         className={rootClassName}
       >
         {label === "left" && labelNode}
-        {label === "tooltip" && labelNode}
-        <div className={groupClassName}>{items}</div>
+        {scaleGroup}
         {label === "right" && labelNode}
       </div>
     )
@@ -191,15 +214,27 @@ function Rating({
   return (
     <div data-slot="rating" className={rootClassName}>
       {label === "left" && labelNode}
-      {label === "tooltip" && labelNode}
-      <div
-        role="radiogroup"
-        aria-label={ariaLabelledBy ? undefined : (ariaLabel ?? "Rating")}
-        aria-labelledby={ariaLabelledBy}
-        className={groupClassName}
-      >
-        {items}
-      </div>
+      {type === "scale" ? (
+        <div className="@container w-[480px] min-w-0 max-w-full">
+          <div
+            role="radiogroup"
+            aria-label={ariaLabelledBy ? undefined : (ariaLabel ?? "Rating")}
+            aria-labelledby={ariaLabelledBy}
+            className={groupClassName}
+          >
+            {items}
+          </div>
+        </div>
+      ) : (
+        <div
+          role="radiogroup"
+          aria-label={ariaLabelledBy ? undefined : (ariaLabel ?? "Rating")}
+          aria-labelledby={ariaLabelledBy}
+          className={groupClassName}
+        >
+          {items}
+        </div>
+      )}
       {label === "right" && labelNode}
     </div>
   )

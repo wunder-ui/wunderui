@@ -344,7 +344,7 @@ function Carousel({
         aria-roledescription="carousel"
         aria-label={label}
         className={cn(
-          "-mx-1 flex min-w-0 flex-1 snap-x snap-mandatory scroll-px-1 gap-4 overflow-x-auto px-1 py-1 outline-none [scrollbar-width:none] focus-visible:ring-1 focus-visible:ring-ring [&::-webkit-scrollbar]:hidden",
+          "-mx-1 flex min-w-0 flex-1 snap-x snap-mandatory scroll-px-1 gap-4 overflow-x-auto px-1 py-1 outline-none [scrollbar-width:none] focus-ring [&::-webkit-scrollbar]:hidden",
           drag && "[@media(pointer:fine)]:cursor-grab",
           dragging && "[@media(pointer:fine)]:cursor-grabbing"
         )}

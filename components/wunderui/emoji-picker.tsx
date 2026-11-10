@@ -19,7 +19,8 @@ function EmojiPicker({
       role="group"
       aria-label="Emoji"
       className={cn(
-        "grid grid-cols-6 gap-1 rounded-lg border border-border bg-popover p-2 shadow-lg",
+        // 16 px corners around 8 px buttons with 8 px of air keep the corners concentric.
+        "grid grid-cols-6 gap-1 rounded-xl border border-border bg-popover p-2 shadow-lg",
         className
       )}
     >
@@ -28,7 +29,7 @@ function EmojiPicker({
           key={emoji}
           type="button"
           onClick={() => onSelect?.(emoji)}
-          className="flex size-8 items-center justify-center rounded-md text-lg outline-none hover:bg-muted/50 focus-visible:ring-1 focus-visible:ring-ring"
+          className="flex size-8 items-center justify-center rounded-md text-lg outline-none hover:bg-bg-page active:bg-bg-subtle focus-ring"
         >
           {emoji}
         </button>

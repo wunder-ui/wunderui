@@ -7,13 +7,15 @@
       "name": "accordion",
       "title": "Accordion",
       "group": "Core Elements",
-      "description": "A vertically stacked set of collapsible panels, in card or divider style.",
+      "description": "Show one section at a time, or several, and keep long pages scannable.",
       "files": [
         "components/ui/accordion.tsx",
+        "components/ui/skeleton.tsx",
         "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
+        "class-variance-authority",
         "cn",
         "lucide-react"
       ]
@@ -25,11 +27,13 @@
       "description": "A user or entity's profile image with a text fallback.",
       "files": [
         "components/ui/avatar.tsx",
+        "lib/optical-center.tsx",
         "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
-        "cn"
+        "cn",
+        "lucide-react"
       ]
     },
     {
@@ -39,11 +43,13 @@
       "description": "A stack of overlapping avatars, with an optional overflow count.",
       "files": [
         "components/ui/avatar.tsx",
+        "lib/optical-center.tsx",
         "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
-        "cn"
+        "cn",
+        "lucide-react"
       ]
     },
     {
@@ -53,19 +59,21 @@
       "description": "A small status or category label in 12 colors and 6 styles.",
       "files": [
         "components/ui/badge.tsx",
+        "lib/optical-center.tsx",
         "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
         "class-variance-authority",
-        "cn"
+        "cn",
+        "lucide-react"
       ]
     },
     {
       "name": "breadcrumb",
       "title": "Breadcrumb",
       "group": "Core Elements",
-      "description": "Shows the user's location in a hierarchy, in the `plain`, `border` or `underline` style.",
+      "description": "Shows the user's location in a hierarchy, in the `plain`, `contained` or `underline` look.",
       "files": [
         "components/ui/breadcrumb.tsx",
         "lib/utils.ts"
@@ -79,7 +87,7 @@
       "name": "button",
       "title": "Button",
       "group": "Core Elements",
-      "description": "The main action trigger, in 10 variants, 2 shapes and 5 sizes.",
+      "description": "The main action trigger, in 11 variants, 2 shapes and 5 sizes.",
       "files": [
         "components/ui/button.tsx",
         "lib/utils.ts"
@@ -87,7 +95,8 @@
       "dependencies": [
         "@base-ui/react",
         "class-variance-authority",
-        "cn"
+        "cn",
+        "lucide-react"
       ]
     },
     {
@@ -102,7 +111,8 @@
       "dependencies": [
         "@base-ui/react",
         "class-variance-authority",
-        "cn"
+        "cn",
+        "lucide-react"
       ]
     },
     {
@@ -112,10 +122,16 @@
       "description": "A row of connected buttons sharing borders and outer corners, for view switchers or segmented actions.",
       "files": [
         "components/ui/button-group.tsx",
-        "lib/utils.ts"
+        "components/ui/dropdown-menu.tsx",
+        "components/ui/spinner.tsx",
+        "lib/utils.ts",
+        "components/ui/button.tsx"
       ],
       "dependencies": [
-        "cn"
+        "@base-ui/react",
+        "class-variance-authority",
+        "cn",
+        "lucide-react"
       ]
     },
     {
@@ -125,10 +141,13 @@
       "description": "A bordered container for grouping related content.",
       "files": [
         "components/ui/card.tsx",
+        "components/ui/skeleton.tsx",
         "lib/utils.ts"
       ],
       "dependencies": [
-        "cn"
+        "class-variance-authority",
+        "cn",
+        "lucide-react"
       ]
     },
     {
@@ -137,11 +156,17 @@
       "group": "Core Elements",
       "description": "A single choice that is on or off, with an indeterminate state for “some selected”.",
       "files": [
+        "components/blocks/form.tsx",
         "components/ui/checkbox.tsx",
-        "lib/utils.ts"
+        "lib/utils.ts",
+        "components/ui/textarea.tsx",
+        "components/ui/input.tsx",
+        "components/ui/tooltip.tsx",
+        "components/ui/input-group.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "class-variance-authority",
         "cn",
         "lucide-react"
       ]
@@ -157,7 +182,8 @@
       ],
       "dependencies": [
         "@base-ui/react",
-        "cn"
+        "cn",
+        "lucide-react"
       ]
     },
     {
@@ -178,16 +204,18 @@
       "name": "input",
       "title": "Input",
       "group": "Core Elements",
-      "description": "A single-line text field with sm/default/lg sizes and error state.",
+      "description": "A single-line text field with sm/default/lg sizes, an optional label, helper or error text, leading and trailing content, and a password reveal button.",
       "files": [
         "components/ui/input.tsx",
         "components/ui/tooltip.tsx",
-        "lib/utils.ts"
+        "lib/utils.ts",
+        "components/ui/input-group.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
         "class-variance-authority",
-        "cn"
+        "cn",
+        "lucide-react"
       ]
     },
     {
@@ -196,12 +224,19 @@
       "group": "Core Elements",
       "description": "A multi-line text field with sm/default/lg sizes and an optional character counter.",
       "files": [
+        "components/blocks/form.tsx",
+        "components/ui/checkbox.tsx",
+        "lib/utils.ts",
         "components/ui/textarea.tsx",
-        "lib/utils.ts"
+        "components/ui/input.tsx",
+        "components/ui/tooltip.tsx",
+        "components/ui/input-group.tsx"
       ],
       "dependencies": [
+        "@base-ui/react",
         "class-variance-authority",
-        "cn"
+        "cn",
+        "lucide-react"
       ]
     },
     {
@@ -225,11 +260,16 @@
       "description": "A draggable control for selecting one value or a range along a track.",
       "files": [
         "components/ui/slider.tsx",
-        "lib/utils.ts"
+        "components/ui/input.tsx",
+        "components/ui/tooltip.tsx",
+        "lib/utils.ts",
+        "components/ui/input-group.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
-        "cn"
+        "class-variance-authority",
+        "cn",
+        "lucide-react"
       ]
     },
     {
@@ -239,9 +279,18 @@
       "description": "Page navigation with Prev/Next and numbered pages, or a simple \"Page X of Y\" mode.",
       "files": [
         "components/ui/pagination.tsx",
-        "lib/utils.ts"
+        "components/ui/native-select.tsx",
+        "lib/select-items.ts",
+        "lib/utils.ts",
+        "components/ui/skeleton.tsx",
+        "components/ui/input.tsx",
+        "components/ui/tooltip.tsx",
+        "components/ui/input-group.tsx",
+        "components/ui/button.tsx"
       ],
       "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority",
         "cn",
         "lucide-react"
       ]
@@ -347,10 +396,14 @@
       "description": "A single collapsible panel controlled by a trigger button.",
       "files": [
         "components/ui/collapsible.tsx",
-        "lib/utils.ts"
+        "components/ui/skeleton.tsx",
+        "lib/utils.ts",
+        "components/ui/badge.tsx",
+        "lib/optical-center.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "class-variance-authority",
         "cn",
         "lucide-react"
       ]
@@ -368,7 +421,8 @@
       "dependencies": [
         "@base-ui/react",
         "class-variance-authority",
-        "cn"
+        "cn",
+        "lucide-react"
       ]
     },
     {
@@ -427,6 +481,22 @@
       ]
     },
     {
+      "name": "dropdown-menu",
+      "title": "Dropdown Menu",
+      "group": "Core Elements",
+      "description": "A menu of actions: icons, shortcuts, checkbox and radio entries, submenus, two-line entries, loading and empty states.",
+      "files": [
+        "components/ui/dropdown-menu.tsx",
+        "components/ui/spinner.tsx",
+        "lib/utils.ts"
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "cn",
+        "lucide-react"
+      ]
+    },
+    {
       "name": "hover-card",
       "title": "Hover Card",
       "group": "Core Elements",
@@ -443,7 +513,7 @@
     {
       "name": "popover",
       "title": "Popover",
-      "group": "Feedback & Overlays",
+      "group": "Core Elements",
       "description": "A floating panel anchored to a trigger element.",
       "files": [
         "components/ui/popover.tsx",
@@ -500,7 +570,7 @@
       "name": "action-bar",
       "title": "Action Bar",
       "group": "Core Elements",
-      "description": "A pill-shaped bar of bulk actions for a selection. It sits where you place it, so fix it to the bottom of the page yourself if it should float.",
+      "description": "A bar of bulk actions for a selection. It sits where you place it, so fix it to the bottom of the page yourself if it should float.",
       "files": [
         "components/wunderui/action-bar.tsx",
         "lib/utils.ts",
@@ -572,7 +642,7 @@
       "name": "holo-card",
       "title": "Holo Card",
       "group": "Core Elements",
-      "description": "A card with a mouse-tracking spotlight/gradient shine effect.",
+      "description": "A card with a soft glow that follows the mouse.",
       "files": [
         "components/wunderui/holo-card.tsx",
         "lib/utils.ts"
@@ -615,6 +685,19 @@
       "description": "A generic dashboard widget shell: header, body, footer.",
       "files": [
         "components/wunderui/widget.tsx",
+        "lib/utils.ts"
+      ],
+      "dependencies": [
+        "cn"
+      ]
+    },
+    {
+      "name": "segment",
+      "title": "Segment",
+      "group": "Core Elements",
+      "description": "A single-select toggle group, like a compact tab bar, with a pill or a rounded-corner track.",
+      "files": [
+        "components/ui/segment.tsx",
         "lib/utils.ts"
       ],
       "dependencies": [
@@ -665,7 +748,8 @@
       ],
       "dependencies": [
         "@base-ui/react",
-        "cn"
+        "cn",
+        "lucide-react"
       ]
     },
     {
@@ -679,7 +763,8 @@
       ],
       "dependencies": [
         "@base-ui/react",
-        "cn"
+        "cn",
+        "lucide-react"
       ]
     },
     {
@@ -771,6 +856,7 @@
         "components/ui/checkbox.tsx",
         "components/ui/button.tsx",
         "components/ui/badge.tsx",
+        "lib/optical-center.tsx",
         "components/ui/avatar.tsx"
       ],
       "dependencies": [
@@ -798,6 +884,7 @@
         "components/ui/checkbox.tsx",
         "components/ui/button.tsx",
         "components/ui/badge.tsx",
+        "lib/optical-center.tsx",
         "components/ui/avatar.tsx"
       ],
       "dependencies": [
@@ -825,6 +912,7 @@
         "components/ui/checkbox.tsx",
         "components/ui/button.tsx",
         "components/ui/badge.tsx",
+        "lib/optical-center.tsx",
         "components/ui/avatar.tsx"
       ],
       "dependencies": [
@@ -852,6 +940,7 @@
         "components/ui/checkbox.tsx",
         "components/ui/button.tsx",
         "components/ui/badge.tsx",
+        "lib/optical-center.tsx",
         "components/ui/avatar.tsx"
       ],
       "dependencies": [
@@ -1007,7 +1096,9 @@
       "description": "A month grid for picking one date or a range, with keyboard navigation and optional min, max and disabled days.",
       "files": [
         "components/wunderui/calendar.tsx",
+        "lib/optical-center.tsx",
         "lib/utils.ts",
+        "components/ui/tooltip.tsx",
         "components/ui/icon-button.tsx"
       ],
       "dependencies": [
@@ -1026,6 +1117,8 @@
         "components/wunderui/date-picker.tsx",
         "lib/utils.ts",
         "components/wunderui/calendar.tsx",
+        "lib/optical-center.tsx",
+        "components/ui/tooltip.tsx",
         "components/ui/icon-button.tsx",
         "components/ui/popover.tsx",
         "components/ui/button.tsx"
@@ -1040,7 +1133,7 @@
     {
       "name": "alert",
       "title": "Alert",
-      "group": "Feedback & Overlays",
+      "group": "Core Elements",
       "description": "An inline banner in 5 colors and 2 sizes, with an optional close button and action.",
       "files": [
         "components/ui/alert.tsx",
@@ -1054,7 +1147,7 @@
     {
       "name": "toast",
       "title": "Toast",
-      "group": "Feedback & Overlays",
+      "group": "Core Elements",
       "description": "A temporary notification that appears in the corner of the screen, with success/error/warning/info types.",
       "files": [
         "components/ui/toast.tsx",
@@ -1068,7 +1161,7 @@
     {
       "name": "pull-to-refresh",
       "title": "Pull to Refresh",
-      "group": "Feedback & Overlays",
+      "group": "Core Elements",
       "description": "Drag down from the top of any content past a threshold to trigger an async refresh, with a rotating spinner and a rubber-band release.",
       "files": [
         "components/wunderui/pull-to-refresh.tsx",
@@ -1082,7 +1175,7 @@
     {
       "name": "rating",
       "title": "Rating",
-      "group": "Feedback & Overlays",
+      "group": "Core Elements",
       "description": "An interactive star rating input.",
       "files": [
         "components/wunderui/rating.tsx",
@@ -1094,24 +1187,9 @@
       ]
     },
     {
-      "name": "number-value",
-      "title": "Number Value",
-      "group": "Feedback & Overlays",
-      "description": "A large number with its change beside it: caret up or down, green or red.",
-      "files": [
-        "components/wunderui/number-value.tsx",
-        "components/wunderui/trend-chip.tsx",
-        "lib/utils.ts"
-      ],
-      "dependencies": [
-        "cn",
-        "lucide-react"
-      ]
-    },
-    {
       "name": "trend-chip",
       "title": "Trend Chip",
-      "group": "Feedback & Overlays",
+      "group": "Core Elements",
       "description": "A small pill showing a change, up or down, in seven icon styles.",
       "files": [
         "components/wunderui/trend-chip.tsx",
@@ -1125,7 +1203,7 @@
     {
       "name": "pressable-feedback",
       "title": "Pressable Feedback",
-      "group": "Feedback & Overlays",
+      "group": "Core Elements",
       "description": "Wraps any content with a scale-down press animation.",
       "files": [
         "components/wunderui/pressable-feedback.tsx",
@@ -1138,7 +1216,7 @@
     {
       "name": "emoji-reaction-button",
       "title": "Emoji Reaction Button",
-      "group": "Feedback & Overlays",
+      "group": "Core Elements",
       "description": "A toggleable emoji reaction with a count, like a Slack reaction.",
       "files": [
         "components/wunderui/emoji-reaction-button.tsx",
@@ -1151,7 +1229,7 @@
     {
       "name": "emoji-picker",
       "title": "Emoji Picker",
-      "group": "Feedback & Overlays",
+      "group": "Core Elements",
       "description": "A grid of selectable emoji, typically shown inside a Popover.",
       "files": [
         "components/wunderui/emoji-picker.tsx",
@@ -1162,23 +1240,6 @@
       ]
     },
     {
-      "name": "sheet",
-      "title": "Sheet",
-      "group": "Feedback & Overlays",
-      "description": "A panel that slides in from an edge of the screen — left, right, or bottom.",
-      "files": [
-        "components/ui/sheet.tsx",
-        "components/ui/icon-button.tsx",
-        "lib/utils.ts"
-      ],
-      "dependencies": [
-        "@base-ui/react",
-        "class-variance-authority",
-        "cn",
-        "lucide-react"
-      ]
-    },
-    {
       "name": "timeline-event",
       "title": "Timeline Event",
       "group": "Core Elements",
@@ -1186,6 +1247,7 @@
       "files": [
         "components/blocks/application.tsx",
         "components/ui/badge.tsx",
+        "lib/optical-center.tsx",
         "lib/utils.ts",
         "components/ui/avatar.tsx"
       ],
@@ -1205,7 +1267,8 @@
         "components/blocks/data.tsx",
         "components/ui/icon-button.tsx",
         "lib/utils.ts",
-        "components/ui/avatar.tsx"
+        "components/ui/avatar.tsx",
+        "lib/optical-center.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -1223,43 +1286,8 @@
         "components/blocks/data.tsx",
         "components/ui/icon-button.tsx",
         "lib/utils.ts",
-        "components/ui/avatar.tsx"
-      ],
-      "dependencies": [
-        "@base-ui/react",
-        "class-variance-authority",
-        "cn",
-        "lucide-react"
-      ]
-    },
-    {
-      "name": "textarea-field",
-      "title": "Textarea Field",
-      "group": "Forms",
-      "description": "A multi-line text input with a label and helper or error text.",
-      "files": [
-        "components/blocks/form.tsx",
-        "components/ui/checkbox.tsx",
-        "lib/utils.ts",
-        "components/ui/textarea.tsx"
-      ],
-      "dependencies": [
-        "@base-ui/react",
-        "class-variance-authority",
-        "cn",
-        "lucide-react"
-      ]
-    },
-    {
-      "name": "checkbox-field",
-      "title": "Checkbox Field",
-      "group": "Forms",
-      "description": "A checkbox with a clickable label and an optional description below it.",
-      "files": [
-        "components/blocks/form.tsx",
-        "components/ui/checkbox.tsx",
-        "lib/utils.ts",
-        "components/ui/textarea.tsx"
+        "components/ui/avatar.tsx",
+        "lib/optical-center.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
@@ -1277,7 +1305,10 @@
         "components/blocks/form.tsx",
         "components/ui/checkbox.tsx",
         "lib/utils.ts",
-        "components/ui/textarea.tsx"
+        "components/ui/textarea.tsx",
+        "components/ui/input.tsx",
+        "components/ui/tooltip.tsx",
+        "components/ui/input-group.tsx"
       ],
       "dependencies": [
         "@base-ui/react",

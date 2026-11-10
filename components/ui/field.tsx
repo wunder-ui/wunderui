@@ -7,7 +7,7 @@ function Field({ className, ...props }: FieldPrimitive.Root.Props) {
   return (
     <FieldPrimitive.Root
       data-slot="field"
-      className={cn("group/field flex flex-col gap-1.5", className)}
+      className={cn("group/field flex flex-col gap-1", className)}
       {...props}
     />
   )
@@ -17,7 +17,7 @@ function FieldLabel({ className, ...props }: FieldPrimitive.Label.Props) {
   return (
     <FieldPrimitive.Label
       data-slot="field-label"
-      className={cn("text-sm font-medium text-foreground", className)}
+      className={cn("mb-1 text-sm font-medium text-foreground data-disabled:opacity-40", className)}
       {...props}
     />
   )
@@ -27,7 +27,7 @@ function FieldDescription({ className, ...props }: FieldPrimitive.Description.Pr
   return (
     <FieldPrimitive.Description
       data-slot="field-description"
-      className={cn("text-xs text-text-tertiary", className)}
+      className={cn("text-xs text-text-tertiary data-disabled:opacity-40", className)}
       {...props}
     />
   )

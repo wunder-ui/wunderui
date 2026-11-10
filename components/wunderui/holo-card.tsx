@@ -26,13 +26,13 @@ function HoloCard({
       ref={ref}
       onMouseMove={handleMouseMove}
       className={cn(
-        "group relative overflow-hidden rounded-lg border border-border bg-card p-5",
+        "group relative overflow-hidden rounded-xl border border-border bg-card p-4",
         className
       )}
       style={{ "--holo-x": "50%", "--holo-y": "50%" } as React.CSSProperties}
     >
       <div
-        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity ease-entrance duration-fast group-hover:opacity-100"
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity ease-entrance duration-fast group-hover:opacity-100 motion-reduce:hidden"
         style={{
           background:
             "radial-gradient(320px circle at var(--holo-x) var(--holo-y), color-mix(in srgb, var(--primary) 25%, transparent), transparent 70%)",

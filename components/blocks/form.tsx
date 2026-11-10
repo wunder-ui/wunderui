@@ -2,70 +2,61 @@
 
 import * as React from "react"
 import { cn } from "@/lib/utils"
-import { Textarea } from "@/components/ui/textarea"
-import { Checkbox } from "@/components/ui/checkbox"
+import { Input, type InputProps } from "@/components/ui/input"
+import { Textarea, type TextareaProps } from "@/components/ui/textarea"
+import { Checkbox, type CheckboxProps } from "@/components/ui/checkbox"
 
 /* ------------------------------------------------------------------ */
-/* TextareaField                                                         */
+/* TextField — deprecated alias of Input (label, helper, error,         */
+/* leading, trailing now live on Input). Figma: ❖ Input / Text Input    */
+/* Field (152:7398)                                                    */
 /* ------------------------------------------------------------------ */
 
-type TextareaFieldProps = React.ComponentProps<typeof Textarea> & {
-  label?: React.ReactNode
-  helper?: React.ReactNode
-  error?: React.ReactNode
-  optional?: boolean
-  wrapperClassName?: string
-}
+/** @deprecated Use `InputProps`. */
+type TextFieldProps = InputProps
 
-function TextareaField({ label, helper, error, optional, id: idProp, wrapperClassName, ...props }: TextareaFieldProps) {
-  const autoId = React.useId()
-  const id = idProp ?? autoId
-  return (
-    <div data-slot="textarea-field" className={cn("flex flex-col gap-1.5", wrapperClassName)}>
-      {label && (
-        <label htmlFor={id} className="text-sm font-medium text-foreground">
-          {label}
-          {optional && <span className="ml-1 font-normal text-text-tertiary">(optional)</span>}
-        </label>
-      )}
-      <Textarea
-        id={id}
-        aria-invalid={error ? true : undefined}
-        aria-describedby={error ? `${id}-error` : helper ? `${id}-helper` : undefined}
-        {...props}
-      />
-      {error ? (
-        <p id={`${id}-error`} className="text-xs text-text-error">{error}</p>
-      ) : (
-        helper && <p id={`${id}-helper`} className="text-xs text-text-tertiary">{helper}</p>
-      )}
-    </div>
-  )
+/** @deprecated Use `Input` with the same props (`label`, `helper`, `error`, `leading`, `trailing`…). */
+function TextField(props: TextFieldProps) {
+  // wrapperClassName is always passed, so the alias renders the field wrapper even without a label.
+  return <Input {...props} wrapperClassName={props.wrapperClassName} />
 }
 
 /* ------------------------------------------------------------------ */
-/* CheckboxField — checkbox + label (+ description)                      */
-/* Figma: ❖ Selectors / Checkbox Item (113:7985)                       */
+/* PasswordField — deprecated alias: Input with the reveal button        */
 /* ------------------------------------------------------------------ */
 
-type CheckboxFieldProps = React.ComponentProps<typeof Checkbox> & {
-  label: React.ReactNode
-  description?: React.ReactNode
-  wrapperClassName?: string
+/** @deprecated Use `Input` with `type="password"` and `revealable`. */
+function PasswordField(props: TextFieldProps) {
+  return <Input autoComplete="current-password" {...props} type="password" revealable wrapperClassName={props.wrapperClassName} />
 }
 
-function CheckboxField({ label, description, id: idProp, wrapperClassName, className, ...props }: CheckboxFieldProps) {
-  const autoId = React.useId()
-  const id = idProp ?? autoId
-  return (
-    <label htmlFor={id} data-slot="checkbox-field" className={cn("flex cursor-pointer items-start gap-2", wrapperClassName)}>
-      <Checkbox id={id} className={cn("mt-0.5", className)} {...props} />
-      <span className="flex flex-col gap-0.5">
-        <span className="text-sm text-text-secondary [&_a]:font-medium [&_a]:text-text-link [&_a]:hover:underline">{label}</span>
-        {description && <span className="text-xs text-text-tertiary">{description}</span>}
-      </span>
-    </label>
-  )
+/* ------------------------------------------------------------------ */
+/* TextareaField — deprecated alias of Textarea (label, helper, error,   */
+/* optional and wrapperClassName now live on Textarea)                   */
+/* ------------------------------------------------------------------ */
+
+/** @deprecated Use `TextareaProps`. */
+type TextareaFieldProps = TextareaProps
+
+/** @deprecated Use `Textarea` with the same props (`label`, `helper`, `error`, `optional`…). */
+function TextareaField(props: TextareaFieldProps) {
+  // wrapperClassName is always passed, so the alias renders the field wrapper even without a label.
+  return <Textarea {...props} wrapperClassName={props.wrapperClassName} />
+}
+
+/* ------------------------------------------------------------------ */
+/* CheckboxField — deprecated alias of Checkbox (label, description,     */
+/* error now live on Checkbox). Figma: ❖ Selectors / Checkbox Item       */
+/* (113:7985)                                                          */
+/* ------------------------------------------------------------------ */
+
+/** @deprecated Use `CheckboxProps`. */
+type CheckboxFieldProps = Omit<CheckboxProps, "label"> & { label: React.ReactNode }
+
+/** @deprecated Use `Checkbox` with the same props (`label`, `description`, `error`). */
+function CheckboxField(props: CheckboxFieldProps) {
+  // wrapperClassName is always passed, so the alias renders the row even if label is empty.
+  return <Checkbox {...props} wrapperClassName={props.wrapperClassName} />
 }
 
 /* ------------------------------------------------------------------ */
@@ -77,7 +68,7 @@ function FormActions({ children, align = "end", className }: { children: React.R
     <div
       data-slot="form-actions"
       className={cn(
-        "flex flex-wrap items-center gap-3",
+        "flex flex-wrap items-center gap-2",
         align === "end" && "justify-end",
         align === "between" && "justify-between",
         className
@@ -88,5 +79,5 @@ function FormActions({ children, align = "end", className }: { children: React.R
   )
 }
 
-export { TextareaField, CheckboxField, FormActions }
-export type { TextareaFieldProps, CheckboxFieldProps }
+export { TextField, PasswordField, TextareaField, CheckboxField, FormActions }
+export type { TextFieldProps, TextareaFieldProps, CheckboxFieldProps }

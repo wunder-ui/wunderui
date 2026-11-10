@@ -19,7 +19,7 @@ function Tabs({
       orientation={orientation}
       data-orientation={orientation}
       className={cn(
-        "group/tabs flex gap-2 data-horizontal:flex-col data-vertical:flex-row data-vertical:items-start data-vertical:gap-6",
+        "group/tabs flex gap-4 data-horizontal:flex-col data-vertical:flex-row data-vertical:items-start data-vertical:gap-4",
         className
       )}
       {...props}
@@ -46,24 +46,27 @@ function Tabs({
 // Too many tabs for the width (a phone): the row scrolls sideways instead of
 // pushing the page wider.
 const tabsListVariants = cva(
-  "group/tabs-list inline-flex w-fit max-w-full items-center text-muted-foreground group-data-horizontal/tabs:overflow-x-auto group-data-horizontal/tabs:[scrollbar-width:none] group-data-horizontal/tabs:[&::-webkit-scrollbar]:hidden [&>[data-slot=tabs-trigger]]:shrink-0 group-data-vertical/tabs:h-fit group-data-vertical/tabs:shrink-0 group-data-vertical/tabs:flex-col group-data-vertical/tabs:items-stretch",
+  "group/tabs-list inline-flex w-fit max-w-full items-center text-muted-foreground data-[orientation=horizontal]:overflow-x-auto data-[orientation=horizontal]:[scrollbar-width:none] data-[orientation=horizontal]:[&::-webkit-scrollbar]:hidden [&>[data-slot=tabs-trigger]]:shrink-0 data-[orientation=vertical]:h-fit data-[orientation=vertical]:shrink-0 data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-stretch",
   {
     variants: {
       variant: {
-        default: "gap-2 group-data-vertical/tabs:gap-1.5",
+        // The row scrolls sideways (overflow-x clips the other axis too), so the 2 px focus ring of a
+        // bordered tab needs room: 2 px of padding on every side, taken back with a -2 px margin and
+        // content-box sizing, so the row keeps the exact height and width it had.
+        default: "gap-2 data-[orientation=horizontal]:m-[-2px] data-[orientation=horizontal]:box-content data-[orientation=horizontal]:p-[2px] data-[orientation=vertical]:gap-1",
         // Horizontal: a 1 px grey baseline under the whole row (Figma Tab Bar),
         // drawn as an inset shadow so it stays inside the scroll box and the
         // 2 px indicator, painted above it, covers it: one line, no gap.
-        line: "gap-6 group-data-horizontal/tabs:w-full group-data-horizontal/tabs:shadow-[inset_0_-1px_0_var(--border)] group-data-vertical/tabs:gap-0 group-data-vertical/tabs:border-l group-data-vertical/tabs:border-border",
+        line: "gap-6 data-[orientation=horizontal]:w-full data-[orientation=horizontal]:shadow-[inset_0_-1px_0_var(--border)] data-[orientation=vertical]:gap-0 data-[orientation=vertical]:border-l data-[orientation=vertical]:border-border",
       },
       // The Button heights, from the density tokens: compact 32/36/40,
       // data-density="comfortable" 36/40/44 (Figma Tab Button regular/medium/large).
       size: {
         // Horizontal: the row has the height and every tab fills it.
         // Vertical: each tab takes the height itself (--tab-h).
-        sm: "[--tab-h:var(--control-sm)] group-data-horizontal/tabs:h-(--tab-h) [&_[data-slot=tabs-trigger]]:text-sm",
-        md: "[--tab-h:var(--control-md)] group-data-horizontal/tabs:h-(--tab-h) [&_[data-slot=tabs-trigger]]:text-sm",
-        lg: "[--tab-h:var(--control-lg)] group-data-horizontal/tabs:h-(--tab-h) [&_[data-slot=tabs-trigger]]:text-sm",
+        sm: "[--tab-h:var(--control-sm)] data-[orientation=horizontal]:h-(--tab-h) [&_[data-slot=tabs-trigger]]:text-sm",
+        md: "[--tab-h:var(--control-md)] data-[orientation=horizontal]:h-(--tab-h) [&_[data-slot=tabs-trigger]]:text-sm",
+        lg: "[--tab-h:var(--control-lg)] data-[orientation=horizontal]:h-(--tab-h) [&_[data-slot=tabs-trigger]]:text-sm",
       },
       shape: {
         rounded: "[&_[data-slot=tabs-trigger]]:rounded-md",
@@ -95,7 +98,6 @@ function TabsList({
       {...props}
     >
       {children}
-      {variant === "line" && <TabsIndicator />}
     </TabsPrimitive.List>
   )
 }
@@ -120,9 +122,9 @@ function TabsIndicator({ className, style, ...props }: TabsPrimitive.Indicator.P
       className={cn(
         "pointer-events-none absolute z-0 bg-primary transition-transform duration-base ease-entrance motion-reduce:transition-none",
         // Horizontal: flush with the list's bottom edge, covering the baseline.
-        "group-data-horizontal/tabs:bottom-0 group-data-horizontal/tabs:left-0 group-data-horizontal/tabs:h-0.5 group-data-horizontal/tabs:w-(--active-tab-width) group-data-horizontal/tabs:translate-x-(--active-tab-left) group-data-horizontal/tabs:origin-left",
+        "group-data-[orientation=horizontal]/tabs-list:bottom-0 group-data-[orientation=horizontal]/tabs-list:left-0 group-data-[orientation=horizontal]/tabs-list:h-0.5 group-data-[orientation=horizontal]/tabs-list:w-(--active-tab-width) group-data-[orientation=horizontal]/tabs-list:translate-x-(--active-tab-left) group-data-[orientation=horizontal]/tabs-list:origin-left",
         // Vertical: sits on the rail (the list's left border), covering it.
-        "group-data-vertical/tabs:top-0 group-data-vertical/tabs:-left-px group-data-vertical/tabs:h-(--active-tab-height) group-data-vertical/tabs:w-0.5 group-data-vertical/tabs:translate-y-(--active-tab-top) group-data-vertical/tabs:origin-top",
+        "group-data-[orientation=vertical]/tabs-list:top-0 group-data-[orientation=vertical]/tabs-list:-left-px group-data-[orientation=vertical]/tabs-list:h-(--active-tab-height) group-data-[orientation=vertical]/tabs-list:w-0.5 group-data-[orientation=vertical]/tabs-list:translate-y-(--active-tab-top) group-data-[orientation=vertical]/tabs-list:origin-top",
         className
       )}
       style={(state) => {
@@ -148,22 +150,29 @@ function TabsTrigger({ className, ...props }: TabsPrimitive.Tab.Props) {
     <TabsPrimitive.Tab
       data-slot="tabs-trigger"
       className={cn(
-        "relative z-10 inline-flex items-center justify-center gap-1.5 font-medium whitespace-nowrap transition-colors duration-fast ease-move",
+        "relative z-10 inline-flex items-center justify-center gap-2 font-medium whitespace-nowrap transition-colors duration-fast ease-move",
         "text-text-secondary hover:text-foreground",
-        // Focus: one 1 px indigo line. The bordered Tab Button recolours its border;
-        // the borderless line tab draws it inside.
-        "focus-visible:outline-none group-data-[variant=default]/tabs-list:focus-visible:border-ring group-data-[variant=line]/tabs-list:focus-visible:ring-1 group-data-[variant=line]/tabs-list:focus-visible:ring-ring group-data-[variant=line]/tabs-list:focus-visible:ring-inset",
+        // Focus (owner rule 31 Oct 2026): the bordered Tab Button gets the shared focus-ring (indigo border,
+        // 2 px indigo-300 ring on it); the borderless line tab draws the same 2 px ring inside.
+        "outline-none group-data-[variant=default]/tabs-list:focus-ring group-data-[variant=line]/tabs-list:focus-visible:outline-2 group-data-[variant=line]/tabs-list:focus-visible:outline-solid group-data-[variant=line]/tabs-list:focus-visible:-outline-offset-2 group-data-[variant=line]/tabs-list:focus-visible:outline-indigo-300",
         "disabled:pointer-events-none disabled:text-text-tertiary aria-disabled:pointer-events-none aria-disabled:text-text-tertiary",
-        "group-data-horizontal/tabs:h-full group-data-vertical/tabs:h-(--tab-h) group-data-vertical/tabs:w-full group-data-vertical/tabs:justify-start",
+        "group-data-[orientation=horizontal]/tabs-list:h-full group-data-[orientation=vertical]/tabs-list:h-(--tab-h) group-data-[orientation=vertical]/tabs-list:w-full group-data-[orientation=vertical]/tabs-list:justify-start",
         "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         // Tab Button: bordered, filling with the indigo tint when active.
-        "group-data-horizontal/tabs:group-data-[variant=default]/tabs-list:flex-1 group-data-[variant=default]/tabs-list:border group-data-[variant=default]/tabs-list:border-border group-data-[variant=default]/tabs-list:bg-card group-data-[variant=default]/tabs-list:px-4",
-        "group-data-[variant=default]/tabs-list:hover:bg-muted/50",
-        "group-data-[variant=default]/tabs-list:data-active:bg-tint-indigo group-data-[variant=default]/tabs-list:data-active:text-text-link",
+        "group-data-[orientation=horizontal]/tabs-list:group-data-[variant=default]/tabs-list:flex-1 group-data-[variant=default]/tabs-list:border group-data-[variant=default]/tabs-list:border-border group-data-[variant=default]/tabs-list:bg-card group-data-[variant=default]/tabs-list:px-4",
+        // Figma Tab Button: hover bg-page, pressed bg-subtle; selected is the indigo tint with an indigo-300 border
+        // that stays tinted on hover and goes bg-subtle while pressed.
+        "group-data-[variant=default]/tabs-list:hover:bg-bg-page group-data-[variant=default]/tabs-list:active:bg-bg-subtle",
+        "group-data-[variant=default]/tabs-list:data-active:border-indigo-300 group-data-[variant=default]/tabs-list:data-active:bg-tint-indigo group-data-[variant=default]/tabs-list:data-active:text-tint-text-indigo group-data-[variant=default]/tabs-list:data-active:hover:bg-tint-indigo group-data-[variant=default]/tabs-list:data-active:active:bg-bg-subtle",
         // Tab Item: nothing but the label and the underline below it.
         "group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:px-0 group-data-[variant=line]/tabs-list:data-active:text-text-link",
         // Vertical line: the label sits right of the rail.
-        "group-data-vertical/tabs:group-data-[variant=line]/tabs-list:px-4",
+        "group-data-[orientation=vertical]/tabs-list:group-data-[variant=line]/tabs-list:px-4",
+        // The underline belongs to the tab: the grey baseline (or rail) never moves or changes size, and switching
+        // tabs only swaps which tab shows its indigo 2 px line. No gliding indicator.
+        "group-data-[variant=line]/tabs-list:after:pointer-events-none group-data-[variant=line]/tabs-list:after:absolute group-data-[variant=line]/tabs-list:after:bg-primary group-data-[variant=line]/tabs-list:after:opacity-0 group-data-[variant=line]/tabs-list:after:transition-opacity group-data-[variant=line]/tabs-list:after:duration-fast group-data-[variant=line]/tabs-list:after:ease-entrance motion-reduce:group-data-[variant=line]/tabs-list:after:transition-none group-data-[variant=line]/tabs-list:data-active:after:opacity-100",
+        "group-data-[orientation=horizontal]/tabs-list:group-data-[variant=line]/tabs-list:after:inset-x-0 group-data-[orientation=horizontal]/tabs-list:group-data-[variant=line]/tabs-list:after:bottom-0 group-data-[orientation=horizontal]/tabs-list:group-data-[variant=line]/tabs-list:after:h-0.5",
+        "group-data-[orientation=vertical]/tabs-list:group-data-[variant=line]/tabs-list:after:inset-y-0 group-data-[orientation=vertical]/tabs-list:group-data-[variant=line]/tabs-list:after:-left-px group-data-[orientation=vertical]/tabs-list:group-data-[variant=line]/tabs-list:after:w-0.5",
         className
       )}
       {...props}
@@ -175,7 +184,7 @@ function TabsContent({ className, ...props }: TabsPrimitive.Panel.Props) {
   return (
     <TabsPrimitive.Panel
       data-slot="tabs-content"
-      className={cn("flex-1 rounded-md text-sm outline-none focus-visible:ring-1 focus-visible:ring-ring", className)}
+      className={cn("flex-1 rounded-md text-sm outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-0 focus-visible:outline-indigo-300", className)}
       {...props}
     />
   )

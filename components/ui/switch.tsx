@@ -2,6 +2,7 @@
 
 import { Switch as SwitchPrimitive } from "@base-ui/react/switch"
 import { cn } from "@/lib/utils"
+import { Loader2 } from "lucide-react"
 import * as React from "react"
 
 /**
@@ -25,13 +26,36 @@ function useNamedHiddenInput(inputRef: React.Ref<HTMLInputElement> | undefined, 
   )
 }
 
+// Figma Appearance: Brand (default) fills the checked track with the brand colour, Neutral with the
+// inverse surface (black in light, white in dark; the thumb flips with it), Muted with the quiet grey.
+// Brand darkens on hover (brand-700) and pressed (brand-800), the fixed tokens of the primary button; an
+// unchecked track gets the control rim on hover and dark-500 pressed. Disabled is the rest look at 40 % opacity.
+const SWITCH_APPEARANCE_TRACK = {
+  brand: "hover:data-checked:bg-(--brand-700) active:data-checked:bg-(--brand-800)",
+  neutral: "data-checked:bg-inverse",
+  muted: "data-checked:bg-muted-foreground",
+} as const
+
+const SWITCH_APPEARANCE_THUMB = {
+  brand: "dark:data-checked:bg-primary-foreground",
+  neutral: "data-checked:bg-text-inverse",
+  muted: "",
+} as const
+
 function Switch({
   className,
   size = "default",
+  appearance = "brand",
+  saving = false,
   inputRef,
+  readOnly,
   ...props
 }: SwitchPrimitive.Root.Props & {
   size?: "sm" | "default"
+  /** Checked-track colour: `brand`, `neutral` (inverse black/white) or `muted` (quiet grey). */
+  appearance?: keyof typeof SWITCH_APPEARANCE_TRACK
+  /** Pending save: the handle shows a spinner, the switch is `aria-busy` and ignores clicks until it is cleared. */
+  saving?: boolean
 }) {
   const namedInputRef = useNamedHiddenInput(inputRef, props["aria-label"], props["aria-labelledby"])
   return (
@@ -39,8 +63,14 @@ function Switch({
       data-slot="switch"
       inputRef={namedInputRef}
       data-size={size}
+      data-appearance={appearance}
+      data-saving={saving ? "" : undefined}
+      aria-busy={saving || undefined}
+      readOnly={saving || readOnly}
       className={cn(
-        "peer group/switch relative inline-flex shrink-0 items-center rounded-full border border-transparent transition duration-fast ease-entrance outline-none group-has-[:focus-visible]/field-label:border-transparent group-has-[:focus-visible]/field-label:ring-0 after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-ring/30 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 data-[size=default]:h-[18px] data-[size=default]:w-8 data-[size=default]:[--switch-travel:14px] data-[size=sm]:h-3.5 data-[size=sm]:w-6 data-[size=sm]:[--switch-travel:10px] dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 data-checked:bg-primary data-unchecked:bg-dark-400 data-disabled:cursor-not-allowed data-disabled:opacity-50",
+        "peer group/switch relative inline-flex shrink-0 items-center rounded-full border border-transparent transition duration-fast ease-entrance outline-none group-has-[:focus-visible]/field-label:border-transparent group-has-[:focus-visible]/field-label:ring-0 after:absolute after:-inset-x-3 after:-inset-y-2 focus-ring aria-invalid:border-error aria-invalid:focus-ring-error data-[size=default]:h-[18px] data-[size=default]:w-8 data-[size=default]:[--switch-travel:14px] data-[size=sm]:h-3.5 data-[size=sm]:w-6 data-[size=sm]:[--switch-travel:10px] data-checked:bg-primary data-unchecked:bg-dark-400 hover:data-unchecked:border-border-control active:data-unchecked:bg-dark-500 data-disabled:cursor-not-allowed data-disabled:opacity-40",
+        SWITCH_APPEARANCE_TRACK[appearance],
+        saving && "cursor-progress",
         className
       )}
       {...props}
@@ -49,8 +79,20 @@ function Switch({
           but a second click reverses it from wherever it is instead of replaying keyframes. */}
       <SwitchPrimitive.Thumb
         data-slot="switch-thumb"
-        className="pointer-events-none block rounded-full bg-background ring-0 transition-transform duration-base ease-overshoot group-data-[size=default]/switch:size-4 group-data-[size=sm]/switch:size-3 data-checked:translate-x-(--switch-travel) dark:data-checked:bg-primary-foreground group-data-[size=default]/switch:data-unchecked:translate-x-0 group-data-[size=sm]/switch:data-unchecked:translate-x-0 dark:data-unchecked:bg-foreground"
-      />
+        className={cn(
+          "pointer-events-none flex items-center justify-center rounded-full bg-background ring-0 transition-transform duration-base ease-overshoot group-data-[size=default]/switch:size-4 group-data-[size=sm]/switch:size-3 data-checked:translate-x-(--switch-travel) group-data-[size=default]/switch:data-unchecked:translate-x-0 group-data-[size=sm]/switch:data-unchecked:translate-x-0 dark:data-unchecked:bg-foreground",
+          SWITCH_APPEARANCE_THUMB[appearance]
+        )}
+      >
+        {/* The spinner turns while a save runs; reduced motion keeps it as a still glyph. */}
+        {saving && (
+          <Loader2
+            data-slot="switch-spinner"
+            aria-hidden
+            className="size-2.5 animate-spin text-dark-400 group-data-[size=sm]/switch:size-2 motion-reduce:animate-none"
+          />
+        )}
+      </SwitchPrimitive.Thumb>
     </SwitchPrimitive.Root>
   )
 }

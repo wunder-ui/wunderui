@@ -69,7 +69,7 @@ function ComboboxInputGroup({ className, ...props }: ComboboxPrimitive.InputGrou
     <ComboboxPrimitive.InputGroup
       data-slot="combobox-input-group"
       className={cn(
-        "flex h-(--field-md) w-full items-center gap-2 rounded-md border border-input bg-card px-3 text-sm transition-colors duration-fast ease-entrance has-[input:focus-visible]:border-ring",
+        "flex h-(--field-md) w-full items-center gap-2 rounded-md border border-input bg-card px-3 text-sm transition-colors duration-fast ease-entrance hover:border-text-muted focus-ring-within aria-invalid:border-error has-disabled:pointer-events-none has-disabled:opacity-40 has-[input[aria-invalid=true]]:border-error has-[input[aria-invalid=true]]:focus-ring-within-error",
         className
       )}
       {...props}
@@ -92,7 +92,7 @@ function ComboboxTrigger({ className, ...props }: ComboboxPrimitive.Trigger.Prop
     <ComboboxPrimitive.Trigger
       data-slot="combobox-trigger"
       aria-label="Show options"
-      className={cn("flex shrink-0 items-center justify-center text-text-tertiary", className)}
+      className={cn("flex shrink-0 items-center justify-center rounded-sm text-text-tertiary outline-none focus-ring", className)}
       {...props}
     >
       <ChevronDown className="size-4" />
@@ -112,6 +112,8 @@ function ComboboxPopup({ className, children, ...props }: ComboboxPrimitive.Popu
           data-slot="combobox-popup"
           className={cn(
             "z-50 max-h-(--available-height) w-(--anchor-width) min-w-48 overflow-y-auto rounded-lg bg-popover p-1 text-popover-foreground shadow-md ring-1 ring-foreground/10 outline-none",
+            // 2 px between two options (owner rule, 10 Nov 2026), so a highlighted or checked row never touches the next one.
+            "[&_[role=option]+[role=option]]:mt-0.5",
             className
           )}
           {...props}
@@ -156,7 +158,7 @@ function ComboboxItem({ className, children, ...props }: ComboboxPrimitive.Item.
     <ComboboxPrimitive.Item
       data-slot="combobox-item"
       className={cn(
-        "relative flex cursor-default items-center rounded-md py-1.5 pr-8 pl-2 text-sm outline-hidden select-none data-highlighted:bg-accent data-highlighted:text-accent-foreground",
+        "relative flex cursor-default items-center rounded-md py-1.5 pr-8 pl-2 text-sm outline-hidden select-none data-highlighted:bg-bg-page data-highlighted:text-foreground",
         className
       )}
       {...props}

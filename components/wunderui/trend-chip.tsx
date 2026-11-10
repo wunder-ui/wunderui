@@ -72,16 +72,16 @@ function TrendGlyph({ icon, down }: { icon: TrendChipIcon; down: boolean }) {
 }
 
 /* Figma: the 16 px glyphs sit on 8 px of padding, the 14 px circles and the
-   caret pull the pill in to 4 px on the icon side; the trend line has 6 px to
-   the label, everything else 4 px. */
+   caret pull the pill in to 4 px on the icon side. Icon to label follows the
+   icon size: 12 px (size-3) -> 4, 14 px (size-3.5) -> 6, 16 px (size-4) -> 8. */
 const CHIP_SPACING: Record<TrendChipIcon, string> = {
-  trending: "gap-1.5 px-2",
-  arrow: "gap-1 px-2",
-  "arrow-diagonal": "gap-1 px-2",
-  triangle: "gap-1 pl-1 pr-2",
-  "circle-trending": "gap-1 pl-1 pr-2",
-  "circle-diagonal": "gap-1 pl-1 pr-2",
-  "circle-arrow": "gap-1 pl-1 pr-2",
+  trending: "gap-1 px-2",
+  arrow: "gap-2 px-2",
+  "arrow-diagonal": "gap-2 px-2",
+  triangle: "gap-2 pl-1 pr-2",
+  "circle-trending": "gap-1.5 pl-1 pr-2",
+  "circle-diagonal": "gap-1.5 pl-1 pr-2",
+  "circle-arrow": "gap-1.5 pl-1 pr-2",
 }
 
 function TrendChip({
@@ -126,7 +126,7 @@ function TrendChip({
       )}
     >
       {flat ? <Minus className="size-3 shrink-0" /> : <TrendGlyph icon={icon} down={down} />}
-      {value}
+      <span className="optical-center">{value}</span>
     </span>
   )
 }

@@ -30,7 +30,7 @@ function Agenda({
             {item.time}
           </span>
           <span
-            className="mt-1 h-full w-0.5 shrink-0 rounded-full"
+            className="mt-1 w-0.5 shrink-0 self-stretch rounded-full"
             style={{ backgroundColor: item.color ?? "var(--primary)" }}
           />
           <div className="flex flex-col gap-0.5">

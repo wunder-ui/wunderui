@@ -22,15 +22,15 @@ function EmojiReactionButton({
       onClick={onToggle}
       aria-pressed={!!active}
       className={cn(
-        "flex items-center gap-1 rounded-full border px-2 py-1 text-xs font-medium transition-colors duration-fast ease-entrance",
+        "flex items-center gap-1 rounded-full border px-2 py-1 text-xs font-medium transition-colors duration-fast ease-entrance outline-none focus-ring",
         active
-          ? "border-primary bg-tint-indigo text-tint-text-indigo"
-          : "border-border text-text-secondary hover:bg-muted/50",
+          ? "border-tint-text-indigo bg-tint-indigo text-tint-text-indigo"
+          : "border-border text-text-secondary hover:bg-bg-page active:bg-bg-subtle",
         className
       )}
     >
       <span>{emoji}</span>
-      {count}
+      <span className="optical-center">{count}</span>
     </button>
   )
 }

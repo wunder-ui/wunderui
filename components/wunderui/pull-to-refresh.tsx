@@ -6,6 +6,11 @@ import { cn } from "@/lib/utils"
 
 type PullToRefreshProps = {
   onRefresh: () => void | Promise<void>
+  /**
+   * Called when `onRefresh` throws or its promise rejects. The indicator resets either way and the rejection
+   * is not left unhandled; without `onError` the failure is swallowed here, so show it in your own UI.
+   */
+  onError?: (error: unknown) => void
   threshold?: number
   maxPull?: number
   children: React.ReactNode
@@ -45,6 +50,7 @@ function scrolledToTop(el: Element | null, stopAt?: Element | null) {
 // the content up, and the downward pull is left to this component.
 function PullToRefresh({
   onRefresh,
+  onError,
   threshold = 70,
   maxPull = 110,
   children,
@@ -119,9 +125,11 @@ function PullToRefresh({
     if (pullDistance >= threshold) {
       setRefreshing(true)
       setPullDistance(threshold)
-      // A failed refresh must not leave the spinner running and the pull locked.
+      // A failed refresh must not leave the spinner running, the pull locked or a rejection unhandled.
       try {
         await onRefresh()
+      } catch (error) {
+        onError?.(error)
       } finally {
         setRefreshing(false)
         setPullDistance(0)
@@ -151,7 +159,7 @@ function PullToRefresh({
         style={{ height: threshold, opacity: progress }}
       >
         <Loader2
-          className={cn("size-5 text-primary", refreshing && "animate-spin")}
+          className={cn("size-5 text-primary", refreshing && "animate-spin motion-reduce:animate-none")}
           style={!refreshing ? { transform: `rotate(${progress * 360}deg)` } : undefined}
         />
       </div>

@@ -50,7 +50,7 @@ function TimelineEvent({ avatar, status, title, time, object, badge, badgeColor 
           </Avatar>
         ) : (
           <span className={cn("grid size-8 place-items-center rounded-full [&_svg]:size-3.5", STATUS_TONE[status?.tone ?? "muted"])}>
-            {status?.icon ?? <Check strokeWidth={3} />}
+            {status?.icon ?? <Check strokeWidth={1.5} />}
           </span>
         )}
         {!last && <span className={cn("mt-1 w-0.5 flex-1", lineColor)} />}
@@ -67,7 +67,7 @@ function TimelineEvent({ avatar, status, title, time, object, badge, badgeColor 
         </div>
         {object && (
           <span className="inline-flex w-fit items-center gap-1 rounded-md bg-muted px-2 py-0.5 text-[11px] text-text-secondary [&_svg]:size-3">
-            {object.icon ?? <Folder />}
+            {object.icon ?? <Folder strokeWidth={1.5} />}
             {object.label}
           </span>
         )}

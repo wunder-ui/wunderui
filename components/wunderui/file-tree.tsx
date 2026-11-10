@@ -62,9 +62,9 @@ function FileTreeItem({ node, depth = 0 }: { node: FileTreeNode; depth?: number 
         // pr-2 equals the 8 px the indent starts with, so the hover fill has the same room left and right of the content.
         // The focus ring sits on the row only (not on the whole subtree of the focused treeitem).
         className={cn(
-          "flex w-full cursor-default items-center gap-1.5 rounded-md py-1.5 pr-2 text-left text-sm text-foreground hover:bg-muted/50",
-          "[:focus-visible>&]:outline-1 [:focus-visible>&]:-outline-offset-1 [:focus-visible>&]:outline-ring [:focus-visible>&]:outline-solid",
-          ctx.selectedId === node.id && "bg-muted"
+          "flex w-full cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 text-left text-sm text-foreground hover:bg-bg-page",
+          "[:focus-visible>&]:outline-2 [:focus-visible>&]:outline-offset-0 [:focus-visible>&]:outline-indigo-300 [:focus-visible>&]:outline-solid",
+          ctx.selectedId === node.id && "bg-bg-subtle hover:bg-bg-subtle"
         )}
         style={{ paddingLeft: depth * 16 + 8 }}
       >
@@ -226,7 +226,9 @@ function FileTree({ data, "aria-label": ariaLabel = "Files", onSelect, selectedI
         aria-label={ariaLabel}
         onKeyDown={handleKeyDown}
         onFocus={handleFocus}
-        className={cn("rounded-lg border border-border bg-card p-2", className)}
+        // Rows are 2 px apart (owner rule, 10 Nov 2026): every tree item but the first one at the top carries the gap, so
+        // a hovered or selected row never touches the next. Margins inside the clipped group do not collapse.
+        className={cn("rounded-lg border border-border bg-card p-2 [&_[role=treeitem]]:mt-0.5 [&>[role=treeitem]:first-child]:mt-0", className)}
       >
         {data.map((node) => (
           <FileTreeItem key={node.id} node={node} />

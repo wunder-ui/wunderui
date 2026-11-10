@@ -1,33 +1,34 @@
+import * as React from "react"
 import { Button as ButtonPrimitive } from "@base-ui/react/button"
 import { cva, type VariantProps } from "class-variance-authority"
+import { Check, Loader2, RotateCw } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-// Same contrast rules as Button (see the long comment in button.tsx): hover on
-// the filled variants darkens with brightness-95 instead of bg-*/90 (an alpha
-// fill is LIGHTER than the solid fill on a white page: primary/brand 4.99 ->
-// 4.17:1, destructive 5.04 -> 4.44:1, now 4.85 / 4.91:1). The gradient top stop
-// was --gradient-start-3 (#6f74f5, 3.82:1 with a white icon, 3.52:1 on the old
-// brightness-105 hover); it is now 85 % primary + 15 % brand-500, which is
-// 4.73:1 at rest and 4.61:1 hovered. The light variant's icon is light-1000
-// (5.93:1 on light-600) instead of light-900 (3.84:1), so a text label would pass too.
+// Same states as Button (see button.tsx and the Figma Button / Icon set): the filled variants use fixed
+// hover and pressed fills (brand-700/800, red-800/900, dark-400/500, bg-page/bg-subtle on neutral surfaces)
+// instead of brightness-95, and focus is the shared 2 px focus-ring (owner rule 31 Oct 2026). The gradient top
+// stop is 85 % primary + 15 % brand-500 (4.73:1 with a white icon); hover and pressed step the gradient to
+// brand-600/700 and brand-700/800. The light variant's icon is light-1000 (5.93:1 on light-600); it has no
+// Figma counterpart, hover and pressed step to the lighter light-500 and light-400 so the icon keeps >= 3:1.
 const iconButtonVariants = cva(
-  "group/icon-button inline-flex shrink-0 items-center justify-center border border-transparent transition duration-fast ease-entrance outline-none select-none shadow-[0px_1px_1px_0px_rgba(16,24,40,0.05)] active:scale-[0.97] motion-reduce:active:scale-100 disabled:pointer-events-none disabled:opacity-40 focus-visible:border-ring focus-visible:outline-solid focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-ring [&_svg]:pointer-events-none [&_svg]:shrink-0",
+  "group/icon-button inline-flex shrink-0 items-center justify-center border border-transparent transition duration-fast ease-entrance outline-none select-none shadow-[0px_1px_1px_0px_rgba(16,24,40,0.05)] active:scale-[0.97] motion-reduce:active:scale-100 disabled:pointer-events-none disabled:opacity-40 [&_svg]:pointer-events-none [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        plain: "bg-card border-border-control text-foreground hover:bg-muted/50",
-        primary: "border-primary bg-primary text-primary-foreground hover:brightness-95",
+        plain: "bg-card border-border-control text-foreground hover:bg-bg-page data-expanded:bg-bg-subtle data-expanded:hover:bg-bg-subtle active:bg-bg-subtle focus-ring",
+        primary:
+          "border-primary bg-primary text-primary-foreground hover:border-(color:--brand-700) hover:bg-(--brand-700) active:border-(color:--brand-800) active:bg-(--brand-800) focus-ring",
         brand:
-          "border-brand-primary bg-brand-primary text-brand-primary-foreground hover:brightness-95",
+          "border-brand-primary bg-brand-primary text-brand-primary-foreground hover:border-(color:--brand-700) hover:bg-(--brand-700) active:border-(color:--brand-800) active:bg-(--brand-800) focus-ring",
         gradient:
-          "border-primary bg-gradient-to-b from-[color-mix(in_srgb,var(--primary)_85%,var(--brand-500))] to-primary text-primary-foreground shadow-[inset_0px_1px_2px_0px_rgba(255,255,255,0.35)] hover:brightness-95",
-        dark: "bg-inverse text-text-inverse hover:bg-(--dark-400) hover:text-white",
-        light: "bg-(--light-600) text-(--light-1000) hover:brightness-95",
-        outline: "bg-card border-primary text-foreground hover:bg-primary/5",
+          "border-primary bg-gradient-to-b from-[color-mix(in_srgb,var(--primary)_85%,var(--brand-500))] to-primary text-primary-foreground shadow-[0px_1px_1px_0px_rgba(16,24,40,0.05),inset_0px_1px_2px_0px_rgba(255,255,255,0.35)] hover:from-(--brand-600) hover:to-(--brand-700) active:from-(--brand-700) active:to-(--brand-800) focus-ring",
+        dark: "bg-inverse text-text-inverse hover:bg-(--dark-400) hover:text-white active:bg-(--dark-500) active:text-white focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-0 focus-visible:outline-(color:--dark-300)",
+        light: "bg-(--light-600) text-(--light-1000) hover:bg-(--light-500) data-expanded:bg-bg-subtle data-expanded:hover:bg-bg-subtle active:bg-(--light-400) focus-ring",
+        outline: "bg-card border-primary text-foreground hover:border-tint-text-indigo hover:bg-tint-indigo hover:text-tint-text-indigo data-expanded:bg-bg-subtle data-expanded:hover:bg-bg-subtle active:bg-bg-subtle focus-ring",
         // Figma Type=ghost / destructive (added Sep 2026)
-        ghost: "bg-transparent text-foreground shadow-none hover:bg-muted/50",
+        ghost: "bg-transparent text-foreground shadow-none hover:bg-bg-page data-expanded:bg-bg-subtle data-expanded:hover:bg-bg-subtle active:bg-bg-subtle focus-ring",
         destructive:
-          "border-destructive bg-destructive text-destructive-foreground hover:brightness-95",
+          "border-destructive bg-destructive text-destructive-foreground hover:border-red-800 hover:bg-red-800 active:border-red-900 active:bg-red-900 focus-ring-error",
       },
       shape: {
         rounded: "rounded-md",
@@ -49,20 +50,88 @@ const iconButtonVariants = cva(
   }
 )
 
+type IconButtonPhase = "idle" | "pending" | "success" | "error"
+
 function IconButton({
   className,
   variant,
   shape,
   size,
+  children,
+  onClick,
+  pending,
+  phase,
+  expanded,
   ...props
-}: ButtonPrimitive.Props & VariantProps<typeof iconButtonVariants>) {
+}: ButtonPrimitive.Props &
+  VariantProps<typeof iconButtonVariants> & {
+    /**
+     * Shows a spinner in place of the icon, in the same square, and ignores presses.
+     * The button stays focusable and keeps its colour (it is not disabled).
+     */
+    pending?: boolean
+    /**
+     * Async feedback in the same square: pending shows a spinner, success a check, error a retry icon.
+     * The size never changes. The accessible name is yours: change the aria-label with the phase
+     * (for example Copy link, Copying, Copied, Retry copying).
+     */
+    phase?: IconButtonPhase
+    /**
+     * Marks a trigger whose menu or panel is open: sets aria-expanded and the pressed surface
+     * (bg-bg-subtle) on the quiet variants. Leave it undefined when the button does not control a popup.
+     */
+    expanded?: boolean
+  }) {
+  const status: IconButtonPhase = phase ?? (pending ? "pending" : "idle")
+  const isIdle = status === "idle"
+
+  const resolvedVariant = variant ?? "primary"
+  const effectiveVariant =
+    status === "error" && ["primary", "brand", "gradient"].includes(resolvedVariant)
+      ? "destructive"
+      : variant
+
+  const quiet = ["plain", "ghost", "outline"].includes(resolvedVariant)
+
+  let statusIcon: React.ReactNode = null
+  if (status === "pending") {
+    statusIcon = (
+      <Loader2 aria-hidden className="animate-spin motion-reduce:animate-none" />
+    )
+  } else if (status === "success") {
+    statusIcon = (
+      <Check aria-hidden strokeWidth={1.5} className={quiet ? "text-text-success" : undefined} />
+    )
+  } else if (status === "error") {
+    statusIcon = (
+      <RotateCw aria-hidden strokeWidth={1.5} className={quiet ? "text-text-error" : undefined} />
+    )
+  }
+
+  const handleClick: NonNullable<ButtonPrimitive.Props["onClick"]> = (event) => {
+    if (status === "pending") {
+      event.preventDefault()
+      return
+    }
+    onClick?.(event)
+  }
+
   return (
     <ButtonPrimitive
       data-slot="icon-button"
-      className={cn(iconButtonVariants({ variant, shape, size, className }))}
+      className={cn(iconButtonVariants({ variant: isIdle ? variant : effectiveVariant, shape, size, className }))}
+      aria-expanded={expanded}
+      data-expanded={expanded ? "" : undefined}
+      data-phase={isIdle ? undefined : status}
+      aria-busy={isIdle ? undefined : status === "pending" ? true : undefined}
+      data-pending={isIdle ? undefined : status === "pending" ? "" : undefined}
+      onClick={isIdle ? onClick : handleClick}
       {...props}
-    />
+    >
+      {isIdle ? children : statusIcon}
+    </ButtonPrimitive>
   )
 }
 
 export { IconButton, iconButtonVariants }
+export type { IconButtonPhase }

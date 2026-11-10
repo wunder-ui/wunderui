@@ -68,6 +68,9 @@
   /* Figma Label/Small — dense rows in menus. */
   --text-label-sm: 0.8125rem;
   --text-label-sm--line-height: 1.25rem;
+  /* Figma Micro — badges on media tiles, timestamps in dense chips. */
+  --text-micro: 0.6875rem;
+  --text-micro--line-height: 1rem;
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
@@ -88,6 +91,8 @@
   --color-brand-quaternary: var(--brand-quaternary);
   --color-brand-quaternary-foreground: var(--brand-quaternary-foreground);
   --color-text-link: var(--text-link);
+  --color-text-link-hover: var(--text-link-hover);
+  --color-text-link-pressed: var(--text-link-pressed);
   --color-text-success: var(--text-success);
   --color-text-error: var(--text-error);
   --color-text-error-inverse: var(--text-error-inverse);
@@ -119,6 +124,8 @@
   --color-bg-surface: var(--card);
   --color-bg-subtle: var(--subtle);
   --color-bg-inverse: var(--inverse);
+  --color-bg-tooltip: var(--bg-tooltip);
+  --color-bg-tooltip-key: var(--bg-tooltip-key);
   --color-text-primary: var(--foreground);
   --color-text-muted: var(--muted-foreground);
   --color-error: var(--destructive);
@@ -266,6 +273,17 @@
   --background-image-gradient-orange: linear-gradient(135deg, #F8A392 0%, #F3654A 100%);
   --background-image-gradient-green: linear-gradient(135deg, #76E6C1 0%, #1AD598 100%);
   --background-image-gradient-alternative: linear-gradient(135deg, #A8A7B6 0%, #6E6D86 100%);
+  /* Gradient Ramp/<Hue> (Figma, Oct 31 2026) → `bg-gradient-ramp-<hue>`: four stops hue-300 at 0 %,
+     400 at 40 %, 500 at 65 %, 600 at 100 %, dark at the top, light at the bottom. Primitives only. */
+  --background-image-gradient-ramp-blue: linear-gradient(to top, var(--blue-300) 0%, var(--blue-400) 40%, var(--blue-500) 65%, var(--blue-600) 100%);
+  --background-image-gradient-ramp-indigo: linear-gradient(to top, var(--indigo-300) 0%, var(--indigo-400) 40%, var(--indigo-500) 65%, var(--indigo-600) 100%);
+  --background-image-gradient-ramp-purple: linear-gradient(to top, var(--purple-300) 0%, var(--purple-400) 40%, var(--purple-500) 65%, var(--purple-600) 100%);
+  --background-image-gradient-ramp-pink: linear-gradient(to top, var(--pink-300) 0%, var(--pink-400) 40%, var(--pink-500) 65%, var(--pink-600) 100%);
+  --background-image-gradient-ramp-red: linear-gradient(to top, var(--red-300) 0%, var(--red-400) 40%, var(--red-500) 65%, var(--red-600) 100%);
+  --background-image-gradient-ramp-orange: linear-gradient(to top, var(--orange-300) 0%, var(--orange-400) 40%, var(--orange-500) 65%, var(--orange-600) 100%);
+  --background-image-gradient-ramp-yellow: linear-gradient(to top, var(--yellow-300) 0%, var(--yellow-400) 40%, var(--yellow-500) 65%, var(--yellow-600) 100%);
+  --background-image-gradient-ramp-green: linear-gradient(to top, var(--green-300) 0%, var(--green-400) 40%, var(--green-500) 65%, var(--green-600) 100%);
+  --background-image-gradient-ramp-alternative: linear-gradient(to top, var(--alternative-300) 0%, var(--alternative-400) 40%, var(--alternative-500) 65%, var(--alternative-600) 100%);
   --background-image-gradient-dark: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
   --background-image-gradient-slate: linear-gradient(135deg, var(--gradient-start-2) 0%, var(--gradient-end-2) 100%);
   --background-image-gradient-primary: linear-gradient(180deg, var(--gradient-start-3) 0%, var(--brand-primary) 100%);
@@ -364,10 +382,14 @@
      Figma "Color" collection: text-link, text-success, text-error, text-warning,
      bg-inverse, text-inverse, bg-subtle, tint/<hue>, tint-text/<hue>. */
   --text-link: var(--brand-600);
+  --text-link-hover: var(--brand-700);
+  --text-link-pressed: var(--brand-800);
   --text-success: #0C7E5A; /* 4.5:1 also on muted/subtle; green-800 was 4.49 */
   --text-error: #D42A2D;
   --text-warning: #64511E;
   --inverse: #000000;
+  --bg-tooltip: var(--neutral-dark-content);
+  --bg-tooltip-key: var(--neutral-dark-borders);
   --text-error-inverse: #F8ADBC;
   --text-inverse: #FFFFFF;
   --subtle: #F1F5F7;
@@ -593,10 +615,14 @@
   --sidebar-border: #323438;
     --sidebar-ring: var(--brand-400);
   --text-link: var(--brand-400);
+  --text-link-hover: var(--brand-300);
+  --text-link-pressed: var(--brand-200);
   --text-success: #76E6C1;
   --text-error: #F8ADBC;
   --text-warning: #FCDF92;
   --inverse: #FFFFFF;
+  --bg-tooltip: var(--dark-400);
+  --bg-tooltip-key: var(--dark-500);
   --text-error-inverse: #D42A2D;
   --text-inverse: #000000;
   --subtle: #25272A;
@@ -745,6 +771,89 @@
   ::backdrop,
   ::file-selector-button {
     border-color: var(--border);
+  }
+}
+
+/* Optical centring (owner rule, 10 Nov 2026): a number, initial or glyph inside a circle or badge is centred
+   on its cap height, not on the line box. The line box adds space above and below the digits that the font
+   metrics do not split evenly, so the figure sits a half pixel high or low. Put the class on an inner
+   `<span>` of the centred container (trimming does not apply to the flex container itself). Browsers
+   without `text-box` keep the plain line-height:1 box, which is within half a pixel. */
+@utility optical-center {
+  display: block;
+  line-height: 1;
+  @supports (text-box: trim-both cap alphabetic) {
+    text-box: trim-both cap alphabetic;
+  }
+}
+
+/* Focus (owner rule, 31 Oct 2026): the focused border turns indigo and a 2 px ring in the light (300) tone of
+   the border colour sits directly on it, with no gap. `focus-ring` is the default, `focus-ring-error` keeps
+   the red hue for invalid controls. The outline follows the border radius, so the ring hugs the border.
+   Solid buttons (no visible border) use the same pair: their border is the fill colour. */
+/* `:focus-visible:hover` is listed as well: a hover border (`hover:border-text-muted` on fields) has the same
+   specificity as `:focus-visible`, so while the pointer rests on a focused field the grey hover border would win
+   over the indigo focus border. The extra pseudo-class makes the focus border win. */
+@utility focus-ring {
+  &:focus-visible,
+  &:focus-visible:hover {
+    outline: 2px solid var(--indigo-300);
+    outline-offset: 0;
+    border-color: var(--primary);
+  }
+}
+@utility focus-ring-error {
+  &:focus-visible,
+  &:focus-visible:hover {
+    outline: 2px solid var(--red-300);
+    outline-offset: 0;
+    border-color: var(--destructive);
+  }
+}
+
+/* The same pair without the `:focus-visible` condition, to be combined with a variant that decides when it
+   applies, e.g. `has-[[data-stretch]:focus-visible]:focus-ring-on` on a card whose stretched link is focused. */
+/* The outline style is `!important` because controls normally carry `outline-none` (outline-style: none), which
+   would otherwise win and hide a ring that was forced on explicitly. */
+@utility focus-ring-on {
+  outline: 2px solid var(--indigo-300);
+  outline-style: solid !important;
+  outline-offset: 0;
+  border-color: var(--primary);
+}
+@utility focus-ring-on-error {
+  outline: 2px solid var(--red-300);
+  outline-style: solid !important;
+  outline-offset: 0;
+  border-color: var(--destructive);
+}
+
+/* Same pair for a wrapper whose inner control holds the focus (input groups, number fields): the wrapper
+   draws the border and the ring. */
+@utility focus-ring-within {
+  &:has(:is(input, textarea):focus-visible),
+  &:has(:is(input, textarea):focus-visible):hover {
+    outline: 2px solid var(--indigo-300);
+    outline-offset: 0;
+    border-color: var(--primary);
+  }
+  /* The wrapper alone shows the focus: the inner control (which may carry `focus-ring` itself, as `Input` does)
+     draws no rectangle of its own inside the field. */
+  & :is(input, textarea):focus-visible {
+    outline: none;
+    border-color: transparent;
+  }
+}
+@utility focus-ring-within-error {
+  &:has(:is(input, textarea):focus-visible),
+  &:has(:is(input, textarea):focus-visible):hover {
+    outline: 2px solid var(--red-300);
+    outline-offset: 0;
+    border-color: var(--destructive);
+  }
+  & :is(input, textarea):focus-visible {
+    outline: none;
+    border-color: transparent;
   }
 }
 
@@ -944,18 +1053,20 @@
   --chart-hover-pink: var(--pink-400);
   --chart-hover-yellow: var(--yellow-400);
 }
-/* Lines, points and thin strokes of a series (owner, Oct 22 2026): 3:1 against
-   the card (WCAG 1.4.11). In light the blue, purple, green, grey, pink and
-   yellow fill steps fall short, so their lines take a darker step; fills,
-   areas and bars keep the fill step. lineColor() in charts/chart-utils.ts
-   maps a series colour to these. Dark: the fill colours again. */
+/* Lines, points and thin strokes of a series (owner, steps set Nov 1 2026):
+   purple, blue and pink keep the 600 step in light, green and yellow take 700,
+   grey stays dark/400, orange and red are 600 in both modes. Fills, areas and
+   bars keep the fill step. lineColor() in charts/chart-utils.ts maps a series
+   colour to these. Dark: the fill colours again. */
 :root {
-  --chart-line-blue: var(--blue-700);
-  --chart-line-purple: var(--purple-700);
-  --chart-line-green: var(--green-800);
+  --chart-line-blue: var(--blue-600);
+  --chart-line-purple: var(--purple-600);
+  --chart-line-green: var(--green-700);
   --chart-line-grey: var(--dark-400);
-  --chart-line-pink: var(--pink-700);
-  --chart-line-yellow: var(--yellow-800);
+  --chart-line-pink: var(--pink-600);
+  --chart-line-yellow: var(--yellow-700);
+  --chart-line-orange: var(--orange-600);
+  --chart-line-red: var(--red-600);
 }
 .dark {
   --chart-line-blue: var(--chart-2);
@@ -964,6 +1075,8 @@
   --chart-line-grey: var(--chart-5);
   --chart-line-pink: var(--pink-600);
   --chart-line-yellow: var(--yellow-600);
+  --chart-line-orange: var(--orange-600);
+  --chart-line-red: var(--red-600);
 }
 /* Text on chart fills (generated by the chart system, Oct 21 2026): for each
    series colour and fill opacity (100 … 25 %) the text token — white or
@@ -1420,4 +1533,10 @@
 .recharts-wrapper:focus:not(:focus-visible),
 .recharts-wrapper *:focus:not(:focus-visible) {
   outline: none;
+}
+/* The keyboard ring of a chart layer follows the focus rule: 2 px in the light 300 tone, offset 0. */
+.recharts-wrapper:focus-visible,
+.recharts-wrapper *:focus-visible {
+  outline: 2px solid var(--indigo-300);
+  outline-offset: 0;
 }

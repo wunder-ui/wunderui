@@ -166,8 +166,8 @@ function FloatingToc({
             onClick={(e) => select(e, item.id)}
             style={{ marginLeft: (item.depth ?? 0) * 12 }}
             className={cn(
-              "relative rounded-md px-2 py-1 text-[13px] outline-none transition-colors duration-fast ease-entrance focus-visible:ring-1 focus-visible:ring-ring",
-              active ? "font-medium text-foreground" : "text-text-tertiary hover:bg-muted/50 hover:text-foreground"
+              "relative rounded-md px-2 py-1 text-[13px] outline-none transition-colors duration-fast ease-entrance focus-ring",
+              active ? "font-medium text-foreground" : "text-text-tertiary hover:bg-bg-page active:bg-bg-subtle hover:text-foreground"
             )}
           >
             {item.label}

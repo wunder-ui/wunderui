@@ -7,7 +7,7 @@ function Fieldset({ className, ...props }: FieldsetPrimitive.Root.Props) {
   return (
     <FieldsetPrimitive.Root
       data-slot="fieldset"
-      className={cn("flex flex-col gap-4 rounded-lg border border-border bg-card p-4", className)}
+      className={cn("flex flex-col gap-5 rounded-lg border border-border bg-card p-4 data-invalid:border-destructive/60 data-invalid:bg-tint-red data-disabled:data-invalid:bg-card", className)}
       {...props}
     />
   )
@@ -17,7 +17,7 @@ function FieldsetLegend({ className, ...props }: FieldsetPrimitive.Legend.Props)
   return (
     <FieldsetPrimitive.Legend
       data-slot="fieldset-legend"
-      className={cn("px-1 text-sm font-semibold text-foreground", className)}
+      className={cn("p-0 text-sm font-semibold text-foreground data-disabled:opacity-40", className)}
       {...props}
     />
   )

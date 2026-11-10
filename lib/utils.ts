@@ -11,7 +11,7 @@ import { createCn } from "cn/config"
 export const cn: CnFunction = createCn({
   extend: {
     classGroups: {
-      "font-size": [{ text: ["label-sm"] }],
+      "font-size": [{ text: ["label-sm", "micro"] }],
       "bg-image": [
         {
           bg: [

@@ -123,7 +123,7 @@ function Track({
         else return
         event.preventDefault()
       }}
-      className="relative h-2 w-full cursor-pointer touch-none rounded-full outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-(--surface)"
+      className="relative h-2 w-full cursor-pointer touch-none rounded-full outline-none focus-ring"
       style={{ background }}
     >
       <span
@@ -164,7 +164,7 @@ function ColorGrid({ hex, onPick }: { hex: string; onPick: (hex: string) => void
     <div
       role="listbox"
       aria-label="Colours"
-      className="grid aspect-[3/2] w-full grid-cols-12 overflow-hidden rounded-lg"
+      className="grid aspect-[3/2] w-full grid-cols-12 overflow-hidden rounded-md"
       onKeyDown={(event) => {
         const steps: Record<string, number> = { ArrowRight: 1, ArrowLeft: -1, ArrowDown: 12, ArrowUp: -12 }
         if (event.key in steps) {
@@ -193,7 +193,7 @@ function ColorGrid({ hex, onPick }: { hex: string; onPick: (hex: string) => void
           onFocus={() => setFocus(i)}
           onClick={() => onPick(c)}
           className={cn(
-            "relative outline-none focus-visible:z-10 focus-visible:rounded-[3px] focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-1 focus-visible:ring-offset-black/40",
+            "relative outline-none focus-visible:z-10 focus-visible:rounded-[3px] focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-0 focus-visible:outline-white",
             i === selected && "z-10 rounded-sm ring-[2.5px] ring-white shadow-[0_1px_3px_rgb(0_0_0/0.35)]"
           )}
           style={{ background: c }}
@@ -338,13 +338,13 @@ function ColorPicker({
   return (
     <div
       data-slot="color-picker"
-      className={cn("flex w-[296px] max-w-full flex-col gap-4 rounded-xl border border-border bg-popover [--surface:var(--popover)] p-4 text-popover-foreground shadow-lg", className)}
+      className={cn("flex w-[296px] max-w-full flex-col gap-4 rounded-lg border border-border bg-popover [--surface:var(--popover)] p-4 text-popover-foreground shadow-lg", className)}
     >
       {(title !== null || onClose) && (
         <div className="flex items-center justify-between gap-2">
           {title !== null && <p className="text-sm font-medium text-foreground">{title}</p>}
           {onClose && (
-            <IconButton variant="ghost" size="sm" aria-label="Close" onClick={onClose} className="ml-auto">
+            <IconButton variant="plain" size="sm" aria-label="Close" onClick={onClose} className="ml-auto">
               <X />
             </IconButton>
           )}
@@ -377,7 +377,7 @@ function ColorPicker({
           event.preventDefault()
           commit({ ...hsv, ...moves[event.key] })
         }}
-        className="relative aspect-[3/2] w-full cursor-crosshair touch-none rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-(--surface)"
+        className="relative aspect-[3/2] w-full cursor-crosshair touch-none rounded-md outline-none focus-ring"
         style={{ background: `linear-gradient(to top, #000, transparent), linear-gradient(to right, #fff, transparent), ${hueColor}` }}
       >
         <span
@@ -393,7 +393,7 @@ function ColorPicker({
       {/* eyedropper + hue + opacity */}
       <div className="flex items-center gap-3">
         {canDrop && (
-          <IconButton variant="ghost" size="sm" aria-label="Pick a colour from the screen" onClick={pickFromScreen}>
+          <IconButton variant="plain" size="sm" aria-label="Pick a colour from the screen" onClick={pickFromScreen}>
             <Pipette />
           </IconButton>
         )}
@@ -437,7 +437,7 @@ function ColorPicker({
             <NativeSelectItem value="hsl">HSL</NativeSelectItem>
           </NativeSelectContent>
         </NativeSelect>
-        <div className="flex h-9 min-w-0 flex-1 overflow-hidden rounded-md border border-border-control bg-card focus-within:border-ring">
+        <div className="flex h-9 min-w-0 flex-1 overflow-hidden rounded-md border border-border-control bg-card focus-ring-within">
           {channels.map((c) => (
             <ChannelInput key={`${fmt}-${c.label}`} label={c.label} value={c.value} onCommit={c.commit} upper={fmt === "hex"} />
           ))}
@@ -460,7 +460,7 @@ function ColorPicker({
         <div className="flex items-center justify-between">
           <p className="text-xs font-medium text-text-secondary">Saved colours</p>
           <IconButton
-            variant="ghost"
+            variant="plain"
             size="sm"
             aria-label="Save this colour"
             onClick={() => {
@@ -487,7 +487,7 @@ function ColorPicker({
                 // the ring — selected or focused — is drawn in the swatch's own colour
                 style={{ "--swatch": s } as React.CSSProperties}
                 className={cn(
-                  "flex size-6 items-center justify-center rounded-full outline-none transition-[box-shadow] duration-fast ease-entrance focus-visible:ring-2 focus-visible:ring-(--swatch)",
+                  "flex size-6 items-center justify-center rounded-full outline-none transition-[box-shadow] duration-fast ease-entrance focus-ring",
                   selected && "ring-2 ring-(--swatch)"
                 )}
               >
@@ -517,6 +517,8 @@ function ChannelInput({ label, value, onCommit, upper = false, className }: { la
       onChange={(e) => setDraft(e.target.value)}
       onBlur={() => {
         setEditing(false)
+        // An empty field falls back to the last valid value instead of committing 0.
+        if (draft.trim() === "") return
         if (draft !== value) onCommit(draft)
       }}
       onKeyDown={(e) => {
@@ -548,6 +550,10 @@ function ColorPickerTrigger({
   pickerProps,
   side = "bottom",
   align = "start",
+  shape = "default",
+  open,
+  defaultOpen = false,
+  onOpenChange,
 }: {
   value?: string
   defaultValue?: string
@@ -559,25 +565,49 @@ function ColorPickerTrigger({
   pickerProps?: Omit<ColorPickerProps, "value" | "defaultValue" | "onValueChange" | "onClose">
   side?: "top" | "bottom"
   align?: "start" | "center" | "end"
+  /** `default`: the Input-sized field with a square swatch. `pill`: a 32 px pill with a colour dot, to sit in a row of pill-shaped colour presets. */
+  shape?: "default" | "pill"
+  /** The popover is open. Controlled; leave out for the field to manage it. */
+  open?: boolean
+  /** Whether the popover is open by default. */
+  defaultOpen?: boolean
+  /** Called when the popover opens or closes. */
+  onOpenChange?: (open: boolean) => void
 }) {
-  const [open, setOpen] = React.useState(false)
+  const [ownOpen, setOwnOpen] = React.useState(defaultOpen)
+  const isOpen = open ?? ownOpen
+  const setOpen = (next: boolean) => {
+    setOwnOpen(next)
+    onOpenChange?.(next)
+  }
   const [own, setOwn] = React.useState(defaultValue.toUpperCase())
   const hex = (value ?? own).toUpperCase()
+  const pill = shape === "pill"
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={isOpen} onOpenChange={setOpen}>
       <PopoverTrigger
         data-slot="color-picker-trigger"
+        data-shape={shape}
         aria-label={`${label}: ${hex}`}
         className={cn(
-          "group/cp inline-flex h-(--field-md) w-60 max-w-full items-center gap-2 rounded-md border border-border-control bg-card pr-2.5 pl-2 text-left outline-none transition-colors duration-fast ease-entrance hover:bg-muted/50 focus-visible:border-ring data-popup-open:border-ring",
+          "group/cp inline-flex max-w-full items-center gap-2 border border-border-control bg-card text-left outline-none transition-colors duration-fast ease-entrance hover:bg-bg-page active:bg-bg-subtle focus-ring data-popup-open:border-primary",
+          pill
+            ? "h-8 rounded-full px-3 text-sm text-foreground"
+            : "h-(--field-md) w-60 rounded-md pr-2.5 pl-2",
           className
         )}
       >
-        <span className="size-5 shrink-0 rounded-sm ring-1 ring-black/10 ring-inset" style={{ background: hex }} />
-        <span className="flex-1 text-[13px] text-foreground uppercase tabular-nums">{hex}</span>
-        <ChevronDown className="size-4 shrink-0 text-text-tertiary transition-transform duration-fast ease-entrance group-data-popup-open/cp:rotate-180" />
+        {pill ? (
+          <span data-slot="color-picker-dot" className="size-3 shrink-0 rounded-full" style={{ background: hex }} />
+        ) : (
+          <span className="size-5 shrink-0 rounded-sm ring-1 ring-black/10 ring-inset" style={{ background: hex }} />
+        )}
+        <span className={cn("uppercase tabular-nums", pill ? "" : "flex-1 text-[13px] text-foreground")}>{hex}</span>
+        <ChevronDown className={cn("shrink-0 text-text-tertiary transition-transform duration-fast ease-entrance group-data-popup-open/cp:rotate-180", pill ? "size-3.5" : "size-4")} />
       </PopoverTrigger>
-      <PopoverContent side={side} align={align} aria-label={label} className="w-auto border-0 bg-transparent p-0 shadow-none">
+      {/* A popover open from the start (defaultOpen) does not pull focus on mount; */}
+      {/* one opened by mouse/touch/pen/keyboard keeps its normal focus behaviour. */}
+      <PopoverContent side={side} align={align} aria-label={label} className="w-auto border-0 bg-transparent p-0 shadow-none" initialFocus={(openType) => Boolean(openType)}>
         <ColorPicker
           {...pickerProps}
           value={hex}

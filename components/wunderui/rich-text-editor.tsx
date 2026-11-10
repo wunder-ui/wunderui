@@ -8,11 +8,19 @@ type RichTextEditorProps = {
   onChange?: (html: string) => void
   placeholder?: string
   className?: string
+  /** Id of the editing area. A `<label htmlFor>` cannot name it (it is not a form control): use `aria-labelledby`. */
+  id?: string
+  /** Accessible name of the editing area when there is no visible label. */
+  "aria-label"?: string
+  /** Id of the element that names the editing area, such as a visible label. */
+  "aria-labelledby"?: string
+  /** Id of the element that describes the editing area, such as a helper line. */
+  "aria-describedby"?: string
 }
 
 function RichTextEditorSkeleton({ placeholder, className }: Pick<RichTextEditorProps, "placeholder" | "className">) {
   return (
-    <div className={cn("flex flex-col rounded-lg border border-input bg-card", className)}>
+    <div className={cn("flex flex-col rounded-md border border-input bg-card", className)}>
       <div className="h-[38px] border-b border-border" />
       <div className="min-h-32 p-3 text-sm text-text-tertiary">{placeholder}</div>
     </div>

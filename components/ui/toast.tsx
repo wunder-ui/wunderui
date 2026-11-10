@@ -9,6 +9,8 @@ const TOAST_TYPE_COLOR: Record<string, string> = {
   error: "var(--destructive)",
   warning: "var(--yellow-600)",
   info: "var(--primary)",
+  // toast.promise sets the type to loading while the promise is pending: a neutral dot, not a gap before the title
+  loading: "var(--muted-foreground)",
 }
 
 function ToastProvider({ children, timeout = 5000, ...props }: ToastPrimitive.Provider.Props) {
@@ -47,24 +49,28 @@ function ToastList() {
         // Stacked at rest: each older toast sits a little lower, slightly
         // smaller and fainter behind the newest (--toast-index from Base UI);
         // hovering the viewport expands the stack into a list (--toast-offset-y).
-        "absolute right-0 left-0 flex flex-col gap-1 rounded-md border border-border bg-card p-3 shadow-lg group-data-[position=top-right]/toast-viewport:top-0 group-data-[position=bottom-right]/toast-viewport:bottom-0",
+        "absolute right-0 left-0 flex flex-col gap-1 rounded-lg border border-border bg-card p-3 shadow-lg group-data-[position=top-right]/toast-viewport:top-0 group-data-[position=bottom-right]/toast-viewport:bottom-0",
         "transition-[transform,opacity,translate,scale] duration-slow ease-entrance",
         "group-data-[position=top-right]/toast-viewport:[transform:translateY(calc(min(var(--toast-index),3)*10px))_scale(calc(1-min(var(--toast-index),3)*0.05))]",
-        "group-data-[position=top-right]/toast-viewport:data-[expanded]:[transform:translateY(var(--toast-offset-y))_scale(1)]",
+        // Expanded (viewport hovered): every toast sits at its own offset plus 12 px per toast before it (owner rule:
+        // 12 px between stacked toasts). Base UI's --toast-offset-y holds the heights only, no gap.
+        "group-data-[position=top-right]/toast-viewport:data-[expanded]:[transform:translateY(calc(var(--toast-offset-y)+var(--toast-index)*12px))_scale(1)]",
         "group-data-[position=bottom-right]/toast-viewport:[transform:translateY(calc(min(var(--toast-index),3)*-10px))_scale(calc(1-min(var(--toast-index),3)*0.05))]",
-        "group-data-[position=bottom-right]/toast-viewport:data-[expanded]:[transform:translateY(calc(var(--toast-offset-y)*-1))_scale(1)]",
+        "group-data-[position=bottom-right]/toast-viewport:data-[expanded]:[transform:translateY(calc(var(--toast-offset-y)*-1-var(--toast-index)*12px))_scale(1)]",
         "data-[ending-style]:opacity-0 data-[ending-style]:[transform:translateX(calc(100%+1rem))]",
         "data-[starting-style]:opacity-0 data-[starting-style]:[transform:translateX(calc(100%+1rem))]",
-        "data-[expanded]:relative"
+        // The 12 px gap between two expanded toasts is part of the hover area, so the stack does not fold back
+        // while the pointer crosses it.
+        "after:absolute after:left-0 after:h-[13px] after:w-full group-data-[position=top-right]/toast-viewport:after:top-full group-data-[position=bottom-right]/toast-viewport:after:bottom-full"
       )}
       style={{ zIndex: 100 - index, opacity: index > 3 ? 0 : undefined }}
     >
-      <ToastPrimitive.Content data-slot="toast-content" className="flex items-start gap-3">
+      <ToastPrimitive.Content data-slot="toast-content" className="flex items-start gap-2">
         <span
           className="mt-1 size-2 shrink-0 rounded-full"
           style={{ backgroundColor: TOAST_TYPE_COLOR[toast.type ?? "info"] }}
         />
-        <div className="flex flex-1 flex-col gap-0.5">
+        <div className="flex flex-1 flex-col gap-1">
           <ToastPrimitive.Title data-slot="toast-title" className="text-sm font-bold text-foreground" />
           {toast.description && (
             <ToastPrimitive.Description
@@ -83,7 +89,7 @@ function ToastList() {
         <ToastPrimitive.Close
           data-slot="toast-close"
           aria-label="Close"
-          className="-my-1 -mr-1 inline-flex size-6 shrink-0 items-center justify-center rounded-sm text-text-tertiary hover:text-foreground"
+          className="-my-1 -mr-1 inline-flex size-6 shrink-0 items-center justify-center rounded-md text-text-tertiary outline-none transition-colors duration-fast ease-entrance hover:bg-bg-page hover:text-foreground active:bg-bg-subtle focus-ring"
         >
           ×
         </ToastPrimitive.Close>

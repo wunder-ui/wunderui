@@ -60,7 +60,7 @@ function DropZone({
         if (e.dataTransfer.files.length) onFiles?.(copyFileList(e.dataTransfer.files))
       }}
       className={cn(
-        "flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-border p-10 text-center transition-colors duration-fast ease-entrance has-[input:focus-visible]:border-ring",
+        "flex cursor-pointer flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-border p-10 text-center transition-colors duration-fast ease-entrance focus-ring-within",
         isDragging && "border-primary bg-primary/5",
         className
       )}

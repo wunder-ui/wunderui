@@ -18,7 +18,7 @@ function OtpFieldInput({ className, ...props }: OTPFieldPrimitive.Input.Props) {
     <OTPFieldPrimitive.Input
       data-slot="otp-field-input"
       className={cn(
-        "size-(--control-lg) rounded-md border border-input bg-card text-center text-lg font-medium text-foreground outline-none transition-colors duration-fast ease-entrance focus-visible:border-ring",
+        "size-(--control-lg) rounded-md border border-input bg-card text-center text-lg font-medium text-foreground outline-none transition-colors duration-fast ease-entrance placeholder:text-muted-foreground hover:border-text-muted focus-ring aria-invalid:border-error aria-invalid:focus-ring-error data-invalid:border-error data-invalid:focus-ring-error data-readonly:bg-bg-subtle disabled:cursor-not-allowed disabled:opacity-40",
         className
       )}
       {...props}

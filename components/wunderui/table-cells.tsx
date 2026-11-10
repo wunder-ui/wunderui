@@ -324,7 +324,7 @@ function TagCell({
     <Badge color={color} badgeStyle="light" shape="pill">
       {label}
       {onRemove && (
-        <button type="button" aria-label={`Remove ${label}`} onClick={onRemove} className="-mr-0.5 ml-0.5">
+        <button type="button" aria-label={`Remove ${label}`} onClick={onRemove} className="-mr-0.5">
           <svg viewBox="0 0 12 12" className="size-3" aria-hidden>
             <path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
           </svg>
@@ -370,12 +370,15 @@ function CellSwitch({
 }
 
 function CellSlider({ value, max = 100 }: { value: number; max?: number }) {
+  // The bar is clamped to [0, max]: a negative value draws an empty bar, a value above max a full one, and a max
+  // of 0 (or less) never divides by zero into a full bar. The number on the right shows the value as passed.
+  const ratio = max > 0 && Number.isFinite(value) ? Math.min(1, Math.max(0, value / max)) : 0
   return (
     <div className="flex w-28 items-center gap-2">
       <div className="h-1 flex-1 overflow-hidden rounded-full bg-muted">
         <div
           className="h-full rounded-full bg-primary"
-          style={{ width: `${Math.min(100, (value / max) * 100)}%` }}
+          style={{ width: `${ratio * 100}%` }}
         />
       </div>
       <span className="w-7 text-right text-xs text-text-tertiary">{value}</span>
@@ -398,7 +401,8 @@ function CellSelect({
   return (
     <NativeSelect value={value} onValueChange={(v) => v && onValueChange(v)}>
       <NativeSelectTrigger aria-label={ariaLabel} className="h-8 w-32 px-2 text-xs">
-        <NativeSelectValue />
+        {/* A value longer than the 128 px trigger is cut with an ellipsis; the chevron stays inside the border. */}
+        <NativeSelectValue className="min-w-0 flex-1 truncate text-left" />
       </NativeSelectTrigger>
       <NativeSelectContent>
         {options.map((option) => (
@@ -414,18 +418,21 @@ function CellSelect({
 function CellColorPicker({
   value,
   onValueChange,
+  "aria-label": ariaLabel,
 }: {
   value: string
   onValueChange: (value: string) => void
+  /** Name for screen readers, such as "Label colour". The accessible name becomes "Label colour, #6366F1". Default: "Colour #6366F1. Choose a colour". */
+  "aria-label"?: string
 }) {
   return (
     <Popover>
       <PopoverTrigger
-        aria-label={`Colour ${value}. Choose a colour`}
-        className="size-6 rounded-full ring-1 ring-border ring-offset-2 ring-offset-card outline-none focus-visible:ring-1 focus-visible:ring-ring"
+        aria-label={ariaLabel ? `${ariaLabel}, ${value}` : `Colour ${value}. Choose a colour`}
+        className="size-6 rounded-full ring-1 ring-border ring-offset-2 ring-offset-card outline-none focus-ring"
         style={{ backgroundColor: value }}
       />
-      <PopoverContent aria-label="Choose a colour" className="w-auto p-2">
+      <PopoverContent aria-label={ariaLabel ?? "Choose a colour"} className="w-auto p-2">
         <div className="grid grid-cols-6 gap-1.5">
           {CELL_COLOR_SWATCHES.map((swatch) => (
             <button

@@ -71,28 +71,33 @@ function AgendaEvent({ start, end, title, meta, color = "purple", guests, onMenu
     // the menu sits above it, so no interactive element is nested in another.
     <div
       data-slot="agenda-event"
-      className={cn("relative flex items-center gap-3 border-b border-border px-5 py-3", onClick && "cursor-pointer hover:bg-muted/50 has-[[data-stretch]:focus-visible]:ring-1 has-[[data-stretch]:focus-visible]:ring-ring has-[[data-stretch]:focus-visible]:ring-inset", className)}
+      className={cn("relative flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-border px-5 py-3", onClick && "cursor-pointer hover:bg-muted/50 has-[[data-stretch]:focus-visible]:focus-ring-on has-[[data-stretch]:focus-visible]:-outline-offset-2", className)}
     >
       <div className="flex w-16 shrink-0 flex-col">
         <span className="text-xs font-medium text-foreground">{start}</span>
         {end && <span className="text-[11px] text-text-tertiary">{end}</span>}
       </div>
       <span className={cn("h-8 w-[3px] shrink-0 rounded-full", EVENT_BAR[color])} />
-      <div className="flex min-w-0 flex-1 flex-col">
+      <div className="flex min-w-[7rem] flex-1 flex-col">
         {onClick ? (
-          <button type="button" data-stretch onClick={onClick} className="truncate text-sm font-medium text-foreground text-left outline-none after:absolute after:inset-0 after:rounded-[inherit] after:content-['']">
+          <button type="button" data-stretch onClick={onClick} className="line-clamp-2 break-words text-sm font-medium text-foreground text-left outline-none after:absolute after:inset-0 after:rounded-[inherit] after:content-['']">
             {title}
           </button>
         ) : (
-          <span className="truncate text-sm font-medium text-foreground">{title}</span>
+          <span className="line-clamp-2 break-words text-sm font-medium text-foreground">{title}</span>
         )}
         {meta && <span className="truncate text-xs text-text-tertiary">{meta}</span>}
       </div>
-      {guests && guests.length > 0 && <AvatarStack people={guests} size="sm" />}
-      {onMenu && (
-        <IconButton variant="ghost" size="sm" aria-label="Event menu" className="relative z-10" onClick={(e) => { e.stopPropagation(); onMenu() }}>
-          <EllipsisVertical className="size-4" />
-        </IconButton>
+      {/* the guests and the menu wrap below the title when the row is too narrow for all of it, so the title always keeps its room */}
+      {((guests && guests.length > 0) || onMenu) && (
+        <div className="ml-auto flex shrink-0 items-center gap-3">
+          {guests && guests.length > 0 && <AvatarStack people={guests} size="sm" />}
+          {onMenu && (
+            <IconButton variant="ghost" size="sm" aria-label="Event menu" className="relative z-10" onClick={(e) => { e.stopPropagation(); onMenu() }}>
+              <EllipsisVertical className="size-4" strokeWidth={1.5} />
+            </IconButton>
+          )}
+        </div>
       )}
     </div>
   )

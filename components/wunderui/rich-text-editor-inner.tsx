@@ -32,8 +32,8 @@ function RichTextEditorToolbarButton({
       disabled={disabled}
       onClick={onClick}
       className={cn(
-        "flex size-7 items-center justify-center rounded-md text-text-secondary outline-none hover:bg-muted/50 focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-40 [&_svg]:size-4",
-        active && "bg-muted text-foreground"
+        "flex size-7 items-center justify-center rounded-md text-text-secondary outline-none transition-colors duration-fast ease-entrance hover:bg-bg-page active:bg-bg-subtle focus-ring disabled:pointer-events-none disabled:opacity-40 [&_svg]:size-4",
+        active && "bg-bg-subtle text-foreground hover:bg-bg-subtle"
       )}
     >
       {children}
@@ -104,6 +104,10 @@ function RichTextEditorInner({
   onChange,
   placeholder = "Write something...",
   className,
+  id,
+  "aria-label": ariaLabel,
+  "aria-labelledby": ariaLabelledBy,
+  "aria-describedby": ariaDescribedBy,
 }: RichTextEditorProps) {
   const editor = useEditor({
     immediatelyRender: false,
@@ -120,6 +124,13 @@ function RichTextEditorInner({
     onUpdate: ({ editor }) => onChange?.(editor.getHTML()),
     editorProps: {
       attributes: {
+        // The editing area is a multi-line text box: without a role and a name a screen reader announces only "edit".
+        role: "textbox",
+        "aria-multiline": "true",
+        ...(id ? { id } : {}),
+        ...(ariaLabel ? { "aria-label": ariaLabel } : {}),
+        ...(ariaLabelledBy ? { "aria-labelledby": ariaLabelledBy } : {}),
+        ...(ariaDescribedBy ? { "aria-describedby": ariaDescribedBy } : {}),
         class:
           "min-h-32 p-3 text-sm text-foreground outline-none [&_a]:text-text-link [&_a]:underline [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_p.is-editor-empty:first-child::before]:text-text-tertiary [&_p.is-editor-empty:first-child::before]:content-[attr(data-placeholder)] [&_p.is-editor-empty:first-child::before]:float-left [&_p.is-editor-empty:first-child::before]:pointer-events-none [&_p.is-editor-empty:first-child::before]:h-0",
       },
@@ -129,7 +140,7 @@ function RichTextEditorInner({
   if (!editor) return <RichTextEditorSkeleton placeholder={placeholder} className={className} />
 
   return (
-    <div className={cn("flex flex-col rounded-lg border border-input bg-card has-[[contenteditable]:focus]:border-ring", className)}>
+    <div className={cn("flex flex-col rounded-md border border-input bg-card has-[[contenteditable]:focus-visible]:focus-ring-on", className)}>
       <RichTextEditorToolbar editor={editor} />
       <EditorContent editor={editor} />
     </div>

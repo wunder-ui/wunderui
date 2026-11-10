@@ -4,24 +4,155 @@ import type * as React from "react"
 import { Progress as ProgressPrimitive } from "@base-ui/react/progress"
 import { cn } from "@/lib/utils"
 
+type ProgressValuePosition =
+  | "right"
+  | "left"
+  | "bottom"
+  | "tooltip-top"
+  | "tooltip-bottom"
+
+type ProgressProps = ProgressPrimitive.Root.Props & {
+  valuePosition?: ProgressValuePosition
+}
+
 function Progress({
   className,
   children,
   value,
+  valuePosition,
+  min = 0,
+  max = 100,
   ...props
-}: ProgressPrimitive.Root.Props) {
+}: ProgressProps) {
+  const percent =
+    value === null || value === undefined
+      ? null
+      : max === min
+        ? 0
+        : Math.min(
+            100,
+            Math.max(0, ((value - min) / (max - min)) * 100)
+          )
+
+  if (valuePosition === undefined) {
+    return (
+      <ProgressPrimitive.Root
+        value={value}
+        min={min}
+        max={max}
+        data-slot="progress"
+        className={cn("flex flex-wrap gap-3", className)}
+        {...props}
+      >
+        {children}
+        <ProgressTrack>
+          <ProgressIndicator />
+        </ProgressTrack>
+      </ProgressPrimitive.Root>
+    )
+  }
+
+  const isTooltip =
+    valuePosition === "tooltip-top" || valuePosition === "tooltip-bottom"
+
   return (
     <ProgressPrimitive.Root
       value={value}
+      min={min}
+      max={max}
       data-slot="progress"
-      className={cn("flex flex-wrap gap-3", className)}
+      data-value-position={valuePosition}
+      className={cn(
+        "flex flex-col",
+        isTooltip ? "gap-1.5" : "gap-2",
+        className
+      )}
       {...props}
     >
       {children}
-      <ProgressTrack>
-        <ProgressIndicator />
-      </ProgressTrack>
+      {valuePosition === "right" && (
+        <div className="flex items-center gap-3">
+          <ProgressTrack className="min-w-0 flex-1">
+            <ProgressIndicator />
+          </ProgressTrack>
+          <ProgressValue className="ml-0 w-10 shrink-0 text-right" />
+        </div>
+      )}
+      {valuePosition === "left" && (
+        <div className="flex items-center gap-3">
+          <ProgressValue className="ml-0 w-10 shrink-0 text-left" />
+          <ProgressTrack className="min-w-0 flex-1">
+            <ProgressIndicator />
+          </ProgressTrack>
+        </div>
+      )}
+      {valuePosition === "bottom" && (
+        <>
+          <ProgressTrack>
+            <ProgressIndicator />
+          </ProgressTrack>
+          <ProgressValue className="ml-0 self-end" />
+        </>
+      )}
+      {isTooltip && (
+        <>
+          {valuePosition === "tooltip-top" && percent !== null && (
+            <ProgressBubbleRow percent={percent} position={valuePosition} />
+          )}
+          <ProgressTrack>
+            <ProgressIndicator />
+          </ProgressTrack>
+          {valuePosition === "tooltip-bottom" && percent !== null && (
+            <ProgressBubbleRow percent={percent} position={valuePosition} />
+          )}
+        </>
+      )}
     </ProgressPrimitive.Root>
+  )
+}
+
+function ProgressBubbleRow({
+  percent,
+  position,
+}: {
+  percent: number
+  position: "tooltip-top" | "tooltip-bottom"
+}) {
+  const isTop = position === "tooltip-top"
+  const arrowStyle: React.CSSProperties = {
+    left: `clamp(10px, ${percent}%, calc(100% - 10px))`,
+    translate: "-50% 0",
+  }
+  if (isTop) {
+    arrowStyle.bottom = -4
+  } else {
+    arrowStyle.top = -4
+    arrowStyle.rotate = "180deg"
+  }
+
+  return (
+    <div
+      aria-hidden="true"
+      data-slot="progress-bubble"
+      className="relative h-8"
+    >
+      <span
+        className="absolute top-0 inline-flex h-8 items-center rounded-md bg-neutral-dark-content px-4 text-xs font-medium text-neutral-white shadow-md"
+        style={{ left: `${percent}%`, translate: `-${percent}% 0` }}
+      >
+        <ProgressValue className="ml-0 text-xs font-medium text-neutral-white" />
+      </span>
+      <svg
+        width="10"
+        height="5"
+        viewBox="0 0 10 5"
+        fill="none"
+        className="absolute"
+        style={arrowStyle}
+      >
+        <path d="M0 0L5 5L10 0Z" className="fill-neutral-dark-content" />
+      </svg>
+    </div>
   )
 }
 
@@ -93,3 +224,5 @@ export {
   ProgressLabel,
   ProgressValue,
 }
+
+export type { ProgressValuePosition }

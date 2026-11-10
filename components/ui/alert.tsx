@@ -7,15 +7,14 @@ import { cn } from "@/lib/utils"
 type AlertVariant = "plain" | "positive" | "primary" | "negative" | "warning"
 type AlertSize = "small" | "large"
 
-// Colors trace 1:1 to the Figma Alert component: each variant's bg/border
-// are the same base color at 20%/60% opacity, text/icon at full opacity —
-// matching --success/--primary/--destructive/--brand-quaternary exactly.
+// Colors trace 1:1 to the Figma InlineAlert: a tint fill, with text, icon and border in the tint
+// text colour of the same hue (fixed tokens, no alpha mixing).
 const ALERT_VARIANT_CLASSES: Record<AlertVariant, string> = {
   plain: "border-border bg-card text-foreground",
-  positive: "border-success/60 bg-tint-green text-tint-text-green",
-  primary: "border-primary/60 bg-tint-indigo text-tint-text-indigo",
-  negative: "border-destructive/60 bg-tint-red text-tint-text-red",
-  warning: "border-brand-quaternary/60 bg-brand-quaternary/20 text-text-warning",
+  positive: "border-tint-text-green bg-tint-green text-tint-text-green",
+  primary: "border-tint-text-indigo bg-tint-indigo text-tint-text-indigo",
+  negative: "border-tint-text-red bg-tint-red text-tint-text-red",
+  warning: "border-tint-text-yellow bg-tint-yellow text-tint-text-yellow",
 }
 
 const AlertSizeContext = React.createContext<AlertSize>("large")
@@ -41,7 +40,7 @@ function Alert({
         role="alert"
         data-slot="alert"
         className={cn(
-          "flex gap-3 rounded-lg border px-3 py-2",
+          "flex gap-2 rounded-md border px-3 py-2",
           size === "small" ? "items-center" : "items-start",
           ALERT_VARIANT_CLASSES[variant],
           className
@@ -68,7 +67,7 @@ function Alert({
             onClick={onClose}
             aria-label="Dismiss"
             data-slot="alert-close"
-            className="shrink-0 rounded-sm opacity-70 outline-none transition-opacity duration-fast ease-entrance hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring"
+            className="shrink-0 rounded-sm opacity-70 outline-none transition-opacity duration-fast ease-entrance hover:opacity-100 focus-visible:opacity-100 focus-ring"
           >
             <X className="size-4" />
           </button>
@@ -96,7 +95,7 @@ function AlertDescription({ className, ...props }: React.ComponentProps<"p">) {
   return (
     <p
       data-slot="alert-description"
-      className={cn("text-sm", size === "small" && "min-w-0 flex-1 basis-0 truncate", className)}
+      className={cn("text-sm", size === "small" ? "min-w-0 flex-1 basis-0 truncate" : "[[data-slot=alert-title]+&]:-mt-1", className)}
       {...props}
     />
   )

@@ -7,8 +7,8 @@
   "sets": [
     {
       "page": "Accordion",
-      "set": "Accordion Item",
-      "id": "113:7286",
+      "set": "Accordion / Group",
+      "id": "2557:2057",
       "slug": "accordion",
       "components": [
         "Accordion",
@@ -16,7 +16,93 @@
         "AccordionTrigger",
         "AccordionContent"
       ],
-      "source": "components/ui/accordion.tsx"
+      "source": "components/ui/accordion.tsx",
+      "props": {
+        "Appearance": "appearance (plain | divided | contained | separated) on Accordion",
+        "Behavior": "multiple (Single open = default, Multiple open = multiple); Expand all / Collapse all = controlled value"
+      },
+      "note": "Replaces Accordion Item 113:7286 (Container · Legacy accordion)."
+    },
+    {
+      "page": "Accordion",
+      "set": "Accordion / Item",
+      "id": "2557:1365",
+      "slug": "accordion",
+      "components": [
+        "Accordion",
+        "AccordionItem",
+        "AccordionTrigger",
+        "AccordionContent"
+      ],
+      "source": "components/ui/accordion.tsx",
+      "props": {
+        "Expanded": "value / defaultValue",
+        "Density": "density (default 48 px / compact 36 px) on Accordion",
+        "Show Control / Show Action": "AccordionRow leading / action (checkbox, switch or Edit beside the trigger)"
+      }
+    },
+    {
+      "page": "Accordion",
+      "set": "Accordion / Trigger",
+      "id": "2556:179374",
+      "slug": "accordion",
+      "components": [
+        "Accordion",
+        "AccordionItem",
+        "AccordionTrigger",
+        "AccordionContent"
+      ],
+      "source": "components/ui/accordion.tsx",
+      "props": {
+        "Indicator": "indicatorVariant (default per appearance: chevron for Plain, Divided, Contained / plus for Separated)",
+        "Interaction": "hover / data-pressed / disabled",
+        "Focus visible": "focus-visible ring",
+        "Title / Description / Leading Icon / Trailing Slot": "children, description, icon, meta"
+      }
+    },
+    {
+      "page": "Accordion",
+      "set": "Accordion / Content",
+      "id": "2557:928",
+      "slug": "accordion",
+      "components": [
+        "Accordion",
+        "AccordionItem",
+        "AccordionTrigger",
+        "AccordionContent"
+      ],
+      "source": "components/ui/accordion.tsx",
+      "props": {
+        "Content State": "AccordionFeedback kind (loading | empty | error); Ready = plain children"
+      }
+    },
+    {
+      "page": "Accordion",
+      "set": "Accordion / Feedback",
+      "id": "2557:413",
+      "slug": "accordion",
+      "components": [
+        "Accordion",
+        "AccordionItem",
+        "AccordionTrigger",
+        "AccordionContent"
+      ],
+      "source": "components/ui/accordion.tsx",
+      "note": "AccordionFeedback: kind loading (skeleton lines + label), empty (title, description, action) or error (alert with retry action)."
+    },
+    {
+      "page": "Accordion",
+      "set": "Accordion / Body",
+      "id": "2557:540",
+      "slug": "accordion",
+      "components": [
+        "Accordion",
+        "AccordionItem",
+        "AccordionTrigger",
+        "AccordionContent"
+      ],
+      "source": "components/ui/accordion.tsx",
+      "note": "Content slot examples (text, links, details, checklist, toggles, fields, error list, address)."
     },
     {
       "page": "Avatar",
@@ -25,30 +111,152 @@
       "slug": "avatar",
       "components": [
         "Avatar",
-        "AvatarFallback"
+        "AvatarImage",
+        "AvatarFallback",
+        "AvatarBadge"
       ],
       "source": "components/ui/avatar.tsx",
       "props": {
-        "Size": "size",
-        "Avatar": "children (image | initials | icon)",
-        "Status": "status"
-      }
+        "Size": "size (24 → sm, 28 → xs, 36 → default, 40 → lg, 44 → xl)",
+        "Shape": "shape (circle | square; square = team, workspace, organisation)",
+        "Content": "Image → AvatarImage, Initials → AvatarFallback text, Icon → AvatarFallback icon (order: image → initials → icon)",
+        "Tone": "color",
+        "Initials": "AvatarFallback children",
+        "Fallback icon": "icon child",
+        "Show presence": "AvatarBadge (status sets the shape of the dot)"
+      },
+      "note": "Rebuilt in place (same id). small and regular were both 36 px and are now one size. Old axes in Container · Legacy avatar."
     },
     {
       "page": "Avatar",
-      "set": "Avatargroup",
+      "set": "Avatar / Presence",
+      "id": "2596:6008",
+      "slug": "avatar",
+      "components": [
+        "AvatarBadge"
+      ],
+      "source": "components/ui/avatar.tsx",
+      "props": {
+        "Status": "AvatarBadge status (available | busy | away | dnd | offline | unknown)",
+        "Size": "Small 8 / Medium 10 / Large 12 follows the Avatar size (sm, xs, default 8; lg 10; xl 12)"
+      },
+      "note": "Shape differs per status, never colour alone; the status is also named in text."
+    },
+    {
+      "page": "Avatar",
+      "set": "Avatar / Interactive",
+      "id": "2599:200730",
+      "slug": "avatar",
+      "components": [
+        "Avatar"
+      ],
+      "source": "components/ui/avatar.tsx",
+      "props": {
+        "Interaction": "interactive (renders a button); Hover = halo bg-page, Pressed = halo bg-subtle, Disabled = disabled",
+        "Focus visible": "focus-ring",
+        "Selected": "selected (check badge, aria-pressed)"
+      },
+      "note": "Avatar as a button (account menu, assignee picker)."
+    },
+    {
+      "page": "Avatar",
+      "set": "Avatar Group",
       "id": "113:5829",
       "slug": "avatar-group",
       "components": [
         "AvatarGroup",
         "AvatarGroupCount"
       ],
-      "source": "components/ui/avatar.tsx"
+      "source": "components/ui/avatar.tsx",
+      "props": {
+        "Layout": "AvatarGroup layout (overlap | spaced)",
+        "Size": "36 / 40 / 44 match Avatar; 42 / 48 / 50 / 60 photo-only",
+        "Overflow": "None / Count (AvatarGroupCount) / Button (AvatarGroupCount interactive)",
+        "Overflow label": "AvatarGroupCount children"
+      }
+    },
+    {
+      "page": "Avatar",
+      "set": "Avatar Group / Overflow",
+      "id": "2599:109888",
+      "slug": "avatar-group",
+      "components": [
+        "AvatarGroupCount"
+      ],
+      "source": "components/ui/avatar.tsx",
+      "props": {
+        "Interaction": "AvatarGroupCount interactive: Rest / Hover bg-page / Pressed bg-subtle / Open (aria-expanded, data-popup-open) bg-page / Focus visible focus-ring"
+      },
+      "note": "Named button, e.g. \"Show 7 more members\", opens the member list."
     },
     {
       "page": "Badge",
-      "set": "Badge",
-      "id": "606:13881",
+      "set": "Badge / Label",
+      "id": "2502:986",
+      "slug": "badge",
+      "components": [
+        "Badge"
+      ],
+      "source": "components/ui/badge.tsx",
+      "props": {
+        "Appearance": "badgeStyle (Solid → plain, Subtle → light, Outline → light_border, Plain → ghost)",
+        "Tone": "color (Neutral → grey, Solid Neutral → black, Brand → indigo, Info → blue, Success → green, Warning → yellow, Danger → red)",
+        "Shape": "shape (Pill → pill, Rounded → rounded)",
+        "Size": "size (Small → sm 20 px, Medium → md 24 px)",
+        "Show icon / Icon / Show dot": "icon as a child; dot"
+      },
+      "note": "Non-interactive: no hover, pressed or focus state. Replaces Badge 606:13881 (Container · Legacy badge)."
+    },
+    {
+      "page": "Badge",
+      "set": "Badge / Counter",
+      "id": "2504:620",
+      "slug": "badge",
+      "components": [
+        "BadgeCounter"
+      ],
+      "source": "components/ui/badge.tsx",
+      "note": "Inline and overlay counts. The overlay centre sits on the corner of its host.",
+      "props": {
+        "Kind": "overlay (Inline | Overlay)",
+        "Tone": "tone (neutral | brand | danger)",
+        "Value": "count + max (Zero, Single, Multi, 99+)"
+      }
+    },
+    {
+      "page": "Badge",
+      "set": "Badge / Indicator",
+      "id": "2504:659",
+      "slug": "badge",
+      "components": [
+        "BadgeIndicator"
+      ],
+      "source": "components/ui/badge.tsx",
+      "note": "Presence on avatars maps to AvatarBadge status.",
+      "props": {
+        "Type": "kind (unread | online | away | busy | offline | check | warning | lock)",
+        "Size": "size",
+        "Overlay": "overlay"
+      }
+    },
+    {
+      "page": "Badge",
+      "set": "Badge / Processing",
+      "id": "2504:674",
+      "slug": "badge",
+      "components": [
+        "BadgeProcessing"
+      ],
+      "source": "components/ui/badge.tsx",
+      "note": "Pending (spinner) → Success / Error.",
+      "props": {
+        "State": "state (pending | success | error)"
+      }
+    },
+    {
+      "page": "Badge",
+      "set": "Tag / Item",
+      "id": "2503:956",
       "slug": "badge",
       "components": [
         "Badge"
@@ -56,26 +264,50 @@
       "source": "components/ui/badge.tsx",
       "props": {
         "Color": "color",
-        "State": "badgeStyle (primary → plain, secondary → light, outline → border_color, ghost → ghost)",
-        "Form": "shape (pill | square)"
-      }
+        "Size": "size",
+        "Remove": "None → Badge; Default / Hover (remove button) → onRemove + removeLabel"
+      },
+      "note": "Category tags. Replaces Chip 533:13656 (Container · Legacy badge)."
     },
     {
       "page": "Badge",
-      "set": "Chip",
-      "id": "533:13656",
+      "set": "Chip / Filter",
+      "id": "2505:794",
       "slug": "badge",
       "components": [
         "Badge"
       ],
       "source": "components/ui/badge.tsx",
-      "note": "Chip = Badge badgeStyle=\"light\" shape=\"pill\"."
+      "note": "Filter, Choice, Multi-select, Applied, Dropdown, Suggestion, Overflow × Selected × State. React: pending; Dropdown chips map to FilterMenu."
+    },
+    {
+      "page": "Badge",
+      "set": "Chip / Entity",
+      "id": "2505:821",
+      "slug": "badge",
+      "components": [
+        "Badge"
+      ],
+      "source": "components/ui/badge.tsx",
+      "note": "Avatar + name, read-only or removable. React: pending."
+    },
+    {
+      "page": "Badge",
+      "set": "Chip / Input Token",
+      "id": "2505:854",
+      "slug": "badge",
+      "components": [
+        "Badge"
+      ],
+      "source": "components/ui/badge.tsx",
+      "note": "Token inside a multi-value field (Default, Focused, Invalid, Removing). React: pending."
     },
     {
       "page": "Breadcrumb",
-      "set": "Breadcrumb",
-      "id": "138:16199",
       "slug": "breadcrumb",
+      "source": "components/ui/breadcrumb.tsx",
+      "set": "Breadcrumb / Trail",
+      "id": "2557:10599",
       "components": [
         "Breadcrumb",
         "BreadcrumbList",
@@ -84,22 +316,82 @@
         "BreadcrumbPage",
         "BreadcrumbSeparator"
       ],
-      "source": "components/ui/breadcrumb.tsx"
+      "props": {
+        "Type": "Standard, Home-rooted, Workspace-rooted → composition; Collapsed → BreadcrumbEllipsis + DropdownMenu; Entity → Link/Page with icon and truncated; Sibling switcher → BreadcrumbSiblingTrigger; Mobile → one link with ChevronLeft (example, no own component)",
+        "Appearance": "variant: plain | contained | underline (border = alias of contained)",
+        "Density": "density: default (36) | compact (28)",
+        "Show root / Show level 2 / Show level 3": "number of BreadcrumbItem children"
+      },
+      "note": "Replaces Breadcrumb 138:16199 (Container · Legacy breadcrumb)."
     },
     {
-      "page": "Button",
-      "set": ".Button (legacy — use Button)",
-      "id": "31:315",
-      "slug": "button",
+      "page": "Breadcrumb",
+      "slug": "breadcrumb",
+      "source": "components/ui/breadcrumb.tsx",
+      "set": "Breadcrumb / Item",
+      "id": "2557:785",
       "components": [
-        "Button"
+        "BreadcrumbItem",
+        "BreadcrumbLink",
+        "BreadcrumbPage"
       ],
-      "source": "components/ui/button.tsx",
-      "note": "Deprecated in Figma; use the Button set."
+      "props": {
+        "Role": "Root / Ancestor → BreadcrumbLink, Current → BreadcrumbPage (aria-current), Restricted → BreadcrumbRestricted",
+        "Interaction": "Hover / Pressed per CSS (underline, bg-subtle); Loading → BreadcrumbLoading",
+        "Truncated": "truncated (max-w-40, ellipsis, title)",
+        "Focus visible": "focus-ring"
+      }
+    },
+    {
+      "page": "Breadcrumb",
+      "slug": "breadcrumb",
+      "source": "components/ui/breadcrumb.tsx",
+      "set": "Breadcrumb / Separator",
+      "id": "2557:2135",
+      "components": [
+        "BreadcrumbSeparator"
+      ],
+      "props": {
+        "Type": "type: chevron | slash"
+      }
+    },
+    {
+      "page": "Breadcrumb",
+      "slug": "breadcrumb",
+      "source": "components/ui/breadcrumb.tsx",
+      "set": "Breadcrumb / Overflow Trigger",
+      "id": "2557:2160",
+      "components": [
+        "BreadcrumbEllipsis"
+      ],
+      "note": "Opens the hidden levels in a menu. React: BreadcrumbEllipsis, Open via aria-expanded / data-popup-open."
+    },
+    {
+      "page": "Breadcrumb",
+      "slug": "breadcrumb",
+      "source": "components/ui/breadcrumb.tsx",
+      "set": "Breadcrumb / Sibling Trigger",
+      "id": "2557:2177",
+      "components": [
+        "BreadcrumbSiblingTrigger"
+      ],
+      "note": "Separate button beside the link that lists sibling objects. React: BreadcrumbSiblingTrigger."
+    },
+    {
+      "page": "Breadcrumb",
+      "slug": "breadcrumb",
+      "source": "components/ui/dropdown-menu.tsx",
+      "set": "Breadcrumb / Overflow Panel",
+      "id": "2557:8342",
+      "components": [
+        "DropdownMenu",
+        "DropdownMenuItem"
+      ],
+      "note": "Hidden levels (real order) or siblings, built from Menu / Item."
     },
     {
       "page": "Button",
-      "set": "Button",
+      "set": "Button / Action",
       "id": "192:3411",
       "slug": "button",
       "components": [
@@ -107,23 +399,76 @@
       ],
       "source": "components/ui/button.tsx",
       "props": {
-        "Type": "variant (blue_primary → primary, plain → plain, dark → dark, light → light, primary_outline → outline, ghost → ghost, destructive → destructive, primary_gradient → gradient)",
-        "Size": "size (small → sm 36, regular → md 40, medium → lg 44, large → xl 48, xlarge → 2xl 56)",
-        "Style": "shape (rounded | pill)",
-        "Text": "children",
-        "Show Icon Leading / Icon Leading": "leading icon child",
-        "Show Icon Trailing / Icon Trailing": "trailing icon child"
-      }
+        "Appearance + Intent": "variant (Plain/Neutral → plain, Solid/Brand → primary, Solid/Neutral → dark, Solid/Danger → destructive, Gradient/Brand → gradient, Subtle/Brand → tint, Outline/Brand → outline, Ghost/Neutral → ghost, Link/Brand → link)",
+        "Size": "size (Small → sm, Regular → md, Medium → lg, Large → xl, Xlarge → 2xl)",
+        "Shape": "shape (rounded | pill)",
+        "Interaction": "Rest / Hover / Pressed (:active) / Disabled (disabled)",
+        "Focus visible": "focus-visible ring",
+        "Pending": "pending (spinner replaces the leading icon, presses ignored, aria-busy)",
+        "Label": "children",
+        "Show leading icon / Leading icon": "leading icon child (data-icon=\"inline-start\")",
+        "Show trailing icon / Trailing icon": "trailing icon child (data-icon=\"inline-end\")"
+      },
+      "note": "Rebuilt in place (same set id). The old axes Type / Style / State and the .Button legacy set 31:315 are in Container · Legacy button."
     },
     {
       "page": "Button",
-      "set": "Buttongroup",
+      "set": "Button / Group",
       "id": "152:1859",
       "slug": "button-group",
       "components": [
         "ButtonGroup"
       ],
-      "source": "components/ui/button-group.tsx"
+      "source": "components/ui/button-group.tsx",
+      "props": {
+        "Orientation": "orientation",
+        "Items": "number of children",
+        "Size": "size",
+        "Shape": "shape"
+      }
+    },
+    {
+      "page": "Button",
+      "set": "Button / Menu",
+      "id": "2574:152704",
+      "slug": "dropdown-menu",
+      "components": [
+        "DropdownMenuTrigger",
+        "Button"
+      ],
+      "source": "components/ui/dropdown-menu.tsx",
+      "props": {
+        "Expanded": "data-popup-open (plain variant fills bg-page) + chevron rotate-180 via group-data-popup-open/button",
+        "Pending": "pending"
+      },
+      "note": "Button with a chevron that opens a menu. Opens with DropdownMenuTrigger render={<Button/>}."
+    },
+    {
+      "page": "Button",
+      "set": "Button / Split",
+      "id": "2574:154817",
+      "slug": "button-group",
+      "components": [
+        "ButtonGroup",
+        "Button",
+        "DropdownMenuTrigger"
+      ],
+      "source": "components/ui/button-group.tsx",
+      "note": "Action part + menu part (SplitButton in button-group.tsx; no focus ring, hover and open per part)."
+    },
+    {
+      "page": "Button",
+      "set": "Button / Feedback",
+      "id": "2574:155565",
+      "slug": "button",
+      "components": [
+        "Button"
+      ],
+      "source": "components/ui/button.tsx",
+      "props": {
+        "Phase": "phase (idle | pending | success | error); the label is yours; fixed width via className"
+      },
+      "note": "Fixed width per size so the button does not change width between phases."
     },
     {
       "page": "Rating",
@@ -138,11 +483,12 @@
         "Type": "type (stars | hearts | emojis | scale)",
         "Value": "value",
         "Label": "label (none | right | left | tooltip)"
-      }
+      },
+      "note": "Figma shows 14 px icons, emoji radius 12 and a tooltip caret; React is the reference (16 px icons, 8 px radius, tooltip with caret)."
     },
     {
       "page": "Icon Button",
-      "set": "Icon Button",
+      "set": "Button / Icon",
       "id": "32:322",
       "slug": "icon-button",
       "components": [
@@ -150,10 +496,85 @@
       ],
       "source": "components/ui/icon-button.tsx",
       "props": {
-        "Type": "variant",
-        "Size": "size",
-        "Style": "shape (rounded | circle)"
+        "Appearance + Intent": "variant (Plain/Neutral → plain, Solid/Brand → primary, Solid/Neutral → dark, Solid/Danger → destructive, Gradient/Brand → gradient, Subtle/Neutral → light (Figma now tint/alternative; React light still light-600, update pending), Outline → outline, Ghost/Neutral → ghost)",
+        "Size": "size (Small → sm, Regular → md, Medium → lg, Large → xl, Xlarge → 2xl)",
+        "Shape": "shape (Rounded → rounded, Pill → circle)",
+        "Interaction": "Rest / Hover / Pressed (:active) / Disabled (disabled)",
+        "Focus visible": "focus-visible ring",
+        "Icon": "icon child + aria-label",
+        "Content": "Icon → icon child; Spinner → pending",
+        "Phase": "phase (idle | pending | success | error)"
+      },
+      "note": "Rebuilt in place (same set id)."
+    },
+    {
+      "page": "Icon Button",
+      "set": "Icon Toggle / Selected",
+      "id": "2588:156523",
+      "slug": "toggle",
+      "components": [
+        "Toggle"
+      ],
+      "source": "components/ui/toggle.tsx",
+      "props": {
+        "Selected": "pressed (aria-pressed)",
+        "Interaction": "Rest / Hover / Pressed / Disabled",
+        "Tone": "tone (\"neutral\" | \"indigo\")"
+      },
+      "note": "160 variants, axis Tone Neutral | Indigo."
+    },
+    {
+      "page": "Icon Button",
+      "set": "Icon Menu Trigger / Expanded",
+      "id": "2588:157084",
+      "slug": "dropdown-menu",
+      "components": [
+        "DropdownMenuTrigger",
+        "IconButton"
+      ],
+      "source": "components/ui/dropdown-menu.tsx",
+      "props": {
+        "Expanded": "IconButton expanded (aria-expanded + bg-bg-subtle) or DropdownMenuTrigger data-popup-open"
       }
+    },
+    {
+      "page": "Icon Button",
+      "set": "Icon Button / Copy Feedback",
+      "id": "2588:165021",
+      "slug": "icon-button",
+      "components": [
+        "IconButton"
+      ],
+      "source": "components/ui/icon-button.tsx",
+      "props": {
+        "Phase": "phase=\"idle|pending|success|error\""
+      }
+    },
+    {
+      "page": "Icon Button",
+      "set": "Icon Button / With Tooltip",
+      "id": "2588:165052",
+      "slug": "tooltip",
+      "components": [
+        "Tooltip",
+        "IconButton"
+      ],
+      "source": "components/ui/tooltip.tsx",
+      "props": {
+        "Placement": "side (top / bottom / right)"
+      }
+    },
+    {
+      "page": "Icon Button",
+      "set": "Icon Button / With Badge",
+      "id": "2588:165138",
+      "slug": "icon-button",
+      "components": [
+        "IconButton",
+        "Badge"
+      ],
+      "source": "components/ui/icon-button.tsx",
+      "note": "Counter or indicator on the button: BadgeCounter / BadgeIndicator with overlay on a relative wrapper; include the count in aria-label."
     },
     {
       "page": "Selectors",
@@ -163,17 +584,34 @@
       "components": [
         "Checkbox"
       ],
-      "source": "components/ui/checkbox.tsx"
+      "source": "components/ui/checkbox.tsx",
+      "props": {
+        "Value": "checked (false | true | \"indeterminate\")",
+        "Interaction": "hover / pressed",
+        "Invalid": "aria-invalid",
+        "Disabled": "disabled",
+        "Appearance": "Brand | Neutral (appearance: brand | neutral)",
+        "Focus visible": "focus-visible ring"
+      }
     },
     {
       "page": "Selectors",
-      "set": "Toggle Switch",
+      "set": "Switch",
       "id": "33:221",
       "slug": "switch",
       "components": [
         "Switch"
       ],
-      "source": "components/ui/switch.tsx"
+      "source": "components/ui/switch.tsx",
+      "props": {
+        "Size": "size (Regular → default, Small → sm)",
+        "Checked": "checked",
+        "Interaction": "hover / pressed",
+        "Disabled": "disabled",
+        "Saving": "pending save (saving)",
+        "Appearance": "Brand | Neutral | Muted (appearance)",
+        "Focus visible": "focus-visible ring"
+      }
     },
     {
       "page": "Selectors",
@@ -184,12 +622,19 @@
         "RadioGroup",
         "RadioGroupItem"
       ],
-      "source": "components/ui/radio-group.tsx"
+      "source": "components/ui/radio-group.tsx",
+      "props": {
+        "Checked": "RadioGroupItem checked",
+        "Interaction": "hover / pressed",
+        "Invalid": "aria-invalid on the group",
+        "Disabled": "disabled",
+        "Focus visible": "focus-visible ring"
+      }
     },
     {
       "page": "Selectors",
-      "set": "Radio Checkbox Item",
-      "id": "113:7930",
+      "set": "Radio Item",
+      "id": "2891:2359",
       "slug": "selector-item",
       "components": [
         "SelectorItem",
@@ -197,38 +642,196 @@
       ],
       "source": "components/wunderui/selector-item.tsx",
       "props": {
-        "Type": "control=\"radio\""
-      }
+        "Label": "label",
+        "Description": "description",
+        "Show leading / Leading": "leading slot (icon, avatar, logo)",
+        "Show metadata / Metadata": "metadata slot (metadata)",
+        "Show action / Action": "secondary action, separate from the control, outside the label (action)",
+        "Show helper / Show error": "helper / error text",
+        "Control position": "Leading | Trailing",
+        "State": "Rest | Hover | Pressed | Selected | Disabled",
+        "control": "control=\"radio\""
+      },
+      "note": "Rebuilt 30.10.2026; legacy set 113:7930 in container 2887:23923"
     },
     {
       "page": "Selectors",
       "set": "Checkbox Item",
-      "id": "113:7985",
+      "id": "2891:2175",
       "slug": "selector-item",
       "components": [
         "SelectorItem"
       ],
       "source": "components/wunderui/selector-item.tsx",
       "props": {
-        "Type": "control=\"checkbox\""
-      }
+        "Label": "label",
+        "Description": "description",
+        "Show leading / Leading": "leading slot (icon, avatar, logo)",
+        "Show metadata / Metadata": "metadata slot (metadata)",
+        "Show action / Action": "secondary action, separate from the control, outside the label (action)",
+        "Show helper / Show error": "helper / error text",
+        "Control position": "Leading | Trailing",
+        "State": "Rest | Hover | Pressed | Selected | Disabled",
+        "Layout": "Card | Inline",
+        "control": "control=\"checkbox\""
+      },
+      "note": "Rebuilt 30.10.2026; legacy set 113:7985 in container 2887:23923 Inline layout extended 10.11.2026 with field description and error (React Checkbox label/description/error); 13 variants."
     },
     {
       "page": "Selectors",
-      "set": "Toggle Switch Item",
-      "id": "113:8040",
+      "set": "Switch Item",
+      "id": "2891:2642",
       "slug": "selector-item",
       "components": [
         "SelectorItem"
       ],
       "source": "components/wunderui/selector-item.tsx",
       "props": {
-        "Type": "control=\"switch\""
+        "Label": "label",
+        "Description": "description",
+        "Show leading / Leading": "leading slot (icon, avatar, logo)",
+        "Show metadata / Metadata": "metadata slot (metadata)",
+        "Show action / Action": "secondary action, separate from the control, outside the label (action)",
+        "Show helper / Show error": "helper / error text",
+        "Control position": "Leading | Trailing",
+        "State": "Rest | Hover | Pressed | Disabled",
+        "control": "control=\"switch\""
+      },
+      "note": "Rebuilt 30.10.2026; legacy set 113:8040 in container 2887:23923"
+    },
+    {
+      "page": "Navigation / Menu",
+      "set": "Menu / Item",
+      "id": "2465:3183",
+      "slug": "dropdown-menu",
+      "components": [
+        "DropdownMenuItem",
+        "DropdownMenuSubTrigger",
+        "DropdownMenuShortcut"
+      ],
+      "source": "components/ui/dropdown-menu.tsx",
+      "props": {
+        "Kind": "Action, Icon action, Shortcut, Dialog action → DropdownMenuItem (icon, shortcut); Submenu trigger → DropdownMenuSubTrigger; Destructive → variant=\"destructive\"; Two-line → description; Restricted, Pending, Create, Avatar, Workspace, Status, Badge, Retry → React: pending",
+        "Interaction": "data-highlighted (Hover) / data-pressed / data-popup-open (Open) / disabled",
+        "Focus visible": "focus-visible ring"
+      },
+      "note": "Replaces Menu Item 966:306 (Container · Legacy dropdown)."
+    },
+    {
+      "page": "Navigation / Menu",
+      "set": "Menu / Selection Item",
+      "id": "2470:3145",
+      "slug": "dropdown-menu",
+      "components": [
+        "DropdownMenuCheckboxItem",
+        "DropdownMenuRadioItem"
+      ],
+      "source": "components/ui/dropdown-menu.tsx",
+      "props": {
+        "Kind": "Checkbox → DropdownMenuCheckboxItem, Radio → DropdownMenuRadioItem, Option / Two-line option → RadioItem with check; Selected entity, Preference switch React: pending",
+        "Value": "checked (Mixed: indeterminate)"
+      }
+    },
+    {
+      "page": "Navigation / Menu",
+      "set": "Menu / Structure",
+      "id": "2470:3199",
+      "slug": "dropdown-menu",
+      "components": [
+        "DropdownMenuLabel",
+        "DropdownMenuSeparator"
+      ],
+      "source": "components/ui/dropdown-menu.tsx",
+      "props": {
+        "Kind": "Label → DropdownMenuLabel, Separator → DropdownMenuSeparator, Loading → DropdownMenuLoading, Empty → DropdownMenuEmpty; Header, Footer, Search field, No results, Error React: pending"
+      }
+    },
+    {
+      "page": "Navigation / Menu",
+      "set": "Menu / Panel",
+      "id": "2472:3528",
+      "slug": "dropdown-menu",
+      "components": [
+        "DropdownMenu",
+        "DropdownMenuTrigger",
+        "DropdownMenuContent",
+        "DropdownMenuGroup"
+      ],
+      "source": "components/ui/dropdown-menu.tsx",
+      "props": {
+        "Type": "Dropdown, Grouped, With submenu (DropdownMenuSub), Selection menu, Context menu (→ ContextMenu), Empty, Loading → DropdownMenu compositions; Account menu, Workspace switcher, Model menu, Creatable, Multi select (apply), Combobox results, Select options, Error, No results React: pending"
+      },
+      "note": "Replaces Dropdown Menu 1121:110463 (Container · Legacy dropdown)."
+    },
+    {
+      "page": "Dropdown",
+      "set": "Dropdown / Trigger",
+      "id": "2509:12412",
+      "slug": "dropdown-menu",
+      "components": [
+        "DropdownMenuTrigger",
+        "Button"
+      ],
+      "source": "components/ui/dropdown-menu.tsx",
+      "props": {
+        "Kind": "Button, Icon → DropdownMenuTrigger render={<Button/>}; Split → SplitButton",
+        "Interaction": "data-popup-open (Open) / disabled",
+        "Size": "XSmall (32 px) | Small (36 px) | Medium (40 px, Standard) → Button size sm | md | lg (default md = 36)"
+      }
+    },
+    {
+      "page": "Dropdown",
+      "set": "Select / Field",
+      "id": "2509:12542",
+      "slug": "native-select",
+      "components": [
+        "NativeSelect",
+        "NativeSelectTrigger",
+        "NativeSelectValue",
+        "NativeSelectContent",
+        "NativeSelectItem"
+      ],
+      "source": "components/ui/native-select.tsx",
+      "props": {
+        "Size": "Medium (36) / Large (40) → size",
+        "Value": "Placeholder / Selected → value",
+        "Error": "aria-invalid + error text",
+        "Show label / Show helper": "label / description"
+      }
+    },
+    {
+      "page": "Dropdown",
+      "set": "Combobox / Field",
+      "id": "2511:510",
+      "slug": "combobox",
+      "components": [
+        "Combobox",
+        "ComboboxInput",
+        "ComboboxPopup",
+        "ComboboxEmpty"
+      ],
+      "source": "components/ui/combobox.tsx",
+      "props": {
+        "State": "Idle, Typing, Selected, Loading, Error, Disabled"
+      }
+    },
+    {
+      "page": "Dropdown",
+      "set": "Multi Select / Field",
+      "id": "2511:756",
+      "slug": "combobox",
+      "components": [
+        "Combobox"
+      ],
+      "source": "components/ui/combobox.tsx",
+      "props": {
+        "Content": "Empty / Selected / Overflow → multiple",
+        "Interaction": "data-popup-open / disabled"
       }
     },
     {
       "page": "Tab Bar",
-      "set": "Tab Button",
+      "set": "Tab / Button",
       "id": "913:1422",
       "slug": "tabs",
       "components": [
@@ -236,14 +839,20 @@
       ],
       "source": "components/ui/tabs.tsx",
       "props": {
-        "State": "data-active / hover / disabled",
+        "Appearance": "shape (Button, Pill)",
         "Size": "size (regular → sm, medium → md, large → lg)",
-        "Label": "children"
-      }
+        "Selected": "data-state=active / aria-selected",
+        "Interaction": "hover / pressed / focus-visible / disabled",
+        "Label": "children",
+        "Show count": "React: pending",
+        "Show status": "React: pending",
+        "Tone": "Neutral | Indigo (React: pending)"
+      },
+      "note": "120 Varianten, Achse Tone Neutral | Indigo; Selected-Rahmen indigo/300 (React: pending)"
     },
     {
       "page": "Tab Bar",
-      "set": "Tabs",
+      "set": "Tabs / Button List",
       "id": "113:8455",
       "slug": "tabs",
       "components": [
@@ -261,7 +870,7 @@
     },
     {
       "page": "Tab Bar",
-      "set": "Tabs Vertical",
+      "set": "Tabs / Vertical List",
       "id": "1091:1242",
       "slug": "tabs",
       "components": [
@@ -274,20 +883,121 @@
       "note": "orientation=\"vertical\"; Type=button → default TabsList, Type=line → variant=\"line\""
     },
     {
-      "page": "Table",
-      "set": "Table Item",
-      "id": "35:216",
-      "slug": "table",
+      "page": "Tab Bar",
+      "set": "Tab / Item",
+      "id": "693:167",
+      "slug": "tabs",
       "components": [
-        "TableRow",
-        "TableCell"
+        "TabsTrigger"
       ],
-      "source": "components/ui/table.tsx"
+      "source": "components/blocks/application.tsx",
+      "props": {
+        "Appearance": "TabsList variant=\"line\" (Line, Vertical → orientation=\"vertical\")",
+        "Selected": "data-state=active / aria-selected",
+        "Interaction": "hover / pressed / focus-visible / disabled",
+        "Label": "children",
+        "Show count": "React: pending",
+        "Show status": "React: pending"
+      },
+      "note": "Underline/Vertical ohne Fokusring und Hover-Fläche"
+    },
+    {
+      "page": "Tab Bar",
+      "set": "Segment Option",
+      "id": "914:1332",
+      "slug": "segment",
+      "components": [
+        "Segment"
+      ],
+      "source": "components/ui/segment.tsx",
+      "props": {
+        "Shape": "shape (Pill, Rounded)",
+        "Selected": "value === option.value",
+        "Interaction": "hover / pressed / focus-visible / disabled",
+        "Size": "size (xs, small → sm, regular → md, large → lg)",
+        "Label": "options[].label",
+        "Show Icon": "options[].icon"
+      }
+    },
+    {
+      "page": "Tab Bar",
+      "set": "Segmented Control",
+      "id": "722:244",
+      "slug": "segment",
+      "components": [
+        "Segment"
+      ],
+      "source": "components/ui/segment.tsx",
+      "props": {
+        "Width": "Content | Equal",
+        "Shape": "shape",
+        "Items": "options.length",
+        "Size": "size"
+      },
+      "note": "Size xs (option 28 / control 32, added Sep 27 2026) = React size=\"xs\" — used by ChartCard periods and all chart filter rows."
+    },
+    {
+      "page": "Tab Bar",
+      "set": "Tabs / Panel",
+      "id": "2625:4269",
+      "slug": "tabs",
+      "components": [
+        "TabsContent"
+      ],
+      "source": "components/ui/tabs.tsx",
+      "props": {
+        "State": "Content | Loading | Empty | Error (React: pending)",
+        "Focus visible": "tabIndex=0 focus ring"
+      }
     },
     {
       "page": "Table",
-      "set": "Toolbar",
-      "id": "896:64102",
+      "set": "Table / Root",
+      "id": "2572:1575",
+      "slug": "table",
+      "components": [
+        "Table",
+        "TableHeader",
+        "TableBody",
+        "TableFooter",
+        "TableRow",
+        "TableHead",
+        "TableCell"
+      ],
+      "source": "components/ui/table.tsx",
+      "props": {
+        "Type": "Basic / Summary row (TableFooter)"
+      },
+      "note": "Static table built from the Data Table parts."
+    },
+    {
+      "page": "Data Table",
+      "set": "Data Table / Cell",
+      "id": "2569:151492",
+      "slug": "data-table",
+      "components": [
+        "TextCell",
+        "HeadingCell",
+        "UserCell",
+        "BadgeCell",
+        "CurrencyCell",
+        "TagCell",
+        "ProgressCell",
+        "CheckItemCell",
+        "ActionItemsCell"
+      ],
+      "source": "components/wunderui/table-cells.tsx",
+      "props": {
+        "Cell Type": "Text → TextCell, Primary → HeadingCell, Entity → UserCell / UserAvatarCell, Status → BadgeCell, Currency → CurrencyCell, Tags → TagCell, Progress → ProgressCell, Selection → CheckItemCell, Action → ActionItemsCell; Missing value, Summary, Loading and the remaining types React: pending",
+        "Alignment": "Start / End (numbers right-aligned)",
+        "Column": "column width role (Fill, Wide = min 200, fixed 40–176 px); same value in header and body keeps them aligned"
+      },
+      "note": "Shared by Data Table, Data Grid and Table. Replaces Table Item 35:216 (Container · Legacy table)."
+    },
+    {
+      "page": "Icon Button",
+      "set": "Icon Toggle / Selected",
+      "id": "2588:156523",
       "slug": "toolbar",
       "components": [
         "Toolbar",
@@ -299,30 +1009,198 @@
     },
     {
       "page": "Card",
-      "set": "Card",
-      "id": "40:204",
+      "set": "Card / Base",
+      "id": "2569:220608",
       "slug": "card",
       "components": [
         "Card",
+        "CardBody",
+        "CardIndicator",
+        "CardFeedback",
+        "CardBanner"
+      ],
+      "source": "components/ui/card.tsx",
+      "props": {
+        "Appearance": "variant (default | elevated | outlined)",
+        "Orientation": "Vertical → default; Horizontal → orientation=\"horizontal\" + CardBody",
+        "Interaction": "Static → Card; Rest / Hover / Focus / Pressed → interactive",
+        "Selected": "selected + CardIndicator",
+        "Data State": "Ready → Card; Loading / Empty / Error → CardFeedback; Refreshing / Error + data → CardBanner",
+        "Show media / header / body / footer": "media child, <CardHeader>, <CardContent>, <CardFooter>"
+      },
+      "note": "Replaces Card 40:204 (Container · Legacy card)."
+    },
+    {
+      "page": "Card",
+      "set": "Card / Header",
+      "id": "2569:154718",
+      "slug": "card",
+      "components": [
         "CardHeader",
         "CardTitle",
         "CardDescription",
         "CardAction",
+        "CardIcon"
+      ],
+      "source": "components/ui/card.tsx",
+      "props": {
+        "Title": "<CardTitle>",
+        "Description": "<CardDescription>",
+        "Header Action": "<CardAction>",
+        "Leading icon": "leading + CardIcon"
+      }
+    },
+    {
+      "page": "Card",
+      "set": "Card / Media",
+      "id": "2569:95977",
+      "slug": "card",
+      "components": [
+        "Card",
+        "CardMedia"
+      ],
+      "source": "components/ui/card.tsx",
+      "note": "CardMedia ratio (16:9, 4:3, 1:1, 3:1) and missing (fallback)."
+    },
+    {
+      "page": "Card",
+      "set": "Card / Body",
+      "id": "2569:154745",
+      "slug": "card",
+      "components": [
         "CardContent",
+        "CardBody"
+      ],
+      "source": "components/ui/card.tsx"
+    },
+    {
+      "page": "Card",
+      "set": "Card / Footer",
+      "id": "2569:154988",
+      "slug": "card",
+      "components": [
         "CardFooter"
       ],
       "source": "components/ui/card.tsx",
       "props": {
-        "Style": "variant (default | elevated | outlined)",
-        "Content": "composition (text, image → media slot, icon → icon tile, buttons → CardFooter, inputs → form fields)",
-        "Show action": "<CardAction>",
-        "Show footer": "<CardFooter>"
+        "Layout": "CardFooter layout (end | between | stretch | stacked), divider"
       }
     },
     {
+      "page": "Card",
+      "set": "Card / Metadata",
+      "id": "2569:96021",
+      "slug": "card",
+      "components": [
+        "CardMeta"
+      ],
+      "source": "components/ui/card.tsx",
+      "note": "Date, status, category and owners row. React: CardMeta."
+    },
+    {
+      "page": "Card",
+      "set": "Card / Selection",
+      "id": "2569:95948",
+      "slug": "card",
+      "components": [
+        "CardIndicator"
+      ],
+      "source": "components/ui/card.tsx",
+      "note": "Checkbox or radio indicator for selectable cards. React: CardIndicator type=radio|checkbox."
+    },
+    {
+      "page": "Card",
+      "set": "Card / Feedback",
+      "id": "2569:155538",
+      "slug": "card",
+      "components": [
+        "CardFeedback",
+        "CardBanner"
+      ],
+      "source": "components/ui/card.tsx",
+      "note": "Loading, empty, error and permission layers. React: CardFeedback, CardBanner."
+    },
+    {
+      "page": "Card",
+      "set": "Card / Drag Handle",
+      "id": "2570:110633",
+      "slug": "card",
+      "components": [
+        "CardDragHandle"
+      ],
+      "source": "components/ui/card.tsx",
+      "note": "Handle for cards in sortable collections (Idle, Hover, Focus, Dragging). React: CardDragHandle."
+    },
+    {
+      "page": "Card",
+      "set": "Card / Project",
+      "id": "2570:99824",
+      "slug": "card",
+      "components": [
+        "Card"
+      ],
+      "source": "components/ui/card.tsx",
+      "note": "Composition on Card / Base, built in the docs (card-compositions*.tsx), no library part."
+    },
+    {
+      "page": "Card",
+      "set": "Card / Profile",
+      "id": "2570:99825",
+      "slug": "card",
+      "components": [
+        "Card"
+      ],
+      "source": "components/ui/card.tsx",
+      "note": "Composition on Card / Base, built in the docs (card-compositions*.tsx), no library part."
+    },
+    {
+      "page": "Card",
+      "set": "Card / Metric",
+      "id": "2570:99826",
+      "slug": "card",
+      "components": [
+        "Card"
+      ],
+      "source": "components/ui/card.tsx",
+      "note": "Composition on Card / Base, built in the docs (card-compositions*.tsx), no library part. See also Metric Card 1243:113903."
+    },
+    {
+      "page": "Card",
+      "set": "Card / File",
+      "id": "2570:99827",
+      "slug": "card",
+      "components": [
+        "Card"
+      ],
+      "source": "components/ui/card.tsx",
+      "note": "Docs composition on Card / Base, selection via CardTrigger (stretched control)."
+    },
+    {
+      "page": "Card",
+      "set": "Card / Settings",
+      "id": "2570:99828",
+      "slug": "card",
+      "components": [
+        "Card"
+      ],
+      "source": "components/ui/card.tsx",
+      "note": "Composition on Card / Base, built in the docs (card-compositions*.tsx), no library part."
+    },
+    {
+      "page": "Card",
+      "set": "Card / Invitation",
+      "id": "2570:99829",
+      "slug": "card",
+      "components": [
+        "Card"
+      ],
+      "source": "components/ui/card.tsx",
+      "note": "Composition on Card / Base, built in the docs (card-compositions*.tsx), no library part."
+    },
+    {
       "page": "Input",
-      "set": "Input",
-      "id": "41:219",
+      "set": "Input / Control",
+      "id": "2523:1839",
       "slug": "input",
       "components": [
         "Input"
@@ -330,19 +1208,136 @@
       "source": "components/ui/input.tsx",
       "props": {
         "Size": "size",
-        "State": "aria-invalid / disabled / focus"
+        "Interaction": "hover / focus-visible / disabled / readOnly",
+        "Validation": "Error → aria-invalid; Warning, Success React: pending",
+        "Value State": "value / placeholder"
+      },
+      "note": "Replaces Input 41:219 (Container · Legacy input)."
+    },
+    {
+      "page": "Input",
+      "set": "Input / Group",
+      "id": "2527:1630",
+      "slug": "input-group",
+      "components": [
+        "InputGroup",
+        "InputGroupAddon"
+      ],
+      "source": "components/ui/input-group.tsx",
+      "props": {
+        "Type": "Addons → InputGroupAddon, Attached Button → InputGroup + Button, Select leading / Select trailing → NativeSelect next to Input"
       }
     },
     {
       "page": "Input",
-      "set": "Text Area Field",
-      "id": "152:7182",
-      "slug": "textarea",
+      "set": "Input / Search",
+      "id": "2525:1062",
+      "slug": "input",
       "components": [
-        "TextareaField",
-        "Textarea"
+        "Input",
+        "InputGroup"
+      ],
+      "source": "components/ui/input.tsx",
+      "note": "type=\"search\" with a leading icon and a clear button."
+    },
+    {
+      "page": "Input",
+      "set": "Input / Password",
+      "id": "2525:1282",
+      "slug": "input",
+      "components": [
+        "PasswordField"
       ],
       "source": "components/blocks/form.tsx"
+    },
+    {
+      "page": "Input",
+      "set": "Input / Number",
+      "id": "2525:1501",
+      "slug": "number-field",
+      "components": [
+        "NumberField",
+        "NumberFieldGroup",
+        "NumberFieldDecrement",
+        "NumberFieldIncrement",
+        "NumberFieldInput"
+      ],
+      "source": "components/ui/number-field.tsx",
+      "props": {
+        "Layout": "Inline / Split",
+        "Interaction": "At max → max (increment disabled)"
+      }
+    },
+    {
+      "page": "Input",
+      "set": "Input / OTP",
+      "id": "2528:1349",
+      "slug": "otp-field",
+      "components": [
+        "OtpField",
+        "OtpFieldInput"
+      ],
+      "source": "components/ui/otp-field.tsx"
+    },
+    {
+      "page": "Input",
+      "set": "Input / Token",
+      "id": "2528:1531",
+      "slug": "input",
+      "components": [
+        "Input"
+      ],
+      "source": "components/ui/input.tsx",
+      "note": "Tokens built from Chip / Input Token. React: pending."
+    },
+    {
+      "page": "Input",
+      "set": "Input / Action",
+      "id": "2522:661",
+      "slug": "input-group",
+      "components": [
+        "InputGroupAddon",
+        "Button"
+      ],
+      "source": "components/ui/input-group.tsx",
+      "note": "Clear, Copy, Show / Hide, stepper and retry buttons used inside the fields."
+    },
+    {
+      "page": "Input",
+      "set": "Field / Textarea",
+      "id": "2527:1250",
+      "slug": "textarea",
+      "components": [
+        "TextareaField"
+      ],
+      "source": "components/blocks/form.tsx",
+      "note": "Replaces Text Area Field 152:7182 (Container · Legacy input)."
+    },
+    {
+      "page": "Input",
+      "set": "Textarea / Control",
+      "id": "2527:1202",
+      "slug": "textarea",
+      "components": [
+        "Textarea"
+      ],
+      "source": "components/ui/textarea.tsx"
+    },
+    {
+      "page": "Input",
+      "set": "Field / Text",
+      "id": "2524:835",
+      "slug": "input",
+      "components": [
+        "TextField"
+      ],
+      "source": "components/blocks/form.tsx",
+      "props": {
+        "Validation": "None → description, Error → error; Warning, Success, Validating, Failed to validate React: pending",
+        "Show label": "label",
+        "Show helper": "description"
+      },
+      "note": "Replaces Text Input Field 152:7398 (Container · Legacy input)."
     },
     {
       "page": "Tooltip",
@@ -351,21 +1346,108 @@
       "slug": "tooltip",
       "components": [
         "Tooltip",
+        "TooltipProvider",
         "TooltipTrigger",
         "TooltipContent"
       ],
-      "source": "components/ui/tooltip.tsx"
+      "source": "components/ui/tooltip.tsx",
+      "props": {
+        "Side": "side (top | bottom | left | right)",
+        "Align": "align (start | center | end)",
+        "Content": "TooltipContent children",
+        "Show shortcut": "shortcut=\"⌘K\" (string)",
+        "Show arrow": "arrow (boolean, default true)"
+      },
+      "note": "React adds maxWidth (240 | 320), aria-describedby on the trigger while open (describe={false} to opt out) and TooltipProvider delays 600 / 0 / 300 ms."
     },
     {
       "page": "Pagination",
-      "set": "Pagination",
-      "id": "152:18124",
+      "set": "Pagination / Item",
+      "id": "2748:1595",
       "slug": "pagination",
       "components": [
         "Pagination",
         "PaginationSimple"
       ],
-      "source": "components/ui/pagination.tsx"
+      "source": "components/ui/pagination.tsx",
+      "props": {
+        "Size": "Regular 32 / Medium 40",
+        "Shape": "Rounded / Pill",
+        "Current": "aria-current=page",
+        "Interaction": "Rest / Hover / Pressed / Disabled",
+        "Focus visible": "focus ring",
+        "Current style": "currentStyle prop: primary (default) | subtle"
+      },
+      "note": "Regular 32 px, Medium 40 px"
+    },
+    {
+      "page": "Pagination",
+      "set": "Pagination / Ellipsis",
+      "id": "2748:1600",
+      "slug": "pagination",
+      "components": [
+        "Pagination",
+        "PaginationSimple"
+      ],
+      "source": "components/ui/pagination.tsx",
+      "note": "Regular 32 px, Medium 40 px"
+    },
+    {
+      "page": "Pagination",
+      "set": "Pagination / Navigation",
+      "id": "2749:2347",
+      "slug": "pagination",
+      "components": [
+        "Pagination",
+        "PaginationSimple"
+      ],
+      "source": "components/ui/pagination.tsx",
+      "props": {
+        "Variant": "Numbered / Numbered Labels / Compact / Page of / Prev / Next",
+        "Size": "Regular 32 / Medium 40",
+        "Shape": "Rounded / Pill",
+        "Show first/last": "showEdges",
+        "Disabled": "loading"
+      },
+      "note": "Regular 32 px, Medium 40 px"
+    },
+    {
+      "page": "Pagination",
+      "set": "Pagination / Summary",
+      "id": "2750:1881",
+      "slug": "pagination",
+      "components": [
+        "Pagination",
+        "PaginationSimple"
+      ],
+      "source": "components/ui/pagination.tsx",
+      "props": {
+        "Kind": "Range of total / Total only / Unknown total / Loading / Error → PaginationSummary"
+      }
+    },
+    {
+      "page": "Pagination",
+      "set": "Pagination / PageSize",
+      "id": "2750:1906",
+      "slug": "pagination",
+      "components": [
+        "Pagination",
+        "PaginationSimple"
+      ],
+      "source": "components/ui/pagination.tsx",
+      "note": "PageSize 32 px, Trigger XSmall"
+    },
+    {
+      "page": "Pagination",
+      "set": "Pagination / Jump",
+      "id": "2750:2027",
+      "slug": "pagination",
+      "components": [
+        "Pagination",
+        "PaginationSimple"
+      ],
+      "source": "components/ui/pagination.tsx",
+      "note": "Zeile 32 px (Input Small, Button Small); Fehlertext ABSOLUTE unter der Zeile"
     },
     {
       "page": "Progress Bar",
@@ -375,27 +1457,116 @@
       "components": [
         "Progress"
       ],
-      "source": "components/ui/progress.tsx"
+      "source": "components/ui/progress.tsx",
+      "props": {
+        "Label": "valuePosition (None → omit, Right → \"right\", Left → \"left\", Bottom → \"bottom\", Tooltip Top → \"tooltip-top\", Tooltip Bottom → \"tooltip-bottom\")",
+        "Status": "value (0–100, percentage = bar width; min / max available)"
+      }
     },
     {
       "page": "Dialog",
-      "set": "Dialog",
-      "id": "757:97071",
       "slug": "dialog",
+      "source": "components/ui/dialog.tsx",
+      "set": "Dialog / Surface",
+      "id": "2596:5965",
       "components": [
-        "Dialog",
         "DialogContent",
         "DialogHeader",
         "DialogTitle",
         "DialogDescription",
-        "DialogFooter"
+        "DialogClose",
+        "DialogIcon",
+        "DialogBody",
+        "DialogSurface"
       ],
-      "source": "components/ui/dialog.tsx"
+      "props": {
+        "Size": "Small 384 → DialogContent size=\"sm\" (default) / Medium 512 → \"md\" / Large 720 → \"lg\"",
+        "Show close": "DialogContent showCloseButton (Figma name \"Close dialog\", React sr-only \"Close\")",
+        "Scrollable body": "DialogBody scrollable",
+        "Show icon": "DialogIcon",
+        "Show footer": "DialogFooter (band is default with appearance=\"surface\")",
+        "Title / Description": "DialogTitle / DialogDescription",
+        "Appearance": "DialogContent appearance=\"surface\" (title 16/24 semibold, shadow, footer band)"
+      },
+      "note": "Replaces Dialog 757:97071 (Container · Legacy dialog). Preview viewport is not part of the component."
+    },
+    {
+      "page": "Dialog",
+      "slug": "dialog",
+      "source": "components/ui/dialog.tsx",
+      "set": "Dialog / Overlay",
+      "id": "2596:6131",
+      "components": [
+        "Dialog",
+        "DialogOverlay",
+        "DialogSurface"
+      ],
+      "props": {
+        "Modal presentation": "Modal → Dialog + DialogContent; Non-modal → Dialog modal={false} + DialogContent showOverlay={false} placement=\"bottom-right\"",
+        "Viewport": "docs preview only"
+      }
+    },
+    {
+      "page": "Dialog",
+      "slug": "dialog",
+      "source": "components/ui/dialog.tsx",
+      "set": "Dialog / Footer",
+      "id": "2595:3223",
+      "components": [
+        "DialogFooter",
+        "Button"
+      ],
+      "props": {
+        "Layout": "Pair = default / Single = one Button / Split = DialogFooter start / Stacked = layout=\"stacked\"",
+        "Phase": "Idle / Submitting = Button pending",
+        "Band": "DialogFooter band",
+        "Intent": "Brand / Danger (destructive confirmations: Alert Dialog)"
+      }
+    },
+    {
+      "page": "Dialog",
+      "slug": "dialog",
+      "source": "components/ui/dialog.tsx",
+      "set": "Dialog / Body",
+      "id": "2596:3654",
+      "components": [
+        "DialogBody"
+      ],
+      "note": "DialogBody (scrollable); form, selection, details and state bodies are composed in the docs from Input / Textarea / NativeSelect, SelectorItem, Skeleton, DialogIcon."
+    },
+    {
+      "page": "Dialog",
+      "slug": "dialog",
+      "source": "components/ui/dialog.tsx",
+      "set": "Dialog / Feedback",
+      "id": "2596:466",
+      "components": [
+        "Alert"
+      ],
+      "note": "Inline error / warning / info / success message inside the dialog.",
+      "props": {
+        "Type": "error → Alert variant negative, warning → warning, info → primary, success → positive"
+      }
+    },
+    {
+      "page": "Dialog",
+      "slug": "dialog",
+      "source": "components/ui/dialog.tsx",
+      "set": "Dialog / Progress",
+      "id": "2596:541",
+      "components": [
+        "DialogProgress"
+      ],
+      "note": "Step indicator for short multi-step dialogs.",
+      "props": {
+        "Step n of m": "step / steps",
+        "Label": "label"
+      }
     },
     {
       "page": "Notification",
-      "set": "Notification",
-      "id": "49:229",
+      "set": "Notification / Toast",
+      "id": "2761:357",
       "slug": "toast",
       "components": [
         "Toaster",
@@ -403,17 +1574,16 @@
       ],
       "source": "components/ui/toast.tsx",
       "props": {
-        "Type": "type (success | error | warning | info)",
-        "Title": "title",
-        "Description": "description",
+        "Type": "type (Neutral / Info / Success / Warning / Error / Progress; Neutral, Progress React: pending)",
+        "Show description": "description",
         "Show action": "action",
         "Show close": "dismissible"
       }
     },
     {
       "page": "Notification",
-      "set": "Alert",
-      "id": "113:16051",
+      "set": "Notification / InlineAlert",
+      "id": "2762:509",
       "slug": "alert",
       "components": [
         "Alert",
@@ -422,9 +1592,115 @@
       ],
       "source": "components/ui/alert.tsx",
       "props": {
-        "Style": "variant (plain | positive | primary | negative | warning)",
-        "Size": "size"
+        "Type": "variant (Neutral / Info / Success / Warning / Error / Progress) — names React: pending",
+        "Layout": "Stacked / Compact React: pending",
+        "Show action / close": "React: pending"
       }
+    },
+    {
+      "page": "Notification",
+      "set": "Notification / Banner",
+      "id": "2762:662",
+      "slug": "alert",
+      "components": [
+        "Alert",
+        "AlertTitle",
+        "AlertDescription"
+      ],
+      "source": "components/ui/alert.tsx",
+      "props": {
+        "Type": "variant (Neutral / Info / Success / Warning / Error / Progress) React: pending"
+      },
+      "note": "Page or app-wide banner. React: pending."
+    },
+    {
+      "page": "Notification",
+      "set": "Notification / Progress",
+      "id": "2764:342",
+      "slug": "toast",
+      "components": [
+        "Toaster",
+        "useToast"
+      ],
+      "source": "components/ui/toast.tsx",
+      "props": {
+        "State": "Running / Indeterminate / Complete / Failed React: pending"
+      }
+    },
+    {
+      "page": "Notification",
+      "set": "Notification / Item",
+      "id": "2764:715",
+      "slug": "toast",
+      "components": [
+        "Toaster",
+        "useToast"
+      ],
+      "source": "components/ui/toast.tsx",
+      "props": {
+        "Read": "React: pending",
+        "Interaction": "Rest / Hover / Selected",
+        "Source": "Avatar / Icon"
+      },
+      "note": "Notification center item. React: pending."
+    },
+    {
+      "page": "Notification",
+      "set": "Notification / Center Trigger",
+      "id": "2765:476",
+      "slug": "toast",
+      "components": [
+        "Toaster",
+        "useToast"
+      ],
+      "source": "components/ui/toast.tsx",
+      "props": {
+        "Count": "None / Single / Multi / Overflow",
+        "Open": "open"
+      },
+      "note": "React: pending"
+    },
+    {
+      "page": "Notification",
+      "set": "Notification / Center Body",
+      "id": "2765:618",
+      "slug": "toast",
+      "components": [
+        "Toaster",
+        "useToast"
+      ],
+      "source": "components/ui/toast.tsx",
+      "props": {
+        "State": "Loaded / Loading / Empty / Error"
+      },
+      "note": "React: pending"
+    },
+    {
+      "page": "Notification",
+      "set": "Notification / Center",
+      "id": "2765:1246",
+      "slug": "toast",
+      "components": [
+        "Toaster",
+        "useToast"
+      ],
+      "source": "components/ui/toast.tsx",
+      "props": {
+        "State": "Loaded / Loading / Empty / Error"
+      },
+      "note": "Popover with the center body. React: pending."
+    },
+    {
+      "page": "Notification",
+      "set": "Notification / Group Header",
+      "id": "2764:716",
+      "slug": "toast",
+      "components": [
+        "Toaster",
+        "useToast"
+      ],
+      "source": "components/ui/toast.tsx",
+      "note": "Today / Earlier header. React: pending."
     },
     {
       "page": "Skeleton",
@@ -445,37 +1721,146 @@
         "Separator",
         "DividerWithLabel"
       ],
-      "source": "components/ui/separator.tsx"
+      "source": "components/ui/separator.tsx",
+      "props": {
+        "Type": "Text → DividerWithLabel; Text Small → DividerWithLabel size=\"sm\"; Button / Iconbutton / Icon → DividerWithLabel with Button / IconButton / Icon as children; Line → Separator; Dash Line → Separator dashed (Figma dash 8/8, React shorter); Vertical Line / Vertical → Separator orientation=\"vertical\""
+      }
+    },
+    {
+      "page": "Data Display",
+      "set": "Item Card",
+      "id": "2672:1771",
+      "slug": "item-card",
+      "components": [
+        "ItemCard",
+        "ItemCardGroup"
+      ],
+      "source": "components/wunderui/item-card.tsx",
+      "props": {
+        "State": "Rest / Hover / Selected"
+      }
+    },
+    {
+      "page": "Data Display",
+      "set": "Timeline Item",
+      "id": "2673:1538",
+      "slug": "timeline",
+      "components": [
+        "Timeline"
+      ],
+      "source": "components/wunderui/timeline.tsx",
+      "props": {
+        "Status": "Completed / Current / Upcoming / Failed / Cancelled",
+        "Connector": "Line / None"
+      }
+    },
+    {
+      "page": "Data Display",
+      "set": "Tree Item",
+      "id": "2673:1742",
+      "slug": "file-tree",
+      "components": [
+        "FileTree"
+      ],
+      "source": "components/wunderui/file-tree.tsx",
+      "props": {
+        "Kind": "File / Folder collapsed / Folder expanded / Loading children / Empty folder / Load error",
+        "State": "Rest / Hover / Selected / Disabled"
+      }
+    },
+    {
+      "page": "Data Display",
+      "set": "File Tree",
+      "id": "2673:1743",
+      "slug": "file-tree",
+      "components": [
+        "FileTree"
+      ],
+      "source": "components/wunderui/file-tree.tsx"
+    },
+    {
+      "page": "Data Display",
+      "set": "Carousel Controls",
+      "id": "2675:2117",
+      "slug": "carousel",
+      "components": [
+        "Carousel"
+      ],
+      "source": "components/wunderui/carousel.tsx",
+      "props": {
+        "Style": "Arrows / Circle arrows / Dots / Thumbnails",
+        "Position": "Start / Middle / End"
+      }
+    },
+    {
+      "page": "Data Display",
+      "set": "Data State",
+      "id": "2675:2208",
+      "slug": "empty-state",
+      "components": [
+        "EmptyState"
+      ],
+      "source": "components/wunderui/stat-card.tsx",
+      "note": "Cause-specific empty / error states."
+    },
+    {
+      "page": "Data Display",
+      "set": "Data State / Inline",
+      "id": "2675:2261",
+      "slug": "empty-state",
+      "components": [
+        "EmptyState"
+      ],
+      "source": "components/wunderui/stat-card.tsx",
+      "note": "Inline states incl. Partial data and Stale."
     },
     {
       "page": "Widget",
       "set": "Widget",
-      "id": "1242:113137",
+      "id": "2656:827",
       "slug": "widget",
       "components": [
         "Widget"
       ],
-      "source": "components/wunderui/widget.tsx"
+      "source": "components/wunderui/widget.tsx",
+      "props": {
+        "Width": "Compact 280 / Default 360 / Wide 560",
+        "Show header / description / actions / footer": "children",
+        "Context / Overflow / Segment": "React: pending (Widget props missing)"
+      }
     },
     {
-      "page": "Data Display",
-      "set": "Example / Item Card",
-      "id": "69:200",
-      "slug": "item-card",
+      "page": "Widget",
+      "set": "Widget / Content",
+      "id": "2654:591",
+      "slug": "widget",
       "components": [
-        "ItemCard"
+        "Widget"
       ],
-      "source": "components/wunderui/item-card.tsx"
+      "source": "components/wunderui/widget.tsx",
+      "note": "Body content examples (Chart, Activity, Agent steps, Sources, Recent runs, Task list, Usage, Health, Agenda, Recent files, Goal progress)."
     },
     {
-      "page": "Data Display",
-      "set": "Example / Item Card Group",
-      "id": "69:201",
-      "slug": "item-card",
+      "page": "Widget",
+      "set": "Widget / Body State",
+      "id": "2655:744",
+      "slug": "widget",
       "components": [
-        "ItemCardGroup"
+        "Widget"
       ],
-      "source": "components/wunderui/item-card.tsx"
+      "source": "components/wunderui/widget.tsx",
+      "note": "Loading, Refreshing, Stale, Empty, No results, Error, Permission required, Setup required. React: pending."
+    },
+    {
+      "page": "Widget",
+      "set": "Widget / Board Item",
+      "id": "2657:953",
+      "slug": "widget",
+      "components": [
+        "Widget"
+      ],
+      "source": "components/wunderui/widget.tsx",
+      "note": "Dashboard board wrapper: Rest, Hover, Focus, Dragging, Drop target, Resizing, Locked. React: pending."
     },
     {
       "page": "Data Display",
@@ -516,16 +1901,6 @@
         "Carousel"
       ],
       "source": "components/wunderui/carousel.tsx"
-    },
-    {
-      "page": "Data Display",
-      "set": "File Tree",
-      "id": "73:207",
-      "slug": "file-tree",
-      "components": [
-        "FileTree"
-      ],
-      "source": "components/wunderui/file-tree.tsx"
     },
     {
       "page": "Data Display",
@@ -571,8 +1946,96 @@
     },
     {
       "page": "Forms",
+      "set": "Form / Root",
+      "id": "2723:1141",
+      "slug": "form",
+      "components": [
+        "Form"
+      ],
+      "source": "components/ui/form.tsx",
+      "props": {
+        "State": "Pristine / Dirty / Validating / Submitting / Success / Invalid / Submit error / Unsaved changes"
+      },
+      "note": "React: pending"
+    },
+    {
+      "page": "Forms",
+      "set": "Form / Section",
+      "id": "2720:660",
+      "slug": "form",
+      "components": [
+        "Form"
+      ],
+      "source": "components/ui/form.tsx",
+      "props": {
+        "Layout": "Single column / Two columns / Settings rows"
+      },
+      "note": "React: pending"
+    },
+    {
+      "page": "Forms",
+      "set": "Form / Field",
+      "id": "2720:450",
+      "slug": "field",
+      "components": [
+        "Field"
+      ],
+      "source": "components/ui/field.tsx",
+      "props": {
+        "Layout": "Stacked / Inline",
+        "State": "Default / Invalid / Disabled / Read-only"
+      }
+    },
+    {
+      "page": "Forms",
+      "set": "Form / Fieldset",
+      "id": "2722:646",
+      "slug": "fieldset",
+      "components": [
+        "Fieldset"
+      ],
+      "source": "components/ui/fieldset.tsx"
+    },
+    {
+      "page": "Forms",
+      "set": "Form / Error Summary",
+      "id": "2722:695",
+      "slug": "form",
+      "components": [
+        "Form"
+      ],
+      "source": "components/ui/form.tsx",
+      "props": {
+        "Type": "Validation / System"
+      },
+      "note": "React: pending"
+    },
+    {
+      "page": "Forms",
+      "set": "Form / Actions",
+      "id": "2722:972",
+      "slug": "form",
+      "components": [
+        "Form"
+      ],
+      "source": "components/ui/form.tsx",
+      "note": "React: pending"
+    },
+    {
+      "page": "Forms",
+      "set": "Form / Status",
+      "id": "2722:994",
+      "slug": "form",
+      "components": [
+        "Form"
+      ],
+      "source": "components/ui/form.tsx",
+      "note": "Autosave / save status. React: pending."
+    },
+    {
+      "page": "Forms",
       "set": "Inline Select",
-      "id": "81:198",
+      "id": "2726:1120",
       "slug": "inline-select",
       "components": [
         "InlineSelect"
@@ -581,48 +2044,55 @@
     },
     {
       "page": "Forms",
-      "set": "Number Stepper",
-      "id": "81:201",
-      "slug": "number-stepper",
-      "components": [
-        "NumberStepper"
-      ],
-      "source": "components/ui/number-stepper.tsx"
-    },
-    {
-      "page": "Forms",
-      "set": "Checkbox Button Group",
-      "id": "82:194",
+      "set": "Choice Button",
+      "id": "2726:1184",
       "slug": "checkbox-button-group",
       "components": [
-        "CheckboxButtonGroup"
-      ],
-      "source": "components/ui/toggle-button-group.tsx"
-    },
-    {
-      "page": "Forms",
-      "set": "Radio Button Group",
-      "id": "82:201",
-      "slug": "radio-button-group",
-      "components": [
+        "CheckboxButtonGroup",
         "RadioButtonGroup"
       ],
       "source": "components/ui/toggle-button-group.tsx"
     },
     {
       "page": "Forms",
-      "set": "Drop Zone",
-      "id": "82:208",
+      "set": "Choice Button Group",
+      "id": "2726:1292",
+      "slug": "checkbox-button-group",
+      "components": [
+        "CheckboxButtonGroup",
+        "RadioButtonGroup"
+      ],
+      "source": "components/ui/toggle-button-group.tsx",
+      "note": "Keyboard navigation documented only."
+    },
+    {
+      "page": "Forms",
+      "set": "Upload / File Row",
+      "id": "2727:1354",
       "slug": "drop-zone",
       "components": [
         "DropZone"
       ],
-      "source": "components/wunderui/drop-zone.tsx"
+      "source": "components/wunderui/drop-zone.tsx",
+      "note": "React: pending"
     },
     {
       "page": "Forms",
-      "set": "Rich Text Editor",
-      "id": "82:212",
+      "set": "Upload Field",
+      "id": "2727:1543",
+      "slug": "drop-zone",
+      "components": [
+        "DropZone"
+      ],
+      "source": "components/wunderui/drop-zone.tsx",
+      "props": {
+        "State": "Idle / Drag over / Uploading / Complete / Failed / Rejected / Disabled"
+      }
+    },
+    {
+      "page": "Forms",
+      "set": "Editor / Toolbar Button",
+      "id": "2732:275137",
       "slug": "rich-text-editor",
       "components": [
         "RichTextEditor"
@@ -630,64 +2100,96 @@
       "source": "components/wunderui/rich-text-editor.tsx"
     },
     {
+      "page": "Forms",
+      "set": "Editor / Link Input",
+      "id": "2732:275265",
+      "slug": "rich-text-editor",
+      "components": [
+        "RichTextEditor"
+      ],
+      "source": "components/wunderui/rich-text-editor.tsx",
+      "note": "React: pending"
+    },
+    {
+      "page": "Forms",
+      "set": "Rich Text Editor",
+      "id": "2732:275465",
+      "slug": "rich-text-editor",
+      "components": [
+        "RichTextEditor"
+      ],
+      "source": "components/wunderui/rich-text-editor.tsx"
+    },
+    {
+      "page": "Forms",
+      "set": "Editable Cell",
+      "id": "2733:1542",
+      "slug": "cell-select",
+      "components": [
+        "CellSelect",
+        "CellSlider",
+        "CellSwitch",
+        "CellColorPicker"
+      ],
+      "source": "components/wunderui/table-cells.tsx",
+      "props": {
+        "Control": "Select / Slider / Switch / Color",
+        "State": "View / Edit / Changed / Saving / Error / Disabled"
+      },
+      "note": "40 px hit area wrapper."
+    },
+    {
+      "page": "Forms",
+      "set": "Number Stepper",
+      "id": "2724:1571",
+      "slug": "number-stepper",
+      "components": [
+        "NumberStepper"
+      ],
+      "source": "components/ui/number-stepper.tsx",
+      "props": {
+        "Interaction": "Rest / Focus / Disabled / Read-only",
+        "Value": "Valid / At min / At max / Empty / Invalid",
+        "Show unit": "React: pending"
+      }
+    },
+    {
+      "page": "Color Picker",
+      "slug": "color-picker",
+      "source": "components/wunderui/color-picker.tsx",
       "set": "Color Picker",
       "id": "1845:164",
-      "slug": "color-picker",
       "components": [
-        "ColorPicker",
-        "ColorPickerTrigger"
+        "ColorPicker"
       ],
-      "source": "components/wunderui/color-picker.tsx",
       "props": {
+        "Picker": {
+          "Spectrum": "variant=\"spectrum\"",
+          "Grid": "variant=\"grid\""
+        },
         "Format": {
           "HEX": "defaultFormat=\"hex\"",
           "RGB": "defaultFormat=\"rgb\"",
           "HSL": "defaultFormat=\"hsl\""
         }
-      },
-      "related": {
-        "Color Picker Trigger": "1846:33"
       }
     },
     {
-      "page": "Forms",
-      "set": "Cell Color Picker",
-      "id": "82:229",
-      "slug": "cell-color-picker",
+      "page": "Color Picker",
+      "slug": "color-picker",
+      "source": "components/wunderui/color-picker.tsx",
+      "set": "Color Picker Trigger",
+      "id": "2413:559",
       "components": [
-        "CellColorPicker"
+        "ColorPickerTrigger"
       ],
-      "source": "components/wunderui/table-cells.tsx"
-    },
-    {
-      "page": "Forms",
-      "set": "Cell Select",
-      "id": "82:230",
-      "slug": "cell-select",
-      "components": [
-        "CellSelect"
-      ],
-      "source": "components/wunderui/table-cells.tsx"
-    },
-    {
-      "page": "Forms",
-      "set": "Cell Slider",
-      "id": "82:233",
-      "slug": "cell-slider",
-      "components": [
-        "CellSlider"
-      ],
-      "source": "components/wunderui/table-cells.tsx"
-    },
-    {
-      "page": "Forms",
-      "set": "Cell Switch",
-      "id": "82:237",
-      "slug": "cell-switch",
-      "components": [
-        "CellSwitch"
-      ],
-      "source": "components/wunderui/table-cells.tsx"
+      "props": {
+        "Shape": {
+          "default": "shape=\"default\"",
+          "pill": "shape=\"pill\""
+        }
+      },
+      "note": "Open state: open | defaultOpen | onOpenChange"
     },
     {
       "page": "Forms",
@@ -698,16 +2200,6 @@
         "NativeSelect"
       ],
       "source": "components/ui/native-select.tsx"
-    },
-    {
-      "page": "Feedback & Overlays",
-      "set": "Number Value",
-      "id": "1605:139",
-      "slug": "number-value",
-      "components": [
-        "NumberValue"
-      ],
-      "source": "components/wunderui/number-value.tsx"
     },
     {
       "page": "Feedback & Overlays",
@@ -750,23 +2242,9 @@
       "source": "components/wunderui/emoji-picker.tsx"
     },
     {
-      "page": "Feedback & Overlays",
-      "set": "Sheet",
-      "id": "86:247",
-      "slug": "sheet",
-      "components": [
-        "Sheet",
-        "SheetContent",
-        "SheetHeader",
-        "SheetTitle",
-        "SheetDescription"
-      ],
-      "source": "components/ui/sheet.tsx"
-    },
-    {
       "page": "Popover",
-      "set": "Popover",
-      "id": "961:169",
+      "set": "Popover / Surface",
+      "id": "2634:882",
       "slug": "popover",
       "components": [
         "Popover",
@@ -775,54 +2253,178 @@
       ],
       "source": "components/ui/popover.tsx",
       "props": {
-        "Placement": "side (bottom | top | left | right)",
-        "Title / Description": "children",
-        "Show arrow": "arrow"
+        "Side": "side (bottom | top | right | left)",
+        "Align": "align (start | center | end) React: pending",
+        "Show title / description / close": "children",
+        "Show arrow": "arrow",
+        "Show body": "children React: pending",
+        "Show footer": "children React: pending",
+        "Body / Footer content": "slot React: pending"
       }
     },
     {
+      "page": "Popover",
+      "set": "Popover / Body",
+      "id": "2634:370",
+      "slug": "popover",
+      "components": [
+        "PopoverContent"
+      ],
+      "source": "components/ui/popover.tsx",
+      "props": {
+        "Body": "Information / Interactive / With Actions / Minimal / Loading / Empty / Error"
+      },
+      "note": "Content slot examples."
+    },
+    {
+      "page": "Popover",
+      "set": "Popover / Footer",
+      "id": "2634:425",
+      "slug": "popover",
+      "components": [
+        "PopoverContent"
+      ],
+      "source": "components/ui/popover.tsx",
+      "props": {
+        "Footer": "Actions / Single / Info"
+      },
+      "note": "Footer slot. React: pending"
+    },
+    {
       "page": "Slider",
-      "set": "Slider",
-      "id": "757:96752",
       "slug": "slider",
       "components": [
         "Slider"
       ],
-      "source": "components/ui/slider.tsx"
+      "source": "components/ui/slider.tsx",
+      "set": "Slider / Field",
+      "id": "2887:1071",
+      "props": {
+        "Type": "single value | [min, max] range",
+        "Orientation": "orientation",
+        "State": "Default | Invalid (invalid or error: red fill and thumb, error text under the slider, aria-invalid + aria-describedby; SliderField error) | Disabled (disabled; each part dimmed once to 0.4)",
+        "Label": "label",
+        "Current value / Lower / Upper / Unit": "formatted value display",
+        "Show limits / Show marks / Show input / Show helper": "min/max labels, marks, number input, helper text"
+      },
+      "note": "Field composition → SliderField (label, value, unit, limits, helper, error); marks → marks / SliderMarks; number input → SliderInput / SliderRangeInputs (beside a single slider, below a range)."
+    },
+    {
+      "page": "Slider",
+      "slug": "slider",
+      "components": [
+        "Slider"
+      ],
+      "source": "components/ui/slider.tsx",
+      "set": "Slider / Control",
+      "id": "2884:241279",
+      "props": {
+        "Style": "handle prop: circle | circle-neutral | grip-bars | grip-dots",
+        "Type": "Single | Range | Centered (centered)",
+        "Orientation": "orientation",
+        "Interaction": "Rest | Hover (thumb bg-page, built in) | Dragging (thumb bg-subtle, built in); thumbClassName only forces a state in docs",
+        "Disabled": "disabled",
+        "Show bubble / Joined bubble": "bubble (focus or drag) or bubble=\"always\"; joined for close thumbs",
+        "Invalid": "invalid / error (red fill and thumb, red focus ring)"
+      },
+      "note": "Handle styles are part of this set (Slider / Thumb was merged in, no focus ring). Disabled dims the control to 0.4."
+    },
+    {
+      "page": "Slider",
+      "slug": "slider",
+      "components": [
+        "Slider"
+      ],
+      "source": "components/ui/slider.tsx",
+      "set": "Slider / Track",
+      "id": "2884:240655",
+      "props": {
+        "Orientation": "orientation",
+        "Fill": "From start | Range | From centre",
+        "Show ticks": "step ticks (marks)"
+      }
     },
     {
       "page": "Date Picker",
-      "set": "Calendar Day",
-      "id": "951:191",
+      "set": "Calendar / Day",
+      "id": "2691:3405",
+      "slug": "calendar",
+      "components": [
+        "Calendar",
+        "CalendarDay"
+      ],
+      "source": "components/wunderui/calendar.tsx",
+      "props": {
+        "Size": "size (sm 32 | md 40)",
+        "Selection": "CalendarDay selection (none | single | start | middle | end | preview), derived by Calendar from the selection and the hovered day",
+        "Interaction": "real :hover / :active / :focus-visible; CalendarDay interaction for docs",
+        "Today": "today (Calendar prop) / today",
+        "Outside month": "outside",
+        "Unavailable": "unavailable (min, max, disabled, status)",
+        "Focus visible": "focus ring on the day cell",
+        "Show availability": "markedDays / CalendarDay marked"
+      }
+    },
+    {
+      "page": "Date Picker",
+      "set": "Calendar / Header",
+      "id": "2692:3649",
+      "slug": "calendar",
+      "components": [
+        "Calendar",
+        "CalendarHeader"
+      ],
+      "source": "components/wunderui/calendar.tsx",
+      "props": {
+        "Type": "header (label | month-year)",
+        "Navigation": "navigation (both | previous | next | none)",
+        "Size": "size"
+      }
+    },
+    {
+      "page": "Date Picker",
+      "set": "Calendar / Month",
+      "id": "2693:9235",
       "slug": "calendar",
       "components": [
         "Calendar"
       ],
       "source": "components/wunderui/calendar.tsx",
       "props": {
-        "State": "day button state (selected, today, range-start/middle/end, outside, disabled)",
+        "Header": "navigation",
+        "Selection mode": "mode (single | range; none = no selection)",
         "Size": "size"
       }
     },
     {
       "page": "Date Picker",
-      "set": "Calendar Month",
-      "id": "952:2650",
+      "set": "Calendar / Period Cell",
+      "id": "2692:3676",
       "slug": "calendar",
       "components": [
-        "Calendar"
+        "CalendarPeriodCell"
+      ],
+      "source": "components/wunderui/calendar.tsx",
+      "note": "Month / year cell. React: CalendarPeriodCell (state selected | current | unavailable | interaction)."
+    },
+    {
+      "page": "Date Picker",
+      "set": "Calendar / Period Picker",
+      "id": "2695:9382",
+      "slug": "calendar",
+      "components": [
+        "CalendarPeriodPicker"
       ],
       "source": "components/wunderui/calendar.tsx",
       "props": {
-        "Mode": "mode (single | range)",
-        "Header": "navigation buttons",
-        "Size": "size"
-      }
+        "Type": "CalendarPeriodPicker type (month | year)"
+      },
+      "note": "Month Picker and Year Picker."
     },
     {
       "page": "Date Picker",
-      "set": "Date Picker",
-      "id": "954:2478",
+      "set": "Date Picker / Preset Item",
+      "id": "2692:3659",
       "slug": "date-picker",
       "components": [
         "DatePicker",
@@ -831,14 +2433,64 @@
       ],
       "source": "components/wunderui/date-picker.tsx",
       "props": {
-        "Type": "mode (single | range | range + presets)",
-        "State": "open"
+        "State": "preset button (Rest / hover:bg-bg-page / active bg-subtle)"
+      }
+    },
+    {
+      "page": "Date Picker",
+      "set": "Date Picker / Calendars",
+      "id": "2695:9271",
+      "slug": "date-picker",
+      "components": [
+        "DatePicker",
+        "Calendar",
+        "Popover"
+      ],
+      "source": "components/wunderui/date-picker.tsx",
+      "props": {
+        "Layout": "Single month → mode=single; Two months → mode=range; Presets and two months → presets; Presets and one month → presets + numberOfMonths=1"
+      }
+    },
+    {
+      "page": "Date Picker",
+      "set": "Date Picker / Footer",
+      "id": "2695:7762",
+      "slug": "date-picker",
+      "components": [
+        "DatePicker",
+        "DatePickerFooter",
+        "Calendar",
+        "Popover"
+      ],
+      "source": "components/wunderui/date-picker.tsx",
+      "props": {
+        "State": "DatePickerFooter (summary, invalid, applyDisabled): Empty / Incomplete / Invalid / Complete"
+      }
+    },
+    {
+      "page": "Date Picker",
+      "set": "Date Picker",
+      "id": "2696:11494",
+      "slug": "date-picker",
+      "components": [
+        "DatePicker",
+        "DatePickerField",
+        "DatePickerPanel",
+        "Calendar",
+        "Popover"
+      ],
+      "source": "components/wunderui/date-picker.tsx",
+      "props": {
+        "Selection mode": "mode (single | range | range + presets)",
+        "Open": "open / defaultOpen / onOpenChange / DatePickerPanel",
+        "Field state": "Empty / Filled = value; Focus = focus; Invalid = error or typeable; Disabled / Readonly = fieldState",
+        "Appearance": "appearance (\"button\" default | \"field\")"
       }
     },
     {
       "page": "Alert Dialog",
       "set": "Alert Dialog",
-      "id": "1007:67",
+      "id": "2833:287",
       "slug": "alert-dialog",
       "components": [
         "AlertDialog",
@@ -853,38 +2505,119 @@
       ],
       "source": "components/ui/alert-dialog.tsx",
       "props": {
-        "Type": "AlertDialogAction variant (default → primary | destructive)"
-      }
+        "Type": "AlertDialogAction variant (default → primary | destructive)",
+        "Actions": "Inline | Stacked | Three (Three: Save and leave / Discard changes / Keep editing, stacked → AlertDialogAction variant secondary + AlertDialogFooter layout stacked)",
+        "Title": "AlertDialogTitle (default type)",
+        "Description": "AlertDialogDescription (default type)",
+        "Destructive title": "AlertDialogTitle (destructive type)",
+        "Destructive description": "AlertDialogDescription (destructive type)",
+        "Icon": "AlertDialogIcon (default type, circle-alert)",
+        "Destructive icon": "AlertDialogIcon (destructive type, trash-2)",
+        "Show icon": "AlertDialogIcon present",
+        "Show content / Content": "children between header and footer",
+        "Show feedback": "inline error/warning (AlertDialogFeedback)",
+        "Dialog width": "AlertDialogContent size (default 384 px | lg 440 px = Figma)"
+      },
+      "note": "Rebuilt 30.10.2026 (legacy set 1007:67 in container 2833:371). Destructive variants have their own title, description and icon properties. Cancel/Action (and Secondary in Actions=Three) are exposed Button / Action instances. Icon, Title and Footer spacing aligned with Figma (Nov 6 2026)."
+    },
+    {
+      "page": "Alert Dialog",
+      "set": "Alert Dialog / Feedback",
+      "id": "2833:7085",
+      "slug": "alert-dialog",
+      "components": [
+        "AlertDialog"
+      ],
+      "source": "components/ui/alert-dialog.tsx",
+      "props": {
+        "Type": "Error | Warning",
+        "Message": "text"
+      },
+      "note": "Inline feedback inside the dialog (AlertDialogFeedback, role=alert)"
+    },
+    {
+      "page": "Alert Dialog",
+      "set": "Alert Dialog / Content",
+      "id": "2833:7847",
+      "slug": "alert-dialog",
+      "components": [
+        "AlertDialog"
+      ],
+      "source": "components/ui/alert-dialog.tsx",
+      "props": {
+        "Type": "Project | Person | File | Count | Impact list | Confirm empty/valid/invalid | Acknowledge"
+      },
+      "note": "Content slot building blocks (Summary, ConfirmField, AcknowledgeRow) live in apps/docs/components/alert-dialog-parts.tsx, not in the library"
     },
     {
       "page": "Collapsible",
-      "set": "Collapsible",
-      "id": "1009:19",
       "slug": "collapsible",
+      "source": "components/ui/collapsible.tsx",
+      "set": "Collapsible / Root",
+      "id": "2590:43236",
       "components": [
         "Collapsible",
         "CollapsibleTrigger",
+        "CollapsibleContent",
+        "CollapsibleRow",
+        "CollapsibleFeedback"
+      ],
+      "props": {
+        "Open": "open",
+        "Interaction": "Default / Hover / Pressed / Disabled (disabled)",
+        "Focus visible": "focus-visible ring",
+        "Appearance": "Row → appearance=\"row\"; Inline → appearance=\"inline\"",
+        "Content": "<CollapsibleContent> children",
+        "Description": "CollapsibleTrigger description",
+        "Count": "CollapsibleTrigger count (BadgeCounter)",
+        "Summary": "CollapsibleTrigger summary (shown while closed)",
+        "Leading icon": "CollapsibleTrigger icon",
+        "Action": "CollapsibleRow action",
+        "Content align": "CollapsibleContent align=\"title\"",
+        "Indicator": "CollapsibleTrigger indicator (\"chevron\" | \"button\")"
+      },
+      "note": "Replaces Collapsible 1009:19 (Container · Legacy collapsible). Stable section title (model A) is the default label model."
+    },
+    {
+      "page": "Collapsible",
+      "slug": "collapsible",
+      "source": "components/ui/collapsible.tsx",
+      "set": "Collapsible / Body",
+      "id": "2591:103127",
+      "components": [
         "CollapsibleContent"
       ],
+      "note": "Example bodies for the content slot (files, order lines, nested). They live as docs building blocks in apps/docs/components/collapsible-parts.tsx, not in the library."
+    },
+    {
+      "page": "Collapsible",
+      "slug": "collapsible",
       "source": "components/ui/collapsible.tsx",
-      "props": {
-        "State": "open (closed → false | open → true)"
-      }
+      "set": "Collapsible / Nested",
+      "id": "2592:2529",
+      "components": [
+        "Collapsible"
+      ],
+      "note": "One nested inline disclosure inside a section; no deeper nesting. React: <Collapsible appearance=\"inline\"> inside CollapsibleContent (panel 16 px below the trigger)."
     },
     {
       "page": "Toggle",
-      "set": "Toggle",
-      "id": "1009:57",
+      "set": "Toggle / Group",
+      "id": "2646:526",
       "slug": "toggle",
       "components": [
-        "Toggle"
+        "CheckboxButtonGroup",
+        "RadioButtonGroup",
+        "ToggleButton"
       ],
-      "source": "components/ui/toggle.tsx",
+      "source": "components/ui/toggle-button-group.tsx",
       "props": {
-        "State": "pressed / disabled (default | hover | pressed | disabled)",
-        "Size": "size (sm | md → default | lg)",
-        "Icon": "children (icon)"
-      }
+        "Selection": "Independent → CheckboxButtonGroup (multiple) | Exclusive → RadioButtonGroup (single)",
+        "Content": "children (icon | text | icon + text)",
+        "Size": "size (32 | 36 | 40)",
+        "Group label": "aria-label"
+      },
+      "note": "Alignment and Content axis: React pending. Items are Icon Toggle / Selected 2588:156523 and Button / Toggle 2574:150765."
     },
     {
       "page": "Meter",
@@ -915,7 +2648,9 @@
       ],
       "source": "components/ui/kbd.tsx",
       "props": {
-        "Type": "single → <Kbd> | group → <KbdGroup>"
+        "Type": "single → <Kbd> | group → <KbdGroup separator=\"+\">",
+        "Tone": "default | inverse → tone (Kbd, KbdGroup)",
+        "Keys": "Kbd children"
       }
     },
     {
@@ -987,19 +2722,6 @@
         "TrendChip"
       ],
       "source": "components/wunderui/trend-chip.tsx"
-    },
-    {
-      "page": "D. E-Commerce",
-      "set": "Breadcrumb/text",
-      "id": "693:44288",
-      "slug": "breadcrumb",
-      "components": [
-        "Breadcrumb",
-        "BreadcrumbItem",
-        "BreadcrumbLink"
-      ],
-      "source": "components/ui/breadcrumb.tsx",
-      "note": "Block-page text-only breadcrumb."
     }
   ]
 }
