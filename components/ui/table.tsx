@@ -16,7 +16,10 @@ function Table({ className, ...props }: React.ComponentProps<"table">) {
       tabIndex={scrolls ? 0 : undefined}
       role={scrolls ? "region" : undefined}
       aria-label={scrolls ? (props["aria-label"] ?? "Table") : undefined}
-      className="relative w-full overflow-x-auto rounded-[inherit] outline-none focus-ring"
+      // The corners follow the card only on the sides where the table touches its edge: the first table in a card
+      // rounds its top corners, the last one its bottom corners. Under a toolbar or search row (Data Grid, Data Table)
+      // the header row stays square, and so does the last row above a pager.
+      className="relative w-full overflow-x-auto outline-none first:rounded-t-[inherit] last:rounded-b-[inherit] focus-ring"
     >
       <table
         data-slot="table"
@@ -66,6 +69,8 @@ function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
       data-slot="table-row"
       className={cn(
         "border-b transition-colors duration-fast ease-entrance hover:bg-bg-page has-aria-expanded:bg-bg-page data-[state=selected]:bg-bg-subtle data-[state=selected]:hover:bg-bg-subtle",
+        // --surface follows the row fill, so avatar rings in a hovered or selected row match it (hover under @media (hover: hover)).
+        "hover:[--surface:var(--bg-page)] has-aria-expanded:[--surface:var(--bg-page)] data-[state=selected]:[--surface:var(--subtle)] data-[state=selected]:hover:[--surface:var(--subtle)]",
         className
       )}
       {...props}
@@ -78,7 +83,7 @@ function TableHead({ className, ...props }: React.ComponentProps<"th">) {
     <th
       data-slot="table-head"
       className={cn(
-        "h-(--control-md) px-3 text-left align-middle font-medium whitespace-nowrap text-foreground outline-none hover:bg-bg-subtle focus-visible:bg-bg-subtle first:pl-4 last:pr-4 [&:has([role=checkbox])]:pr-0",
+        "h-(--control-md) px-3 text-start align-middle font-medium whitespace-nowrap text-foreground outline-none hover:bg-bg-subtle focus-visible:bg-bg-subtle first:ps-4 last:pe-4 [&:has([role=checkbox])]:pe-0",
         className
       )}
       {...props}
@@ -93,7 +98,7 @@ function TableCell({ className, ...props }: React.ComponentProps<"td">) {
       className={cn(
         // the first column carries the row (primary text); the others are secondary, so the eye lands on the name first.
         // A leading checkbox or expand column does not count: the cell after it is the primary one.
-        "px-3 py-(--row-py) align-middle whitespace-nowrap text-text-secondary outline-none focus-visible:bg-bg-page first:pl-4 first:text-foreground last:pr-4 data-primary:text-foreground [&:has([role=checkbox])+td]:text-foreground [&:has([aria-expanded])+td]:text-foreground [&:has([role=checkbox])]:pr-0",
+        "px-3 py-(--row-py) align-middle whitespace-nowrap text-text-secondary outline-none focus-visible:bg-bg-page first:ps-4 first:text-foreground last:pe-4 data-primary:text-foreground [&:has([role=checkbox])+td]:text-foreground [&:has([aria-expanded])+td]:text-foreground [&:has([role=checkbox])]:pe-0",
         className
       )}
       {...props}

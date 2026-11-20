@@ -1,4 +1,4 @@
-import { ArrowDown, ArrowDownRight, ArrowUp, ArrowUpRight, Minus, TrendingDown, TrendingUp } from "lucide-react"
+import { Icon } from "@/components/ui/icon-provider"
 import { cn } from "@/lib/utils"
 
 /** Figma Trend Chip · Icon: which glyph carries the direction. */
@@ -59,11 +59,11 @@ function CircleGlyph({ icon, down }: { icon: keyof typeof CIRCLE_GLYPH; down?: b
 function TrendGlyph({ icon, down }: { icon: TrendChipIcon; down: boolean }) {
   switch (icon) {
     case "trending":
-      return down ? <TrendingDown className="size-3 shrink-0" /> : <TrendingUp className="size-3 shrink-0" />
+      return down ? <Icon name="trendDown" className="size-3 shrink-0" /> : <Icon name="trendUp" className="size-3 shrink-0" />
     case "arrow":
-      return down ? <ArrowDown className="size-4 shrink-0" /> : <ArrowUp className="size-4 shrink-0" />
+      return down ? <Icon name="arrowDown" className="size-4 shrink-0" /> : <Icon name="arrowUp" className="size-4 shrink-0" />
     case "arrow-diagonal":
-      return down ? <ArrowDownRight className="size-4 shrink-0" /> : <ArrowUpRight className="size-4 shrink-0" />
+      return down ? <Icon name="arrowDownRight" className="size-4 shrink-0" /> : <Icon name="arrowUpRight" className="size-4 shrink-0" />
     case "triangle":
       return <TrendCaret down={down} />
     default:
@@ -78,23 +78,23 @@ const CHIP_SPACING: Record<TrendChipIcon, string> = {
   trending: "gap-1 px-2",
   arrow: "gap-2 px-2",
   "arrow-diagonal": "gap-2 px-2",
-  triangle: "gap-2 pl-1 pr-2",
-  "circle-trending": "gap-1.5 pl-1 pr-2",
-  "circle-diagonal": "gap-1.5 pl-1 pr-2",
-  "circle-arrow": "gap-1.5 pl-1 pr-2",
+  triangle: "gap-2 ps-1 pe-2",
+  "circle-trending": "gap-1.5 ps-1 pe-2",
+  "circle-diagonal": "gap-1.5 ps-1 pe-2",
+  "circle-arrow": "gap-1.5 ps-1 pe-2",
 }
 
 function TrendChip({
   value,
   direction = "up",
-  icon = "trending",
+  icon = "arrow-diagonal",
   sentiment = "auto",
   className,
 }: {
   value: string
   /** Figma Trend Chip · Trend; `flat` is the old name for `neutral`. */
   direction?: "up" | "down" | "neutral" | "flat"
-  /** Figma Trend Chip · Icon; the same glyph turns for `down`. */
+  /** Figma Trend Chip · Icon; the same glyph turns for `down`. Default `arrow-diagonal`: up-right for a rise, down-right for a fall. */
   icon?: TrendChipIcon
   /**
    * Figma Trend Chip · Sentiment: whether the change is good or bad. `auto` colours by direction
@@ -125,7 +125,7 @@ function TrendChip({
         className
       )}
     >
-      {flat ? <Minus className="size-3 shrink-0" /> : <TrendGlyph icon={icon} down={down} />}
+      {flat ? <Icon name="minus" className="size-3 shrink-0" /> : <TrendGlyph icon={icon} down={down} />}
       <span className="optical-center">{value}</span>
     </span>
   )

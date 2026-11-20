@@ -1,0 +1,38 @@
+{
+  "name": "icon-tile",
+  "type": "registry:ui",
+  "title": "Icon Tile",
+  "description": "One icon on a tint surface without a rim, in 5 sizes and 9 tones, square or round.",
+  "dependencies": [
+    "cn@^0.3.0"
+  ],
+  "registryDependencies": [
+    "https://raw.githubusercontent.com/wunder-ui/wunderui/main/r/styles.json"
+  ],
+  "files": [
+    {
+      "path": "components/wunderui/icon-tile.tsx",
+      "type": "registry:component",
+      "target": "components/wunderui/icon-tile.tsx",
+      "content": "\"use client\"\r\n\r\nimport * as React from \"react\"\r\nimport { cn } from \"@/lib/utils\"\r\n\r\n/* -------------------------------------------------------------------------- */\r\n/* Figma ❖ Icon tile (4347:754970): Size 24/32/36/40/48 × Shape square/circle. */\r\n/* Icon Tile (Nov 19 2026): one icon on a tint surface, the leading mark of a  */\r\n/* list row, a metric, a settings group or a menu entry. Owner rules: the tile */\r\n/* is a plain tint surface without a rim, the icon takes the tint text colour  */\r\n/* of the same hue and is one colour. Neutral is the grey tint.                */\r\n/* -------------------------------------------------------------------------- */\r\n\r\nconst ICON_TILE_TONES = [\"neutral\", \"indigo\", \"blue\", \"purple\", \"pink\", \"red\", \"orange\", \"yellow\", \"green\"] as const\r\ntype IconTileTone = (typeof ICON_TILE_TONES)[number]\r\n\r\nconst ICON_TILE_SIZES = [24, 32, 36, 40, 48] as const\r\ntype IconTileSize = (typeof ICON_TILE_SIZES)[number]\r\n\r\nconst TONE: Record<IconTileTone, string> = {\r\n  neutral: \"bg-tint-alternative text-tint-text-alternative\",\r\n  indigo: \"bg-tint-indigo text-tint-text-indigo\",\r\n  blue: \"bg-tint-blue text-tint-text-blue\",\r\n  purple: \"bg-tint-purple text-tint-text-purple\",\r\n  pink: \"bg-tint-pink text-tint-text-pink\",\r\n  red: \"bg-tint-red text-tint-text-red\",\r\n  orange: \"bg-tint-orange text-tint-text-orange\",\r\n  yellow: \"bg-tint-yellow text-tint-text-yellow\",\r\n  green: \"bg-tint-green text-tint-text-green\",\r\n}\r\n\r\n/** Tile size → tile, icon (14 / 16 / 18 / 20 / 24 px) and square corner (Figma ❖ Icon tile): 4 px at 24, 16 px at 48, 8 px between. */\r\nconst SIZE: Record<IconTileSize, { tile: string; icon: string; square: string }> = {\r\n  24: { tile: \"size-6\", icon: \"[&_svg]:size-3.5\", square: \"rounded-sm\" },\r\n  32: { tile: \"size-8\", icon: \"[&_svg]:size-4\", square: \"rounded-md\" },\r\n  36: { tile: \"size-9\", icon: \"[&_svg]:size-[18px]\", square: \"rounded-md\" },\r\n  40: { tile: \"size-10\", icon: \"[&_svg]:size-5\", square: \"rounded-md\" },\r\n  48: { tile: \"size-12\", icon: \"[&_svg]:size-6\", square: \"rounded-xl\" },\r\n}\r\n\r\ntype IconTileProps = Omit<React.ComponentProps<\"span\">, \"children\"> & {\r\n  /** The icon: an element (`<Wallet />`) or an icon component (`Wallet`). It is sized by the tile. */\r\n  icon: React.ReactNode | React.ElementType\r\n  /** The tint hue of the tile and its icon. Default `neutral` (grey). */\r\n  tone?: IconTileTone\r\n  /** Tile size in px: 24, 32, 36, 40 or 48, with a 14, 16, 18, 20 or 24 px icon. Default 32. */\r\n  size?: IconTileSize\r\n  /** `square` (rounded corners, default) or `circle`. */\r\n  shape?: \"square\" | \"circle\"\r\n  /** Accessible name. Without it the tile is decorative and hidden from screen readers; with it, it is an image. */\r\n  label?: string\r\n}\r\n\r\n/** An element type rather than an element: a function component or a forwardRef / memo object such as a Lucide icon. */\r\nfunction isComponent(icon: unknown): icon is React.ElementType {\r\n  if (typeof icon === \"function\") return true\r\n  return typeof icon === \"object\" && icon !== null && !React.isValidElement(icon) && \"$$typeof\" in icon\r\n}\r\n\r\n/**\r\n * An icon on a tint surface without a rim, in 4 sizes, square or round. Decorative by default (`aria-hidden`); pass\r\n * `label` when the tile is the only thing that says what it means.\r\n */\r\nfunction IconTile({ icon, tone = \"neutral\", size = 32, shape = \"square\", label, className, ...props }: IconTileProps) {\r\n  const s = SIZE[size] ?? SIZE[32]\r\n  const IconComponent = isComponent(icon) ? icon : null\r\n  return (\r\n    <span\r\n      data-slot=\"icon-tile\"\r\n      data-tone={tone}\r\n      data-size={size}\r\n      data-shape={shape}\r\n      role={label ? \"img\" : undefined}\r\n      aria-label={label || undefined}\r\n      aria-hidden={label ? undefined : true}\r\n      className={cn(\r\n        \"inline-flex shrink-0 items-center justify-center\",\r\n        // the icon keeps a 1.5 px line at every tile size (a 24 px Lucide icon drawn at 14-20 px would thin to ~1 px),\r\n        // the same crisp stroke as the sidebar icons (owner, Nov 20 2026)\r\n        \"[&_svg]:[stroke-width:1.5] [&_svg_*]:[vector-effect:non-scaling-stroke]\",\r\n        s.tile,\r\n        s.icon, shape === \"circle\" ? \"rounded-full\" : s.square, TONE[tone] ?? TONE.neutral, className)}\r\n      {...props}\r\n    >\r\n      {IconComponent ? <IconComponent aria-hidden=\"true\" /> : (icon as React.ReactNode)}\r\n    </span>\r\n  )\r\n}\r\n\r\nexport { IconTile, ICON_TILE_TONES, ICON_TILE_SIZES }\r\nexport type { IconTileProps, IconTileTone, IconTileSize }\r\n"
+    },
+    {
+      "path": "lib/utils.ts",
+      "type": "registry:lib",
+      "target": "lib/utils.ts",
+      "content": "import type { CnFunction } from \"cn\"\nimport { createCn } from \"cn/config\"\n\n/**\n * clsx + tailwind-merge, taught WunderUI's own theme utilities so they merge\n * in the right group: `text-label-sm` is a font size (not a text colour, which\n * dropped it next to `text-text-tertiary`), `bg-gradient-*` a background image\n * (not a colour that `bg-card` would remove), and the motion utilities\n * `ease-entrance …` and `duration-fast …` replace each other.\n */\nexport const cn: CnFunction = createCn({\n  extend: {\n    classGroups: {\n      \"font-size\": [{ text: [\"label-sm\", \"micro\"] }],\n      \"bg-image\": [\n        {\n          bg: [\n            \"gradient-primary\",\n            \"gradient-indigo\",\n            \"gradient-blue\",\n            \"gradient-purple\",\n            \"gradient-pink\",\n            \"gradient-red\",\n            \"gradient-orange\",\n            \"gradient-yellow\",\n            \"gradient-green\",\n            \"gradient-alternative\",\n            \"gradient-slate\",\n            \"gradient-dark\",\n          ],\n        },\n      ],\n      ease: [{ ease: [\"entrance\", \"exit\", \"move\", \"overshoot\", \"spring\"] }],\n      duration: [{ duration: [\"instant\", \"fast\", \"base\", \"slow\", \"deliberate\", \"ambient\"] }],\n    },\n  },\n})\n"
+    }
+  ],
+  "docs": "https://wunderui.com/components/icon-tile",
+  "meta": {
+    "group": "Core Elements",
+    "exports": [
+      "IconTile",
+      "ICON_TILE_SIZES",
+      "ICON_TILE_TONES",
+      "IconTileProps",
+      "IconTileSize",
+      "IconTileTone"
+    ]
+  }
+}

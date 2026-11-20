@@ -1,7 +1,7 @@
 "use client"
 
 import { NumberField as NumberFieldPrimitive } from "@base-ui/react/number-field"
-import { Plus, Minus } from "lucide-react"
+import { Icon } from "@/components/ui/icon-provider"
 import { cn } from "@/lib/utils"
 
 function NumberField({ ...props }: NumberFieldPrimitive.Root.Props) {
@@ -23,12 +23,12 @@ function NumberFieldDecrement({ className, ...props }: NumberFieldPrimitive.Decr
     <NumberFieldPrimitive.Decrement
       data-slot="number-field-decrement"
       className={cn(
-        "flex w-9 shrink-0 items-center justify-center outline-none border-r border-input text-text-secondary transition-colors duration-fast ease-entrance hover:bg-bg-page active:bg-bg-subtle disabled:pointer-events-none disabled:opacity-40",
+        "flex w-9 shrink-0 items-center justify-center outline-none border-e border-input text-text-secondary transition-colors duration-fast ease-entrance hover:bg-bg-page active:bg-bg-subtle disabled:pointer-events-none disabled:opacity-40",
         className
       )}
       {...props}
     >
-      <Minus className="size-3.5" />
+      <Icon name="minus" className="size-3.5" />
     </NumberFieldPrimitive.Decrement>
   )
 }
@@ -38,12 +38,12 @@ function NumberFieldIncrement({ className, ...props }: NumberFieldPrimitive.Incr
     <NumberFieldPrimitive.Increment
       data-slot="number-field-increment"
       className={cn(
-        "flex w-9 shrink-0 items-center justify-center outline-none border-l border-input text-text-secondary transition-colors duration-fast ease-entrance hover:bg-bg-page active:bg-bg-subtle disabled:pointer-events-none disabled:opacity-40",
+        "flex w-9 shrink-0 items-center justify-center outline-none border-s border-input text-text-secondary transition-colors duration-fast ease-entrance hover:bg-bg-page active:bg-bg-subtle disabled:pointer-events-none disabled:opacity-40",
         className
       )}
       {...props}
     >
-      <Plus className="size-3.5" />
+      <Icon name="plus" className="size-3.5" />
     </NumberFieldPrimitive.Increment>
   )
 }

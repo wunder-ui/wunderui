@@ -3,7 +3,7 @@
 import * as React from "react"
 import { Input as InputPrimitive } from "@base-ui/react/input"
 import { cva, type VariantProps } from "class-variance-authority"
-import { Eye, EyeOff } from "lucide-react"
+import { Icon } from "@/components/ui/icon-provider"
 import { cn } from "@/lib/utils"
 import { InputGroup, InputGroupAddon } from "./input-group"
 import { Tooltip, TooltipContent } from "./tooltip"
@@ -163,7 +163,7 @@ function Input(props: InputProps) {
       >
         {/* The icon shows the current state: dots hidden behind a
             crossed-out eye, plain text behind an open one. */}
-        {visible ? <Eye className="size-4" /> : <EyeOff className="size-4" />}
+        {visible ? <Icon name="show" className="size-4" /> : <Icon name="hide" className="size-4" />}
       </button>
     </>
   ) : (
@@ -187,14 +187,14 @@ function Input(props: InputProps) {
           {label && (
             <label htmlFor={id} className={cn("text-sm font-medium text-foreground", dim)}>
               {label}
-              {optional && <span className="ml-1 font-normal text-text-tertiary">(optional)</span>}
+              {optional && <span className="ms-1 font-normal text-text-tertiary">(optional)</span>}
             </label>
           )}
           {labelTrailing}
         </div>
       )}
       {leading || end ? (
-        <InputGroup className={cn(size === "sm" && "h-(--field-sm)", size === "lg" && "h-(--field-lg)", error && "border-destructive")}>
+        <InputGroup className={cn(size === "sm" && "[--ig-h:var(--field-sm)]", size === "lg" && "[--ig-h:var(--field-lg)]", error && "border-destructive")}>
           {leading && <InputGroupAddon>{leading}</InputGroupAddon>}
           {control}
           {end && <InputGroupAddon>{end}</InputGroupAddon>}

@@ -3,7 +3,7 @@
 import * as React from "react"
 import { ToggleGroup } from "@base-ui/react/toggle-group"
 import { Toggle } from "@base-ui/react/toggle"
-import { CheckIcon } from "lucide-react"
+import { Icon } from "@/components/ui/icon-provider"
 import { cn } from "@/lib/utils"
 
 // The group tells its buttons which mark to draw: a circle (radio) or a square (checkbox), as in the
@@ -128,7 +128,7 @@ function hasTextContent(node: React.ReactNode): boolean {
 // Mark states read the button through the named group `toggle-button` (pressed, hover, disabled) and the
 // group through `toggle-group` (aria-invalid), so the mark needs no state of its own.
 const MARK =
-  "pointer-events-none relative flex size-4 shrink-0 items-center justify-center border border-border-control bg-bg-surface text-tint-indigo transition-colors duration-fast ease-entrance group-hover/toggle-button:border-primary group-data-pressed/toggle-button:border-tint-text-indigo group-data-pressed/toggle-button:bg-tint-text-indigo group-aria-invalid/toggle-group:not-group-data-pressed/toggle-button:not-group-data-disabled/toggle-button:border-destructive"
+  "pointer-events-none relative flex size-4 shrink-0 items-center justify-center border border-border-control bg-bg-surface text-tint-indigo transition-colors duration-fast ease-entrance group-hover/toggle-button:border-primary group-data-pressed/toggle-button:border-primary group-data-pressed/toggle-button:bg-primary dark:group-data-pressed/toggle-button:border-tint-text-indigo dark:group-data-pressed/toggle-button:bg-tint-text-indigo group-aria-invalid/toggle-group:not-group-data-pressed/toggle-button:not-group-data-disabled/toggle-button:border-destructive"
 
 function ToggleButton({
   className,
@@ -183,9 +183,9 @@ function ToggleButton({
         if (isRadio && choice?.navigating?.current && !checked && !event.currentTarget.disabled) event.currentTarget.click()
       }}
       className={cn(
-        "group/toggle-button inline-flex items-center justify-center gap-2 border border-border py-2 text-label-sm/4 font-medium text-text-primary outline-none transition duration-fast ease-entrance select-none hover:not-data-pressed:bg-bg-page active:not-data-pressed:bg-subtle focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-indigo-300 data-disabled:pointer-events-none data-disabled:opacity-40 data-pressed:border-tint-text-indigo data-pressed:bg-tint-indigo data-pressed:text-tint-text-indigo group-aria-invalid/toggle-group:not-data-pressed:not-data-disabled:border-destructive group-aria-invalid/toggle-group:not-data-pressed:not-data-disabled:bg-tint-red group-aria-invalid/toggle-group:not-data-pressed:not-data-disabled:hover:bg-tint-red",
+        "group/toggle-button inline-flex items-center justify-center gap-2 border border-border py-2 text-label-sm/4 font-medium text-text-primary outline-none transition duration-fast ease-entrance select-none hover:not-data-pressed:bg-bg-page active:not-data-pressed:bg-subtle focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-(color:--indigo-300) data-disabled:pointer-events-none data-disabled:opacity-40 data-pressed:border-primary data-pressed:bg-tint-indigo data-pressed:text-primary dark:data-pressed:border-tint-text-indigo dark:data-pressed:text-tint-text-indigo group-aria-invalid/toggle-group:not-data-pressed:not-data-disabled:border-destructive group-aria-invalid/toggle-group:not-data-pressed:not-data-disabled:bg-tint-red group-aria-invalid/toggle-group:not-data-pressed:not-data-disabled:hover:bg-tint-red",
         // A radio option is a pill: the 16 px circle sits 9 px from the edge, so it follows the corner (17 - 9 = 8).
-        showMark && kind === "radio" ? "rounded-full pl-2 pr-4" : "rounded-md px-3",
+        showMark && kind === "radio" ? "rounded-full ps-2 pe-4" : "rounded-md px-3",
         className
       )}
       {...radioProps}
@@ -199,7 +199,8 @@ function ToggleButton({
           className={cn(MARK, kind === "radio" ? "rounded-full" : "rounded-[4px]")}
         >
           {kind === "checkbox" ? (
-            <CheckIcon
+            <Icon
+              name="check"
               strokeWidth={3}
               className="size-3.5 opacity-0 transition-opacity duration-fast ease-entrance group-data-pressed/toggle-button:opacity-100"
             />

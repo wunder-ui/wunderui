@@ -1,15 +1,7 @@
 import * as React from "react"
 import { cn } from "@/lib/utils"
 import { Skeleton } from "@/components/ui/skeleton"
-import {
-  Check,
-  GripVertical,
-  ImageOff,
-  Inbox,
-  Lock,
-  RefreshCw,
-  TriangleAlert,
-} from "lucide-react"
+import { Icon } from "@/components/ui/icon-provider"
 
 const CARD_VARIANT = {
   // Figma Card · Style=default: border + Shadow/Small
@@ -108,9 +100,9 @@ function Card({
         "group/card flex flex-col gap-(--card-gap) [--surface:var(--card)] overflow-hidden rounded-xl bg-card data-invalid:bg-tint-red data-invalid:[--surface:var(--tint-red)] data-invalid:ring-1 data-invalid:ring-destructive/60 py-(--card-spacing) text-sm text-card-foreground [--card-spacing:--spacing(4)] [--card-gap:--spacing(4)] has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 has-[>[data-slot=card-media]:first-child]:pt-0 has-data-[slot=card-indicator]:relative has-data-[slot=card-trigger]:relative has-[>[data-slot=card-banner]:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:[--card-gap:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl",
         "data-[orientation=horizontal]:flex-row data-[orientation=horizontal]:items-stretch data-[orientation=horizontal]:gap-0 data-[orientation=horizontal]:py-0",
         interactive &&
-          "cursor-pointer transition-[background-color,box-shadow] duration-fast ease-move motion-reduce:transition-none hover:bg-bg-page active:bg-subtle focus-ring focus-visible:[--tw-ring-color:var(--primary)] has-[[data-stretch]:focus-visible]:focus-ring-on has-[[data-stretch]:focus-visible]:[--tw-ring-color:var(--primary)]",
+          "cursor-pointer transition-[background-color,box-shadow] duration-fast ease-move motion-reduce:transition-none hover:bg-bg-page active:bg-subtle hover:[--surface:var(--bg-page)] active:[--surface:var(--subtle)] focus-ring focus-visible:[--tw-ring-color:var(--primary)] has-[[data-stretch]:focus-visible]:focus-ring-on has-[[data-stretch]:focus-visible]:[--tw-ring-color:var(--primary)]",
         selected &&
-          "data-selected:bg-tint-indigo data-selected:ring-tint-text-indigo data-selected:[--surface:var(--tint-indigo)] data-selected:hover:bg-tint-indigo data-selected:active:bg-tint-indigo data-selected:[&_[data-slot=card-title]]:text-tint-text-indigo data-selected:[&_[data-slot=card-description]]:text-tint-text-indigo data-selected:text-tint-text-indigo",
+          "data-selected:bg-tint-indigo data-selected:ring-tint-text-indigo data-selected:[--surface:var(--tint-indigo)] data-selected:hover:bg-tint-indigo data-selected:active:bg-tint-indigo data-selected:hover:[--surface:var(--tint-indigo)] data-selected:active:[--surface:var(--tint-indigo)] data-selected:[&_[data-slot=card-title]]:text-tint-text-indigo data-selected:[&_[data-slot=card-description]]:text-tint-text-indigo data-selected:text-tint-text-indigo",
         CARD_VARIANT[variant],
         className
       )}
@@ -153,7 +145,7 @@ function CardMedia({
     >
       {missing ? (
         <div className="flex flex-col items-center gap-1" aria-hidden>
-          <ImageOff className="size-5 text-text-tertiary" />
+          <Icon name="imageMissing" className="size-5 text-text-tertiary" />
           <span className="text-xs text-text-tertiary">No preview available</span>
         </div>
       ) : (
@@ -225,7 +217,7 @@ function CardIcon({ className, ...props }: React.ComponentProps<"div">) {
       data-slot="card-icon"
       aria-hidden
       className={cn(
-        "flex size-8 items-center justify-center rounded-lg border border-tint-text-indigo bg-tint-indigo text-tint-text-indigo [&_svg]:size-4",
+        "flex size-8 items-center justify-center rounded-lg bg-tint-indigo text-tint-text-indigo [&_svg]:size-4",
         className
       )}
       {...props}
@@ -342,7 +334,7 @@ function CardIndicator({
     >
       {type === "radio"
         ? checked && <span className="size-1.5 rounded-full bg-tint-indigo" />
-        : checked && <Check className="size-3 text-tint-indigo" strokeWidth={3} />}
+        : checked && <Icon name="check" className="size-3 text-tint-indigo" strokeWidth={3} />}
     </span>
   )
 }
@@ -394,17 +386,17 @@ function CardFeedback({
     >
       {kind === "empty" && (
         <div className="flex size-10 items-center justify-center rounded-full border border-border bg-muted text-text-secondary" aria-hidden>
-          <Inbox className="size-5" />
+          <Icon name="inbox" className="size-5" />
         </div>
       )}
       {kind === "denied" && (
         <div className="flex size-10 items-center justify-center rounded-full border border-border bg-muted text-text-secondary" aria-hidden>
-          <Lock className="size-5" />
+          <Icon name="lock" className="size-5" />
         </div>
       )}
       {kind === "error" && (
-        <div className="flex size-10 items-center justify-center rounded-full border border-tint-text-red bg-tint-red text-tint-text-red" aria-hidden>
-          <TriangleAlert className="size-5" />
+        <div className="flex size-10 items-center justify-center rounded-full bg-tint-red text-tint-text-red" aria-hidden>
+          <Icon name="warning" className="size-5" />
         </div>
       )}
       {title && <p className="text-base font-semibold text-foreground">{title}</p>}
@@ -437,9 +429,9 @@ function CardBanner({
       )}
     >
       {kind === "refreshing" ? (
-        <RefreshCw className="size-3.5 shrink-0 motion-safe:animate-spin" aria-hidden />
+        <Icon name="refresh" className="size-3.5 shrink-0 motion-safe:animate-spin" aria-hidden />
       ) : (
-        <TriangleAlert className="size-3.5 shrink-0" aria-hidden />
+        <Icon name="warning" className="size-3.5 shrink-0" aria-hidden />
       )}
       <span className="min-w-0 flex-1">{children}</span>
       {action && <span className="shrink-0">{action}</span>}
@@ -464,7 +456,7 @@ function CardDragHandle({
       )}
       {...props}
     >
-      <GripVertical className="size-4" aria-hidden />
+      <Icon name="grip" className="size-4" aria-hidden />
     </button>
   )
 }

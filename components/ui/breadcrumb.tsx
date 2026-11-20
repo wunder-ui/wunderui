@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { ChevronDown, ChevronRight, Ellipsis, Lock, Slash } from "lucide-react"
+import { Icon } from "@/components/ui/icon-provider"
 import { cn } from "@/lib/utils"
 
 type BreadcrumbVariant = "plain" | "contained" | "border" | "underline"
@@ -173,7 +173,7 @@ function BreadcrumbSeparator({
       )}
       {...props}
     >
-      {children ?? (type === "slash" ? <Slash /> : <ChevronRight />)}
+      {children ?? (type === "slash" ? <Icon name="slash" /> : <Icon name="chevronRight" />)}
     </li>
   )
 }
@@ -193,7 +193,7 @@ function BreadcrumbEllipsis({ className, children, ...props }: React.ComponentPr
         className
       )}
     >
-      {children ?? <Ellipsis aria-hidden />}
+      {children ?? <Icon name="more" aria-hidden />}
     </button>
   )
 }
@@ -213,7 +213,7 @@ function BreadcrumbSiblingTrigger({ className, children, ...props }: React.Compo
         className
       )}
     >
-      {children ?? <ChevronDown aria-hidden />}
+      {children ?? <Icon name="chevronDown" aria-hidden />}
     </button>
   )
 }
@@ -241,7 +241,7 @@ function BreadcrumbRestricted({
         className
       )}
     >
-      <Lock aria-hidden />
+      <Icon name="lock" aria-hidden />
       {children}
     </span>
   )

@@ -19,11 +19,11 @@ One colour in, a checked WunderUI theme out. The generator is the one behind the
 ### 1. Collect the input
 - **Brand colour** as hex (`#0F766E`). If the user gives a name ("our teal") or a logo, ask for the hex — do not guess it from a picture.
 - Optional: **accent** (second brand colour → `--brand-secondary` and chart series 2), **radius** (`none`, `sm`, `md` = WunderUI default, `lg`, `xl`), **font** (a family name the project already loads, or `var(--font-geist)` with next/font).
-- **Global or one subtree?** Global (default) themes the whole app. `--scope .acme` themes only what sits inside `class="acme"` (a white-label area, a customer preview); radius cannot be scoped.
+- **Global or one subtree?** Global (default) themes the whole app. `--scope .wunderui` themes only what sits inside `class="wunderui"` (a white-label area, a customer preview); radius cannot be scoped.
 
 ### 2. Generate
 ```
-T make --brand "#0F766E" [--accent "#F59E0B"] [--radius lg] [--font "Geist"] [--scope .acme] [--out wunderui-theme.css]
+T make --brand "#0F766E" [--accent "#F59E0B"] [--radius lg] [--font "Geist"] [--scope .wunderui] [--out wunderui-theme.css]
 ```
 Writes `./wunderui-theme.css` and `.wunderui/theme-report.md` and prints the scale and every contrast pair for light and dark. Exit code 2 = a pair is still below AA.
 - `--parity` writes exactly the Theme Builder's `theme.css` (no corrections, no accent/radius/font) — only for comparing with the website.

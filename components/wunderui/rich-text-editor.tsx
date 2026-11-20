@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { cn } from "@/lib/utils"
+import type { SlashItem } from "./rich-text-editor-slash"
 
 type RichTextEditorProps = {
   content?: string
@@ -16,6 +17,12 @@ type RichTextEditorProps = {
   "aria-labelledby"?: string
   /** Id of the element that describes the editing area, such as a helper line. */
   "aria-describedby"?: string
+  /**
+   * Typing "/" at the start of a line or after a space opens a block menu at the caret: arrow keys pick, Enter or Tab
+   * inserts, Escape closes, typing filters. `true` shows the default blocks (headings, lists, task, quote, divider,
+   * code); pass your own list to replace them, e.g. `[...richTextEditorSlashItems, myItem]`. Off by default.
+   */
+  slashMenu?: boolean | SlashItem[]
 }
 
 function RichTextEditorSkeleton({ placeholder, className }: Pick<RichTextEditorProps, "placeholder" | "className">) {
@@ -45,4 +52,6 @@ function RichTextEditor(props: RichTextEditorProps) {
 }
 
 export { RichTextEditor, RichTextEditorSkeleton }
+export { richTextEditorSlashItems } from "./rich-text-editor-slash"
 export type { RichTextEditorProps }
+export type { SlashItem } from "./rich-text-editor-slash"

@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { CalendarDays, CircleAlert } from "lucide-react"
+import { Icon } from "@/components/ui/icon-provider"
 import { Button } from "@/components/ui/button"
 import { IconButton } from "@/components/ui/icon-button"
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
@@ -313,7 +313,7 @@ function FieldValue({
   if (mode === "single") {
     const date = value as Date | undefined
     return (
-      <span id={id} className="min-w-0 flex-1 truncate text-left">
+      <span id={id} className="min-w-0 flex-1 truncate text-start">
         {date ? (
           <span className="text-foreground">{formatDate(date)}</span>
         ) : (
@@ -326,7 +326,7 @@ function FieldValue({
   const range = value as DateRange | undefined
   if (!range?.from) {
     return (
-      <span id={id} className="min-w-0 flex-1 truncate text-left">
+      <span id={id} className="min-w-0 flex-1 truncate text-start">
         <span className="text-text-tertiary">{rangePlaceholder}</span>
       </span>
     )
@@ -334,7 +334,7 @@ function FieldValue({
 
   if (!range.to) {
     return (
-      <span id={id} className="min-w-0 flex-1 truncate text-left">
+      <span id={id} className="min-w-0 flex-1 truncate text-start">
         <span>{formatDate(range.from)} – </span>
         <span className="text-text-tertiary">MM/DD/YYYY</span>
       </span>
@@ -342,7 +342,7 @@ function FieldValue({
   }
 
   return (
-    <span id={id} className="min-w-0 flex-1 truncate text-left">
+    <span id={id} className="min-w-0 flex-1 truncate text-start">
       <span>
         {formatDate(range.from)} – {formatDate(range.to)}
       </span>
@@ -366,7 +366,7 @@ function HelperLine({
   if (error) {
     return (
       <p id={id} className="flex items-center gap-1 text-xs text-error">
-        <CircleAlert className="size-3.5 shrink-0" />
+        <Icon name="error" className="size-3.5 shrink-0" />
         {error}
       </p>
     )
@@ -466,7 +466,7 @@ function DatePickerField({
           aria-labelledby={label ? `${labelId} ${valueId}` : valueId}
           aria-describedby={hasHelper ? helperId : undefined}
         >
-          <CalendarDays className={cn("size-4 shrink-0", invalid ? "text-error" : "text-text-secondary")} />
+          <Icon name="calendar" className={cn("size-4 shrink-0", invalid ? "text-error" : "text-text-secondary")} />
           <FieldValue
             mode={mode}
             value={value}
@@ -474,7 +474,7 @@ function DatePickerField({
             singlePlaceholder={placeholder ?? FIELD_SINGLE_PLACEHOLDER}
             rangePlaceholder={placeholder ?? FIELD_RANGE_PLACEHOLDER}
           />
-          {invalid && <CircleAlert className="size-4 shrink-0 text-error" />}
+          {invalid && <Icon name="error" className="size-4 shrink-0 text-error" />}
         </FieldControl>
         {hasHelper && <HelperLine id={helperId} error={error} helperText={helperText} mode={mode} rangeFromOnly={rangeFromOnly} />}
       </div>
@@ -637,7 +637,7 @@ function DatePickerPanel({
     >
       <div className="flex gap-6">
         {presetList && (
-          <div className="flex w-[165px] shrink-0 flex-col gap-0.5 border-r border-border pr-4">
+          <div className="flex w-[165px] shrink-0 flex-col gap-0.5 border-e border-border pe-4">
             {presetList.map((preset) => {
               const active = presetActive(preset)
               const unavailable = presetDisabled(preset)
@@ -648,7 +648,7 @@ function DatePickerPanel({
                   disabled={unavailable}
                   onClick={() => handlePresetClick(preset)}
                   className={cn(
-                    "rounded-lg px-3 py-2 outline-none focus-ring disabled:pointer-events-none disabled:opacity-40 text-left text-xs font-medium transition-colors duration-fast ease-entrance",
+                    "rounded-lg px-3 py-2 outline-none focus-ring disabled:pointer-events-none disabled:opacity-40 text-start text-xs font-medium transition-colors duration-fast ease-entrance",
                     active
                       ? "bg-subtle font-semibold text-foreground"
                       : "text-text-secondary hover:bg-bg-page hover:text-foreground active:bg-bg-subtle"
@@ -980,7 +980,7 @@ function DatePicker(props: DatePickerProps) {
           disabled={isDisabled}
           render={<Button variant="plain" className={cn(isRange ? "w-72" : "w-56", "justify-start font-normal", className)} />}
         >
-          <CalendarDays className="size-4" />
+          <Icon name="calendar" className="size-4" />
           {display ?? <span className="text-text-tertiary">{displayPlaceholder}</span>}
         </PopoverTrigger>
         <PopoverContent aria-label={isRange ? "Choose a date range" : "Choose a date"} className="w-auto p-0">
@@ -1011,7 +1011,7 @@ function DatePicker(props: DatePickerProps) {
               aria-labelledby={label ? `${labelId} ${valueId}` : valueId}
               aria-describedby={hasHelper ? helperId : undefined}
             >
-              <CalendarDays className={cn("size-4 shrink-0", error ? "text-error" : "text-text-secondary")} />
+              <Icon name="calendar" className={cn("size-4 shrink-0", error ? "text-error" : "text-text-secondary")} />
               <FieldValue
                 mode={props.mode ?? "single"}
                 value={selected}
@@ -1019,7 +1019,7 @@ function DatePicker(props: DatePickerProps) {
                 singlePlaceholder={fieldPlaceholder}
                 rangePlaceholder={fieldPlaceholder}
               />
-              {error && <CircleAlert className="size-4 shrink-0 text-error" />}
+              {error && <Icon name="error" className="size-4 shrink-0 text-error" />}
             </FieldControl>
             {hasHelper && (
               <HelperLine id={helperId} error={error} helperText={helperText} mode={props.mode ?? "single"} rangeFromOnly={rangeFromOnly} />
@@ -1051,7 +1051,7 @@ function DatePicker(props: DatePickerProps) {
                 />
               }
             >
-              <CalendarDays className={cn("size-4 shrink-0", error ? "text-error" : "text-text-secondary")} />
+              <Icon name="calendar" className={cn("size-4 shrink-0", error ? "text-error" : "text-text-secondary")} />
               <FieldValue
                 mode={props.mode ?? "single"}
                 value={selected}
@@ -1059,7 +1059,7 @@ function DatePicker(props: DatePickerProps) {
                 singlePlaceholder={fieldPlaceholder}
                 rangePlaceholder={fieldPlaceholder}
               />
-              {error && <CircleAlert className="size-4 shrink-0 text-error" />}
+              {error && <Icon name="error" className="size-4 shrink-0 text-error" />}
             </PopoverTrigger>
             <PopoverContent aria-label={isRange ? "Choose a date range" : "Choose a date"} className="w-auto p-0">
               {panel}
@@ -1105,11 +1105,11 @@ function DatePicker(props: DatePickerProps) {
                   variant="ghost"
                   size="sm"
                   aria-label="Open calendar"
-                  className={cn("-ml-2 -mr-2 shrink-0", inputInvalid ? "text-error" : "text-text-secondary")}
+                  className={cn("-ms-2 -me-2 shrink-0", inputInvalid ? "text-error" : "text-text-secondary")}
                 />
               }
             >
-              <CalendarDays className="size-4" />
+              <Icon name="calendar" className="size-4" />
             </PopoverTrigger>
             <PopoverContent
               anchor={controlRef}

@@ -14,7 +14,10 @@ Components live in `components/` and import each other through the `@/*` alias. 
 8. **Charts take a `loading` prop**; do not build your own skeleton.
 9. **A KPI chart ends on the trend line.** In a metric card, a sparkline or mini chart beside the value sits on the same horizontal line as the bottom of the trend chip — `MetricCard` does this by default for `MetricSparkline`. Never centre it vertically or let it float above the chip.
 10. **Motion comes from tokens too.** Duration is `duration-instant|fast|base|slow|deliberate|ambient`, easing is `ease-entrance|exit|move|overshoot|spring`. Never write a raw `duration-300` and never write `ease-in-out` — both are the default every generator reaches for, and both read as mechanical.
-11. **Agent UI has its own components.** A run's state, its steps, an approval gate, its spend and its failure each have one — `AgentStatus`, `RunTimeline`, `ApprovalCard`, `CostMeter`, `RunError`. Do not assemble these from badges and divs.
+11. **A chart enters in 1.1 s, in a dashboard in 0.8 s.** The duration is the `--chart-enter` token; the dashboard load sequence shortens it by itself, any other dense screen sets `data-chart-motion="dense"` on a wrapper. Never give a chart its own duration, and never replay the entrance to show new data — Area, Line and Bar charts morph to it.
+12. **A chart sizes itself from its own width.** Leave `height` off: Area, Line and Bar charts take their height from the width (`aspectRatio`, 220 to 434 px) and pick a size class (xs < 360, sm, md, lg, xl ≥ 1120) that sets the grid lines, the x labels, markers, value labels and the tooltip form; `useChartSize()` reads it. Dates go on `xScale="time"`, never pre-formatted into labels — the axis picks hours, days, weeks, months or years, long lines are thinned for drawing only, bars gather into weeks or months (`aggregate`). Never hide labels with CSS or fix a pixel height to make a chart fit a phone.
+13. **Two series are indigo and pink.** Leave `color` off and the series take the standard order (indigo, pink, blue, green, orange, purple, yellow, grey). Red is not in it: set it by name, and only for a negative value or a limit that was passed.
+14. **Agent UI has its own components.** A run's state, its steps, an approval gate, its spend and its failure each have one — `AgentStatus`, `RunTimeline`, `ApprovalCard`, `CostMeter`, `RunError`. Do not assemble these from badges and divs.
 
 
 ## Do and don't
@@ -32,7 +35,7 @@ The mistakes that cost the most time, each as a pair.
 **Do**
 
 ```tsx
-<DataGrid columns={columns} data={rows} searchable selectable />
+<DataTable columns={columns} data={rows} searchable selectable />
 ```
 
 Sorting, search, selection and pagination already exist. A hand-written table has none of them.

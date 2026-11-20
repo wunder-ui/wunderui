@@ -28,7 +28,7 @@ function ToolbarButton({ className, ...props }: ToolbarPrimitive.Button.Props) {
     <ToolbarPrimitive.Button
       data-slot="toolbar-button"
       className={cn(
-        "flex size-8 items-center justify-center rounded-md border border-transparent text-text-secondary transition-colors duration-fast ease-entrance outline-none hover:bg-bg-page hover:text-foreground active:bg-bg-subtle focus-ring disabled:pointer-events-none disabled:opacity-40 data-[disabled]:pointer-events-none data-[disabled]:opacity-40 data-[pressed]:border-indigo-300 data-[pressed]:bg-tint-indigo data-[pressed]:text-tint-text-indigo data-[pressed]:hover:bg-tint-indigo data-[pressed]:active:bg-bg-subtle [&_svg]:size-4",
+        "flex size-8 items-center justify-center rounded-md border border-transparent text-text-secondary transition-colors duration-fast ease-entrance outline-none hover:bg-bg-page hover:text-foreground active:bg-bg-subtle focus-ring disabled:pointer-events-none disabled:opacity-40 data-[disabled]:pointer-events-none data-[disabled]:opacity-40 data-[pressed]:border-(color:--indigo-300) data-[pressed]:bg-tint-indigo data-[pressed]:text-tint-text-indigo data-[pressed]:hover:bg-tint-indigo data-[pressed]:active:bg-bg-subtle [&_svg]:size-4",
         className
       )}
       {...props}

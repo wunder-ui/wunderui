@@ -15,7 +15,7 @@ function ActionBar({
   return (
     <div
       className={cn(
-        "flex items-center gap-3 rounded-xl border border-border bg-card py-2 pr-2 pl-4 shadow-lg",
+        "flex items-center gap-3 rounded-xl border border-border bg-card py-2 pe-2 ps-4 shadow-lg",
         className
       )}
     >
@@ -25,7 +25,7 @@ function ActionBar({
           <Separator orientation="vertical" className="h-5" />
         </>
       )}
-      <div className="flex items-center gap-2">{children}</div>
+      <div className="flex min-w-0 flex-wrap items-center justify-center gap-2">{children}</div>
     </div>
   )
 }

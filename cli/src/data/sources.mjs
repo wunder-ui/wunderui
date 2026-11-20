@@ -1,5 +1,4 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs"
-import { createRequire } from "node:module"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 
@@ -29,17 +28,26 @@ export function findRepoRoot(start = process.cwd()) {
 
 const readJson = (file) => JSON.parse(readFileSync(file, "utf8"))
 
-/** The block registry is TypeScript data without imports: transpile it and evaluate the module. */
+/**
+ * The redesigned blocks (apps/docs/lib/blocks-v2.ts): the blocks come from the generated JSON, the category
+ * titles from the CATEGORIES list of the TS module (it uses "@/" imports, so it is read as text). A block's
+ * variants are its screens.
+ */
 function loadBlockCategories(root) {
-  const file = path.join(root, "apps", "docs", "lib", "block-registry.ts")
-  if (!existsSync(file)) return []
-  const ts = createRequire(path.join(root, "package.json"))("typescript")
-  const out = ts.transpileModule(readFileSync(file, "utf8"), {
-    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 },
-  }).outputText
-  const mod = { exports: {} }
-  new Function("module", "exports", out)(mod, mod.exports)
-  return mod.exports.blockCategories ?? []
+  const json = path.join(root, "apps", "docs", "lib", "generated", "blocks-v2.json")
+  const ts = path.join(root, "apps", "docs", "lib", "blocks-v2.ts")
+  if (!existsSync(json) || !existsSync(ts)) return []
+  const blocks = JSON.parse(readFileSync(json, "utf8")).blocks
+  const categories = [...readFileSync(ts, "utf8").matchAll(/{ slug: "([a-z]+)", title: "([^"]+)"/g)].map(([, slug, title]) => ({ slug, title }))
+  return categories
+    .map((c) => ({
+      ...c,
+      blocks: blocks
+        .filter((b) => b.category === c.slug)
+        .sort((x, y) => x.title.localeCompare(y.title, "en", { sensitivity: "base" }))
+        .map((b) => ({ slug: b.slug, title: b.title, description: b.description, screens: b.variants.map((v) => ({ slug: v.file, title: v.title, uses: v.uses })) })),
+    }))
+    .filter((c) => c.blocks.length)
 }
 
 export function loadContent(dir) {

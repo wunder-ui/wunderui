@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { UploadCloud } from "lucide-react"
+import { Icon } from "@/components/ui/icon-provider"
 import { cn } from "@/lib/utils"
 
 // "image/*" → "images", "application/pdf" → "PDF", ".csv" → "CSV"
@@ -80,7 +80,7 @@ function DropZone({
           onFiles?.(files)
         }}
       />
-      <UploadCloud className="size-8 text-text-tertiary" aria-hidden />
+      <Icon name="upload" className="size-8 text-text-tertiary" aria-hidden />
       <p className="text-sm font-medium text-foreground">
         Drop files here or <span className="text-text-link">browse</span>
       </p>

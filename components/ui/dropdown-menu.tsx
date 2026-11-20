@@ -3,7 +3,7 @@
 import * as React from "react"
 import { Menu as MenuPrimitive } from "@base-ui/react/menu"
 import { cn } from "@/lib/utils"
-import { ChevronRightIcon, CheckIcon, MinusIcon } from "lucide-react"
+import { Icon } from "@/components/ui/icon-provider"
 import { Spinner } from "@/components/ui/spinner"
 
 /**
@@ -72,7 +72,7 @@ function DropdownMenuContent({
           data-slot="dropdown-menu-content"
           className={cn(
             // As wide as its longest entry (a menu, not a select); never taller than the room left.
-            "z-50 [--surface:var(--popover)] max-h-[max(0px,var(--available-height))] w-max min-w-32 max-w-[min(20rem,var(--available-width))] origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-lg bg-popover p-1 text-popover-foreground shadow-md ring-1 ring-foreground/10 outline-none",
+            "z-50 [--surface:var(--popover)] max-h-[max(0px,var(--available-height))] w-max min-w-32 has-[[data-slot=dropdown-menu-item][aria-describedby]]:min-w-64 max-w-[min(20rem,var(--available-width))] origin-(--transform-origin) overflow-x-hidden overflow-y-auto rounded-lg bg-popover p-1 text-popover-foreground shadow-md ring-1 ring-foreground/10 outline-none",
             // 2 px between two entries (owner rule, 10 Nov 2026), so a hovered, focused or checked row never touches the next one.
             "[&_[role^=menuitem]+[role^=menuitem]]:mt-0.5",
             POPUP_MOTION,
@@ -139,15 +139,13 @@ function DropdownMenuLabel({
 
 /**
  * Row styles shared by every entry type. The highlight moves instantly (arrow
- * keys and type-ahead are rapid-fire), and the focus highlight always wins
- * over the checked tint, so a checked entry never looks unfocusable.
+ * keys and type-ahead are rapid-fire). A checked or selected entry is neutral
+ * (owner rule, 13 Nov 2026): no tint fill and no coloured text, only its check
+ * or dot marks it, like the options of Select and Combobox.
  */
 const ITEM_BASE =
   "relative flex cursor-default items-center gap-2 rounded-md px-2 py-(--menu-item-py) text-label-sm font-medium outline-hidden select-none " +
   "focus:bg-bg-page focus:text-foreground active:bg-bg-subtle data-inset:ps-7 " +
-  "data-checked:not-focus:bg-tint-indigo data-selected:not-focus:bg-tint-indigo " +
-  // Label and check of a checked entry take the tint text of the same hue (disabled keeps its grey).
-  "data-checked:not-focus:not-data-disabled:text-tint-text-indigo data-selected:not-focus:not-data-disabled:text-tint-text-indigo " +
   "data-disabled:text-text-tertiary data-disabled:focus:bg-bg-page data-disabled:focus:text-text-tertiary " +
   "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4"
 
@@ -252,7 +250,7 @@ function DropdownMenuSubTrigger({
       {...props}
     >
       {children}
-      <ChevronRightIcon aria-hidden className="ms-auto rtl:rotate-180" />
+      <Icon name="chevronRight" aria-hidden className="ms-auto rtl:rotate-180" />
     </MenuPrimitive.SubmenuTrigger>
   )
 }
@@ -322,9 +320,10 @@ function DropdownMenuCheckboxItem({
         data-slot="dropdown-menu-checkbox-item-indicator"
       >
         <MenuPrimitive.CheckboxItemIndicator keepMounted className={INDICATOR_MOTION}>
-          <CheckIcon />
+          <Icon name="check" />
         </MenuPrimitive.CheckboxItemIndicator>
-        <MinusIcon
+        <Icon
+          name="minus"
           data-slot="dropdown-menu-checkbox-item-mixed"
           className={cn(
             "absolute transition-[opacity,scale] duration-instant ease-entrance motion-reduce:transition-none",
@@ -366,7 +365,7 @@ function DropdownMenuRadioItem({
         data-slot="dropdown-menu-radio-item-indicator"
       >
         <MenuPrimitive.RadioItemIndicator keepMounted className={INDICATOR_MOTION}>
-          <CheckIcon />
+          <Icon name="check" />
         </MenuPrimitive.RadioItemIndicator>
       </span>
       {children}

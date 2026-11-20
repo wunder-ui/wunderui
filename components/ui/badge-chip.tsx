@@ -1,16 +1,5 @@
 import * as React from "react"
-import {
-  Check,
-  ChevronDown,
-  ChevronUp,
-  Circle,
-  CircleDashed,
-  CircleDot,
-  Square,
-  SquareCheck,
-  TriangleAlert,
-  X,
-} from "lucide-react"
+import { Icon } from "@/components/ui/icon-provider"
 import { cn } from "@/lib/utils"
 
 /** Mark rendered before a Chip's label. */
@@ -46,8 +35,7 @@ function ariaFor({
   return {}
 }
 
-/** Badge variant Chip: filter chip. */
-function Chip({
+function FilterChip({
   selected = false,
   mark = "none",
   trailing = "none",
@@ -89,35 +77,35 @@ function Chip({
         data-slot="chip-main"
         onClick={onClick}
         className={cn(
-          "inline-flex h-full cursor-pointer items-center gap-2 rounded-full pl-2.5 outline-none",
-          trailing === "remove" ? "pr-1" : "pr-2.5",
+          "inline-flex h-full cursor-pointer items-center gap-2 rounded-full ps-2.5 outline-none",
+          trailing === "remove" ? "pe-1" : "pe-2.5",
         )}
         {...ariaFor({ role, selected, trailing, open, onClick, mark })}
       >
         {mark === "check" && selected && (
-          <Check aria-hidden className="size-4 shrink-0" />
+          <Icon name="check" aria-hidden className="size-4 shrink-0" />
         )}
         {mark === "radio" &&
           (selected ? (
-            <CircleDot aria-hidden className="size-4 shrink-0" />
+            <Icon name="radioOn" aria-hidden className="size-4 shrink-0" />
           ) : (
-            <Circle aria-hidden className="size-4 shrink-0" />
+            <Icon name="radioOff" aria-hidden className="size-4 shrink-0" />
           ))}
         {mark === "checkbox" &&
           (selected ? (
-            <SquareCheck aria-hidden className="size-4 shrink-0" />
+            <Icon name="checkboxOn" aria-hidden className="size-4 shrink-0" />
           ) : (
-            <Square aria-hidden className="size-4 shrink-0" />
+            <Icon name="checkboxOff" aria-hidden className="size-4 shrink-0" />
           ))}
         {mark === "suggest" && (
-          <CircleDashed aria-hidden className="size-4 shrink-0" />
+          <Icon name="circleDashed" aria-hidden className="size-4 shrink-0" />
         )}
         {children}
         {trailing === "chevron" &&
           (open ? (
-            <ChevronUp aria-hidden className="size-4 shrink-0" />
+            <Icon name="chevronUp" aria-hidden className="size-4 shrink-0" />
           ) : (
-            <ChevronDown aria-hidden className="size-4 shrink-0" />
+            <Icon name="chevronDown" aria-hidden className="size-4 shrink-0" />
           ))}
       </button>
       {trailing === "remove" && (
@@ -125,17 +113,16 @@ function Chip({
           type="button"
           aria-label={removeLabel ?? "Remove"}
           onClick={onRemove}
-          className="mr-1 inline-flex size-5 cursor-pointer items-center justify-center rounded-full outline-none transition-colors duration-fast ease-entrance hover:bg-current/15 focus-ring"
+          className="me-1 inline-flex size-5 cursor-pointer items-center justify-center rounded-full outline-none transition-colors duration-fast ease-entrance hover:bg-current/15 focus-ring"
         >
-          <X aria-hidden className="size-3.5" />
+          <Icon name="close" aria-hidden className="size-3.5" />
         </button>
       )}
     </span>
   )
 }
 
-/** Badge variant EntityChip: entity chip. */
-function EntityChip({
+function EntityChipImpl({
   leading,
   children,
   onRemove,
@@ -150,8 +137,8 @@ function EntityChip({
     <span
       data-slot="entity-chip"
       className={cn(
-        "inline-flex h-7 items-center gap-2 rounded-full bg-muted pl-0.5 text-sm font-medium text-foreground",
-        onRemove ? "pr-1" : "pr-2.5",
+        "inline-flex h-7 items-center gap-2 rounded-full bg-muted ps-0.5 text-sm font-medium text-foreground",
+        onRemove ? "pe-1" : "pe-2.5",
       )}
     >
       {leading}
@@ -163,15 +150,14 @@ function EntityChip({
           onClick={onRemove}
           className="inline-flex size-5 cursor-pointer items-center justify-center rounded-full outline-none transition-colors duration-fast ease-entrance hover:bg-current/15 focus-ring"
         >
-          <X aria-hidden className="size-3.5" />
+          <Icon name="close" aria-hidden className="size-3.5" />
         </button>
       )}
     </span>
   )
 }
 
-/** Badge variant TokenChip: input token. */
-function TokenChip({
+function TokenChipImpl({
   children,
   state = "default",
   onRemove,
@@ -186,7 +172,7 @@ function TokenChip({
     state === "invalid"
       ? "border-tint-text-red bg-tint-red text-tint-text-red"
       : state === "focused"
-        ? "border-primary bg-muted text-foreground outline outline-2 outline-indigo-300"
+        ? "border-primary bg-muted text-foreground outline outline-2 outline-(color:--indigo-300)"
         : "border-transparent bg-muted text-foreground"
 
   return (
@@ -194,13 +180,13 @@ function TokenChip({
       data-slot="token-chip"
       data-state={state}
       className={cn(
-        "inline-flex h-6 items-center gap-1 rounded-md border pl-2 text-xs font-medium",
-        onRemove ? "pr-0.5" : "pr-2",
+        "inline-flex h-6 items-center gap-1 rounded-md border ps-2 text-xs font-medium",
+        onRemove ? "pe-0.5" : "pe-2",
         stateClasses,
       )}
     >
       {state === "invalid" && (
-        <TriangleAlert aria-hidden className="size-3 shrink-0" />
+        <Icon name="warning" aria-hidden className="size-3 shrink-0" />
       )}
       <span>{children}</span>
       {onRemove && (
@@ -213,12 +199,72 @@ function TokenChip({
             state === "removing" && "bg-current/15",
           )}
         >
-          <X aria-hidden className="size-3" />
+          <Icon name="close" aria-hidden className="size-3" />
         </button>
       )}
     </span>
   )
 }
 
-export type { ChipMark, TokenState }
+type FilterChipProps = {
+  selected?: boolean
+  mark?: ChipMark
+  trailing?: "none" | "chevron" | "remove"
+  open?: boolean
+  role?: "radio" | "checkbox"
+  onClick?: () => void
+  onRemove?: () => void
+  removeLabel?: string
+  className?: string
+  children: React.ReactNode
+}
+
+type EntityChipProps = {
+  leading: React.ReactNode
+  children: React.ReactNode
+  onRemove?: () => void
+  removeLabel?: string
+}
+
+type TokenChipProps = {
+  children: React.ReactNode
+  state?: TokenState
+  onRemove?: () => void
+  removeLabel?: string
+}
+
+type ChipProps =
+  | ({ variant?: "filter" } & FilterChipProps)
+  | ({ variant: "entity" } & EntityChipProps)
+  | ({ variant: "token" } & TokenChipProps)
+
+/**
+ * Badge chip. `variant="filter"` (default) is a filter chip, `"entity"` a rounded
+ * chip with an avatar or icon in `leading` and a name, `"token"` an input token
+ * with a `state` (default, focused, invalid, removing).
+ */
+function Chip(props: ChipProps) {
+  if (props.variant === "entity") {
+    const { variant: _variant, ...rest } = props
+    return <EntityChipImpl {...rest} />
+  }
+  if (props.variant === "token") {
+    const { variant: _variant, ...rest } = props
+    return <TokenChipImpl {...rest} />
+  }
+  const { variant: _variant, ...rest } = props
+  return <FilterChip {...rest} />
+}
+
+/** @deprecated Use `<Chip variant="entity">`. Renders the same chip. */
+function EntityChip(props: EntityChipProps) {
+  return <Chip variant="entity" {...props} />
+}
+
+/** @deprecated Use `<Chip variant="token">`. Renders the same chip. */
+function TokenChip(props: TokenChipProps) {
+  return <Chip variant="token" {...props} />
+}
+
+export type { ChipMark, TokenState, ChipProps }
 export { Chip, EntityChip, TokenChip }

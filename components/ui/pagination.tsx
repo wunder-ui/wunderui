@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react"
+import { Icon } from "@/components/ui/icon-provider"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -101,7 +101,7 @@ function Pagination({ page, pageCount, onPageChange, className, shape = "rounded
           disabled={page <= 1}
           className={cn(CELL, EDGE_BUTTON, round)}
         >
-          <ChevronsLeft aria-hidden className="size-4 rtl:rotate-180" />
+          <Icon name="chevronsLeft" aria-hidden className="size-4 rtl:rotate-180" />
         </button>
       )}
       <button
@@ -110,7 +110,7 @@ function Pagination({ page, pageCount, onPageChange, className, shape = "rounded
         disabled={page <= 1}
         className={cn(CELL, NAV_BUTTON, round)}
       >
-        <ChevronLeft aria-hidden className="size-4 rtl:rotate-180" />
+        <Icon name="chevronLeft" aria-hidden className="size-4 rtl:rotate-180" />
         <span className="sr-only sm:not-sr-only">Prev</span>
       </button>
 
@@ -152,7 +152,7 @@ function Pagination({ page, pageCount, onPageChange, className, shape = "rounded
         className={cn(CELL, NAV_BUTTON, round)}
       >
         <span className="sr-only sm:not-sr-only">Next</span>
-        <ChevronRight aria-hidden className="size-4 rtl:rotate-180" />
+        <Icon name="chevronRight" aria-hidden className="size-4 rtl:rotate-180" />
       </button>
       {showEdges && (
         <button
@@ -163,7 +163,7 @@ function Pagination({ page, pageCount, onPageChange, className, shape = "rounded
           disabled={page >= pageCount}
           className={cn(CELL, EDGE_BUTTON, round)}
         >
-          <ChevronsRight aria-hidden className="size-4 rtl:rotate-180" />
+          <Icon name="chevronsRight" aria-hidden className="size-4 rtl:rotate-180" />
         </button>
       )}
     </nav>
@@ -195,7 +195,7 @@ function PaginationSimple({ page, pageCount, onPageChange, className, shape = "r
         disabled={page <= 1}
         className={cn(CELL, "gap-2 border border-border bg-card px-3.5 text-foreground transition-colors duration-fast ease-entrance hover:bg-bg-page active:bg-subtle disabled:pointer-events-none disabled:opacity-40", round)}
       >
-        <ChevronLeft aria-hidden className="size-4 rtl:rotate-180" />
+        <Icon name="chevronLeft" aria-hidden className="size-4 rtl:rotate-180" />
         Previous
       </button>
       <span className="text-label-sm text-text-tertiary tabular-nums">
@@ -208,7 +208,7 @@ function PaginationSimple({ page, pageCount, onPageChange, className, shape = "r
         className={cn(CELL, "gap-2 border border-border bg-card px-3.5 text-foreground transition-colors duration-fast ease-entrance hover:bg-bg-page active:bg-subtle disabled:pointer-events-none disabled:opacity-40", round)}
       >
         Next
-        <ChevronRight aria-hidden className="size-4 rtl:rotate-180" />
+        <Icon name="chevronRight" aria-hidden className="size-4 rtl:rotate-180" />
       </button>
     </nav>
   )

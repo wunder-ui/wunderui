@@ -117,13 +117,14 @@
       ],
       "source": "components/ui/avatar.tsx",
       "props": {
-        "Size": "size (24 → sm, 28 → xs, 36 → default, 40 → lg, 44 → xl)",
+        "Size": "size (20 → 3xs, 24 → sm, 28 → xs, 36 → default, 40 → lg, 44 → xl; 56 = Figma only, Circle with Initials in every tone or Image, React: pending)",
         "Shape": "shape (circle | square; square = team, workspace, organisation)",
         "Content": "Image → AvatarImage, Initials → AvatarFallback text, Icon → AvatarFallback icon (order: image → initials → icon)",
-        "Tone": "color",
+        "Tone": "color (Plain, Primary, Purple, Indigo, Blue, Pink, Green, Yellow, Orange, Grey, Red, Alternative)",
         "Initials": "AvatarFallback children",
         "Fallback icon": "icon child",
-        "Show presence": "AvatarBadge (status sets the shape of the dot)"
+        "Show presence": "AvatarBadge (status sets the shape of the dot)",
+        "Size 20": "size=\"3xs\" (20 px)"
       },
       "note": "Rebuilt in place (same id). small and regular were both 36 px and are now one size. Old axes in Container · Legacy avatar."
     },
@@ -170,10 +171,11 @@
       "source": "components/ui/avatar.tsx",
       "props": {
         "Layout": "AvatarGroup layout (overlap | spaced)",
-        "Size": "36 / 40 / 44 match Avatar; 42 / 48 / 50 / 60 photo-only",
+        "Size": "24 / 28 (Overlap, None or Count, overlap 2 px) and 36 / 40 / 44 match Avatar size sm / xs / default / lg / xl; 42 / 48 / 50 / 60 photo-only",
         "Overflow": "None / Count (AvatarGroupCount) / Button (AvatarGroupCount interactive)",
         "Overflow label": "AvatarGroupCount children"
-      }
+      },
+      "note": "Every avatar and the count circle carry a 2 px ring in bg-surface (ring-2 ring-(--surface))."
     },
     {
       "page": "Avatar",
@@ -190,6 +192,24 @@
       "note": "Named button, e.g. \"Show 7 more members\", opens the member list."
     },
     {
+      "page": "Avatar",
+      "set": "Avatar / Label",
+      "id": "722:177",
+      "slug": "avatar",
+      "components": [
+        "AvatarLabel",
+        "PersonCell"
+      ],
+      "source": "components/ui/avatar.tsx",
+      "note": "Block molecule — person + role cell for tables and lists.",
+      "props": {
+        "Name": "name",
+        "Secondary text": "role / description",
+        "Metadata": "meta React: pending",
+        "Avatar": "Avatar (36)"
+      }
+    },
+    {
       "page": "Badge",
       "set": "Badge / Label",
       "id": "2502:986",
@@ -199,11 +219,12 @@
       ],
       "source": "components/ui/badge.tsx",
       "props": {
-        "Appearance": "badgeStyle (Solid → plain, Subtle → light, Outline → light_border, Plain → ghost)",
-        "Tone": "color (Neutral → grey, Solid Neutral → black, Brand → indigo, Info → blue, Success → green, Warning → yellow, Danger → red)",
+        "Appearance": "badgeStyle (Solid → plain, Subtle → light, Outline → light_border, Plain → ghost, Border grey → border_grey (Neutral only))",
+        "Tone": "color (Neutral → grey, Solid Neutral → black, Brand → indigo, Info → blue, Success → green, Warning → yellow, Danger → red, Pink → pink)",
         "Shape": "shape (Pill → pill, Rounded → rounded)",
         "Size": "size (Small → sm 20 px, Medium → md 24 px)",
-        "Show icon / Icon / Show dot": "icon as a child; dot"
+        "Show icon / Icon / Show dot": "icon as a child; dot",
+        "Tone (20.11.)": "Orange, Purple, Indigo added (Subtle / Solid / Outline / Plain × Small / Medium × Pill / Rounded); Border grey for all 9 tones"
       },
       "note": "Non-interactive: no hover, pressed or focus state. Replaces Badge 606:13881 (Container · Legacy badge)."
     },
@@ -293,7 +314,7 @@
     },
     {
       "page": "Badge",
-      "set": "Chip / Input Token",
+      "set": "Chip / Token",
       "id": "2505:854",
       "slug": "badge",
       "components": [
@@ -407,7 +428,8 @@
         "Pending": "pending (spinner replaces the leading icon, presses ignored, aria-busy)",
         "Label": "children",
         "Show leading icon / Leading icon": "leading icon child (data-icon=\"inline-start\")",
-        "Show trailing icon / Trailing icon": "trailing icon child (data-icon=\"inline-end\")"
+        "Show trailing icon / Trailing icon": "trailing icon child (data-icon=\"inline-end\")",
+        "Width": "Hug (default) / Fill → className=\"w-full\" (Small: Plain Neutral, Solid Brand/Neutral/Danger, Subtle Brand, Gradient Brand; Medium: Solid Neutral/Danger, Subtle, Gradient; Regular and Medium Solid Brand and Plain Neutral, Rest, Rounded; Fill content is centred)"
       },
       "note": "Rebuilt in place (same set id). The old axes Type / Style / State and the .Button legacy set 31:315 are in Container · Legacy button."
     },
@@ -482,7 +504,8 @@
       "props": {
         "Type": "type (stars | hearts | emojis | scale)",
         "Value": "value",
-        "Label": "label (none | right | left | tooltip)"
+        "Label": "label (none | right | left | tooltip)",
+        "Size": "size (sm | md; sm = 12 px compact read-only row, md = 16 px icons); Figma Stars Size axis added 20.11."
       },
       "note": "Figma shows 14 px icons, emoji radius 12 and a tooltip caret; React is the reference (16 px icons, 8 px radius, tooltip with caret)."
     },
@@ -638,7 +661,9 @@
       "slug": "selector-item",
       "components": [
         "SelectorItem",
-        "SelectorItemGroup"
+        "SelectorItemGroup",
+        "OptionRow",
+        "OptionRowGroup"
       ],
       "source": "components/wunderui/selector-item.tsx",
       "props": {
@@ -650,9 +675,12 @@
         "Show helper / Show error": "helper / error text",
         "Control position": "Leading | Trailing",
         "State": "Rest | Hover | Pressed | Selected | Disabled",
-        "control": "control=\"radio\""
+        "control": "control=\"radio\"",
+        "Selected": "checked control or selected: tint/indigo fill, 1.5 px tint-text/indigo rim",
+        "Show badge": "badge, badgeColor",
+        "Show control / Show chevron": "href (link mode: no control, chevron)"
       },
-      "note": "Rebuilt 30.10.2026; legacy set 113:7930 in container 2887:23923"
+      "note": "Rebuilt 30.10.2026; legacy set 113:7930 in container 2887:23923 Control, metadata (price) and action are vertically centred in the row (SelectorItem: items-center)."
     },
     {
       "page": "Selectors",
@@ -673,9 +701,11 @@
         "Control position": "Leading | Trailing",
         "State": "Rest | Hover | Pressed | Selected | Disabled",
         "Layout": "Card | Inline",
-        "control": "control=\"checkbox\""
+        "control": "control=\"checkbox\"",
+        "Selected": "checked control: tint/indigo fill, 1.5 px tint-text/indigo rim",
+        "Show badge": "badge, badgeColor"
       },
-      "note": "Rebuilt 30.10.2026; legacy set 113:7985 in container 2887:23923 Inline layout extended 10.11.2026 with field description and error (React Checkbox label/description/error); 13 variants."
+      "note": "Rebuilt 30.10.2026; legacy set 113:7985 in container 2887:23923 Inline layout extended 10.11.2026 with field description and error (React Checkbox label/description/error); 13 variants. Layout=Card: control, metadata and action are vertically centred in the row (SelectorItem: items-center)."
     },
     {
       "page": "Selectors",
@@ -783,8 +813,9 @@
       "page": "Dropdown",
       "set": "Select / Field",
       "id": "2509:12542",
-      "slug": "native-select",
+      "slug": "select",
       "components": [
+        "Select",
         "NativeSelect",
         "NativeSelectTrigger",
         "NativeSelectValue",
@@ -793,10 +824,11 @@
       ],
       "source": "components/ui/native-select.tsx",
       "props": {
-        "Size": "Medium (36) / Large (40) → size",
+        "Size": "Small (32, Label/Small 13/18; React Select has no sm) / Medium (36) / Large (40) → size",
         "Value": "Placeholder / Selected → value",
         "Error": "aria-invalid + error text",
-        "Show label / Show helper": "label / description"
+        "Show label / Show helper": "label / description",
+        "Show leading / Leading": "leading slot (default dashed-line-circle; preferred calendar-03, user, circle, Avatar); React: pending"
       }
     },
     {
@@ -896,10 +928,26 @@
         "Selected": "data-state=active / aria-selected",
         "Interaction": "hover / pressed / focus-visible / disabled",
         "Label": "children",
-        "Show count": "React: pending",
+        "Show count": "TabsTrigger count (shown on the selected tab only)",
         "Show status": "React: pending"
       },
       "note": "Underline/Vertical ohne Fokusring und Hover-Fläche"
+    },
+    {
+      "page": "Tab Bar",
+      "set": "Tabs / List",
+      "id": "922:105741",
+      "slug": "tabs",
+      "components": [
+        "TabBar",
+        "TabItem"
+      ],
+      "source": "components/blocks/application.tsx",
+      "note": "Line-style tab bar (block molecule); equivalent to <Tabs variant=\"line\">.",
+      "props": {
+        "Width": "Content | Equal (equal-width tabs)",
+        "Items": "number of TabsTrigger children"
+      }
     },
     {
       "page": "Tab Bar",
@@ -916,7 +964,8 @@
         "Interaction": "hover / pressed / focus-visible / disabled",
         "Size": "size (xs, small → sm, regular → md, large → lg)",
         "Label": "options[].label",
-        "Show Icon": "options[].icon"
+        "Show Icon": "options[].icon",
+        "Badge (count)": "options[].badge; neutral tone, bg-surface on the unselected option, 4 px to the right edge"
       }
     },
     {
@@ -931,8 +980,9 @@
       "props": {
         "Width": "Content | Equal",
         "Shape": "shape",
-        "Items": "options.length",
-        "Size": "size"
+        "Items": "options.length (6 and 7 added 20.11.; Wrap=True Items=7)",
+        "Size": "size",
+        "Wrap": "wrap (False default / True: options wrap to a second row, 358 wide)"
       },
       "note": "Size xs (option 28 / control 32, added Sep 27 2026) = React size=\"xs\" — used by ChartCard periods and all chart filter rows."
     },
@@ -990,7 +1040,9 @@
       "props": {
         "Cell Type": "Text → TextCell, Primary → HeadingCell, Entity → UserCell / UserAvatarCell, Status → BadgeCell, Currency → CurrencyCell, Tags → TagCell, Progress → ProgressCell, Selection → CheckItemCell, Action → ActionItemsCell; Missing value, Summary, Loading and the remaining types React: pending",
         "Alignment": "Start / End (numbers right-aligned)",
-        "Column": "column width role (Fill, Wide = min 200, fixed 40–176 px); same value in header and body keeps them aligned"
+        "Column": "column width role (Fill, Wide = min 200, fixed 40–176 px); same value in header and body keeps them aligned",
+        "Second line": "Currency / Numeric: Show second line + Second line text; React: pending",
+        "Cell Type (20.11.)": "new: Two Line Start/End, Check Start/Center/End, Entity 24, Entity 20, Center alignment for Text/Numeric/Status/Boolean/Date Time; React: pending"
       },
       "note": "Shared by Data Table, Data Grid and Table. Replaces Table Item 35:216 (Container · Legacy table)."
     },
@@ -1221,11 +1273,13 @@
       "slug": "input-group",
       "components": [
         "InputGroup",
-        "InputGroupAddon"
+        "InputGroupAddon",
+        "InputGroupCopy",
+        "InviteLinkRow"
       ],
       "source": "components/ui/input-group.tsx",
       "props": {
-        "Type": "Addons → InputGroupAddon, Attached Button → InputGroup + Button, Select leading / Select trailing → NativeSelect next to Input"
+        "Type": "Addons → InputGroupAddon, Attached Button → InputGroup + Button, Select leading / Select trailing → NativeSelect next to Input, Copy → InputGroupCopy"
       }
     },
     {
@@ -1238,7 +1292,11 @@
         "InputGroup"
       ],
       "source": "components/ui/input.tsx",
-      "note": "type=\"search\" with a leading icon and a clear button."
+      "note": "type=\"search\" with a leading icon and a clear button.",
+      "props": {
+        "Shortcut": "False (default) / True → InputGroupAddon with Kbd at the end of the empty field (Rest, Hover, Focus); the Kbd instance is exposed (Keys, default ⌘K)",
+        "Size": "Medium (default) / Small (32); React Input has no sm size beyond default: Small follows the control size scale"
+      }
     },
     {
       "page": "Input",
@@ -1246,9 +1304,10 @@
       "id": "2525:1282",
       "slug": "input",
       "components": [
-        "PasswordField"
+        "Input"
       ],
-      "source": "components/blocks/form.tsx"
+      "source": "components/ui/input.tsx",
+      "note": "type=\"password\" with revealable."
     },
     {
       "page": "Input",
@@ -1275,9 +1334,14 @@
       "slug": "otp-field",
       "components": [
         "OtpField",
-        "OtpFieldInput"
+        "OtpFieldInput",
+        "OtpFieldCode",
+        "OtpCodeInput"
       ],
-      "source": "components/ui/otp-field.tsx"
+      "source": "components/ui/otp-field.tsx",
+      "props": {
+        "Type": "Default → OtpField + OtpFieldInput, Code → OtpFieldCode"
+      }
     },
     {
       "page": "Input",
@@ -1329,9 +1393,9 @@
       "id": "2524:835",
       "slug": "input",
       "components": [
-        "TextField"
+        "Input"
       ],
-      "source": "components/blocks/form.tsx",
+      "source": "components/ui/input.tsx",
       "props": {
         "Validation": "None → description, Error → error; Warning, Success, Validating, Failed to validate React: pending",
         "Show label": "label",
@@ -1407,7 +1471,8 @@
         "Size": "Regular 32 / Medium 40",
         "Shape": "Rounded / Pill",
         "Show first/last": "showEdges",
-        "Disabled": "loading"
+        "Disabled": "loading",
+        "Current page": "currentStyle (primary = default: Pagination / Item Current style=Primary, solid brand with white number; subtle = Current style=Subtle)"
       },
       "note": "Regular 32 px, Medium 40 px"
     },
@@ -1588,12 +1653,13 @@
       "components": [
         "Alert",
         "AlertTitle",
-        "AlertDescription"
+        "AlertDescription",
+        "InlineNote"
       ],
       "source": "components/ui/alert.tsx",
       "props": {
         "Type": "variant (Neutral / Info / Success / Warning / Error / Progress) — names React: pending",
-        "Layout": "Stacked / Compact React: pending",
+        "Layout": "Stacked → size=\"large\", Compact → size=\"small\" (16 px icon, px-3 py-2, one line, description truncates), Inline → size=\"inline\"",
         "Show action / close": "React: pending"
       }
     },
@@ -1677,21 +1743,6 @@
     },
     {
       "page": "Notification",
-      "set": "Notification / Center",
-      "id": "2765:1246",
-      "slug": "toast",
-      "components": [
-        "Toaster",
-        "useToast"
-      ],
-      "source": "components/ui/toast.tsx",
-      "props": {
-        "State": "Loaded / Loading / Empty / Error"
-      },
-      "note": "Popover with the center body. React: pending."
-    },
-    {
-      "page": "Notification",
       "set": "Notification / Group Header",
       "id": "2764:716",
       "slug": "toast",
@@ -1751,7 +1802,8 @@
       "source": "components/wunderui/timeline.tsx",
       "props": {
         "Status": "Completed / Current / Upcoming / Failed / Cancelled",
-        "Connector": "Line / None"
+        "Connector": "Line / None",
+        "Marker": "24 (default) / 32 (rail 40, solid icon circle, gap 16; TimelineEntry style)"
       }
     },
     {
@@ -1860,7 +1912,7 @@
         "Widget"
       ],
       "source": "components/wunderui/widget.tsx",
-      "note": "Dashboard board wrapper: Rest, Hover, Focus, Dragging, Drop target, Resizing, Locked. React: pending."
+      "note": "Dashboard board wrapper: Rest, Hover, Focus, Dragging, Drop target, Resizing, Locked. React: pending. Drag handle sits on the card, top-left, 24 px square (React dashboard-grid handle); Widget header padding-left 32 leaves room. The move icon is gone from the control row (the handle is on the card); remove stays (React renderActions)."
     },
     {
       "page": "Data Display",
@@ -2033,11 +2085,12 @@
       "note": "Autosave / save status. React: pending."
     },
     {
-      "page": "Forms",
-      "set": "Inline Select",
+      "page": "Dropdown",
+      "set": "Select / Inline",
       "id": "2726:1120",
-      "slug": "inline-select",
+      "slug": "select",
       "components": [
+        "Select",
         "InlineSelect"
       ],
       "source": "components/ui/inline-select.tsx"
@@ -2192,11 +2245,12 @@
       "note": "Open state: open | defaultOpen | onOpenChange"
     },
     {
-      "page": "Forms",
-      "set": "Native Select",
+      "page": "Dropdown",
+      "set": "Archived / Native Select",
       "id": "757:96742",
-      "slug": "native-select",
+      "slug": "select",
       "components": [
+        "Select",
         "NativeSelect"
       ],
       "source": "components/ui/native-select.tsx"
@@ -2681,6 +2735,118 @@
       }
     },
     {
+      "page": "Forms",
+      "set": "Text Link Row",
+      "id": "634:2563",
+      "slug": "text-link-row",
+      "components": [
+        "TextLinkRow"
+      ],
+      "source": "components/blocks/auth.tsx",
+      "docs": "https://wunderui.com/blocks/auth/login"
+    },
+    {
+      "page": "Forms",
+      "set": "Social Sign-in Buttons",
+      "id": "634:2534",
+      "slug": "social-sign-in-buttons",
+      "components": [
+        "SocialSignInButtons"
+      ],
+      "source": "components/blocks/auth.tsx",
+      "docs": "https://wunderui.com/blocks/auth/login"
+    },
+    {
+      "page": "Selectors",
+      "set": "Option Row (Legacy)",
+      "id": "634:2681",
+      "slug": "selector-item",
+      "components": [
+        "OptionRow",
+        "OptionRowGroup"
+      ],
+      "source": "components/blocks/auth.tsx",
+      "docs": "https://wunderui.com/blocks/auth/passkey-otp"
+    },
+    {
+      "page": "Avatar",
+      "set": "Avatar / Label / Account",
+      "id": "634:2727",
+      "slug": "avatar",
+      "components": [
+        "AvatarLabel",
+        "UserInfo"
+      ],
+      "source": "components/ui/avatar.tsx",
+      "docs": "https://wunderui.com/blocks/auth/login"
+    },
+    {
+      "page": "Forms",
+      "set": "Password Requirement",
+      "id": "634:2599",
+      "slug": "password-requirement",
+      "components": [
+        "PasswordRequirement"
+      ],
+      "source": "components/blocks/auth.tsx",
+      "docs": "https://wunderui.com/blocks/auth/login"
+    },
+    {
+      "page": "A. Auth & Onboarding",
+      "set": "OTP Code Input (Legacy)",
+      "id": "637:26573",
+      "slug": "otp-field",
+      "components": [
+        "OtpCodeInput"
+      ],
+      "source": "components/blocks/auth.tsx",
+      "docs": "https://wunderui.com/blocks/auth/passkey-otp"
+    },
+    {
+      "page": "Forms",
+      "set": "Backup Code",
+      "id": "637:26576",
+      "slug": "backup-code",
+      "components": [
+        "BackupCode"
+      ],
+      "source": "components/blocks/auth.tsx",
+      "docs": "https://wunderui.com/blocks/auth/passkey-otp"
+    },
+    {
+      "page": "Forms",
+      "set": "Invite Row",
+      "id": "637:26587",
+      "slug": "invite-row",
+      "components": [
+        "InviteRow"
+      ],
+      "source": "components/blocks/auth.tsx",
+      "docs": "https://wunderui.com/blocks/auth/team-invite"
+    },
+    {
+      "page": "Forms",
+      "set": "Settings Row",
+      "id": "637:26634",
+      "slug": "settings-row",
+      "components": [
+        "SettingsRow"
+      ],
+      "source": "components/blocks/auth.tsx",
+      "docs": "https://wunderui.com/blocks/app/settings"
+    },
+    {
+      "page": "Notification",
+      "set": "Inline Note (Legacy)",
+      "id": "634:2738",
+      "slug": "alert",
+      "components": [
+        "InlineNote"
+      ],
+      "source": "components/blocks/auth.tsx",
+      "docs": "https://wunderui.com/blocks/auth/login"
+    },
+    {
       "page": "B. Application & Dashboard",
       "set": "Kbd",
       "id": "693:60",
@@ -2692,15 +2858,78 @@
       "note": "Block-page copy of the ❖ Kbd set."
     },
     {
-      "page": "B. Application & Dashboard",
-      "set": "Timeline Event",
-      "id": "722:58517",
-      "slug": "activity-feed",
+      "page": "Kbd",
+      "set": "Keyboard Hint",
+      "id": "693:73",
+      "slug": "kbd",
       "components": [
+        "KbdHint",
+        "KeyboardHint"
+      ],
+      "source": "components/blocks/application.tsx",
+      "docs": "https://wunderui.com/blocks/app/command-palette"
+    },
+    {
+      "page": "Forms",
+      "set": "Checklist Task",
+      "id": "693:123",
+      "slug": "checklist-task",
+      "components": [
+        "ChecklistTask"
+      ],
+      "source": "components/blocks/application.tsx",
+      "docs": "https://wunderui.com/blocks/auth/onboarding"
+    },
+    {
+      "page": "Data Display",
+      "set": "Item Card / Cover",
+      "id": "2592:984",
+      "slug": "item-card",
+      "components": [
+        "ItemCardCover",
+        "ProjectCard"
+      ],
+      "source": "components/wunderui/item-card.tsx",
+      "docs": "https://wunderui.com/blocks/app/app-shell-sidebar",
+      "props": {
+        "Interaction": "Rest / Hover / Focus / Pressed (hover, focus-visible, active)"
+      }
+    },
+    {
+      "page": "Data Display",
+      "set": "Item Card / File",
+      "id": "702:57",
+      "slug": "item-card",
+      "components": [
+        "ItemCardFile",
+        "FileCard"
+      ],
+      "source": "components/wunderui/item-card.tsx",
+      "docs": "https://wunderui.com/blocks/app/file-manager"
+    },
+    {
+      "page": "Data Display",
+      "set": "Timeline / Entry",
+      "id": "722:58517",
+      "slug": "timeline",
+      "components": [
+        "TimelineEntry",
         "TimelineEvent"
       ],
       "source": "components/blocks/application.tsx",
-      "docs": "https://wunderui.com/blocks/app/activity-feed"
+      "docs": "https://wunderui.com/blocks/app/notifications"
+    },
+    {
+      "page": "Data Display",
+      "set": "Event Chip",
+      "id": "722:112",
+      "slug": "agenda-event",
+      "components": [
+        "AgendaEventChip",
+        "EventChip"
+      ],
+      "source": "components/blocks/data.tsx",
+      "docs": "https://wunderui.com/blocks/data/calendar"
     },
     {
       "page": "C. Data & Tables",
@@ -2722,6 +2951,33 @@
         "TrendChip"
       ],
       "source": "components/wunderui/trend-chip.tsx"
+    },
+    {
+      "page": "Progress Bar",
+      "set": "Histogram Bar",
+      "id": "732:1853",
+      "slug": "progress",
+      "components": [
+        "ProgressRow",
+        "HistogramBar"
+      ],
+      "source": "components/blocks/commerce.tsx",
+      "docs": "https://wunderui.com/blocks/commerce/reviews"
+    },
+    {
+      "page": "Icon Button",
+      "set": "Star Button",
+      "id": "3786:110603",
+      "slug": "star-button",
+      "components": [
+        "StarButton"
+      ],
+      "source": "components/wunderui/star-button.tsx",
+      "props": {
+        "Starred": "starred / defaultStarred (Off / On)",
+        "Size": "size (Small=sm default, Regular=md, Medium=lg, Large=xl, Xlarge=2xl)"
+      },
+      "note": "Ghost neutral Icon Button; On = yellow/700 line + yellow/600 fill. Tooltip reads Star / Unstar."
     }
   ]
 }

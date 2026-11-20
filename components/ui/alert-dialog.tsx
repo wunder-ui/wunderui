@@ -2,7 +2,7 @@
 
 import type * as React from "react"
 import { AlertDialog as AlertDialogPrimitive } from "@base-ui/react/alert-dialog"
-import { CircleAlert, Trash2, TriangleAlert } from "lucide-react"
+import { Icon } from "@/components/ui/icon-provider"
 import { cn } from "@/lib/utils"
 
 import { Button } from "@/components/ui/button"
@@ -30,7 +30,7 @@ function AlertDialogOverlay({ className, ...props }: AlertDialogPrimitive.Backdr
     <AlertDialogPrimitive.Backdrop
       data-slot="alert-dialog-overlay"
       className={cn(
-        "fixed inset-0 isolate z-50 bg-black/10 supports-backdrop-filter:backdrop-blur-xs data-open:animate-in data-open:fade-in-0 data-open:duration-base data-closed:animate-out data-closed:fade-out-0 data-closed:duration-fast",
+        "fixed inset-0 isolate z-50 bg-neutral-black/10 supports-backdrop-filter:backdrop-blur-xs data-open:animate-in data-open:fade-in-0 data-open:duration-base data-closed:animate-out data-closed:fade-out-0 data-closed:duration-fast",
         className
       )}
       {...props}
@@ -174,7 +174,7 @@ function AlertDialogIcon({
   children?: React.ReactNode
 }) {
   const fallback =
-    variant === "destructive" ? <Trash2 aria-hidden /> : variant === "warning" ? <TriangleAlert aria-hidden /> : <CircleAlert aria-hidden />
+    variant === "destructive" ? <Icon name="trash" aria-hidden /> : variant === "warning" ? <Icon name="warning" aria-hidden /> : <Icon name="error" aria-hidden />
   return (
     // Figma Alert Dialog icon: a 40 px tile with radius 8 on the tint of its tone (indigo by default);
     // the plain Dialog icon stays a round bg-muted circle.
@@ -221,7 +221,7 @@ function AlertDialogFeedback({
     >
       {icon === null ? null : (
         <span aria-hidden className="mt-0.5 flex shrink-0 [&_svg]:size-4">
-          {icon ?? (tone === "warning" ? <TriangleAlert /> : <CircleAlert />)}
+          {icon ?? (tone === "warning" ? <Icon name="warning" /> : <Icon name="error" />)}
         </span>
       )}
       <span className="min-w-0">{children}</span>

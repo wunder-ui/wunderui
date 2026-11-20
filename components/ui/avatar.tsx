@@ -2,9 +2,10 @@
 
 import * as React from "react"
 import { Avatar as AvatarPrimitive } from "@base-ui/react/avatar"
-import { Check, Moon } from "lucide-react"
+import { Icon } from "@/components/ui/icon-provider"
 import { cn } from "@/lib/utils"
 import { opticalCenter } from "@/lib/optical-center"
+import { Tooltip, TooltipContent, TooltipTrigger } from "./tooltip"
 
 /** Tinted initials — mirrors the Figma Avatar "Style=<hue>_primary" variants
  *  (tint/<hue> background + tint-text/<hue> text, both mode-aware tokens). */
@@ -50,7 +51,7 @@ const STATUS_SHAPES: Record<AvatarBadgeStatus, React.ReactNode> = {
   ),
   away: (
     <span aria-hidden className="flex size-[80%] items-center justify-center">
-      <Moon className="size-full fill-current" strokeWidth={0} />
+      <Icon name="moon" className="size-full fill-current" strokeWidth={0} />
     </span>
   ),
   offline: null,
@@ -66,7 +67,7 @@ const STATUS_LABELS: Record<AvatarBadgeStatus, string> = {
   unknown: "Status unknown",
 }
 
-function Avatar({
+function AvatarRoot({
   className,
   size = "default",
   shape = "circle",
@@ -79,8 +80,11 @@ function Avatar({
   children,
   ...props
 }: AvatarPrimitive.Root.Props & {
-  /** Figma Avatar sizes: sm = 24px (2xs), xs = 28px, default = 36px (small), lg = 40px (medium), xl = 44px (large) */
-  size?: "sm" | "xs" | "default" | "lg" | "xl"
+  /**
+   * Figma Avatar sizes: 3xs = 20px (as tall as a one-line 20 px text row), sm = 24px (2xs), xs = 28px,
+   * default = 36px (small), lg = 40px (medium), xl = 44px (large)
+   */
+  size?: "3xs" | "sm" | "xs" | "default" | "lg" | "xl"
   shape?: "circle" | "square"
   variant?: "plain" | "primary"
   /** Soft tint for initials avatars; ignored when an image renders. */
@@ -106,9 +110,9 @@ function Avatar({
         "group/avatar relative flex size-9 shrink-0 select-none after:absolute after:inset-0 after:border after:border-border-control after:mix-blend-darken dark:after:mix-blend-lighten",
         "data-[shape=circle]:rounded-full data-[shape=circle]:after:rounded-full",
         "data-[shape=square]:rounded-md data-[shape=square]:after:rounded-md",
-        "data-[size=sm]:size-6 data-[size=xs]:size-7 data-[size=lg]:size-10 data-[size=xl]:size-11",
+        "data-[size=3xs]:size-5 data-[size=sm]:size-6 data-[size=xs]:size-7 data-[size=lg]:size-10 data-[size=xl]:size-11",
         // Figma keeps the glyph at 16 px and only shrinks it on the two small sizes.
-        "[&_svg]:size-4 data-[size=sm]:[&_svg]:size-3 data-[size=xs]:[&_svg]:size-3.5",
+        "[&_svg]:size-4 data-[size=3xs]:[&_svg]:size-3 data-[size=sm]:[&_svg]:size-3 data-[size=xs]:[&_svg]:size-3.5",
         "data-[variant=primary]:bg-primary data-[variant=primary]:text-primary-foreground data-[variant=primary]:after:border-transparent",
         color && AVATAR_COLOR_CLASSES[color],
         color && "after:border-transparent",
@@ -125,6 +129,7 @@ function Avatar({
           className={cn(
             BADGE_POSITION,
             "[--badge-d:--spacing(4)]",
+            "group-data-[size=3xs]/avatar:[--badge-d:--spacing(2.5)] group-data-[size=3xs]/avatar:[&>svg]:size-1.5",
             "group-data-[size=sm]/avatar:[--badge-d:--spacing(3)] group-data-[size=sm]/avatar:[&>svg]:size-2",
             "group-data-[size=xs]/avatar:[--badge-d:--spacing(3.5)] group-data-[size=xs]/avatar:[&>svg]:size-2.5",
             "group-data-[size=default]/avatar:[&>svg]:size-3",
@@ -132,7 +137,7 @@ function Avatar({
             "group-data-[size=xl]/avatar:[&>svg]:size-3"
           )}
         >
-          <Check className="size-3" strokeWidth={3} />
+          <Icon name="check" className="size-3" strokeWidth={3} />
         </span>
       )}
     </AvatarPrimitive.Root>
@@ -166,6 +171,7 @@ function AvatarFallback({
           // Initials follow the Figma type ramp: 11 / 12 / 13 / 14 / 15 px,
           // semibold everywhere except the 28 px size, which is medium.
           "text-[13px] font-semibold",
+          "group-data-[size=3xs]/avatar:text-[9px]",
           "group-data-[size=sm]/avatar:text-[11px]",
           "group-data-[size=xs]/avatar:text-[12px] group-data-[size=xs]/avatar:font-medium",
           "group-data-[size=lg]/avatar:text-[14px] group-data-[size=xl]/avatar:text-[15px]",
@@ -199,6 +205,7 @@ function AvatarBadge({
         aria-label={props["aria-label"] ?? STATUS_LABELS[status]}
         className={cn(
           BADGE_POSITION,
+          "group-data-[size=3xs]/avatar:[--badge-d:--spacing(1.5)]",
           "group-data-[size=sm]/avatar:[--badge-d:--spacing(2)]",
           "group-data-[size=xs]/avatar:[--badge-d:--spacing(2)]",
           "group-data-[size=lg]/avatar:[--badge-d:--spacing(2.5)]",
@@ -224,6 +231,7 @@ function AvatarBadge({
       data-slot="avatar-badge"
       className={cn(
         BADGE_POSITION,
+        "group-data-[size=3xs]/avatar:[--badge-d:--spacing(1.5)] group-data-[size=3xs]/avatar:[&>svg]:hidden",
         "group-data-[size=sm]/avatar:[&>svg]:hidden",
         "group-data-[size=xs]/avatar:[&>svg]:hidden",
         "group-data-[size=default]/avatar:[&>svg]:size-2",
@@ -236,8 +244,78 @@ function AvatarBadge({
   )
 }
 
-function AvatarGroup({ className, children, layout = "overlap", ...props }: React.ComponentProps<"div"> & {
+/**
+ * An avatar. A `title` shows in our Tooltip on hover (never the native browser one), so
+ * `<Avatar title="Nora Lindgren">` is enough to name a face.
+ */
+function Avatar({ title, ...props }: React.ComponentProps<typeof AvatarRoot>) {
+  if (!title) return <AvatarRoot {...props} />
+  return (
+    <Tooltip>
+      <TooltipTrigger render={<AvatarRoot {...props} />} describe={false} data-slot="avatar" />
+      <TooltipContent>{title}</TooltipContent>
+    </Tooltip>
+  )
+}
+
+/** One person of a people list: a photo, or initials (given or taken from the name), tinted in a colour. */
+type Person = { name: string; initials?: string; src?: string; color?: AvatarColor }
+
+/** The initials of a person: the given ones, or the first letters of the first two words of the name. */
+const initialsOf = (p: Person) => p.initials ?? p.name.split(" ").map((s) => s[0]).slice(0, 2).join("").toUpperCase()
+
+type AvatarGroupProps = React.ComponentProps<"div"> & {
   layout?: "overlap" | "spaced"
+  /** A list of people: the group renders their avatars itself, overlapping by 4 px (2 px at `sm` and `xs`, so the
+   *  second initial is not hidden under the next face), cut at `max` with a "+N" avatar. Hovering a face lifts it
+   *  and shows the name in a Tooltip.
+   *  The 2 px ring (faces and count) is `--surface`, the colour of what the group sits on: a card, a popover, a hovered or selected row. */
+  people?: Person[]
+  /** With `people`: how many faces show before the count. Default 3. */
+  max?: number
+  /** With `people`: the avatar size, `sm` 24 px, `xs` 28 px, `default` 36 px, `lg` 40 px, `xl` 44 px. Default `sm`. */
+  size?: "xs" | "sm" | "default" | "lg" | "xl"
+}
+
+function AvatarGroup({ people, max = 3, size = "sm", layout, children, className, ...props }: AvatarGroupProps) {
+  if (people) {
+    const shown = people.slice(0, max)
+    const rest = people.length - shown.length
+    return (
+      <AvatarGroupItems
+        layout="overlap"
+        data-variant="people"
+        // small faces overlap less: with 4 px and the 2 px ring the next face covered the second initial ("DO" read "DC")
+        overlapClass={size === "sm" || size === "xs" ? "-space-x-0.5" : "-space-x-1"}
+        className={className}
+        {...props}
+      >
+        {shown.map((p, i) => (
+          <Avatar key={`${p.name}-${i}`} size={size} color={p.src ? undefined : (p.color ?? "indigo")} className="ring-2 ring-(--surface)" title={p.name} role="img" aria-label={p.name}>
+            {p.src && <AvatarImage src={p.src} alt="" />}
+            <AvatarFallback className="text-[10px]">{initialsOf(p)}</AvatarFallback>
+          </Avatar>
+        ))}
+        {rest > 0 && (
+          // An Avatar of the same size, so the count is as big as the faces next to it.
+          <Avatar size={size} className="ring-2 ring-(--surface)">
+            <AvatarFallback className="text-[10px] font-medium text-text-secondary">+{rest}</AvatarFallback>
+          </Avatar>
+        )}
+      </AvatarGroupItems>
+    )
+  }
+  return (
+    <AvatarGroupItems layout={layout} className={className} {...props}>
+      {children}
+    </AvatarGroupItems>
+  )
+}
+
+function AvatarGroupItems({ className, children, layout = "overlap", overlapClass = "-space-x-3", ...props }: React.ComponentProps<"div"> & {
+  layout?: "overlap" | "spaced"
+  /** Overlap of the faces (a `-space-x-*` class). */
+  overlapClass?: string
 }) {
   const rootRef = React.useRef<HTMLDivElement>(null)
 
@@ -272,7 +350,7 @@ function AvatarGroup({ className, children, layout = "overlap", ...props }: Reac
       className={cn(
         "group/avatar-group flex",
         layout === "overlap"
-          ? "-space-x-3 [&_[data-slot=avatar]]:ring-2 [&_[data-slot=avatar]]:ring-(--surface)"
+          ? cn(overlapClass, "[&_[data-slot=avatar]]:ring-2 [&_[data-slot=avatar]]:ring-(--surface)")
           : "gap-1.5",
         className
       )}
@@ -334,12 +412,86 @@ function AvatarGroupCount(props: AvatarGroupCountProps) {
   )
 }
 
-export type { AvatarColor, AvatarBadgeStatus }
+/* -------------------------------------------------------------------------- */
+/* AvatarLabel — an avatar with a name and a second line, and optionally a     */
+/* capacity bar or a trailing control. Figma: User Info (634:2727), Person     */
+/* Cell (722:177).                                                             */
+/* -------------------------------------------------------------------------- */
+
+type AvatarLabelProps = {
+  name: string
+  /** Second line under the name: a role, an email, a plan. */
+  subtext?: React.ReactNode
+  src?: string
+  /** Initials shown without a picture. Default: the first letters of the first two words of the name. */
+  initials?: string
+  color?: AvatarColor
+  /** Avatar size: `default` 36 px, `lg` 40 px, `xl` 44 px. */
+  size?: "default" | "lg" | "xl"
+  /** Smaller text (12 / 11 px, semibold name) for sidebars, menus and dense rows. Default: on when there is a capacity bar. */
+  compact?: boolean
+  /** Weight of the name. Default: semibold when compact, medium otherwise. */
+  nameWeight?: "medium" | "semibold"
+  /** No gap between the name and the second line (the User Info look), so the 20 + 16 px text block is as tall as the
+   *  36 px avatar. Default: on; `false` puts 2 px between the lines. */
+  tight?: boolean
+  /** A load bar under the text: `value` 0 to 100 and a label such as "32h". Green up to 80 %, yellow up to 100 %, red above. */
+  capacity?: { value: number; label?: React.ReactNode }
+  /** A control at the end of the row, such as an IconButton menu. */
+  trailing?: React.ReactNode
+  className?: string
+}
+
+function AvatarLabel({ name, subtext, src, initials, color, size = "default", compact, nameWeight, tight = true, capacity, trailing, className }: AvatarLabelProps) {
+  const small = compact ?? capacity !== undefined
+  const weight = nameWeight ?? (small ? "semibold" : "medium")
+  const fallback = initials ?? name.split(" ").map((p) => p[0]).slice(0, 2).join("").toUpperCase()
+  // The bar is clamped to 0–100 % (NaN counts as 0). Its colour follows the load: up to 80 % success,
+  // 81–100 % warning (the yellow of the away status), over 100 % error. The raw value decides the colour.
+  const load = capacity && Number.isFinite(capacity.value) ? capacity.value : 0
+  const loadWidth = Math.max(0, Math.min(100, load))
+  const loadTone = load > 100 ? "bg-error" : load > 80 ? "bg-brand-quaternary" : "bg-success"
+  return (
+    <div data-slot="avatar-label" className={cn("flex items-center gap-3", className)}>
+      <Avatar size={size} color={src ? undefined : color}>
+        {/* alt="": the name stands right next to the face, so a screen reader would read it twice */}
+        {src && <AvatarImage src={src} alt="" />}
+        <AvatarFallback>{fallback}</AvatarFallback>
+      </Avatar>
+      {/* Avatar height = text block (owner, Nov 14 2026): name 20 + second line 16 = the 36 px avatar, so no gap by default. */}
+      <div className={cn("flex min-w-0 flex-1 flex-col", !tight && "gap-0.5")}>
+        <span className={cn("truncate text-foreground", small ? "text-xs" : "text-sm", weight === "semibold" ? "font-semibold" : "font-medium")}>{name}</span>
+        {subtext && <span className={cn("truncate text-text-tertiary", small ? "text-[11px]" : "text-xs")}>{subtext}</span>}
+        {capacity && (
+          <span className="flex items-center gap-1">
+            <span
+              role="meter"
+              aria-label="Capacity"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={loadWidth}
+              aria-valuetext={`${Math.round(load)}% of capacity${capacity.label && typeof capacity.label === "string" ? `, ${capacity.label}` : ""}`}
+              className="h-1 flex-1 overflow-hidden rounded-full bg-muted"
+            >
+              <span data-load={load > 100 ? "over" : load > 80 ? "high" : "ok"} className={cn("block h-full rounded-full", loadTone)} style={{ width: `${loadWidth}%` }} />
+            </span>
+            {capacity.label && <span className="text-[11px] text-text-tertiary">{capacity.label}</span>}
+          </span>
+        )}
+      </div>
+      {trailing}
+    </div>
+  )
+}
+
+export type { AvatarColor, AvatarBadgeStatus, AvatarLabelProps, AvatarGroupProps, Person }
 export {
+  AvatarLabel,
   Avatar,
   AvatarImage,
   AvatarFallback,
   AvatarGroup,
   AvatarGroupCount,
   AvatarBadge,
+  initialsOf,
 }

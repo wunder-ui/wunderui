@@ -2,16 +2,7 @@ import * as React from "react"
 import { mergeProps } from "@base-ui/react/merge-props"
 import { useRender } from "@base-ui/react/use-render"
 import { cva, type VariantProps } from "class-variance-authority"
-import {
-  Check,
-  Loader2,
-  Lock,
-  Minus,
-  Moon,
-  TriangleAlert,
-  X,
-  type LucideIcon,
-} from "lucide-react"
+import { Icon, type IconName } from "@/components/ui/icon-provider"
 import { cn } from "@/lib/utils"
 import { opticalCenter } from "@/lib/optical-center"
 
@@ -78,23 +69,8 @@ type BadgeStyle = "plain" | "light" | "light_border" | "border_color" | "border_
 // color-mix() below.
 const TINTED: readonly BadgeColor[] = ["blue", "green", "red", "yellow", "purple", "indigo", "pink", "orange", "alternative"]
 
-// Text on a solid fill — the Figma Badge "primary" state: white on indigo,
-// alternative and black (≥ 5:1), and on every lighter hue the darkest step of that
-// same hue (the Primitives <hue>-1000 variable, the same one Figma binds), so label
-// and icon still read as one tone and pass AA (6.1–8.0:1). The pale tint used before
-// fell to 1.5–3:1. Mode-independent on purpose: the fill keeps its bright hue in dark mode.
-const WHITE_TEXT_ON: readonly BadgeColor[] = ["indigo", "alternative", "black"]
-
-const SOLID_TEXT: Partial<Record<BadgeColor, string>> = {
-  blue: "var(--blue-1000)",
-  purple: "var(--purple-1000)",
-  pink: "var(--pink-1000)",
-  red: "var(--red-1000)",
-  orange: "var(--orange-1000)",
-  yellow: "var(--yellow-1000)",
-  green: "var(--green-1000)",
-  grey: "#2D2E2E",
-}
+// Text on a solid fill: white on every hue (owner decision Nov 17 2026: white text on solid colour, never black). The one exception is the white badge, whose fill is white itself, so it keeps black text.
+const SOLID_TEXT_DARK: readonly BadgeColor[] = ["white"]
 
 // The two achromatic badges are spelled out in Figma rather than derived: a
 // black badge pales to the grey scale, a white one to the surface grey — a
@@ -144,7 +120,7 @@ function styleToCss(color: BadgeColor, style: BadgeStyle) {
       return {
         background: hex,
         borderColor: hex,
-        color: WHITE_TEXT_ON.includes(color) ? "#FFFFFF" : (SOLID_TEXT[color] ?? "#000000"),
+        color: SOLID_TEXT_DARK.includes(color) ? "#000000" : "#FFFFFF",
       }
     case "light":
       return {
@@ -208,9 +184,9 @@ function Badge({
       data-slot="badge-remove"
       aria-label={removeLabel}
       onClick={onRemove}
-      className="-mr-1 ml-0.5 inline-flex size-4 shrink-0 cursor-pointer items-center justify-center rounded-full outline-none transition duration-fast ease-entrance hover:bg-current/15 active:scale-90 motion-reduce:active:scale-100 focus-ring"
+      className="relative -me-1 ms-0.5 inline-flex size-4 shrink-0 cursor-pointer after:absolute after:-inset-1 after:content-['']  items-center justify-center rounded-full outline-none transition duration-fast ease-entrance hover:bg-current/15 active:scale-90 motion-reduce:active:scale-100 focus-ring"
     >
-      <X aria-hidden="true" className="size-3" />
+      <Icon name="close" aria-hidden="true" className="size-3" />
     </button>
   ) : null
 
@@ -256,7 +232,7 @@ const BADGE_COUNTER_TONE_CLASSES: Record<BadgeCounterTone, string> = {
 }
 
 const BADGE_COUNTER_KIND_CLASSES: Record<"inline" | "overlay", string> = {
-  inline: "h-5 min-w-5 px-1.5 text-xs font-semibold",
+  inline: "h-5 min-w-5 px-1.5 text-xs font-medium",
   overlay: "absolute top-0 right-0 z-10 h-4 min-w-4 translate-x-1/2 -translate-y-1/2 px-1 text-[11px] font-medium ring-2 ring-card",
 }
 
@@ -317,7 +293,7 @@ const INDICATOR_CONFIG: Record<
   {
     root: string
     size: Record<"sm" | "md", string>
-    icon?: LucideIcon
+    icon?: IconName
     iconSize: Record<"sm" | "md", string>
     strokeWidth?: number
     fill?: boolean
@@ -341,14 +317,14 @@ const INDICATOR_CONFIG: Record<
   busy: {
     root: "bg-destructive text-destructive-foreground",
     size: { sm: "size-2", md: "size-2.5" },
-    icon: Minus,
+    icon: "minus",
     iconSize: { sm: "size-1.5", md: "size-2" },
     strokeWidth: 4,
   },
   away: {
     root: "bg-transparent text-brand-quaternary",
     size: { sm: "size-2", md: "size-2.5" },
-    icon: Moon,
+    icon: "moon",
     iconSize: { sm: "size-2", md: "size-2.5" },
     strokeWidth: 0,
     fill: true,
@@ -356,21 +332,21 @@ const INDICATOR_CONFIG: Record<
   check: {
     root: "bg-success text-success-foreground",
     size: { sm: "size-4", md: "size-5" },
-    icon: Check,
+    icon: "check",
     iconSize: { sm: "size-2.5", md: "size-3" },
     strokeWidth: 2.5,
   },
   warning: {
     root: "bg-brand-quaternary text-brand-quaternary-foreground",
     size: { sm: "size-4", md: "size-5" },
-    icon: TriangleAlert,
+    icon: "warning",
     iconSize: { sm: "size-2.5", md: "size-3" },
     strokeWidth: 2.5,
   },
   lock: {
     root: "bg-foreground text-background",
     size: { sm: "size-4", md: "size-5" },
-    icon: Lock,
+    icon: "lock",
     iconSize: { sm: "size-2.5", md: "size-3" },
     strokeWidth: 2.5,
   },
@@ -390,7 +366,6 @@ function BadgeIndicator({
   overlay?: boolean
 }) {
   const config = INDICATOR_CONFIG[kind]
-  const IconComponent = config.icon
 
   // Overlay mode requires a relative parent to anchor against.
   return (
@@ -410,8 +385,9 @@ function BadgeIndicator({
       )}
       {...props}
     >
-      {IconComponent && (
-        <IconComponent
+      {config.icon && (
+        <Icon
+          name={config.icon}
           aria-hidden="true"
           className={cn(config.iconSize[size], config.fill && "fill-current")}
           strokeWidth={config.strokeWidth}
@@ -434,11 +410,11 @@ function BadgeProcessing({
   const done = state === "success"
 
   const icon = pending ? (
-    <Loader2 aria-hidden="true" className="animate-spin motion-reduce:animate-none" />
+    <Icon name="spinner" aria-hidden="true" className="animate-spin motion-reduce:animate-none" />
   ) : done ? (
-    <Check aria-hidden="true" />
+    <Icon name="check" aria-hidden="true" />
   ) : (
-    <TriangleAlert aria-hidden="true" />
+    <Icon name="warning" aria-hidden="true" />
   )
 
   const color = pending ? "blue" : done ? "green" : "red"

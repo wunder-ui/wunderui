@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils"
 
 import { Button } from "@/components/ui/button"
 import { IconButton } from "@/components/ui/icon-button"
-import { XIcon } from "lucide-react"
+import { Icon } from "@/components/ui/icon-provider"
 
 function Dialog({ ...props }: DialogPrimitive.Root.Props) {
   return <DialogPrimitive.Root data-slot="dialog" {...props} />
@@ -32,7 +32,7 @@ function DialogOverlay({
     <DialogPrimitive.Backdrop
       data-slot="dialog-overlay"
       className={cn(
-        "fixed inset-0 isolate z-50 bg-black/10 supports-backdrop-filter:backdrop-blur-xs data-open:animate-in data-open:fade-in-0 data-open:duration-base data-closed:animate-out data-closed:fade-out-0 data-closed:duration-fast",
+        "fixed inset-0 isolate z-50 bg-neutral-black/10 supports-backdrop-filter:backdrop-blur-xs data-open:animate-in data-open:fade-in-0 data-open:duration-base data-closed:animate-out data-closed:fade-out-0 data-closed:duration-fast",
         className
       )}
       {...props}
@@ -74,8 +74,7 @@ function DialogCloseButton({
         />
       }
     >
-      <XIcon
-      />
+      <Icon name="close" />
       <span className="sr-only">Close</span>
     </DialogPrimitive.Close>
   )
@@ -133,7 +132,7 @@ function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="dialog-header"
-      className={cn("flex flex-col gap-2 group-data-[appearance=surface]/dialog:pr-9", className)}
+      className={cn("flex flex-col gap-2 group-data-[appearance=surface]/dialog:pe-9", className)}
       {...props}
     />
   )
@@ -198,7 +197,7 @@ function DialogFooter({
       {...props}
     >
       {start && (
-        <div data-slot="dialog-footer-start" className="flex items-center sm:mr-auto">
+        <div data-slot="dialog-footer-start" className="flex items-center sm:me-auto">
           {start}
         </div>
       )}
@@ -335,7 +334,7 @@ function DialogSurface({
         data-size={size}
         data-appearance={appearance}
         className={cn(
-          "group/dialog relative grid w-full grid-cols-[minmax(0,1fr)] [--surface:var(--popover)] gap-4 rounded-xl bg-popover p-4 text-left text-sm text-popover-foreground ring-1 ring-foreground/10",
+          "group/dialog relative grid w-full grid-cols-[minmax(0,1fr)] [--surface:var(--popover)] gap-4 rounded-xl bg-popover p-4 text-start text-sm text-popover-foreground ring-1 ring-foreground/10",
           SURFACE_WIDTHS[size],
           appearance === "surface" && "shadow-xl",
           className

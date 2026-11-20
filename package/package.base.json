@@ -27,8 +27,8 @@
     "node": ">=20"
   },
   "peerDependencies": {
-    "react": "^19",
-    "react-dom": "^19",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
     "tailwindcss": "^4"
   }
 }

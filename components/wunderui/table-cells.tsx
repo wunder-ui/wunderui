@@ -1,7 +1,7 @@
 "use client"
 
 import type { ReactNode } from "react"
-import { GripVertical, Pencil, Trash2 } from "lucide-react"
+import { Icon } from "@/components/ui/icon-provider"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge, type BadgeColor, type BadgeStyle } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
@@ -238,7 +238,7 @@ function ButtonCell({ children, onClick }: { children: ReactNode; onClick?: () =
 function DragItemCell({ children }: { children: ReactNode }) {
   return (
     <div className="flex items-center gap-3">
-      <GripVertical className="size-4 shrink-0 cursor-grab text-text-tertiary" />
+      <Icon name="grip" className="size-4 shrink-0 cursor-grab text-text-tertiary" />
       <span className="text-sm text-foreground">{children}</span>
     </div>
   )
@@ -324,7 +324,7 @@ function TagCell({
     <Badge color={color} badgeStyle="light" shape="pill">
       {label}
       {onRemove && (
-        <button type="button" aria-label={`Remove ${label}`} onClick={onRemove} className="-mr-0.5">
+        <button type="button" aria-label={`Remove ${label}`} onClick={onRemove} className="-me-0.5">
           <svg viewBox="0 0 12 12" className="size-3" aria-hidden>
             <path d="M3 3l6 6M9 3l-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
           </svg>
@@ -381,7 +381,7 @@ function CellSlider({ value, max = 100 }: { value: number; max?: number }) {
           style={{ width: `${ratio * 100}%` }}
         />
       </div>
-      <span className="w-7 text-right text-xs text-text-tertiary">{value}</span>
+      <span className="w-7 text-end text-xs text-text-tertiary">{value}</span>
     </div>
   )
 }
@@ -402,7 +402,7 @@ function CellSelect({
     <NativeSelect value={value} onValueChange={(v) => v && onValueChange(v)}>
       <NativeSelectTrigger aria-label={ariaLabel} className="h-8 w-32 px-2 text-xs">
         {/* A value longer than the 128 px trigger is cut with an ellipsis; the chevron stays inside the border. */}
-        <NativeSelectValue className="min-w-0 flex-1 truncate text-left" />
+        <NativeSelectValue className="min-w-0 flex-1 truncate text-start" />
       </NativeSelectTrigger>
       <NativeSelectContent>
         {options.map((option) => (
@@ -456,8 +456,8 @@ function CellColorPicker({
 
 /** The default icon set for ActionIconsCell — edit, delete, view. */
 const TABLE_ACTION_ICONS = {
-  edit: <Pencil />,
-  delete: <Trash2 />,
+  edit: <Icon name="edit" />,
+  delete: <Icon name="trash" />,
 } as const
 
 export {

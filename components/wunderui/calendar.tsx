@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { ChevronLeft, ChevronRight, ChevronDown } from "lucide-react"
+import { Icon } from "@/components/ui/icon-provider"
 import { IconButton } from "@/components/ui/icon-button"
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
@@ -169,15 +169,15 @@ function CalendarDay({
     <button
       type="button"
       className={cn(
-        "relative flex items-center justify-center text-sm transition-colors duration-fast ease-entrance outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-solid focus-visible:outline-indigo-300",
+        "relative flex items-center justify-center text-sm transition-colors duration-fast ease-entrance outline-none focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-solid focus-visible:outline-(color:--indigo-300)",
         size === "md" ? "size-10" : "size-8",
         selection === "none" || selection === "single" ? "rounded-full" : undefined,
-        selection === "start" && "rounded-l-full rounded-r-none",
-        selection === "end" && "rounded-r-full rounded-l-none",
+        selection === "start" && "rounded-s-full rounded-e-none",
+        selection === "end" && "rounded-e-full rounded-s-none",
         (selection === "middle" || selection === "preview") && "rounded-none",
         outside && !filled && !band && "text-text-tertiary hover:bg-bg-page active:bg-bg-subtle",
         !outside && !filled && !band && "text-foreground hover:bg-bg-page active:bg-bg-subtle",
-        filled && "bg-primary text-primary-foreground hover:bg-(--brand-700) active:bg-(--brand-800) focus-visible:outline-white",
+        filled && "bg-primary text-primary-foreground hover:bg-(--brand-700) active:bg-(--brand-800) focus-visible:outline-neutral-white",
         band && "bg-tint-indigo text-tint-text-indigo hover:bg-tint-indigo active:bg-tint-indigo",
         selection === "preview" && "bg-bg-subtle text-foreground",
         today && !filled && !band && "border border-primary",
@@ -191,21 +191,18 @@ function CalendarDay({
         interaction === "pressed" && !filled && !band && "bg-bg-subtle",
         interaction === "focus" &&
           (filled
-            ? "outline-2 -outline-offset-2 outline-solid outline-white"
-            : "outline-2 -outline-offset-2 outline-solid outline-indigo-300"),
+            ? "outline-2 -outline-offset-2 outline-solid outline-neutral-white"
+            : "outline-2 -outline-offset-2 outline-solid outline-(color:--indigo-300)"),
         className
       )}
       {...props}
     >
       {opticalCenter(children)}
-      {marked && (
+      {/* a selected day shows only its filled circle; the dot would sit on top of it (the aria-label still says it is marked) */}
+      {marked && !filled && (
         <span
           aria-hidden
-          className={cn(
-            "absolute left-1/2 size-1 -translate-x-1/2 rounded-full",
-            size === "md" ? "bottom-1" : "bottom-0.5",
-            filled ? "bg-primary-foreground" : "bg-primary"
-          )}
+          className={cn("absolute left-1/2 size-1 -translate-x-1/2 rounded-full bg-primary", size === "md" ? "bottom-1" : "bottom-0.5")}
         />
       )}
     </button>
@@ -233,9 +230,9 @@ function CalendarPeriodCell({
         !selected && !unavailable && "text-foreground hover:bg-bg-page active:bg-bg-subtle",
         current && !selected && "border border-primary",
         unavailable && "cursor-not-allowed opacity-40 hover:bg-transparent",
-        interaction === "focus" && "border border-primary outline-2 -outline-offset-2 outline-solid outline-indigo-300",
+        interaction === "focus" && "border border-primary outline-2 -outline-offset-2 outline-solid outline-(color:--indigo-300)",
         interaction !== "focus" &&
-          "focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-solid focus-visible:outline-indigo-300",
+          "focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-solid focus-visible:outline-(color:--indigo-300)",
         className
       )}
       onClick={unavailable ? undefined : onClick}
@@ -302,7 +299,7 @@ function CalendarPeriodPicker({ type, month, selected, today, min, max, onSelect
           disabled={prevDisabled}
           onClick={() => changeAnchor(isMonth ? -1 : -12)}
         >
-          <ChevronLeft className="size-4" />
+          <Icon name="chevronLeft" className="size-4" />
         </IconButton>
         <p aria-live="polite" className="text-sm font-semibold text-foreground">
           {title}
@@ -315,7 +312,7 @@ function CalendarPeriodPicker({ type, month, selected, today, min, max, onSelect
           disabled={nextDisabled}
           onClick={() => changeAnchor(isMonth ? 1 : 12)}
         >
-          <ChevronRight className="size-4" />
+          <Icon name="chevronRight" className="size-4" />
         </IconButton>
       </div>
       <div className="grid grid-cols-3 gap-1">
@@ -389,7 +386,7 @@ function CalendarHeader({
           disabled={previousDisabled}
           onClick={onPrevious}
         >
-          <ChevronLeft className="size-4" />
+          <Icon name="chevronLeft" className="size-4" />
         </IconButton>
       ) : (
         <div className={cn(size === "md" ? "size-9" : "size-8")} />
@@ -409,7 +406,7 @@ function CalendarHeader({
             className="inline-flex h-9 items-center gap-2 rounded-md px-3.5 text-sm font-medium text-foreground transition-colors duration-fast ease-entrance outline-none hover:bg-bg-page active:bg-bg-subtle focus-ring"
           >
             {month.toLocaleDateString("en-US", { month: "short" })}
-            <ChevronDown className="size-4 text-text-secondary" />
+            <Icon name="chevronDown" className="size-4 text-text-secondary" />
           </button>
           <button
             type="button"
@@ -428,7 +425,7 @@ function CalendarHeader({
       )}
       {showNext ? (
         <IconButton type="button" variant="plain" size={navSize} aria-label="Next month" disabled={nextDisabled} onClick={onNext}>
-          <ChevronRight className="size-4" />
+          <Icon name="chevronRight" className="size-4" />
         </IconButton>
       ) : (
         <div className={cn(size === "md" ? "size-9" : "size-8")} />

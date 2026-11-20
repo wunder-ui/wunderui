@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { ChevronDown, Pipette, Plus, X } from "lucide-react"
+import { Icon } from "@/components/ui/icon-provider"
 import { cn } from "@/lib/utils"
 import { IconButton } from "@/components/ui/icon-button"
 import { NativeSelect, NativeSelectContent, NativeSelectItem, NativeSelectTrigger, NativeSelectValue } from "@/components/ui/native-select"
@@ -123,7 +123,9 @@ function Track({
         else return
         event.preventDefault()
       }}
-      className="relative h-2 w-full cursor-pointer touch-none rounded-full outline-none focus-ring"
+      /* 8 px track, 24 px hit area (WCAG 2.5.8): after:-inset-y-2 reaches 8 px past each edge. The tracks sit 16 px
+         apart (gap-4) with 8 px of padding around the column, so the hit areas meet exactly and never overlap. */
+      className="relative h-2 w-full cursor-pointer touch-none rounded-full outline-none focus-ring after:absolute after:-inset-y-2 after:content-['']"
       style={{ background }}
     >
       <span
@@ -193,7 +195,10 @@ function ColorGrid({ hex, onPick }: { hex: string; onPick: (hex: string) => void
           onFocus={() => setFocus(i)}
           onClick={() => onPick(c)}
           className={cn(
-            "relative outline-none focus-visible:z-10 focus-visible:rounded-[3px] focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-0 focus-visible:outline-white",
+            /* Two-tone focus mark, visible on every swatch from white to near-black: a 2 px black outline plus a 2 px white inner
+               ring. Best of the two is at least 4.6:1 on all 108 swatches; the indigo-300 ring of other controls is 1.8:1 on white,
+               and the primary outline alone is 2.3:1 on mid tones. */
+            "relative outline-none focus-visible:z-10 focus-visible:rounded-[3px] focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-0 focus-visible:outline-(--neutral-black) focus-visible:shadow-[inset_0_0_0_2px_var(--neutral-white)]",
             i === selected && "z-10 rounded-sm ring-[2.5px] ring-white shadow-[0_1px_3px_rgb(0_0_0/0.35)]"
           )}
           style={{ background: c }}
@@ -344,8 +349,8 @@ function ColorPicker({
         <div className="flex items-center justify-between gap-2">
           {title !== null && <p className="text-sm font-medium text-foreground">{title}</p>}
           {onClose && (
-            <IconButton variant="plain" size="sm" aria-label="Close" onClick={onClose} className="ml-auto">
-              <X />
+            <IconButton variant="plain" size="sm" aria-label="Close" onClick={onClose} className="ms-auto">
+              <Icon name="close" />
             </IconButton>
           )}
         </div>
@@ -394,10 +399,10 @@ function ColorPicker({
       <div className="flex items-center gap-3">
         {canDrop && (
           <IconButton variant="plain" size="sm" aria-label="Pick a colour from the screen" onClick={pickFromScreen}>
-            <Pipette />
+            <Icon name="eyedropper" />
           </IconButton>
         )}
-        <div className="flex min-w-0 flex-1 flex-col gap-3 py-1">
+        <div className="flex min-w-0 flex-1 flex-col gap-4 py-2">
           <Track
             label="Hue"
             value={hsv.h / 360}
@@ -470,33 +475,68 @@ function ColorPicker({
               onSwatchesChange?.(next)
             }}
           >
-            <Plus />
+            <Icon name="plus" />
           </IconButton>
         </div>
-        <div role="listbox" aria-label="Saved colours" className="flex flex-wrap justify-between gap-y-1.5">
-          {saved.map((s) => {
-            const selected = s.toUpperCase() === hex
-            return (
-              <button
-                key={s}
-                type="button"
-                role="option"
-                aria-selected={selected}
-                aria-label={s}
-                onClick={() => commitHex(s)}
-                // the ring — selected or focused — is drawn in the swatch's own colour
-                style={{ "--swatch": s } as React.CSSProperties}
-                className={cn(
-                  "flex size-6 items-center justify-center rounded-full outline-none transition-[box-shadow] duration-fast ease-entrance focus-ring",
-                  selected && "ring-2 ring-(--swatch)"
-                )}
-              >
-                <span className={cn("rounded-full transition-[width,height] duration-fast ease-entrance", selected ? "size-4" : "size-5")} style={{ background: s }} />
-              </button>
-            )
-          })}
-        </div>
+        <SavedSwatches saved={saved} hex={hex} onPick={commitHex} />
       </div>
+    </div>
+  )
+}
+
+/** The saved colours: one tab stop (roving tabindex), arrows and Home/End move, Enter/Space pick. */
+function SavedSwatches({ saved, hex, onPick }: { saved: string[]; hex: string; onPick: (hex: string) => void }) {
+  const selected = saved.findIndex((s) => s.toUpperCase() === hex)
+  const [focus, setFocus] = React.useState(0)
+  const refs = React.useRef<(HTMLButtonElement | null)[]>([])
+  const active = Math.min(selected >= 0 ? selected : focus, Math.max(0, saved.length - 1))
+  const move = (to: number) => {
+    const next = clamp(to, 0, saved.length - 1)
+    setFocus(next)
+    refs.current[next]?.focus()
+  }
+  return (
+    <div
+      role="listbox"
+      aria-label="Saved colours"
+      className="flex flex-wrap justify-between gap-y-1.5"
+      onKeyDown={(event) => {
+        const from = refs.current.findIndex((el) => el === document.activeElement)
+        const base = from >= 0 ? from : active
+        if (event.key === "ArrowRight" || event.key === "ArrowDown") move(base + 1)
+        else if (event.key === "ArrowLeft" || event.key === "ArrowUp") move(base - 1)
+        else if (event.key === "Home") move(0)
+        else if (event.key === "End") move(saved.length - 1)
+        else return
+        event.preventDefault()
+      }}
+    >
+      {saved.map((s, i) => {
+        const isSelected = i === selected
+        return (
+          <button
+            key={s}
+            ref={(el) => {
+              refs.current[i] = el
+            }}
+            type="button"
+            role="option"
+            aria-selected={isSelected}
+            aria-label={s}
+            tabIndex={i === active ? 0 : -1}
+            onFocus={() => setFocus(i)}
+            onClick={() => onPick(s)}
+            // the ring — selected or focused — is drawn in the swatch's own colour
+            style={{ "--swatch": s } as React.CSSProperties}
+            className={cn(
+              "flex size-6 items-center justify-center rounded-full outline-none transition-[box-shadow] duration-fast ease-entrance focus-ring",
+              isSelected && "ring-2 ring-(--swatch)"
+            )}
+          >
+            <span className={cn("rounded-full transition-[width,height] duration-fast ease-entrance", isSelected ? "size-4" : "size-5")} style={{ background: s }} />
+          </button>
+        )
+      })}
     </div>
   )
 }
@@ -525,7 +565,7 @@ function ChannelInput({ label, value, onCommit, upper = false, className }: { la
         if (e.key === "Enter") (e.target as HTMLInputElement).blur()
       }}
       className={cn(
-        "h-full min-w-0 flex-1 border-r border-border-control bg-transparent text-center text-[13px] text-foreground tabular-nums outline-none last:border-r-0 focus:bg-muted",
+        "h-full min-w-0 flex-1 border-e border-border-control bg-transparent text-center text-[13px] text-foreground tabular-nums outline-none last:border-e-0 focus:bg-muted",
         upper && "uppercase",
         className
       )}
@@ -590,10 +630,10 @@ function ColorPickerTrigger({
         data-shape={shape}
         aria-label={`${label}: ${hex}`}
         className={cn(
-          "group/cp inline-flex max-w-full items-center gap-2 border border-border-control bg-card text-left outline-none transition-colors duration-fast ease-entrance hover:bg-bg-page active:bg-bg-subtle focus-ring data-popup-open:border-primary",
+          "group/cp inline-flex max-w-full items-center gap-2 border border-border-control bg-card text-start outline-none transition-colors duration-fast ease-entrance hover:bg-bg-page active:bg-bg-subtle focus-ring data-popup-open:border-primary",
           pill
             ? "h-8 rounded-full px-3 text-sm text-foreground"
-            : "h-(--field-md) w-60 rounded-md pr-2.5 pl-2",
+            : "h-(--field-md) w-60 rounded-md pe-2.5 ps-2",
           className
         )}
       >
@@ -603,7 +643,7 @@ function ColorPickerTrigger({
           <span className="size-5 shrink-0 rounded-sm ring-1 ring-black/10 ring-inset" style={{ background: hex }} />
         )}
         <span className={cn("uppercase tabular-nums", pill ? "" : "flex-1 text-[13px] text-foreground")}>{hex}</span>
-        <ChevronDown className={cn("shrink-0 text-text-tertiary transition-transform duration-fast ease-entrance group-data-popup-open/cp:rotate-180", pill ? "size-3.5" : "size-4")} />
+        <Icon name="chevronDown" className={cn("shrink-0 text-text-tertiary transition-transform duration-fast ease-entrance group-data-popup-open/cp:rotate-180", pill ? "size-3.5" : "size-4")} />
       </PopoverTrigger>
       {/* A popover open from the start (defaultOpen) does not pull focus on mount; */}
       {/* one opened by mouse/touch/pen/keyboard keeps its normal focus behaviour. */}

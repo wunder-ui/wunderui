@@ -68,7 +68,7 @@ function Textarea(props: TextareaProps) {
       {label && (
         <label htmlFor={id} className={cn("mb-1 text-sm font-medium text-foreground", dim)}>
           {label}
-          {optional && <span className="ml-1 font-normal text-text-tertiary">(optional)</span>}
+          {optional && <span className="ms-1 font-normal text-text-tertiary">(optional)</span>}
         </label>
       )}
       <TextareaControl

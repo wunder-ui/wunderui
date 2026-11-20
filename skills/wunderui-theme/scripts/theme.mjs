@@ -2,7 +2,7 @@
 // wunderui-theme — one brand colour in, a complete WunderUI brand theme out. No dependencies, Node 20+.
 //
 //   theme.mjs make --brand "#0F766E" [--accent "#F59E0B"] [--radius none|sm|md|lg|xl] [--font "Geist"]
-//                  [--scope .acme] [--out wunderui-theme.css] [--report .wunderui/theme-report.md]
+//                  [--scope .wunderui] [--out wunderui-theme.css] [--report .wunderui/theme-report.md]
 //                  [--parity] [--json] [--force]
 //   theme.mjs check [wunderui-theme.css] [--report .wunderui/theme-report.md] [--json]
 //
@@ -677,7 +677,7 @@ function main() {
     if (o.accent && !accent) return fail(`--accent needs a hex colour (got ${o.accent})`)
     const radius = typeof o.radius === "string" ? o.radius : "md"
     if (!RADII[radius]) return fail(`--radius must be one of ${Object.keys(RADII).join(", ")}`)
-    if (o.scope && !/^[.#][\w-]+$/.test(o.scope)) return fail("--scope must be a single class or id, e.g. .acme")
+    if (o.scope && !/^[.#][\w-]+$/.test(o.scope)) return fail("--scope must be a single class or id, e.g. .wunderui")
     const res = makeTheme({ brand, accent, radius, font: typeof o.font === "string" ? o.font : undefined, scope: o.scope, parity: Boolean(o.parity) })
     const outFile = resolve(cwd, typeof o.out === "string" ? o.out : "wunderui-theme.css")
     const reportFile = resolve(cwd, typeof o.report === "string" ? o.report : ".wunderui/theme-report.md")

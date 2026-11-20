@@ -1,82 +1,189 @@
 "use client"
 
 import * as React from "react"
-import { Check, Folder } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { Avatar, AvatarFallback, AvatarImage, type AvatarColor } from "@/components/ui/avatar"
-import { Badge, type BadgeColor } from "@/components/ui/badge"
+import { Icon } from "@/components/ui/icon-provider"
+import { handleTabListKeyDown, useRovingTabStop } from "@/lib/roving-tabs"
+import { Badge } from "@/components/ui/badge"
+import { KbdHint } from "@/components/ui/kbd"
+import { ItemCardCover, ItemCardFile, type ItemCardFileProps } from "@/components/wunderui/item-card"
+import { TimelineEntry, type TimelineEntryProps } from "@/components/wunderui/timeline"
 
 /* ------------------------------------------------------------------ */
-/* Timeline Event — activity entry with avatar/status rail             */
-/* Figma: Timeline Event (722:58517)                                   */
+/* Keyboard Hint, Command Item Row, Search Result — deprecated aliases */
+/* of KbdHint (Kbd), CommandRow (Command), SearchResultRow (Search     */
+/* Result Card)                                                         */
 /* ------------------------------------------------------------------ */
 
-type TimelineEventProps = {
-  /** Actor avatar (Type=event). */
-  avatar?: { src?: string; initials?: string; color?: AvatarColor }
-  /** Status dot (Type=step): tone + icon. */
-  status?: { tone?: "success" | "primary" | "warning" | "muted"; icon?: React.ReactNode }
-  title: React.ReactNode
-  time?: React.ReactNode
-  /** Small object chip under the title (Type=event) — e.g. project name. */
-  object?: { icon?: React.ReactNode; label: React.ReactNode }
-  /** Trailing badge/label on the title row (Type=step). */
-  badge?: React.ReactNode
-  badgeColor?: BadgeColor
+/** @deprecated Use `KbdHint`. */
+const KeyboardHint = KbdHint
+
+/* ------------------------------------------------------------------ */
+/* Checklist Task — onboarding checklist row                            */
+/* Figma: Checklist Task (693:123)                                     */
+/* ------------------------------------------------------------------ */
+
+/**
+ * One step of an onboarding checklist. Three states, as in the Figma set:
+ * `done` (green tick, muted label), the `current` step (tinted row, a line of
+ * explanation and its own call to action) and everything still to do (empty
+ * circle and a chevron).
+ *
+ * The row is a toggle: `onClick` fires for done and open steps alike, so a
+ * step can be ticked and unticked again. On the current step the circle is its
+ * own button, because the row already carries the `action`.
+ */
+function ChecklistTask({
+  done,
+  current,
+  children,
+  meta,
+  action,
+  onClick,
+  className,
+}: {
+  done?: boolean
+  /** The step to do next — tinted, with room for `meta` and an `action`. */
+  current?: boolean
+  children: React.ReactNode
   meta?: React.ReactNode
-  /** Extra content below the title (comment excerpt, reactions, attachments …). */
-  children?: React.ReactNode
-  /** Draw the connector line to the next entry. */
-  last?: boolean
+  /** A button shown on the current step, e.g. "Start". */
+  action?: React.ReactNode
+  /** Toggle the step. */
+  onClick?: () => void
   className?: string
-}
+}) {
+  const circle = (
+    <span
+      className={cn(
+        "grid size-[22px] shrink-0 place-items-center rounded-full transition-colors duration-fast ease-move",
+        done ? "bg-success text-success-foreground" : cn("border-[1.5px] bg-card", current ? "border-tint-text-indigo" : "border-muted-foreground group-hover/task:border-primary")
+      )}
+    >
+      {done && <Icon name="check" className="size-3.5 animate-in zoom-in-50 duration-fast" strokeWidth={1.5} />}
+    </span>
+  )
 
-const STATUS_TONE = {
-  success: "bg-success text-success-foreground",
-  primary: "bg-primary text-primary-foreground",
-  warning: "bg-brand-quaternary text-foreground",
-  muted: "bg-muted text-text-secondary",
-}
-
-function TimelineEvent({ avatar, status, title, time, object, badge, badgeColor = "grey", meta, children, last, className }: TimelineEventProps) {
-  const lineColor = status?.tone === "success" ? "bg-success" : "bg-border"
-  return (
-    <div data-slot="timeline-event" className={cn("flex gap-4", className)}>
-      <div className="flex w-9 shrink-0 flex-col items-center">
-        {avatar ? (
-          <Avatar size="lg" color={avatar.src ? undefined : avatar.color}>
-            {avatar.src && <AvatarImage src={avatar.src} alt="" />}
-            <AvatarFallback>{avatar.initials}</AvatarFallback>
-          </Avatar>
-        ) : (
-          <span className={cn("grid size-8 place-items-center rounded-full [&_svg]:size-3.5", STATUS_TONE[status?.tone ?? "muted"])}>
-            {status?.icon ?? <Check strokeWidth={1.5} />}
-          </span>
+  const label = (
+    <span className="flex min-w-0 flex-1 flex-col">
+      <span
+        className={cn(
+          "text-sm font-medium transition-colors duration-fast ease-move",
+          done ? "text-text-tertiary" : current ? "text-tint-text-indigo" : "text-foreground"
         )}
-        {!last && <span className={cn("mt-1 w-0.5 flex-1", lineColor)} />}
-      </div>
-      <div className={cn("flex min-w-0 flex-1 flex-col gap-1", !last && "pb-6")}>
-        <div className="flex items-start justify-between gap-2">
-          <p className="text-sm text-text-secondary [&_strong]:font-medium [&_strong]:text-foreground">{title}</p>
-          {time && <span className="shrink-0 text-xs text-text-tertiary">{time}</span>}
-          {badge && (
-            <Badge color={badgeColor} badgeStyle="light" shape="pill" className="shrink-0">
-              {badge}
-            </Badge>
-          )}
-        </div>
-        {object && (
-          <span className="inline-flex w-fit items-center gap-1 rounded-md bg-muted px-2 py-0.5 text-[11px] text-text-secondary [&_svg]:size-3">
-            {object.icon ?? <Folder strokeWidth={1.5} />}
-            {object.label}
-          </span>
-        )}
-        {meta && <p className="text-xs text-text-tertiary">{meta}</p>}
+      >
         {children}
+      </span>
+      {meta && (
+        <span className={cn("text-xs", current ? "text-tint-text-indigo" : "text-text-tertiary")}>{meta}</span>
+      )}
+    </span>
+  )
+
+  const classes = cn(
+    "group/task flex w-full items-center gap-3 rounded-md px-3 py-2 text-start transition-colors duration-fast ease-move outline-none focus-ring",
+    current ? "bg-tint-indigo py-3" : "hover:bg-muted/50",
+    className
+  )
+
+  // The current step carries its own button, so the row itself must not be one.
+  if (current) {
+    return (
+      <div data-slot="checklist-task" data-current className={classes}>
+        <button type="button" role="checkbox" aria-checked={Boolean(done)} aria-label="Mark as done" onClick={onClick} className="rounded-full outline-none focus-ring">
+          {circle}
+        </button>
+        {label}
+        {action}
       </div>
+    )
+  }
+
+  return (
+    <button
+      type="button"
+      role="checkbox"
+      aria-checked={Boolean(done)}
+      data-slot="checklist-task"
+      data-done={done || undefined}
+      onClick={onClick}
+      className={cn(classes, "outline-none focus-ring")}
+    >
+      {circle}
+      {label}
+      {!done && <Icon name="chevronRight" className="size-4 text-text-tertiary" strokeWidth={1.5} />}
+    </button>
+  )
+}
+
+/** @deprecated Use `ItemCardCover` with the same props. */
+const ProjectCard = ItemCardCover
+
+type FileCardProps = ItemCardFileProps
+
+/** @deprecated Use `ItemCardFile` with the same props. */
+const FileCard = ItemCardFile
+
+/* ------------------------------------------------------------------ */
+/* Tab Item — underline tab with optional count                        */
+/* Figma: Tab Item (693:167)                                           */
+/* ------------------------------------------------------------------ */
+
+type TabItemProps = Omit<React.ComponentProps<"button">, "children" | "onClick"> & {
+  active?: boolean
+  count?: React.ReactNode
+  children: React.ReactNode
+  onClick?: () => void
+}
+
+/**
+ * @deprecated Use `Tabs` (`variant="line"`) with `TabsTrigger count`.
+ *
+ * Pass `id` and `aria-controls` (and `aria-labelledby` on your panel) to tie the tab to its panel.
+ */
+function TabItem({ active, count, children, onClick, className, ...props }: TabItemProps) {
+  return (
+    <button
+      type="button"
+      role="tab"
+      aria-selected={!!active}
+      data-slot="tab-item"
+      onClick={onClick}
+      {...props}
+      className={cn("group/tab-item -mb-px flex shrink-0 flex-col gap-2 rounded-sm pt-2 text-sm font-medium whitespace-nowrap transition-colors duration-fast ease-entrance outline-none focus-ring focus-visible:-outline-offset-2! disabled:pointer-events-none disabled:opacity-40", active ? "text-text-link" : "text-text-secondary hover:text-foreground", className)}
+    >
+      <span className="flex items-center gap-2">
+        {children}
+        {active && count !== undefined && (
+          <Badge color="indigo" badgeStyle="light" shape="pill">
+            {count}
+          </Badge>
+        )}
+      </span>
+      {/* The bar overlaps the 1 px line of the TabBar (-mb-px on the tab): the underline, active or on hover, sits exactly on the divider. */}
+      <span className={cn("h-0.5 w-full rounded-full transition-colors duration-fast ease-entrance", active ? "bg-primary" : "bg-transparent group-hover/tab-item:bg-border-control")} />
+    </button>
+  )
+}
+
+/** @deprecated Use `Tabs` with `TabsList variant="line"`. Tabs pattern: one tab stop (the active tab); ←/→ move and activate, Home/End jump, both wrap. */
+function TabBar({ children, className, "aria-label": ariaLabel }: { children: React.ReactNode; className?: string; "aria-label"?: string }) {
+  const ref = React.useRef<HTMLDivElement>(null)
+  useRovingTabStop(ref)
+  return (
+    <div ref={ref} role="tablist" aria-label={ariaLabel} data-slot="tab-bar" onKeyDown={handleTabListKeyDown} className={cn("flex gap-6 overflow-x-auto border-b border-border [scrollbar-width:none]", className)}>
+      {children}
     </div>
   )
 }
 
-export { TimelineEvent }
-export type { TimelineEventProps }
+/* ------------------------------------------------------------------ */
+/* Timeline Event — moved to TimelineEntry (wunderui/timeline.tsx)     */
+/* ------------------------------------------------------------------ */
+
+/** @deprecated Use `TimelineEntry` from the Timeline component. Same props, same look. */
+const TimelineEvent = TimelineEntry
+type TimelineEventProps = TimelineEntryProps
+
+export { KeyboardHint, ChecklistTask, ProjectCard, FileCard, TabItem, TabBar, TimelineEvent }
+export type { TabItemProps, FileCardProps, TimelineEventProps }

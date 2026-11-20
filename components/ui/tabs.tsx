@@ -4,15 +4,32 @@ import * as React from "react"
 import { Tabs as TabsPrimitive } from "@base-ui/react/tabs"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
+import { Badge } from "./badge"
 
 function Tabs({
   className,
   orientation = "horizontal",
+  onValueChange,
   ...props
 }: TabsPrimitive.Root.Props) {
+  // The panel enters with a short fade only once the user has switched tabs: the first paint
+  // (page load, LCP) never fades. Set on a change through the tabs or a change of a controlled value.
+  const [switched, setSwitched] = React.useState(false)
+  const lastValue = React.useRef(props.value)
+  React.useEffect(() => {
+    if (lastValue.current !== props.value) {
+      lastValue.current = props.value
+      setSwitched(true)
+    }
+  }, [props.value])
   return (
     <TabsPrimitive.Root
       data-slot="tabs"
+      data-switched={switched ? "" : undefined}
+      onValueChange={(value, details) => {
+        setSwitched(true)
+        onValueChange?.(value, details)
+      }}
       // Passed on as well, so Base UI knows it too: the arrow keys follow the
       // axis (↑/↓ when vertical), the list says aria-orientation, and the
       // indicator measures the right edge.
@@ -57,7 +74,7 @@ const tabsListVariants = cva(
         // Horizontal: a 1 px grey baseline under the whole row (Figma Tab Bar),
         // drawn as an inset shadow so it stays inside the scroll box and the
         // 2 px indicator, painted above it, covers it: one line, no gap.
-        line: "gap-6 data-[orientation=horizontal]:w-full data-[orientation=horizontal]:shadow-[inset_0_-1px_0_var(--border)] data-[orientation=vertical]:gap-0 data-[orientation=vertical]:border-l data-[orientation=vertical]:border-border",
+        line: "gap-6 data-[orientation=horizontal]:w-full data-[orientation=horizontal]:shadow-[inset_0_-1px_0_var(--border)] data-[orientation=vertical]:gap-0 data-[orientation=vertical]:border-s data-[orientation=vertical]:border-border",
       },
       // The Button heights, from the density tokens: compact 32/36/40,
       // data-density="comfortable" 36/40/44 (Figma Tab Button regular/medium/large).
@@ -81,20 +98,31 @@ const tabsListVariants = cva(
   }
 )
 
+// wrap: a horizontal row breaks onto more rows instead of scrolling sideways (phones). Every tab keeps the row
+// height (--tab-h); the line variant's rows sit flush, so its grey baseline stays under the last row.
+const TABS_WRAP =
+  "data-[orientation=horizontal]:h-auto data-[orientation=horizontal]:flex-wrap data-[orientation=horizontal]:overflow-visible data-[variant=line]:data-[orientation=horizontal]:gap-y-0"
+
 function TabsList({
   className,
   variant = "default",
   size = "sm",
   shape = "rounded",
+  wrap = false,
   children,
   ...props
-}: TabsPrimitive.List.Props & VariantProps<typeof tabsListVariants>) {
+}: TabsPrimitive.List.Props &
+  VariantProps<typeof tabsListVariants> & {
+    /** A horizontal row of tabs wraps onto more rows when it is wider than its container, instead of scrolling sideways. */
+    wrap?: boolean
+  }) {
   return (
     <TabsPrimitive.List
       data-slot="tabs-list"
       data-variant={variant}
       data-size={size}
-      className={cn("relative", tabsListVariants({ variant, size, shape }), className)}
+      data-wrap={wrap ? "" : undefined}
+      className={cn("relative", tabsListVariants({ variant, size, shape }), wrap && TABS_WRAP, className)}
       {...props}
     >
       {children}
@@ -145,25 +173,36 @@ function TabsIndicator({ className, style, ...props }: TabsPrimitive.Indicator.P
   )
 }
 
-function TabsTrigger({ className, ...props }: TabsPrimitive.Tab.Props) {
+function TabsTrigger({
+  className,
+  count,
+  children,
+  ...props
+}: TabsPrimitive.Tab.Props & {
+  /** A count after the label (an indigo pill), shown on the active tab only. */
+  count?: number
+}) {
   return (
     <TabsPrimitive.Tab
       data-slot="tabs-trigger"
       className={cn(
-        "relative z-10 inline-flex items-center justify-center gap-2 font-medium whitespace-nowrap transition-colors duration-fast ease-move",
+        "group/tab relative z-10 inline-flex items-center justify-center gap-2 font-medium whitespace-nowrap transition-colors duration-fast ease-move",
         "text-text-secondary hover:text-foreground",
         // Focus (owner rule 31 Oct 2026): the bordered Tab Button gets the shared focus-ring (indigo border,
         // 2 px indigo-300 ring on it); the borderless line tab draws the same 2 px ring inside.
-        "outline-none group-data-[variant=default]/tabs-list:focus-ring group-data-[variant=line]/tabs-list:focus-visible:outline-2 group-data-[variant=line]/tabs-list:focus-visible:outline-solid group-data-[variant=line]/tabs-list:focus-visible:-outline-offset-2 group-data-[variant=line]/tabs-list:focus-visible:outline-indigo-300",
+        "outline-none group-data-[variant=default]/tabs-list:focus-ring group-data-[variant=line]/tabs-list:focus-visible:outline-2 group-data-[variant=line]/tabs-list:focus-visible:outline-solid group-data-[variant=line]/tabs-list:focus-visible:-outline-offset-2 group-data-[variant=line]/tabs-list:focus-visible:outline-(color:--indigo-300)",
         "disabled:pointer-events-none disabled:text-text-tertiary aria-disabled:pointer-events-none aria-disabled:text-text-tertiary",
-        "group-data-[orientation=horizontal]/tabs-list:h-full group-data-[orientation=vertical]/tabs-list:h-(--tab-h) group-data-[orientation=vertical]/tabs-list:w-full group-data-[orientation=vertical]/tabs-list:justify-start",
+        "group-data-[orientation=horizontal]/tabs-list:h-full group-data-[orientation=horizontal]/tabs-list:group-data-[wrap]/tabs-list:h-(--tab-h) group-data-[orientation=vertical]/tabs-list:h-(--tab-h) group-data-[orientation=vertical]/tabs-list:w-full group-data-[orientation=vertical]/tabs-list:justify-start",
         "[&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         // Tab Button: bordered, filling with the indigo tint when active.
         "group-data-[orientation=horizontal]/tabs-list:group-data-[variant=default]/tabs-list:flex-1 group-data-[variant=default]/tabs-list:border group-data-[variant=default]/tabs-list:border-border group-data-[variant=default]/tabs-list:bg-card group-data-[variant=default]/tabs-list:px-4",
         // Figma Tab Button: hover bg-page, pressed bg-subtle; selected is the indigo tint with an indigo-300 border
         // that stays tinted on hover and goes bg-subtle while pressed.
         "group-data-[variant=default]/tabs-list:hover:bg-bg-page group-data-[variant=default]/tabs-list:active:bg-bg-subtle",
-        "group-data-[variant=default]/tabs-list:data-active:border-indigo-300 group-data-[variant=default]/tabs-list:data-active:bg-tint-indigo group-data-[variant=default]/tabs-list:data-active:text-tint-text-indigo group-data-[variant=default]/tabs-list:data-active:hover:bg-tint-indigo group-data-[variant=default]/tabs-list:data-active:active:bg-bg-subtle",
+        "group-data-[variant=default]/tabs-list:data-active:border-(color:--indigo-300) group-data-[variant=default]/tabs-list:data-active:bg-tint-indigo group-data-[variant=default]/tabs-list:data-active:text-tint-text-indigo group-data-[variant=default]/tabs-list:data-active:hover:bg-tint-indigo group-data-[variant=default]/tabs-list:data-active:active:bg-bg-subtle",
+        // A badge or counter at the end of a bordered tab (owner 15 Nov 2026): as far from the right edge as from the top
+        // and bottom, (tab height - 2 px border - 20 px badge) / 2; label to badge stays the 8 px gap.
+        "group-data-[variant=default]/tabs-list:has-[>[data-slot=badge]:last-child]:pe-[calc((var(--tab-h)-2px-1.25rem)/2)] group-data-[variant=default]/tabs-list:has-[>[data-slot=badge-counter]:last-child]:pe-[calc((var(--tab-h)-2px-1.25rem)/2)] group-data-[variant=default]/tabs-list:data-active:has-[>[data-slot=tabs-trigger-count]:last-child]:pe-[calc((var(--tab-h)-2px-1.25rem)/2)]",
         // Tab Item: nothing but the label and the underline below it.
         "group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:px-0 group-data-[variant=line]/tabs-list:data-active:text-text-link",
         // Vertical line: the label sits right of the rail.
@@ -171,12 +210,23 @@ function TabsTrigger({ className, ...props }: TabsPrimitive.Tab.Props) {
         // The underline belongs to the tab: the grey baseline (or rail) never moves or changes size, and switching
         // tabs only swaps which tab shows its indigo 2 px line. No gliding indicator.
         "group-data-[variant=line]/tabs-list:after:pointer-events-none group-data-[variant=line]/tabs-list:after:absolute group-data-[variant=line]/tabs-list:after:bg-primary group-data-[variant=line]/tabs-list:after:opacity-0 group-data-[variant=line]/tabs-list:after:transition-opacity group-data-[variant=line]/tabs-list:after:duration-fast group-data-[variant=line]/tabs-list:after:ease-entrance motion-reduce:group-data-[variant=line]/tabs-list:after:transition-none group-data-[variant=line]/tabs-list:data-active:after:opacity-100",
+        // Line variant: an inactive tab shows a grey underline on hover (Tab Item), the active one keeps the indigo one.
+        "group-data-[variant=line]/tabs-list:not-data-active:hover:after:bg-border-control group-data-[variant=line]/tabs-list:not-data-active:hover:after:opacity-100",
         "group-data-[orientation=horizontal]/tabs-list:group-data-[variant=line]/tabs-list:after:inset-x-0 group-data-[orientation=horizontal]/tabs-list:group-data-[variant=line]/tabs-list:after:bottom-0 group-data-[orientation=horizontal]/tabs-list:group-data-[variant=line]/tabs-list:after:h-0.5",
         "group-data-[orientation=vertical]/tabs-list:group-data-[variant=line]/tabs-list:after:inset-y-0 group-data-[orientation=vertical]/tabs-list:group-data-[variant=line]/tabs-list:after:-left-px group-data-[orientation=vertical]/tabs-list:group-data-[variant=line]/tabs-list:after:w-0.5",
         className
       )}
       {...props}
-    />
+    >
+      {children}
+      {count !== undefined && (
+        <span data-slot="tabs-trigger-count" className="hidden group-data-active/tab:inline-flex">
+          <Badge color="indigo" badgeStyle="light" shape="pill">
+            {count}
+          </Badge>
+        </span>
+      )}
+    </TabsPrimitive.Tab>
   )
 }
 
@@ -184,7 +234,7 @@ function TabsContent({ className, ...props }: TabsPrimitive.Panel.Props) {
   return (
     <TabsPrimitive.Panel
       data-slot="tabs-content"
-      className={cn("flex-1 rounded-md text-sm outline-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-0 focus-visible:outline-indigo-300", className)}
+      className={cn("flex-1 rounded-md text-sm outline-none group-data-switched/tabs:animate-in group-data-switched/tabs:fade-in-0 group-data-switched/tabs:slide-in-from-bottom-1 group-data-switched/tabs:duration-base group-data-switched/tabs:ease-entrance motion-reduce:animate-none focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-0 focus-visible:outline-(color:--indigo-300)", className)}
       {...props}
     />
   )

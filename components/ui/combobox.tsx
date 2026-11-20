@@ -2,7 +2,7 @@
 
 import type * as React from "react"
 import { Combobox as ComboboxPrimitive, type ComboboxItemCollection } from "@base-ui/react/combobox"
-import { Check, ChevronDown } from "lucide-react"
+import { Icon } from "@/components/ui/icon-provider"
 import { cn } from "@/lib/utils"
 
 /** A group of items: `{ items }` plus any fields of your own (e.g. a label). */
@@ -95,7 +95,7 @@ function ComboboxTrigger({ className, ...props }: ComboboxPrimitive.Trigger.Prop
       className={cn("flex shrink-0 items-center justify-center rounded-sm text-text-tertiary outline-none focus-ring", className)}
       {...props}
     >
-      <ChevronDown className="size-4" />
+      <Icon name="chevronDown" className="size-4" />
     </ComboboxPrimitive.Trigger>
   )
 }
@@ -158,7 +158,7 @@ function ComboboxItem({ className, children, ...props }: ComboboxPrimitive.Item.
     <ComboboxPrimitive.Item
       data-slot="combobox-item"
       className={cn(
-        "relative flex cursor-default items-center rounded-md py-1.5 pr-8 pl-2 text-sm outline-hidden select-none data-highlighted:bg-bg-page data-highlighted:text-foreground",
+        "relative flex cursor-default items-center rounded-md py-1.5 pe-8 ps-2 text-sm outline-hidden select-none data-highlighted:bg-bg-page data-highlighted:text-foreground",
         className
       )}
       {...props}
@@ -166,7 +166,7 @@ function ComboboxItem({ className, children, ...props }: ComboboxPrimitive.Item.
       {children}
       <span className="absolute right-2 flex items-center justify-center">
         <ComboboxPrimitive.ItemIndicator>
-          <Check className="size-4" />
+          <Icon name="check" className="size-4" />
         </ComboboxPrimitive.ItemIndicator>
       </span>
     </ComboboxPrimitive.Item>

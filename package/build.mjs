@@ -231,7 +231,7 @@ export function Example() {
 \`\`\`
 
 All components are client components (\`"use client"\` is baked into the build) and work in Next.js
-App Router, Vite, Remix and any other React 19 setup.
+App Router, Vite, Remix and any other React 19.3+ setup.
 
 ## For AI agents
 

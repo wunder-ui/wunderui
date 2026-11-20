@@ -30,7 +30,11 @@
       "AvatarBadgeStatus",
       "AvatarColor",
       "AvatarFallback",
-      "AvatarImage"
+      "AvatarImage",
+      "AvatarLabel",
+      "AvatarLabelProps",
+      "PersonCell",
+      "UserInfo"
     ],
     "docs": "https://wunderui.com/components/avatar"
   },
@@ -42,7 +46,9 @@
     "description": "A stack of overlapping avatars, with an optional overflow count.",
     "exports": [
       "AvatarGroup",
-      "AvatarGroupCount"
+      "AvatarGroupCount",
+      "AvatarGroupProps",
+      "AvatarStack"
     ],
     "docs": "https://wunderui.com/components/avatar-group"
   },
@@ -237,9 +243,12 @@
     "description": "A horizontal bar showing completion of a task.",
     "exports": [
       "Progress",
+      "HistogramBar",
       "ProgressCell",
       "ProgressIndicator",
       "ProgressLabel",
+      "ProgressRow",
+      "ProgressRowProps",
       "ProgressTrack",
       "ProgressValue",
       "ProgressValuePosition"
@@ -425,6 +434,34 @@
     "docs": "https://wunderui.com/components/toggle"
   },
   {
+    "slug": "icon-tile",
+    "title": "Icon Tile",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "One icon on a tint surface without a rim, in 5 sizes and 9 tones, square or round.",
+    "exports": [
+      "IconTile",
+      "ICON_TILE_SIZES",
+      "ICON_TILE_TONES",
+      "IconTileProps",
+      "IconTileSize",
+      "IconTileTone"
+    ],
+    "docs": "https://wunderui.com/components/icon-tile"
+  },
+  {
+    "slug": "star-button",
+    "title": "Star Button",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "A favourite toggle: an outline star that fills yellow, with a Tooltip that reads Star or Unstar.",
+    "exports": [
+      "StarButton",
+      "StarButtonProps"
+    ],
+    "docs": "https://wunderui.com/components/star-button"
+  },
+  {
     "slug": "meter",
     "title": "Meter",
     "group": "Core Elements",
@@ -448,7 +485,9 @@
     "exports": [
       "Kbd",
       "KbdGroup",
-      "KbdTone"
+      "KbdHint",
+      "KbdTone",
+      "KeyboardHint"
     ],
     "docs": "https://wunderui.com/components/kbd"
   },
@@ -537,7 +576,7 @@
     "title": "Table",
     "group": "Core Elements",
     "category": "Primitives",
-    "description": "Rows and columns with 23 ready-made cell types; for sorting and search use Data Grid.",
+    "description": "Rows and columns with 23 ready-made cell types; for sorting and search use Data Table.",
     "exports": [
       "Table",
       "ActionIconsCell",
@@ -575,6 +614,8 @@
     "description": "Switches between related views in the same context.",
     "exports": [
       "Tabs",
+      "TabBar",
+      "TabItem",
       "TabsContent",
       "TabsIndicator",
       "TabsList",
@@ -617,6 +658,23 @@
       "CarouselProps"
     ],
     "docs": "https://wunderui.com/components/carousel"
+  },
+  {
+    "slug": "brand-logo",
+    "title": "Brand Logo",
+    "group": "Core Elements",
+    "category": "Primitives",
+    "description": "The logo of a product or service (Slack, GitHub, Stripe …) at 16, 20 or 24 px, for list rows, integrations and buttons.",
+    "exports": [
+      "BrandLogo",
+      "BRAND_NAMES",
+      "BrandLogoProps",
+      "BrandMark",
+      "BrandMarkProps",
+      "BrandName",
+      "BRANDS"
+    ],
+    "docs": "https://wunderui.com/components/brand-logo"
   },
   {
     "slug": "empty-state",
@@ -672,7 +730,14 @@
     "description": "A generic row card: icon, title, description, meta, action.",
     "exports": [
       "ItemCard",
-      "ItemCardGroup"
+      "FileCard",
+      "ItemCardCover",
+      "ItemCardCoverProps",
+      "ItemCardFile",
+      "ItemCardFileProps",
+      "ItemCardGroup",
+      "ItemCardTint",
+      "ProjectCard"
     ],
     "docs": "https://wunderui.com/components/item-card"
   },
@@ -684,6 +749,10 @@
     "description": "A vertical sequence of dated, dot-connected events.",
     "exports": [
       "Timeline",
+      "TimelineEntry",
+      "TimelineEntryProps",
+      "TimelineEvent",
+      "TimelineEventProps",
       "TimelineItem"
     ],
     "docs": "https://wunderui.com/components/timeline"
@@ -714,34 +783,29 @@
     "docs": "https://wunderui.com/components/segment"
   },
   {
-    "slug": "native-select",
-    "title": "Native Select",
+    "slug": "select",
+    "title": "Select",
     "group": "Forms",
     "category": "Forms",
-    "description": "A full-width styled select trigger and popup list.",
+    "description": "A styled select: a full-width field trigger, or a compact inline trigger that sits within a sentence, with a popup list.",
     "exports": [
-      "NativeSelect",
-      "NativeSelectContent",
-      "NativeSelectItem",
-      "NativeSelectTrigger",
-      "NativeSelectValue"
-    ],
-    "docs": "https://wunderui.com/components/native-select"
-  },
-  {
-    "slug": "inline-select",
-    "title": "Inline Select",
-    "group": "Forms",
-    "category": "Forms",
-    "description": "A compact select meant to sit inline within a sentence of text.",
-    "exports": [
+      "Select",
       "InlineSelect",
       "InlineSelectContent",
       "InlineSelectItem",
       "InlineSelectTrigger",
-      "InlineSelectValue"
+      "InlineSelectValue",
+      "NativeSelect",
+      "NativeSelectContent",
+      "NativeSelectItem",
+      "NativeSelectTrigger",
+      "NativeSelectValue",
+      "SelectContent",
+      "SelectItem",
+      "SelectTrigger",
+      "SelectValue"
     ],
-    "docs": "https://wunderui.com/components/inline-select"
+    "docs": "https://wunderui.com/components/select"
   },
   {
     "slug": "checkbox-button-group",
@@ -818,7 +882,7 @@
     "title": "Cell Color Picker",
     "group": "Forms",
     "category": "Forms",
-    "description": "A compact color swatch picker for inline use in a Data Grid cell.",
+    "description": "A compact color swatch picker for inline use in a Data Table cell.",
     "exports": [
       "CellColorPicker"
     ],
@@ -829,7 +893,7 @@
     "title": "Cell Slider",
     "group": "Forms",
     "category": "Forms",
-    "description": "A compact progress/value slider for inline use in a Data Grid cell.",
+    "description": "A compact progress/value slider for inline use in a Data Table cell.",
     "exports": [
       "CellSlider"
     ],
@@ -840,7 +904,7 @@
     "title": "Cell Select",
     "group": "Forms",
     "category": "Forms",
-    "description": "A compact select for inline use in a Data Grid cell.",
+    "description": "A compact select for inline use in a Data Table cell.",
     "exports": [
       "CellSelect"
     ],
@@ -851,7 +915,7 @@
     "title": "Cell Switch",
     "group": "Forms",
     "category": "Forms",
-    "description": "A compact switch for inline use in a Data Grid cell.",
+    "description": "A compact switch for inline use in a Data Table cell.",
     "exports": [
       "CellSwitch"
     ],
@@ -865,7 +929,10 @@
     "description": "A list row pairing a leading icon/avatar and label/description with a trailing radio, checkbox, or switch.",
     "exports": [
       "SelectorItem",
-      "SelectorItemGroup"
+      "OptionRow",
+      "OptionRowGroup",
+      "SelectorItemGroup",
+      "SelectorItemGroupProps"
     ],
     "docs": "https://wunderui.com/components/selector-item"
   },
@@ -926,7 +993,10 @@
     "description": "Groups an input with leading/trailing addons — icons, buttons, or text.",
     "exports": [
       "InputGroup",
-      "InputGroupAddon"
+      "InputGroupAddon",
+      "InputGroupCopy",
+      "InputGroupCopyProps",
+      "InviteLinkRow"
     ],
     "docs": "https://wunderui.com/components/input-group"
   },
@@ -953,6 +1023,9 @@
     "description": "A segmented input for one-time passwords and verification codes.",
     "exports": [
       "OtpField",
+      "OtpCodeInput",
+      "OtpFieldCode",
+      "OtpFieldCodeProps",
       "OtpFieldInput"
     ],
     "docs": "https://wunderui.com/components/otp-field"
@@ -1045,7 +1118,8 @@
     "exports": [
       "Alert",
       "AlertDescription",
-      "AlertTitle"
+      "AlertTitle",
+      "InlineNote"
     ],
     "docs": "https://wunderui.com/components/alert"
   },
@@ -1083,7 +1157,9 @@
       "Rating",
       "RatingCell",
       "RatingLabel",
-      "RatingType"
+      "RatingSize",
+      "RatingType",
+      "Stars"
     ],
     "docs": "https://wunderui.com/components/rating"
   },
@@ -1118,7 +1194,8 @@
     "category": "Primitives",
     "description": "A toggleable emoji reaction with a count, like a Slack reaction.",
     "exports": [
-      "EmojiReactionButton"
+      "EmojiReactionButton",
+      "EmojiReactionButtonProps"
     ],
     "docs": "https://wunderui.com/components/emoji-reaction-button"
   },
@@ -1134,27 +1211,96 @@
     "docs": "https://wunderui.com/components/emoji-picker"
   },
   {
-    "slug": "timeline-event",
-    "title": "Timeline Event",
-    "group": "Core Elements",
-    "category": "Primitives",
-    "description": "One entry in an activity feed or history, with an avatar or status dot and a line to the next entry.",
+    "slug": "checklist-task",
+    "title": "Checklist Task",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "One step of an onboarding checklist that can be ticked off, with the next step to do highlighted.",
     "exports": [
-      "TimelineEvent",
-      "TimelineEventProps"
+      "ChecklistTask"
     ],
-    "docs": "https://wunderui.com/components/timeline-event"
+    "docs": "https://wunderui.com/components/checklist-task"
   },
   {
-    "slug": "avatar-stack",
-    "title": "Avatar Stack",
-    "group": "Core Elements",
-    "category": "Primitives",
-    "description": "Overlapping avatars with a “+N” count for everyone past the limit.",
+    "slug": "text-link-row",
+    "title": "Text Link Row",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "A line of text followed by a link, like “Don't have an account? Sign up”, or a back link with an arrow.",
     "exports": [
-      "AvatarStack"
+      "TextLinkRow",
+      "TextLinkRowProps"
     ],
-    "docs": "https://wunderui.com/components/avatar-stack"
+    "docs": "https://wunderui.com/components/text-link-row"
+  },
+  {
+    "slug": "social-sign-in-buttons",
+    "title": "Social Sign In Buttons",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "Sign-in buttons for Google, Apple, GitHub and Microsoft, side by side or stacked.",
+    "exports": [
+      "SocialSignInButtons"
+    ],
+    "docs": "https://wunderui.com/components/social-sign-in-buttons"
+  },
+  {
+    "slug": "password-requirement",
+    "title": "Password Requirement",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "One password rule in a checklist that turns green once the password meets it.",
+    "exports": [
+      "PasswordRequirement"
+    ],
+    "docs": "https://wunderui.com/components/password-requirement"
+  },
+  {
+    "slug": "password-strength",
+    "title": "Password Strength",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "A four-step meter with a label that shows how strong a password is.",
+    "exports": [
+      "PasswordStrength",
+      "PasswordStrengthLevel"
+    ],
+    "docs": "https://wunderui.com/components/password-strength"
+  },
+  {
+    "slug": "backup-code",
+    "title": "Backup Code",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "A recovery code that copies itself when clicked and is crossed out once it has been used.",
+    "exports": [
+      "BackupCode"
+    ],
+    "docs": "https://wunderui.com/components/backup-code"
+  },
+  {
+    "slug": "invite-row",
+    "title": "Invite Row",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "An email field and a role picker for inviting one person, with a button to remove the row.",
+    "exports": [
+      "InviteRow",
+      "InviteRowProps"
+    ],
+    "docs": "https://wunderui.com/components/invite-row"
+  },
+  {
+    "slug": "settings-row",
+    "title": "Settings Row",
+    "group": "Forms",
+    "category": "Forms",
+    "description": "A setting's title and description with a switch, or any other control, on the right.",
+    "exports": [
+      "SettingsRow",
+      "SettingsRowProps"
+    ],
+    "docs": "https://wunderui.com/components/settings-row"
   },
   {
     "slug": "agenda-event",
@@ -1164,7 +1310,9 @@
     "description": "One event in an agenda list, with its start and end time, a color bar, details and guests.",
     "exports": [
       "AgendaEvent",
-      "AgendaEventProps"
+      "AgendaEventChip",
+      "AgendaEventProps",
+      "EventChip"
     ],
     "docs": "https://wunderui.com/components/agenda-event"
   },

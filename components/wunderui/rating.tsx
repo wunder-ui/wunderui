@@ -1,13 +1,16 @@
 "use client"
 
 import * as React from "react"
-import { Heart, Star } from "lucide-react"
+import { Icon } from "@/components/ui/icon-provider"
 import { cn } from "@/lib/utils"
 
 type RatingType = "stars" | "hearts" | "emojis" | "scale"
 type RatingLabel = "none" | "left" | "right" | "tooltip"
+type RatingSize = "md" | "sm"
 
 const EMOJIS = ["😍", "🙂", "😐", "🙁", "😡"]
+/** Spoken names of the faces, in the same order (1 = Love it … 5 = Hate it). */
+const EMOJI_LABELS = ["Love it", "Good", "Okay", "Bad", "Hate it"]
 
 /** Shortest form of a value: 3.5 stays 3.5, 4 stays 4, 3.25 becomes 3.3. */
 function formatValue(value: number) {
@@ -23,7 +26,9 @@ function formatValue(value: number) {
  *
  * Interactive, it is a radio group: one Tab stop (the checked option, or the
  * first), ←/→/↑/↓ move and select, Home/End jump to the ends. `readOnly`
- * renders one image whose name carries the value ("Rated 3.5 out of 5").
+ * renders one image whose name carries the value ("Rated 3.5 out of 5"). `size="sm"` is the compact display
+ * size of a read-only star or heart row, 12 px icons with a filled grey for the empty ones, as on a product card or
+ * a review line; an interactive rating keeps its 24 px targets.
  */
 function Rating({
   value,
@@ -32,6 +37,7 @@ function Rating({
   type = "stars",
   label = "none",
   readOnly = false,
+  size = "md",
   className,
   "aria-label": ariaLabel,
   "aria-labelledby": ariaLabelledBy,
@@ -42,6 +48,8 @@ function Rating({
   type?: RatingType
   label?: RatingLabel
   readOnly?: boolean
+  /** `sm`: the compact 12 px display of a read-only star or heart row. Ignored while the rating is interactive. */
+  size?: RatingSize
   className?: string
   /** Names the group ("Rating" by default); read-only, it replaces "Rated 3.5 out of 5". */
   "aria-label"?: string
@@ -51,6 +59,7 @@ function Rating({
   const [hover, setHover] = React.useState<number | null>(null)
   const optionRefs = React.useRef<(HTMLButtonElement | null)[]>([])
   const display = readOnly ? value : (hover ?? value)
+  const compact = size === "sm" && readOnly && (type === "stars" || type === "hearts")
   const count = type === "emojis" ? EMOJIS.length : (max ?? (type === "scale" ? 11 : 5))
   const text = type === "scale" || type === "emojis" ? String(value) : `${value.toFixed(1)}`
 
@@ -141,14 +150,19 @@ function Rating({
 
   let items: React.ReactNode
   if (type === "stars" || type === "hearts") {
-    const Icon = type === "stars" ? Star : Heart
+    const glyph = type === "stars" ? "star" : "heart"
     items = Array.from({ length: count }).map((_, i) => {
       // Rounded, so 3.2 fills three stars and 4.5 five (it filled four and five before: any fraction rounded up).
       const filled = i < Math.round(display)
+      const filledClass = type === "stars" ? "fill-brand-quaternary text-brand-quaternary" : "fill-brand-tertiary text-brand-tertiary"
       return option(
         i + 1,
-        "grid size-6 place-items-center rounded-sm outline-none focus-ring",
-        <Icon aria-hidden className={cn("size-4", filled ? (type === "stars" ? "fill-brand-quaternary text-brand-quaternary" : "fill-brand-tertiary text-brand-tertiary") : "fill-none text-border-control")} />,
+        compact ? "grid size-3 place-items-center" : "grid size-6 place-items-center rounded-sm outline-none focus-ring",
+        compact ? (
+          <Icon name={glyph} aria-hidden strokeWidth={1.5} className={cn("size-3", filled ? filledClass : "fill-border text-border")} />
+        ) : (
+          <Icon name={glyph} aria-hidden className={cn("size-4", filled ? filledClass : "fill-none text-border-control")} />
+        ),
         { onMouseEnter: () => setHover(i + 1), onMouseLeave: () => setHover(null), onClick: () => select(i + 1) },
         optionLabel(i + 1)
       )
@@ -162,7 +176,7 @@ function Rating({
         emoji,
         // Clicking the chosen face again clears it (0 = none), as before.
         { onClick: () => onValueChange?.(selected ? 0 : i + 1) },
-        emoji
+        `${i + 1} of ${EMOJIS.length}, ${EMOJI_LABELS[i]}`
       )
     })
   } else {
@@ -179,7 +193,7 @@ function Rating({
 
   const groupClassName = type === "scale"
     ? "grid grid-cols-6 gap-1 @min-[352px]:grid-cols-11 @min-[352px]:gap-0 @min-[392px]:gap-1"
-    : cn("flex items-center", type === "emojis" ? "gap-2" : "gap-0")
+    : cn("flex items-center", type === "emojis" ? "gap-2" : compact ? "gap-0.5" : "gap-0")
   const rootClassName = cn(
     "relative inline-flex items-center",
     type === "emojis" ? "gap-2" : type === "scale" ? "gap-1 max-w-full" : "gap-0.5",
@@ -195,15 +209,26 @@ function Rating({
   ) : group
 
   if (readOnly) {
-    // One image for assistive tech; the stars and the visible label are its picture.
+    // One image for assistive tech; the stars and the visible label are its picture. Stars, hearts and emojis render
+    // as spans only, so a read-only rating can sit inside a line of text (a <p> in a product card or a review).
+    const imgProps = {
+      "data-slot": "rating",
+      role: "img",
+      "aria-label": ariaLabel ?? `Rated ${formatValue(value)} out of ${type === "scale" ? last : count}`,
+      "aria-labelledby": ariaLabelledBy,
+      className: rootClassName,
+    }
+    if (type !== "scale") {
+      return (
+        <span {...imgProps}>
+          {label === "left" && labelNode}
+          <span className={groupClassName}>{items}</span>
+          {label === "right" && labelNode}
+        </span>
+      )
+    }
     return (
-      <div
-        data-slot="rating"
-        role="img"
-        aria-label={ariaLabel ?? `Rated ${formatValue(value)} out of ${type === "scale" ? last : count}`}
-        aria-labelledby={ariaLabelledBy}
-        className={rootClassName}
-      >
+      <div {...imgProps}>
         {label === "left" && labelNode}
         {scaleGroup}
         {label === "right" && labelNode}
@@ -241,4 +266,4 @@ function Rating({
 }
 
 export { Rating }
-export type { RatingType, RatingLabel }
+export type { RatingType, RatingLabel, RatingSize }

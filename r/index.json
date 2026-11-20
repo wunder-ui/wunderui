@@ -11,10 +11,12 @@
       "files": [
         "components/ui/accordion.tsx",
         "components/ui/skeleton.tsx",
-        "lib/utils.ts"
+        "lib/utils.ts",
+        "components/ui/icon-provider.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "class-variance-authority",
         "cn",
         "lucide-react"
@@ -27,11 +29,14 @@
       "description": "A user or entity's profile image with a text fallback.",
       "files": [
         "components/ui/avatar.tsx",
+        "components/ui/tooltip.tsx",
+        "lib/utils.ts",
         "lib/optical-center.tsx",
-        "lib/utils.ts"
+        "components/ui/icon-provider.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "cn",
         "lucide-react"
       ]
@@ -43,11 +48,14 @@
       "description": "A stack of overlapping avatars, with an optional overflow count.",
       "files": [
         "components/ui/avatar.tsx",
+        "components/ui/tooltip.tsx",
+        "lib/utils.ts",
         "lib/optical-center.tsx",
-        "lib/utils.ts"
+        "components/ui/icon-provider.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "cn",
         "lucide-react"
       ]
@@ -60,10 +68,12 @@
       "files": [
         "components/ui/badge.tsx",
         "lib/optical-center.tsx",
-        "lib/utils.ts"
+        "lib/utils.ts",
+        "components/ui/icon-provider.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "class-variance-authority",
         "cn",
         "lucide-react"
@@ -76,9 +86,11 @@
       "description": "Shows the user's location in a hierarchy, in the `plain`, `contained` or `underline` look.",
       "files": [
         "components/ui/breadcrumb.tsx",
-        "lib/utils.ts"
+        "lib/utils.ts",
+        "components/ui/icon-provider.tsx"
       ],
       "dependencies": [
+        "@wunderui/react",
         "cn",
         "lucide-react"
       ]
@@ -90,10 +102,12 @@
       "description": "The main action trigger, in 11 variants, 2 shapes and 5 sizes.",
       "files": [
         "components/ui/button.tsx",
-        "lib/utils.ts"
+        "lib/utils.ts",
+        "components/ui/icon-provider.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "class-variance-authority",
         "cn",
         "lucide-react"
@@ -106,10 +120,12 @@
       "description": "A square or circular button for a single icon action.",
       "files": [
         "components/ui/icon-button.tsx",
-        "lib/utils.ts"
+        "lib/utils.ts",
+        "components/ui/icon-provider.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "class-variance-authority",
         "cn",
         "lucide-react"
@@ -125,10 +141,12 @@
         "components/ui/dropdown-menu.tsx",
         "components/ui/spinner.tsx",
         "lib/utils.ts",
+        "components/ui/icon-provider.tsx",
         "components/ui/button.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "class-variance-authority",
         "cn",
         "lucide-react"
@@ -141,10 +159,12 @@
       "description": "A bordered container for grouping related content.",
       "files": [
         "components/ui/card.tsx",
+        "components/ui/icon-provider.tsx",
         "components/ui/skeleton.tsx",
         "lib/utils.ts"
       ],
       "dependencies": [
+        "@wunderui/react",
         "class-variance-authority",
         "cn",
         "lucide-react"
@@ -158,14 +178,17 @@
       "files": [
         "components/blocks/form.tsx",
         "components/ui/checkbox.tsx",
+        "components/ui/icon-provider.tsx",
         "lib/utils.ts",
         "components/ui/textarea.tsx",
         "components/ui/input.tsx",
         "components/ui/tooltip.tsx",
-        "components/ui/input-group.tsx"
+        "components/ui/input-group.tsx",
+        "components/ui/button.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "class-variance-authority",
         "cn",
         "lucide-react"
@@ -178,10 +201,12 @@
       "description": "A toggle control for a binary setting.",
       "files": [
         "components/ui/switch.tsx",
+        "components/ui/icon-provider.tsx",
         "lib/utils.ts"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "cn",
         "lucide-react"
       ]
@@ -209,10 +234,13 @@
         "components/ui/input.tsx",
         "components/ui/tooltip.tsx",
         "lib/utils.ts",
-        "components/ui/input-group.tsx"
+        "components/ui/input-group.tsx",
+        "components/ui/button.tsx",
+        "components/ui/icon-provider.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "class-variance-authority",
         "cn",
         "lucide-react"
@@ -226,14 +254,17 @@
       "files": [
         "components/blocks/form.tsx",
         "components/ui/checkbox.tsx",
+        "components/ui/icon-provider.tsx",
         "lib/utils.ts",
         "components/ui/textarea.tsx",
         "components/ui/input.tsx",
         "components/ui/tooltip.tsx",
-        "components/ui/input-group.tsx"
+        "components/ui/input-group.tsx",
+        "components/ui/button.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "class-variance-authority",
         "cn",
         "lucide-react"
@@ -263,10 +294,13 @@
         "components/ui/input.tsx",
         "components/ui/tooltip.tsx",
         "lib/utils.ts",
-        "components/ui/input-group.tsx"
+        "components/ui/input-group.tsx",
+        "components/ui/button.tsx",
+        "components/ui/icon-provider.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "class-variance-authority",
         "cn",
         "lucide-react"
@@ -280,8 +314,10 @@
       "files": [
         "components/ui/pagination.tsx",
         "components/ui/native-select.tsx",
+        "components/ui/select.tsx",
         "lib/select-items.ts",
         "lib/utils.ts",
+        "components/ui/icon-provider.tsx",
         "components/ui/skeleton.tsx",
         "components/ui/input.tsx",
         "components/ui/tooltip.tsx",
@@ -290,6 +326,7 @@
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "class-variance-authority",
         "cn",
         "lucide-react"
@@ -359,12 +396,14 @@
       "description": "A modal window for focused tasks, built on Base UI.",
       "files": [
         "components/ui/dialog.tsx",
+        "components/ui/icon-provider.tsx",
         "components/ui/icon-button.tsx",
         "lib/utils.ts",
         "components/ui/button.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "class-variance-authority",
         "cn",
         "lucide-react"
@@ -378,12 +417,14 @@
       "files": [
         "components/ui/alert-dialog.tsx",
         "components/ui/dialog.tsx",
+        "components/ui/icon-provider.tsx",
         "components/ui/icon-button.tsx",
         "lib/utils.ts",
         "components/ui/button.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "class-variance-authority",
         "cn",
         "lucide-react"
@@ -399,10 +440,12 @@
         "components/ui/skeleton.tsx",
         "lib/utils.ts",
         "components/ui/badge.tsx",
-        "lib/optical-center.tsx"
+        "lib/optical-center.tsx",
+        "components/ui/icon-provider.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "class-variance-authority",
         "cn",
         "lucide-react"
@@ -416,10 +459,45 @@
       "files": [
         "components/ui/toggle-button-group.tsx",
         "lib/utils.ts",
+        "components/ui/icon-provider.tsx",
         "components/ui/toggle.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
+        "class-variance-authority",
+        "cn",
+        "lucide-react"
+      ]
+    },
+    {
+      "name": "icon-tile",
+      "title": "Icon Tile",
+      "group": "Core Elements",
+      "description": "One icon on a tint surface without a rim, in 5 sizes and 9 tones, square or round.",
+      "files": [
+        "components/wunderui/icon-tile.tsx",
+        "lib/utils.ts"
+      ],
+      "dependencies": [
+        "cn"
+      ]
+    },
+    {
+      "name": "star-button",
+      "title": "Star Button",
+      "group": "Core Elements",
+      "description": "A favourite toggle: an outline star that fills yellow, with a Tooltip that reads Star or Unstar.",
+      "files": [
+        "components/wunderui/star-button.tsx",
+        "lib/utils.ts",
+        "components/ui/tooltip.tsx",
+        "components/ui/icon-provider.tsx",
+        "components/ui/icon-button.tsx"
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@wunderui/react",
         "class-variance-authority",
         "cn",
         "lucide-react"
@@ -449,7 +527,8 @@
         "lib/utils.ts"
       ],
       "dependencies": [
-        "cn"
+        "cn",
+        "lucide-react"
       ]
     },
     {
@@ -459,9 +538,11 @@
       "description": "A spinning indicator for an in-progress loading state.",
       "files": [
         "components/ui/spinner.tsx",
-        "lib/utils.ts"
+        "lib/utils.ts",
+        "components/ui/icon-provider.tsx"
       ],
       "dependencies": [
+        "@wunderui/react",
         "cn",
         "lucide-react"
       ]
@@ -488,10 +569,12 @@
       "files": [
         "components/ui/dropdown-menu.tsx",
         "components/ui/spinner.tsx",
-        "lib/utils.ts"
+        "lib/utils.ts",
+        "components/ui/icon-provider.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "cn",
         "lucide-react"
       ]
@@ -528,7 +611,7 @@
       "name": "table",
       "title": "Table",
       "group": "Core Elements",
-      "description": "Rows and columns with 23 ready-made cell types; for sorting and search use Data Grid.",
+      "description": "Rows and columns with 23 ready-made cell types; for sorting and search use Data Table.",
       "files": [
         "components/ui/table.tsx",
         "lib/use-overflow-x.ts",
@@ -545,12 +628,17 @@
       "description": "Switches between related views in the same context.",
       "files": [
         "components/ui/tabs.tsx",
-        "lib/utils.ts"
+        "components/ui/badge.tsx",
+        "lib/optical-center.tsx",
+        "lib/utils.ts",
+        "components/ui/icon-provider.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "class-variance-authority",
-        "cn"
+        "cn",
+        "lucide-react"
       ]
     },
     {
@@ -589,13 +677,30 @@
       "files": [
         "components/wunderui/carousel.tsx",
         "lib/utils.ts",
-        "components/ui/icon-button.tsx"
+        "components/ui/icon-button.tsx",
+        "components/ui/icon-provider.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "class-variance-authority",
         "cn",
         "lucide-react"
+      ]
+    },
+    {
+      "name": "brand-logo",
+      "title": "Brand Logo",
+      "group": "Core Elements",
+      "description": "The logo of a product or service (Slack, GitHub, Stripe …) at 16, 20 or 24 px, for list rows, integrations and buttons.",
+      "files": [
+        "components/wunderui/brand-logo.tsx",
+        "components/wunderui/brand-marks.tsx",
+        "components/wunderui/brand-marks-extra.ts",
+        "lib/utils.ts"
+      ],
+      "dependencies": [
+        "cn"
       ]
     },
     {
@@ -618,9 +723,11 @@
       "description": "An indented list of folders and files: a tree with arrow-key navigation whose folders open and close, and onSelect reports the chosen file or folder.",
       "files": [
         "components/wunderui/file-tree.tsx",
-        "lib/utils.ts"
+        "lib/utils.ts",
+        "components/ui/icon-provider.tsx"
       ],
       "dependencies": [
+        "@wunderui/react",
         "cn",
         "lucide-react"
       ]
@@ -658,10 +765,17 @@
       "description": "A generic row card: icon, title, description, meta, action.",
       "files": [
         "components/wunderui/item-card.tsx",
-        "lib/utils.ts"
+        "components/ui/icon-button.tsx",
+        "lib/utils.ts",
+        "components/ui/icon-provider.tsx",
+        "components/ui/checkbox.tsx"
       ],
       "dependencies": [
-        "cn"
+        "@base-ui/react",
+        "@wunderui/react",
+        "class-variance-authority",
+        "cn",
+        "lucide-react"
       ]
     },
     {
@@ -670,12 +784,27 @@
       "group": "Core Elements",
       "description": "A vertical sequence of dated, dot-connected events.",
       "files": [
+        "components/blocks/application.tsx",
         "components/wunderui/timeline.tsx",
         "lib/readable-on.ts",
-        "lib/utils.ts"
+        "components/ui/badge.tsx",
+        "lib/optical-center.tsx",
+        "lib/utils.ts",
+        "components/ui/icon-provider.tsx",
+        "components/ui/avatar.tsx",
+        "components/ui/tooltip.tsx",
+        "components/wunderui/item-card.tsx",
+        "components/ui/icon-button.tsx",
+        "components/ui/checkbox.tsx",
+        "components/ui/kbd.tsx",
+        "lib/roving-tabs.ts"
       ],
       "dependencies": [
-        "cn"
+        "@base-ui/react",
+        "@wunderui/react",
+        "class-variance-authority",
+        "cn",
+        "lucide-react"
       ]
     },
     {
@@ -705,34 +834,19 @@
       ]
     },
     {
-      "name": "native-select",
-      "title": "Native Select",
+      "name": "select",
+      "title": "Select",
       "group": "Forms",
-      "description": "A full-width styled select trigger and popup list.",
+      "description": "A styled select: a full-width field trigger, or a compact inline trigger that sits within a sentence, with a popup list.",
       "files": [
-        "components/ui/native-select.tsx",
+        "components/ui/select.tsx",
         "lib/select-items.ts",
-        "lib/utils.ts"
+        "lib/utils.ts",
+        "components/ui/icon-provider.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
-        "cn",
-        "lucide-react"
-      ]
-    },
-    {
-      "name": "inline-select",
-      "title": "Inline Select",
-      "group": "Forms",
-      "description": "A compact select meant to sit inline within a sentence of text.",
-      "files": [
-        "components/ui/inline-select.tsx",
-        "components/ui/native-select.tsx",
-        "lib/select-items.ts",
-        "lib/utils.ts"
-      ],
-      "dependencies": [
-        "@base-ui/react",
+        "@wunderui/react",
         "cn",
         "lucide-react"
       ]
@@ -744,10 +858,12 @@
       "description": "A multi-select group of toggle-styled buttons.",
       "files": [
         "components/ui/toggle-button-group.tsx",
-        "lib/utils.ts"
+        "lib/utils.ts",
+        "components/ui/icon-provider.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "cn",
         "lucide-react"
       ]
@@ -759,10 +875,12 @@
       "description": "A single-select group of toggle-styled buttons.",
       "files": [
         "components/ui/toggle-button-group.tsx",
-        "lib/utils.ts"
+        "lib/utils.ts",
+        "components/ui/icon-provider.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "cn",
         "lucide-react"
       ]
@@ -775,10 +893,12 @@
       "files": [
         "components/ui/number-stepper.tsx",
         "lib/utils.ts",
-        "components/ui/icon-button.tsx"
+        "components/ui/icon-button.tsx",
+        "components/ui/icon-provider.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "class-variance-authority",
         "cn",
         "lucide-react"
@@ -791,9 +911,11 @@
       "description": "A drag-and-drop file upload target with a click-to-browse fallback.",
       "files": [
         "components/wunderui/drop-zone.tsx",
-        "lib/utils.ts"
+        "lib/utils.ts",
+        "components/ui/icon-provider.tsx"
       ],
       "dependencies": [
+        "@wunderui/react",
         "cn",
         "lucide-react"
       ]
@@ -805,8 +927,11 @@
       "description": "A Tiptap-powered WYSIWYG editor with a formatting toolbar.",
       "files": [
         "components/wunderui/rich-text-editor.tsx",
-        "components/wunderui/rich-text-editor-inner.tsx",
+        "components/wunderui/rich-text-editor-slash.tsx",
         "lib/utils.ts",
+        "components/ui/icon-provider.tsx",
+        "components/wunderui/rich-text-editor-inner.tsx",
+        "components/wunderui/rich-text-editor-tasks.ts",
         "components/ui/separator.tsx"
       ],
       "dependencies": [
@@ -814,6 +939,7 @@
         "@tiptap/extension-placeholder",
         "@tiptap/react",
         "@tiptap/starter-kit",
+        "@wunderui/react",
         "cn",
         "lucide-react"
       ]
@@ -828,11 +954,14 @@
         "components/ui/popover.tsx",
         "lib/utils.ts",
         "components/ui/native-select.tsx",
+        "components/ui/select.tsx",
         "lib/select-items.ts",
+        "components/ui/icon-provider.tsx",
         "components/ui/icon-button.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "class-variance-authority",
         "cn",
         "lucide-react"
@@ -842,12 +971,14 @@
       "name": "cell-color-picker",
       "title": "Cell Color Picker",
       "group": "Forms",
-      "description": "A compact color swatch picker for inline use in a Data Grid cell.",
+      "description": "A compact color swatch picker for inline use in a Data Table cell.",
       "files": [
         "components/wunderui/table-cells.tsx",
         "lib/utils.ts",
         "components/ui/native-select.tsx",
+        "components/ui/select.tsx",
         "lib/select-items.ts",
+        "components/ui/icon-provider.tsx",
         "components/ui/popover.tsx",
         "components/ui/switch.tsx",
         "components/wunderui/rating.tsx",
@@ -857,10 +988,12 @@
         "components/ui/button.tsx",
         "components/ui/badge.tsx",
         "lib/optical-center.tsx",
-        "components/ui/avatar.tsx"
+        "components/ui/avatar.tsx",
+        "components/ui/tooltip.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "class-variance-authority",
         "cn",
         "lucide-react"
@@ -870,12 +1003,14 @@
       "name": "cell-slider",
       "title": "Cell Slider",
       "group": "Forms",
-      "description": "A compact progress/value slider for inline use in a Data Grid cell.",
+      "description": "A compact progress/value slider for inline use in a Data Table cell.",
       "files": [
         "components/wunderui/table-cells.tsx",
         "lib/utils.ts",
         "components/ui/native-select.tsx",
+        "components/ui/select.tsx",
         "lib/select-items.ts",
+        "components/ui/icon-provider.tsx",
         "components/ui/popover.tsx",
         "components/ui/switch.tsx",
         "components/wunderui/rating.tsx",
@@ -885,10 +1020,12 @@
         "components/ui/button.tsx",
         "components/ui/badge.tsx",
         "lib/optical-center.tsx",
-        "components/ui/avatar.tsx"
+        "components/ui/avatar.tsx",
+        "components/ui/tooltip.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "class-variance-authority",
         "cn",
         "lucide-react"
@@ -898,12 +1035,14 @@
       "name": "cell-select",
       "title": "Cell Select",
       "group": "Forms",
-      "description": "A compact select for inline use in a Data Grid cell.",
+      "description": "A compact select for inline use in a Data Table cell.",
       "files": [
         "components/wunderui/table-cells.tsx",
         "lib/utils.ts",
         "components/ui/native-select.tsx",
+        "components/ui/select.tsx",
         "lib/select-items.ts",
+        "components/ui/icon-provider.tsx",
         "components/ui/popover.tsx",
         "components/ui/switch.tsx",
         "components/wunderui/rating.tsx",
@@ -913,10 +1052,12 @@
         "components/ui/button.tsx",
         "components/ui/badge.tsx",
         "lib/optical-center.tsx",
-        "components/ui/avatar.tsx"
+        "components/ui/avatar.tsx",
+        "components/ui/tooltip.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "class-variance-authority",
         "cn",
         "lucide-react"
@@ -926,12 +1067,14 @@
       "name": "cell-switch",
       "title": "Cell Switch",
       "group": "Forms",
-      "description": "A compact switch for inline use in a Data Grid cell.",
+      "description": "A compact switch for inline use in a Data Table cell.",
       "files": [
         "components/wunderui/table-cells.tsx",
         "lib/utils.ts",
         "components/ui/native-select.tsx",
+        "components/ui/select.tsx",
         "lib/select-items.ts",
+        "components/ui/icon-provider.tsx",
         "components/ui/popover.tsx",
         "components/ui/switch.tsx",
         "components/wunderui/rating.tsx",
@@ -941,10 +1084,12 @@
         "components/ui/button.tsx",
         "components/ui/badge.tsx",
         "lib/optical-center.tsx",
-        "components/ui/avatar.tsx"
+        "components/ui/avatar.tsx",
+        "components/ui/tooltip.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "class-variance-authority",
         "cn",
         "lucide-react"
@@ -957,10 +1102,18 @@
       "description": "A list row pairing a leading icon/avatar and label/description with a trailing radio, checkbox, or switch.",
       "files": [
         "components/wunderui/selector-item.tsx",
-        "lib/utils.ts"
+        "components/ui/radio-group.tsx",
+        "lib/utils.ts",
+        "components/ui/badge.tsx",
+        "lib/optical-center.tsx",
+        "components/ui/icon-provider.tsx"
       ],
       "dependencies": [
-        "cn"
+        "@base-ui/react",
+        "@wunderui/react",
+        "class-variance-authority",
+        "cn",
+        "lucide-react"
       ]
     },
     {
@@ -1025,10 +1178,16 @@
       "description": "Groups an input with leading/trailing addons — icons, buttons, or text.",
       "files": [
         "components/ui/input-group.tsx",
-        "lib/utils.ts"
+        "components/ui/button.tsx",
+        "lib/utils.ts",
+        "components/ui/icon-provider.tsx"
       ],
       "dependencies": [
-        "cn"
+        "@base-ui/react",
+        "@wunderui/react",
+        "class-variance-authority",
+        "cn",
+        "lucide-react"
       ]
     },
     {
@@ -1038,10 +1197,12 @@
       "description": "A numeric input with increment/decrement buttons.",
       "files": [
         "components/ui/number-field.tsx",
-        "lib/utils.ts"
+        "lib/utils.ts",
+        "components/ui/icon-provider.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "cn",
         "lucide-react"
       ]
@@ -1067,10 +1228,12 @@
       "description": "An input combined with a filterable list of predefined items to select.",
       "files": [
         "components/ui/combobox.tsx",
-        "lib/utils.ts"
+        "lib/utils.ts",
+        "components/ui/icon-provider.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "cn",
         "lucide-react"
       ]
@@ -1099,10 +1262,12 @@
         "lib/optical-center.tsx",
         "lib/utils.ts",
         "components/ui/tooltip.tsx",
-        "components/ui/icon-button.tsx"
+        "components/ui/icon-button.tsx",
+        "components/ui/icon-provider.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "class-variance-authority",
         "cn",
         "lucide-react"
@@ -1120,11 +1285,13 @@
         "lib/optical-center.tsx",
         "components/ui/tooltip.tsx",
         "components/ui/icon-button.tsx",
+        "components/ui/icon-provider.tsx",
         "components/ui/popover.tsx",
         "components/ui/button.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "class-variance-authority",
         "cn",
         "lucide-react"
@@ -1137,9 +1304,11 @@
       "description": "An inline banner in 5 colors and 2 sizes, with an optional close button and action.",
       "files": [
         "components/ui/alert.tsx",
-        "lib/utils.ts"
+        "lib/utils.ts",
+        "components/ui/icon-provider.tsx"
       ],
       "dependencies": [
+        "@wunderui/react",
         "cn",
         "lucide-react"
       ]
@@ -1165,9 +1334,11 @@
       "description": "Drag down from the top of any content past a threshold to trigger an async refresh, with a rotating spinner and a rubber-band release.",
       "files": [
         "components/wunderui/pull-to-refresh.tsx",
-        "lib/utils.ts"
+        "lib/utils.ts",
+        "components/ui/icon-provider.tsx"
       ],
       "dependencies": [
+        "@wunderui/react",
         "cn",
         "lucide-react"
       ]
@@ -1179,9 +1350,11 @@
       "description": "An interactive star rating input.",
       "files": [
         "components/wunderui/rating.tsx",
-        "lib/utils.ts"
+        "lib/utils.ts",
+        "components/ui/icon-provider.tsx"
       ],
       "dependencies": [
+        "@wunderui/react",
         "cn",
         "lucide-react"
       ]
@@ -1193,9 +1366,11 @@
       "description": "A small pill showing a change, up or down, in seven icon styles.",
       "files": [
         "components/wunderui/trend-chip.tsx",
-        "lib/utils.ts"
+        "lib/utils.ts",
+        "components/ui/icon-provider.tsx"
       ],
       "dependencies": [
+        "@wunderui/react",
         "cn",
         "lucide-react"
       ]
@@ -1240,38 +1415,267 @@
       ]
     },
     {
-      "name": "timeline-event",
-      "title": "Timeline Event",
-      "group": "Core Elements",
-      "description": "One entry in an activity feed or history, with an avatar or status dot and a line to the next entry.",
+      "name": "checklist-task",
+      "title": "Checklist Task",
+      "group": "Forms",
+      "description": "One step of an onboarding checklist that can be ticked off, with the next step to do highlighted.",
       "files": [
         "components/blocks/application.tsx",
+        "components/wunderui/timeline.tsx",
+        "lib/readable-on.ts",
         "components/ui/badge.tsx",
         "lib/optical-center.tsx",
         "lib/utils.ts",
-        "components/ui/avatar.tsx"
+        "components/ui/icon-provider.tsx",
+        "components/ui/avatar.tsx",
+        "components/ui/tooltip.tsx",
+        "components/wunderui/item-card.tsx",
+        "components/ui/icon-button.tsx",
+        "components/ui/checkbox.tsx",
+        "components/ui/kbd.tsx",
+        "lib/roving-tabs.ts"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "class-variance-authority",
         "cn",
         "lucide-react"
       ]
     },
     {
-      "name": "avatar-stack",
-      "title": "Avatar Stack",
-      "group": "Core Elements",
-      "description": "Overlapping avatars with a “+N” count for everyone past the limit.",
+      "name": "text-link-row",
+      "title": "Text Link Row",
+      "group": "Forms",
+      "description": "A line of text followed by a link, like “Don't have an account? Sign up”, or a back link with an arrow.",
       "files": [
-        "components/blocks/data.tsx",
-        "components/ui/icon-button.tsx",
+        "components/blocks/auth.tsx",
+        "components/ui/badge.tsx",
+        "lib/optical-center.tsx",
         "lib/utils.ts",
+        "components/ui/icon-provider.tsx",
         "components/ui/avatar.tsx",
-        "lib/optical-center.tsx"
+        "components/ui/tooltip.tsx",
+        "components/ui/alert.tsx",
+        "components/ui/switch.tsx",
+        "components/ui/checkbox.tsx",
+        "components/ui/radio-group.tsx",
+        "components/ui/otp-field.tsx",
+        "components/ui/native-select.tsx",
+        "components/ui/select.tsx",
+        "lib/select-items.ts",
+        "components/ui/input-group.tsx",
+        "components/ui/button.tsx",
+        "components/ui/input.tsx",
+        "components/ui/icon-button.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
+        "class-variance-authority",
+        "cn",
+        "lucide-react"
+      ]
+    },
+    {
+      "name": "social-sign-in-buttons",
+      "title": "Social Sign In Buttons",
+      "group": "Forms",
+      "description": "Sign-in buttons for Google, Apple, GitHub and Microsoft, side by side or stacked.",
+      "files": [
+        "components/blocks/auth.tsx",
+        "components/ui/badge.tsx",
+        "lib/optical-center.tsx",
+        "lib/utils.ts",
+        "components/ui/icon-provider.tsx",
+        "components/ui/avatar.tsx",
+        "components/ui/tooltip.tsx",
+        "components/ui/alert.tsx",
+        "components/ui/switch.tsx",
+        "components/ui/checkbox.tsx",
+        "components/ui/radio-group.tsx",
+        "components/ui/otp-field.tsx",
+        "components/ui/native-select.tsx",
+        "components/ui/select.tsx",
+        "lib/select-items.ts",
+        "components/ui/input-group.tsx",
+        "components/ui/button.tsx",
+        "components/ui/input.tsx",
+        "components/ui/icon-button.tsx"
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@wunderui/react",
+        "class-variance-authority",
+        "cn",
+        "lucide-react"
+      ]
+    },
+    {
+      "name": "password-requirement",
+      "title": "Password Requirement",
+      "group": "Forms",
+      "description": "One password rule in a checklist that turns green once the password meets it.",
+      "files": [
+        "components/blocks/auth.tsx",
+        "components/ui/badge.tsx",
+        "lib/optical-center.tsx",
+        "lib/utils.ts",
+        "components/ui/icon-provider.tsx",
+        "components/ui/avatar.tsx",
+        "components/ui/tooltip.tsx",
+        "components/ui/alert.tsx",
+        "components/ui/switch.tsx",
+        "components/ui/checkbox.tsx",
+        "components/ui/radio-group.tsx",
+        "components/ui/otp-field.tsx",
+        "components/ui/native-select.tsx",
+        "components/ui/select.tsx",
+        "lib/select-items.ts",
+        "components/ui/input-group.tsx",
+        "components/ui/button.tsx",
+        "components/ui/input.tsx",
+        "components/ui/icon-button.tsx"
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@wunderui/react",
+        "class-variance-authority",
+        "cn",
+        "lucide-react"
+      ]
+    },
+    {
+      "name": "password-strength",
+      "title": "Password Strength",
+      "group": "Forms",
+      "description": "A four-step meter with a label that shows how strong a password is.",
+      "files": [
+        "components/blocks/auth.tsx",
+        "components/ui/badge.tsx",
+        "lib/optical-center.tsx",
+        "lib/utils.ts",
+        "components/ui/icon-provider.tsx",
+        "components/ui/avatar.tsx",
+        "components/ui/tooltip.tsx",
+        "components/ui/alert.tsx",
+        "components/ui/switch.tsx",
+        "components/ui/checkbox.tsx",
+        "components/ui/radio-group.tsx",
+        "components/ui/otp-field.tsx",
+        "components/ui/native-select.tsx",
+        "components/ui/select.tsx",
+        "lib/select-items.ts",
+        "components/ui/input-group.tsx",
+        "components/ui/button.tsx",
+        "components/ui/input.tsx",
+        "components/ui/icon-button.tsx"
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@wunderui/react",
+        "class-variance-authority",
+        "cn",
+        "lucide-react"
+      ]
+    },
+    {
+      "name": "backup-code",
+      "title": "Backup Code",
+      "group": "Forms",
+      "description": "A recovery code that copies itself when clicked and is crossed out once it has been used.",
+      "files": [
+        "components/blocks/auth.tsx",
+        "components/ui/badge.tsx",
+        "lib/optical-center.tsx",
+        "lib/utils.ts",
+        "components/ui/icon-provider.tsx",
+        "components/ui/avatar.tsx",
+        "components/ui/tooltip.tsx",
+        "components/ui/alert.tsx",
+        "components/ui/switch.tsx",
+        "components/ui/checkbox.tsx",
+        "components/ui/radio-group.tsx",
+        "components/ui/otp-field.tsx",
+        "components/ui/native-select.tsx",
+        "components/ui/select.tsx",
+        "lib/select-items.ts",
+        "components/ui/input-group.tsx",
+        "components/ui/button.tsx",
+        "components/ui/input.tsx",
+        "components/ui/icon-button.tsx"
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@wunderui/react",
+        "class-variance-authority",
+        "cn",
+        "lucide-react"
+      ]
+    },
+    {
+      "name": "invite-row",
+      "title": "Invite Row",
+      "group": "Forms",
+      "description": "An email field and a role picker for inviting one person, with a button to remove the row.",
+      "files": [
+        "components/blocks/auth.tsx",
+        "components/ui/badge.tsx",
+        "lib/optical-center.tsx",
+        "lib/utils.ts",
+        "components/ui/icon-provider.tsx",
+        "components/ui/avatar.tsx",
+        "components/ui/tooltip.tsx",
+        "components/ui/alert.tsx",
+        "components/ui/switch.tsx",
+        "components/ui/checkbox.tsx",
+        "components/ui/radio-group.tsx",
+        "components/ui/otp-field.tsx",
+        "components/ui/native-select.tsx",
+        "components/ui/select.tsx",
+        "lib/select-items.ts",
+        "components/ui/input-group.tsx",
+        "components/ui/button.tsx",
+        "components/ui/input.tsx",
+        "components/ui/icon-button.tsx"
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@wunderui/react",
+        "class-variance-authority",
+        "cn",
+        "lucide-react"
+      ]
+    },
+    {
+      "name": "settings-row",
+      "title": "Settings Row",
+      "group": "Forms",
+      "description": "A setting's title and description with a switch, or any other control, on the right.",
+      "files": [
+        "components/blocks/auth.tsx",
+        "components/ui/badge.tsx",
+        "lib/optical-center.tsx",
+        "lib/utils.ts",
+        "components/ui/icon-provider.tsx",
+        "components/ui/avatar.tsx",
+        "components/ui/tooltip.tsx",
+        "components/ui/alert.tsx",
+        "components/ui/switch.tsx",
+        "components/ui/checkbox.tsx",
+        "components/ui/radio-group.tsx",
+        "components/ui/otp-field.tsx",
+        "components/ui/native-select.tsx",
+        "components/ui/select.tsx",
+        "lib/select-items.ts",
+        "components/ui/input-group.tsx",
+        "components/ui/button.tsx",
+        "components/ui/input.tsx",
+        "components/ui/icon-button.tsx"
+      ],
+      "dependencies": [
+        "@base-ui/react",
+        "@wunderui/react",
         "class-variance-authority",
         "cn",
         "lucide-react"
@@ -1284,13 +1688,18 @@
       "description": "One event in an agenda list, with its start and end time, a color bar, details and guests.",
       "files": [
         "components/blocks/data.tsx",
-        "components/ui/icon-button.tsx",
-        "lib/utils.ts",
+        "components/blocks/avatar-stack.tsx",
         "components/ui/avatar.tsx",
-        "lib/optical-center.tsx"
+        "components/ui/tooltip.tsx",
+        "lib/utils.ts",
+        "lib/optical-center.tsx",
+        "components/ui/icon-provider.tsx",
+        "components/wunderui/rating.tsx",
+        "components/ui/icon-button.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "class-variance-authority",
         "cn",
         "lucide-react"
@@ -1304,14 +1713,17 @@
       "files": [
         "components/blocks/form.tsx",
         "components/ui/checkbox.tsx",
+        "components/ui/icon-provider.tsx",
         "lib/utils.ts",
         "components/ui/textarea.tsx",
         "components/ui/input.tsx",
         "components/ui/tooltip.tsx",
-        "components/ui/input-group.tsx"
+        "components/ui/input-group.tsx",
+        "components/ui/button.tsx"
       ],
       "dependencies": [
         "@base-ui/react",
+        "@wunderui/react",
         "class-variance-authority",
         "cn",
         "lucide-react"

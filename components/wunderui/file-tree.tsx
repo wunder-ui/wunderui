@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { ChevronRight, File, Folder } from "lucide-react"
+import { Icon } from "@/components/ui/icon-provider"
 import { cn } from "@/lib/utils"
 
 type FileTreeNode = {
@@ -62,23 +62,24 @@ function FileTreeItem({ node, depth = 0 }: { node: FileTreeNode; depth?: number 
         // pr-2 equals the 8 px the indent starts with, so the hover fill has the same room left and right of the content.
         // The focus ring sits on the row only (not on the whole subtree of the focused treeitem).
         className={cn(
-          "flex w-full cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 text-left text-sm text-foreground hover:bg-bg-page",
-          "[:focus-visible>&]:outline-2 [:focus-visible>&]:outline-offset-0 [:focus-visible>&]:outline-indigo-300 [:focus-visible>&]:outline-solid",
+          "flex w-full cursor-default items-center gap-2 rounded-sm py-1.5 pe-2 text-start text-sm text-foreground hover:bg-bg-page",
+          "[:focus-visible>&]:outline-2 [:focus-visible>&]:outline-offset-0 [:focus-visible>&]:outline-(color:--indigo-300) [:focus-visible>&]:outline-solid",
           ctx.selectedId === node.id && "bg-bg-subtle hover:bg-bg-subtle"
         )}
         style={{ paddingLeft: depth * 16 + 8 }}
       >
         {isFolder ? (
-          <ChevronRight
+          <Icon
+            name="chevronRight"
             className={cn("size-3.5 shrink-0 text-text-tertiary transition-transform duration-fast ease-entrance", open && "rotate-90")}
           />
         ) : (
           <span className="inline-block size-3.5 shrink-0" />
         )}
         {isFolder ? (
-          <Folder className="size-4 shrink-0 text-text-tertiary" />
+          <Icon name="folder" className="size-4 shrink-0 text-text-tertiary" />
         ) : (
-          <File className="size-4 shrink-0 text-text-tertiary" />
+          <Icon name="file" className="size-4 shrink-0 text-text-tertiary" />
         )}
         <span id={labelId} className="truncate">{node.name}</span>
       </div>

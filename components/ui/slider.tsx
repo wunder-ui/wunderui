@@ -347,7 +347,7 @@ function SliderValue({ className, ...props }: SliderPrimitive.Value.Props) {
   return (
     <SliderPrimitive.Value
       data-slot="slider-value"
-      className={cn("ml-auto text-sm text-muted-foreground tabular-nums", className)}
+      className={cn("ms-auto text-sm text-muted-foreground tabular-nums", className)}
       {...props}
     />
   )

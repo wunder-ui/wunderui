@@ -2,7 +2,7 @@
 
 import { Switch as SwitchPrimitive } from "@base-ui/react/switch"
 import { cn } from "@/lib/utils"
-import { Loader2 } from "lucide-react"
+import { Icon } from "@/components/ui/icon-provider"
 import * as React from "react"
 
 /**
@@ -86,7 +86,8 @@ function Switch({
       >
         {/* The spinner turns while a save runs; reduced motion keeps it as a still glyph. */}
         {saving && (
-          <Loader2
+          <Icon
+            name="spinner"
             data-slot="switch-spinner"
             aria-hidden
             className="size-2.5 animate-spin text-dark-400 group-data-[size=sm]/switch:size-2 motion-reduce:animate-none"

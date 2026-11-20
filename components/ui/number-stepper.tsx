@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Minus, Plus } from "lucide-react"
+import { Icon } from "@/components/ui/icon-provider"
 import { IconButton } from "@/components/ui/icon-button"
 import { cn } from "@/lib/utils"
 
@@ -39,7 +39,7 @@ function NumberStepper({
         onClick={() => onValueChange(clamp(value - step))}
         aria-label="Decrease"
       >
-        <Minus />
+        <Icon name="minus" />
       </IconButton>
       <span className="min-w-8 text-center text-sm font-semibold tabular-nums text-foreground" aria-live="polite">
         {format(value)}
@@ -53,7 +53,7 @@ function NumberStepper({
         onClick={() => onValueChange(clamp(value + step))}
         aria-label="Increase"
       >
-        <Plus />
+        <Icon name="plus" />
       </IconButton>
     </div>
   )

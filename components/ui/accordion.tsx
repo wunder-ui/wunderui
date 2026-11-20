@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { Accordion as AccordionPrimitive } from "@base-ui/react/accordion"
-import { ChevronDown, Minus, Plus, TriangleAlert, X } from "lucide-react"
+import { Icon } from "@/components/ui/icon-provider"
 import { cn } from "@/lib/utils"
 import { Skeleton } from "./skeleton"
 
@@ -119,7 +119,8 @@ type AccordionIconVariant = "box" | "plain"
 function AccordionIndicator({ variant }: { variant: AccordionIndicatorVariant }) {
   if (variant === "chevron") {
     return (
-      <ChevronDown
+      <Icon
+        name="chevronDown"
         className="size-5 shrink-0 text-foreground transition-[transform,color] duration-base ease-move group-data-[panel-open]/accordion-trigger:rotate-180 group-focus-visible/accordion-trigger:text-tint-text-indigo"
         aria-hidden
       />
@@ -136,7 +137,8 @@ function AccordionIndicator({ variant }: { variant: AccordionIndicatorVariant })
       )}
       aria-hidden
     >
-      <Plus
+      <Icon
+        name="plus"
         className={cn(
           variant === "button" ? "size-2.5" : "size-4",
           "absolute inset-0 m-auto transition-[opacity,scale,filter,visibility] duration-fast ease-entrance motion-reduce:transition-[opacity,visibility]",
@@ -144,7 +146,8 @@ function AccordionIndicator({ variant }: { variant: AccordionIndicatorVariant })
         )}
       />
       {variant === "button" ? (
-        <Minus
+        <Icon
+          name="minus"
           className={cn(
             "size-2.5",
             "absolute inset-0 m-auto transition-[opacity,scale,filter,visibility] duration-fast ease-entrance motion-reduce:transition-[opacity,visibility]",
@@ -152,7 +155,8 @@ function AccordionIndicator({ variant }: { variant: AccordionIndicatorVariant })
           )}
         />
       ) : (
-        <X
+        <Icon
+          name="close"
           className={cn(
             "size-4",
             "absolute inset-0 m-auto transition-[opacity,scale,filter,visibility] duration-fast ease-entrance motion-reduce:transition-[opacity,visibility]",
@@ -221,7 +225,7 @@ function AccordionTrigger({
         data-indicator={resolvedIndicatorVariant}
         data-indicator-position={indicatorPosition}
         className={cn(
-          "group/accordion-trigger flex flex-1 items-center gap-4 px-4 text-left outline-none",
+          "group/accordion-trigger flex flex-1 items-center gap-4 px-4 text-start outline-none",
           rowHeightClass,
           // The hover fill sits on the item (see AccordionItem), not on the row.
           "transition-colors duration-fast ease-move",
@@ -291,7 +295,7 @@ function AccordionContent({ className, children, ...props }: AccordionPrimitive.
             padding makes up the rest of the 16 px between label and answer. */}
         <div
           className={cn(
-            "pr-[calc(1rem+var(--acc-trail,0rem))] pb-4 pl-[calc(1rem+var(--acc-icon,0rem)+var(--acc-lead,0rem))]",
+            "pe-[calc(1rem+var(--acc-trail,0rem))] pb-4 ps-[calc(1rem+var(--acc-icon,0rem)+var(--acc-lead,0rem))]",
             itemVariant === "divider" ? "pt-0" : "pt-1"
           )}
         >
@@ -320,8 +324,8 @@ function AccordionRow({ leading, action, className, children }: AccordionRowProp
       data-slot="accordion-row"
       className={cn(
         "flex items-center",
-        leading ? "gap-2 pl-4" : undefined,
-        action ? "gap-2 pr-4" : undefined,
+        leading ? "gap-2 ps-4" : undefined,
+        action ? "gap-2 pe-4" : undefined,
         className
       )}
     >
@@ -398,7 +402,7 @@ function AccordionFeedback({
     >
       {title && (
         <div className="flex items-center gap-2">
-          <TriangleAlert className="size-4 text-error" aria-hidden />
+          <Icon name="warning" className="size-4 text-error" aria-hidden />
           <span className="text-sm font-medium text-foreground">{title}</span>
         </div>
       )}

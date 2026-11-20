@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { Icon } from "@/components/ui/icon-provider"
 import { IconButton } from "@/components/ui/icon-button"
 import { cn } from "@/lib/utils"
 
@@ -333,7 +333,7 @@ function Carousel({
           aria-label="Previous"
           tabIndex={overflows ? undefined : -1}
         >
-          <ChevronLeft />
+          <Icon name="chevronLeft" />
         </IconButton>
       )}
       <div
@@ -378,7 +378,7 @@ function Carousel({
           aria-label="Next"
           tabIndex={overflows ? undefined : -1}
         >
-          <ChevronRight />
+          <Icon name="chevronRight" />
         </IconButton>
       )}
       <div aria-live="polite" aria-atomic="true" className="sr-only">

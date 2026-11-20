@@ -65,11 +65,11 @@ The Theme Builder CSS comes first, unchanged. A block marked `Added by the wunde
 
 - **Font** (`--font`): `--font-sans` (headings follow it). The font must be loaded by the project.
 
-## 5. Scoped themes (`--scope .acme`)
+## 5. Scoped themes (`--scope .wunderui`)
 
 CSS variables that reference other variables are resolved where they are declared, so overriding `--brand-600` on a wrapper would not change `--primary` (declared on `:root`). A scoped theme therefore declares the scale **and** every brand token on the wrapper:
 
-- `.acme, .acme .light` — light values (nested `.light` sections included),
-- `.dark .acme, .acme.dark, .acme .dark` — dark values.
+- `.wunderui, .wunderui .light` — light values (nested `.light` sections included),
+- `.dark .wunderui, .wunderui.dark, .wunderui .dark` — dark values.
 
 Radius cannot be scoped (it is compiled into the utilities); the font can.

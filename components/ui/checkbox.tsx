@@ -2,7 +2,7 @@
 
 import { Checkbox as CheckboxPrimitive } from "@base-ui/react/checkbox"
 import { cn } from "@/lib/utils"
-import { CheckIcon, MinusIcon } from "lucide-react"
+import { Icon } from "@/components/ui/icon-provider"
 import * as React from "react"
 
 /**
@@ -99,7 +99,7 @@ function Checkbox(props: CheckboxProps) {
     <div data-slot="checkbox-field" className={cn("flex flex-col gap-1", wrapperClassName)}>
       {row}
       {error && (
-        <p id={`${id}-error`} className="pl-6 text-xs text-text-error">
+        <p id={`${id}-error`} className="ps-6 text-xs text-text-error">
           {error}
         </p>
       )}
@@ -143,9 +143,9 @@ function CheckboxControl({
           "[&_svg_path]:[stroke-dasharray:23] [&_svg_path]:[stroke-dashoffset:-23] [&_svg_path]:transition-[stroke-dashoffset] [&_svg_path]:duration-fast [&_svg_path]:ease-entrance data-checked:[&_svg_path]:[stroke-dashoffset:0] data-indeterminate:[&_svg_path]:[stroke-dashoffset:0] data-checked:[&_svg_path]:duration-slow"
         )}
       >
-        {/* a heavier stroke so the mark reads at 16 px: 3 on lucide's 24 grid for the check (about 1.75 px at 14 px), 4 for the minus, a short bar that looks thinner than the check at the same weight */}
-        <CheckIcon strokeWidth={3} />
-        <MinusIcon strokeWidth={4} />
+        {/* the roles checkboxCheck / checkboxIndeterminate (ui/icon-provider.tsx) draw Lucide heavier so the mark reads at 16 px: 3 on lucide's 24 grid for the check (about 1.75 px at 14 px), 4 for the minus, a short bar that looks thinner than the check at the same weight */}
+        <Icon name="checkboxCheck" />
+        <Icon name="checkboxIndeterminate" />
       </CheckboxPrimitive.Indicator>
     </CheckboxPrimitive.Root>
   )

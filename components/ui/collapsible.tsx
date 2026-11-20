@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { Collapsible as CollapsiblePrimitive } from "@base-ui/react/collapsible"
-import { ChevronDown, Minus, Plus, TriangleAlert } from "lucide-react"
+import { Icon } from "@/components/ui/icon-provider"
 import { cn } from "@/lib/utils"
 import { BadgeCounter } from "./badge"
 import { Skeleton } from "./skeleton"
@@ -74,15 +74,15 @@ function CollapsibleTrigger({
       <CollapsiblePrimitive.Trigger
         data-slot="collapsible-trigger"
         className={cn(
-          "group/collapsible-trigger flex w-full items-center justify-between gap-4 rounded-md text-left text-sm font-medium text-foreground outline-none focus-ring",
+          "group/collapsible-trigger flex w-full items-center justify-between gap-4 rounded-md text-start text-sm font-medium text-foreground outline-none focus-ring",
           className
         )}
         {...props}
       >
         {children}
         <span className="flex size-5 shrink-0 items-center justify-center rounded-md border border-border bg-card text-text-secondary">
-          <Plus className="size-2.5 group-data-[panel-open]/collapsible-trigger:hidden" />
-          <Minus className="hidden size-2.5 group-data-[panel-open]/collapsible-trigger:block" />
+          <Icon name="plus" className="size-2.5 group-data-[panel-open]/collapsible-trigger:hidden" />
+          <Icon name="minus" className="hidden size-2.5 group-data-[panel-open]/collapsible-trigger:block" />
         </span>
       </CollapsiblePrimitive.Trigger>
     )
@@ -97,7 +97,7 @@ function CollapsibleTrigger({
       className={cn(
         // The transparent border keeps the outer size stable, so the indigo
         // focus ring can draw on it without shifting the layout.
-        "group/collapsible-trigger flex items-center rounded-md text-left text-sm font-medium border border-transparent focus-ring transition-colors duration-fast ease-move hover:bg-bg-page active:bg-bg-subtle data-[disabled]:opacity-40 data-[disabled]:hover:bg-transparent",
+        "group/collapsible-trigger flex items-center rounded-md text-start text-sm font-medium border border-transparent focus-ring transition-colors duration-fast ease-move hover:bg-bg-page active:bg-bg-subtle data-[disabled]:opacity-40 data-[disabled]:hover:bg-transparent",
         appearance === "inline"
           ? "w-fit max-w-full gap-1 px-[11px] py-[5px] text-text-link"
           : "w-full min-w-0 gap-2 px-[11px] py-[7px] text-foreground",
@@ -130,14 +130,15 @@ function CollapsibleTrigger({
       )}
       {count !== undefined && <BadgeCounter count={count} className="text-text-secondary" />}
       {resolvedIndicator === "chevron" ? (
-        <ChevronDown
+        <Icon
+          name="chevronDown"
           aria-hidden
           className="size-4 shrink-0 transition-transform duration-base ease-move group-data-[panel-open]/collapsible-trigger:rotate-180"
         />
       ) : (
         <span className="flex size-5 shrink-0 items-center justify-center rounded-md border border-border bg-card text-text-secondary">
-          <Plus className="size-2.5 group-data-[panel-open]/collapsible-trigger:hidden" />
-          <Minus className="hidden size-2.5 group-data-[panel-open]/collapsible-trigger:block" />
+          <Icon name="plus" className="size-2.5 group-data-[panel-open]/collapsible-trigger:hidden" />
+          <Icon name="minus" className="hidden size-2.5 group-data-[panel-open]/collapsible-trigger:block" />
         </span>
       )}
     </CollapsiblePrimitive.Trigger>
@@ -173,8 +174,8 @@ function CollapsibleContent({
             appearance === undefined
               ? "pt-4"
               : nested
-                ? cn("px-3 pt-4 pb-3", align === "title" && "pl-9")
-                : cn("px-3 pt-6 pb-3", align === "title" && "pl-9")
+                ? cn("px-3 pt-4 pb-3", align === "title" && "ps-9")
+                : cn("px-3 pt-6 pb-3", align === "title" && "ps-9")
           )}
         >
           <CollapsibleBodyContext.Provider value={true}>
@@ -268,7 +269,7 @@ function CollapsibleFeedback({
     >
       {title && (
         <div className="flex items-center gap-2">
-          <TriangleAlert className="size-4 text-error" aria-hidden />
+          <Icon name="warning" className="size-4 text-error" aria-hidden />
           <span className="text-sm font-medium text-foreground">{title}</span>
         </div>
       )}

@@ -1,5 +1,8 @@
 import type { ReactNode } from "react"
+import { Icon } from "@/components/ui/icon-provider"
 import { cn } from "@/lib/utils"
+import { Avatar, AvatarFallback, AvatarImage, type AvatarColor } from "@/components/ui/avatar"
+import { Badge, type BadgeColor } from "@/components/ui/badge"
 import { readableOn, readableOnCss } from "@/lib/readable-on"
 
 type TimelineItem = {
@@ -100,5 +103,73 @@ function Timeline({
   )
 }
 
-export { Timeline }
-export type { TimelineItem }
+/** One entry of an activity feed or history: an avatar or a status dot, a title, a time, an object chip, a badge, a meta line, content below and a line to the next entry. Stack entries in a column; pass `last` on the final one. */
+type TimelineEntryProps = {
+  /** Actor avatar (Type=event). */
+  avatar?: { src?: string; initials?: string; color?: AvatarColor }
+  /** Status dot (Type=step): tone + icon. */
+  status?: { tone?: "success" | "primary" | "warning" | "muted"; icon?: ReactNode }
+  title: ReactNode
+  time?: ReactNode
+  /** Small object chip under the title (Type=event) — e.g. project name. */
+  object?: { icon?: ReactNode; label: ReactNode }
+  /** Trailing badge/label on the title row (Type=step). */
+  badge?: ReactNode
+  badgeColor?: BadgeColor
+  meta?: ReactNode
+  /** Extra content below the title (comment excerpt, reactions, attachments …). */
+  children?: ReactNode
+  /** The last entry of the list: no connector line below it. */
+  last?: boolean
+  className?: string
+}
+
+const ENTRY_TONE = {
+  success: "bg-success text-success-foreground",
+  primary: "bg-primary text-primary-foreground",
+  warning: "bg-brand-quaternary text-foreground",
+  muted: "bg-muted text-text-secondary",
+}
+
+function TimelineEntry({ avatar, status, title, time, object, badge, badgeColor = "grey", meta, children, last, className }: TimelineEntryProps) {
+  const lineColor = status?.tone === "success" ? "bg-success" : "bg-border"
+  return (
+    <div data-slot="timeline-entry" className={cn("flex gap-4", className)}>
+      <div className="flex w-10 shrink-0 flex-col items-center">
+        {avatar ? (
+          <Avatar size="lg" color={avatar.src ? undefined : avatar.color}>
+            {avatar.src && <AvatarImage src={avatar.src} alt="" />}
+            <AvatarFallback>{avatar.initials}</AvatarFallback>
+          </Avatar>
+        ) : (
+          <span className={cn("grid size-8 place-items-center rounded-full [&_svg]:size-3.5", ENTRY_TONE[status?.tone ?? "muted"])}>
+            {status?.icon ?? <Icon name="check" strokeWidth={1.5} />}
+          </span>
+        )}
+        {!last && <span className={cn("mt-1 w-0.5 flex-1", lineColor)} />}
+      </div>
+      <div className={cn("flex min-w-0 flex-1 flex-col gap-1", !last && "pb-6")}>
+        <div className="flex items-start justify-between gap-2">
+          <p className="text-sm text-text-secondary [&_strong]:font-medium [&_strong]:text-foreground">{title}</p>
+          {time && <span className="shrink-0 text-xs text-text-tertiary">{time}</span>}
+          {badge && (
+            <Badge color={badgeColor} badgeStyle="light" shape="pill" className="shrink-0">
+              {badge}
+            </Badge>
+          )}
+        </div>
+        {object && (
+          <span className="inline-flex w-fit items-center gap-1 rounded-md bg-muted px-2 py-0.5 text-[11px] text-text-secondary [&_svg]:size-3">
+            {object.icon ?? <Icon name="folder" strokeWidth={1.5} />}
+            {object.label}
+          </span>
+        )}
+        {meta && <p className="text-xs text-text-tertiary">{meta}</p>}
+        {children}
+      </div>
+    </div>
+  )
+}
+
+export { Timeline, TimelineEntry }
+export type { TimelineItem, TimelineEntryProps }

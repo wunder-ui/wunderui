@@ -89,7 +89,7 @@ function ToastList() {
         <ToastPrimitive.Close
           data-slot="toast-close"
           aria-label="Close"
-          className="-my-1 -mr-1 inline-flex size-6 shrink-0 items-center justify-center rounded-md text-text-tertiary outline-none transition-colors duration-fast ease-entrance hover:bg-bg-page hover:text-foreground active:bg-bg-subtle focus-ring"
+          className="-my-1 -me-1 inline-flex size-6 shrink-0 items-center justify-center rounded-md text-text-tertiary outline-none transition-colors duration-fast ease-entrance hover:bg-bg-page hover:text-foreground active:bg-bg-subtle focus-ring"
         >
           ×
         </ToastPrimitive.Close>

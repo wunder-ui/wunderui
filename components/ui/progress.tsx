@@ -1,6 +1,6 @@
 "use client"
 
-import type * as React from "react"
+import * as React from "react"
 import { Progress as ProgressPrimitive } from "@base-ui/react/progress"
 import { cn } from "@/lib/utils"
 
@@ -75,12 +75,12 @@ function Progress({
           <ProgressTrack className="min-w-0 flex-1">
             <ProgressIndicator />
           </ProgressTrack>
-          <ProgressValue className="ml-0 w-10 shrink-0 text-right" />
+          <ProgressValue className="ms-0 w-10 shrink-0 text-end" />
         </div>
       )}
       {valuePosition === "left" && (
         <div className="flex items-center gap-3">
-          <ProgressValue className="ml-0 w-10 shrink-0 text-left" />
+          <ProgressValue className="ms-0 w-10 shrink-0 text-start" />
           <ProgressTrack className="min-w-0 flex-1">
             <ProgressIndicator />
           </ProgressTrack>
@@ -91,7 +91,7 @@ function Progress({
           <ProgressTrack>
             <ProgressIndicator />
           </ProgressTrack>
-          <ProgressValue className="ml-0 self-end" />
+          <ProgressValue className="ms-0 self-end" />
         </>
       )}
       {isTooltip && (
@@ -140,7 +140,7 @@ function ProgressBubbleRow({
         className="absolute top-0 inline-flex h-8 items-center rounded-md bg-neutral-dark-content px-4 text-xs font-medium text-neutral-white shadow-md"
         style={{ left: `${percent}%`, translate: `-${percent}% 0` }}
       >
-        <ProgressValue className="ml-0 text-xs font-medium text-neutral-white" />
+        <ProgressValue className="ms-0 text-xs font-medium text-neutral-white" />
       </span>
       <svg
         width="10"
@@ -208,7 +208,7 @@ function ProgressValue({ className, ...props }: ProgressPrimitive.Value.Props) {
   return (
     <ProgressPrimitive.Value
       className={cn(
-        "ml-auto text-sm text-muted-foreground tabular-nums",
+        "ms-auto text-sm text-muted-foreground tabular-nums",
         className
       )}
       data-slot="progress-value"
@@ -217,12 +217,68 @@ function ProgressValue({ className, ...props }: ProgressPrimitive.Value.Props) {
   )
 }
 
+const INTERACTIVE = "a[href], button, input, select, textarea, [tabindex]"
+
+type ProgressRowProps = {
+  /** The row's name at the start, such as a star level, a channel or a skill. */
+  label: React.ReactNode
+  /** A small mark after the label, such as a star. */
+  icon?: React.ReactNode
+  /** Share of the bar, 0 to 100 (clamped). */
+  value: number
+  /** Shown at the end of the row instead of the rounded percentage (for example a review count). */
+  valueText?: React.ReactNode
+  /** Colour of the fill: the brand indigo or the yellow of a rating. */
+  tone?: "primary" | "yellow"
+  /** Name of the whole row for assistive tech. Default: "label: end text", built from the label and the end text. */
+  "aria-label"?: string
+  className?: string
+}
+
+/**
+ * One row of a breakdown: the label at the start, a thick bar in the middle and the share at the end, like a
+ * rating distribution. The row is one image for assistive tech; a link or button inside the label or the end text
+ * makes it a group instead, so it stays reachable. For a single bar with a value use `Progress`.
+ */
+function ProgressRow({ label, icon, value, valueText, tone = "primary", "aria-label": ariaLabel, className }: ProgressRowProps) {
+  // The bar and the percentage text share one clamped value, so 140 draws a full bar and reads 100%, not 140%
+  const share = Math.max(0, Math.min(100, value))
+  const text = valueText ?? `${Math.round(share)}%`
+  const rowRef = React.useRef<HTMLDivElement>(null)
+  const [interactive, setInteractive] = React.useState(false)
+  // A row whose label or end text holds a link or a button must stay reachable: it is a group then, not a flat image.
+  React.useLayoutEffect(() => {
+    setInteractive(!!rowRef.current?.querySelector(INTERACTIVE))
+  })
+  const plain = (node: React.ReactNode) => (typeof node === "string" || typeof node === "number" ? String(node) : null)
+  const name = ariaLabel ?? (plain(label) !== null && plain(text) !== null ? `${plain(label)}: ${plain(text)}` : undefined)
+  return (
+    <div
+      ref={rowRef}
+      data-slot="progress-row"
+      role={name ? (interactive ? "group" : "img") : undefined}
+      aria-label={name}
+      className={cn("flex items-center gap-2 text-xs", className)}
+    >
+      <span className="flex min-w-8 shrink-0 items-center gap-0.5 font-medium text-foreground">
+        {label}
+        {icon}
+      </span>
+      <span className="h-2 min-w-0 flex-1 overflow-hidden rounded-full bg-muted">
+        <span className={cn("block h-full rounded-full", tone === "yellow" ? "bg-tint-text-yellow" : "bg-primary")} style={{ width: `${share}%` }} />
+      </span>
+      <span className="min-w-8 shrink-0 text-end text-text-secondary">{text}</span>
+    </div>
+  )
+}
+
 export {
   Progress,
+  ProgressRow,
   ProgressTrack,
   ProgressIndicator,
   ProgressLabel,
   ProgressValue,
 }
 
-export type { ProgressValuePosition }
+export type { ProgressValuePosition, ProgressRowProps }

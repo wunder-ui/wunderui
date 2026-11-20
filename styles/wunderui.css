@@ -361,14 +361,40 @@
   --text-secondary: #454648;
   --text-tertiary: #6E6E70;
   --success: #1AD598;
-  --success-foreground: #17181A;
+  --success-foreground: #FFFFFF;
   /* Chart spectrum: indigo leads, cool neighbours follow,
      grey last — no orange/yellow next to indigo. All from the badge palette. */
   --chart-1: var(--brand-600);
-  --chart-2: #12AFF0;
-  --chart-3: #A584F3;
-  --chart-4: #1AD598;
+  /* Fills take the softer 500 step (owner, Nov 12 2026): bars and areas were too
+     loud at 600. Lines and points keep their own, stronger step (--chart-line-*). */
+  --chart-2: var(--blue-500);
+  --chart-3: var(--purple-500);
+  --chart-4: var(--green-500);
   --chart-5: #A2A3A3;
+  --chart-pink: var(--pink-500);
+  --chart-orange: var(--orange-500);
+  --chart-yellow: var(--yellow-500);
+  /* Chart chrome: grid, axis labels and crosshair have their own tokens, so a
+     theme can quiet the plot without touching borders or body text. */
+  --chart-grid: var(--border-control);
+  --chart-label: var(--text-tertiary);
+  --chart-crosshair: color-mix(in oklab, var(--text-tertiary) 45%, transparent);
+  /* One hover model: the active mark stays, the rest dims; a series switched
+     off in the legend goes to --chart-hidden. */
+  /* Bars: 4 px corners, growing with the bar's thickness up to 8 px. */
+  --chart-bar-radius: 4px;
+  --chart-bar-radius-max: 8px;
+  --chart-dim: 0.4;
+  --chart-dim-area: 0.6;
+  --chart-hidden: 0.25;
+  /* Value tiers of the segmented bar, bottom to top (dark → light). Every tier
+     keeps at least 3:1 against the card: 800 / 600 / 500 on white (9.99, 4.99,
+     3.48), 600 / 400 / 200 on the dark card (3.38, 6.85, 12.79). */
+  --chart-tier-1: var(--brand-800);
+  --chart-tier-2: var(--brand-600);
+  --chart-tier-3: var(--brand-500);
+  /* New data moves the marks to their new values in this time (--ease-move). */
+  --chart-morph: 500ms;
   --radius: 0.75rem;
   --sidebar: #F9FBFC;
   --sidebar-foreground: #000000;
@@ -600,12 +626,21 @@
   --text-secondary: #D1D1D1;
   --text-tertiary: #A2A3A3;
   --success: #1AD598;
-  --success-foreground: #17181A;
+  --success-foreground: #FFFFFF;
   --chart-1: var(--brand-600);
   --chart-2: #3CC2F5;
   --chart-3: #B79CF6;
   --chart-4: #3DDBA6;
   --chart-5: #6E7078;
+  --chart-pink: var(--pink-500);
+  --chart-orange: var(--orange-500);
+  --chart-yellow: var(--yellow-500);
+  --chart-grid: var(--border);
+  /* on the dark card a dimmed mark may go further back and still read */
+  --chart-dim: 0.3;
+  --chart-tier-1: var(--brand-600);
+  --chart-tier-2: var(--brand-400);
+  --chart-tier-3: var(--brand-200);
   --sidebar: #17181A;
   --sidebar-foreground: #FFFFFF;
   --sidebar-primary: var(--brand-600);
@@ -774,6 +809,25 @@
   }
 }
 
+/* Icon stroke weight (owner rule, 13 Nov 2026). Lucide icons carry the library default 2 as an attribute; CSS outranks
+   it, so the rules below pick by value and never touch a weight a component sets on purpose (check marks at 3, 1.75):
+   - icons of the library: 1.5 (a 16 px icon then draws a 1 px line);
+   - icons on a button face (Button, IconButton, split button): 2, because a 1 px line on a dark fill looks thin and
+     soft; this also lifts an explicit 1.5 there;
+   - icons of 12 px and smaller keep 2 (or are lifted from 1.5 to 2): 1.5 is too thin at that size.
+   Utilities such as `stroke-[…]` still win (they sit in the utilities layer). */
+@layer base {
+  [data-slot] svg.lucide[stroke-width="2"]:where(:not(.size-3,.size-2\.5,.size-2,.size-\[10px\],.size-\[11px\],.size-\[12px\])) {
+    stroke-width: 1.5;
+  }
+  svg.lucide:is(.size-3,.size-2\.5,.size-2,.size-\[10px\],.size-\[11px\],.size-\[12px\])[stroke-width="1.5"] {
+    stroke-width: 2;
+  }
+  :is([data-slot="button"], [data-slot="icon-button"], [data-slot="split-button-action"], [data-slot="split-button-menu"]) svg.lucide:is([stroke-width="1.5"], [stroke-width="2"]) {
+    stroke-width: 2;
+  }
+}
+
 /* Optical centring (owner rule, 10 Nov 2026): a number, initial or glyph inside a circle or badge is centred
    on its cap height, not on the line box. The line box adds space above and below the digits that the font
    metrics do not split evenly, so the figure sits a half pixel high or low. Put the class on an inner
@@ -801,6 +855,20 @@
     outline-offset: 0;
     border-color: var(--primary);
   }
+  /* Fields draw the same 2 px ring as a box-shadow, which grows smoothly from 0 (an outline width snaps to whole
+     pixels) and fades back out on blur. See "Focus ring transition for fields" below. */
+  &:is(input, textarea, select, [role="combobox"], [contenteditable="true"]):focus-visible,
+  &:is(input, textarea, select, [role="combobox"], [contenteditable="true"]):focus-visible:hover {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--indigo-300);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    &:is(input, textarea, select, [role="combobox"], [contenteditable="true"]) {
+      transition-property: color, background-color, border-color, box-shadow;
+      transition-duration: var(--duration-base);
+      transition-timing-function: var(--ease-entrance);
+    }
+  }
 }
 @utility focus-ring-error {
   &:focus-visible,
@@ -809,7 +877,24 @@
     outline-offset: 0;
     border-color: var(--destructive);
   }
+  &:is(input, textarea, select, [role="combobox"], [contenteditable="true"]):focus-visible,
+  &:is(input, textarea, select, [role="combobox"], [contenteditable="true"]):focus-visible:hover {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--red-300);
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    &:is(input, textarea, select, [role="combobox"], [contenteditable="true"]) {
+      transition-property: color, background-color, border-color, box-shadow;
+      transition-duration: var(--duration-base);
+      transition-timing-function: var(--ease-entrance);
+    }
+  }
 }
+
+/* Focus ring transition for fields (owner, Nov 20 2026, like Jakub Krehel's better-accessibility demo): on fields
+   and field wrappers the ring is a box-shadow that grows from 0 to 2 px while the border eases to indigo, and both
+   ease back on blur (duration-base, ease-entrance). Documented exception to "animate only transform and opacity":
+   a field cannot carry a pseudo-element ring; box-shadow is paint only (no layout). Reduced motion: instant. */
 
 /* The same pair without the `:focus-visible` condition, to be combined with a variant that decides when it
    applies, e.g. `has-[[data-stretch]:focus-visible]:focus-ring-on` on a card whose stretched link is focused. */
@@ -837,11 +922,29 @@
     outline-offset: 0;
     border-color: var(--primary);
   }
+  /* The wrapper of a field (input group, number field, prompt input) grows its ring like a field. */
+  &:has(:is(input, textarea):focus-visible),
+  &:has(:is(input, textarea):focus-visible):hover {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--indigo-300);
+  }
+  /* The element selector lifts the specificity above a wrapper's own `transition-colors` class. */
+  @media (prefers-reduced-motion: no-preference) {
+    &:is(div, label, span, fieldset) {
+      transition-property: color, background-color, border-color, box-shadow;
+      transition-duration: var(--duration-base);
+      transition-timing-function: var(--ease-entrance);
+    }
+  }
   /* The wrapper alone shows the focus: the inner control (which may carry `focus-ring` itself, as `Input` does)
      draws no rectangle of its own inside the field. */
-  & :is(input, textarea):focus-visible {
+  /* `:hover` too: the inner control's own `focus-ring` has a `:focus-visible:hover` rule that otherwise wins while the
+     pointer rests on the field and draws two lines beside the icon (owner, Nov 14 2026). */
+  & :is(input, textarea):focus-visible,
+  & :is(input, textarea):focus-visible:hover {
     outline: none;
     border-color: transparent;
+    box-shadow: none;
   }
 }
 @utility focus-ring-within-error {
@@ -851,9 +954,26 @@
     outline-offset: 0;
     border-color: var(--destructive);
   }
-  & :is(input, textarea):focus-visible {
+  &:has(:is(input, textarea):focus-visible),
+  &:has(:is(input, textarea):focus-visible):hover {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--red-300);
+  }
+  /* The element selector lifts the specificity above a wrapper's own `transition-colors` class. */
+  @media (prefers-reduced-motion: no-preference) {
+    &:is(div, label, span, fieldset) {
+      transition-property: color, background-color, border-color, box-shadow;
+      transition-duration: var(--duration-base);
+      transition-timing-function: var(--ease-entrance);
+    }
+  }
+  /* `:hover` too: the inner control's own `focus-ring` has a `:focus-visible:hover` rule that otherwise wins while the
+     pointer rests on the field and draws two lines beside the icon (owner, Nov 14 2026). */
+  & :is(input, textarea):focus-visible,
+  & :is(input, textarea):focus-visible:hover {
     outline: none;
     border-color: transparent;
+    box-shadow: none;
   }
 }
 
@@ -992,10 +1112,21 @@
    in left to right (clip-path, M21), bars grow from the zero line, labels
    and markers fade in at the end; series and bars are staggered by
    --enter-i. A draw is a movement along the data, so it runs on
-   --ease-move over two ambient steps (1.4 s, like the reveal of bklit and
-   evilcharts) — slower than chrome on purpose. Opt-in motion only (M7). */
-[data-chart-enter] {
-  --chart-enter: calc(var(--duration-ambient) * 2);
+   --ease-move over --chart-enter (1.1 s, 0.8 s in dashboards) — slower than
+   chrome on purpose. Opt-in motion only (M7). */
+/* Rule (owner, Nov 12 2026): a chart enters in 1.1 s; inside a dashboard —
+   several charts landing at once — in 0.8 s. Bars spread their start over
+   40 % of that (--chart-enter-stagger), so a chart with 4 bars and one with 90
+   finish at the same time. Set data-chart-motion="dense" on any wrapper for
+   the short form; the dashboard load sequence ([data-load]) has it already. */
+:root {
+  --chart-enter: 1100ms;
+  --chart-enter-stagger: calc(var(--chart-enter) * 0.4);
+}
+[data-chart-motion="dense"],
+[data-load] {
+  --chart-enter: 800ms;
+  --chart-enter-stagger: calc(var(--chart-enter) * 0.4);
 }
 /* Bullet charts (owner, Oct 22 2026): the measure is a brand-600 fill in light
    (3.86:1 against the grey-200 band, 4.35:1 against the 55 % band, 4.99:1 against
@@ -1035,13 +1166,13 @@
    dark card, so the hovered mark keeps (and gains) contrast. */
 :root {
   --chart-hover-indigo: var(--brand-400);
-  --chart-hover-blue: var(--blue-400);
-  --chart-hover-purple: var(--purple-400);
-  --chart-hover-green: var(--green-400);
+  --chart-hover-blue: var(--blue-300);
+  --chart-hover-purple: var(--purple-300);
+  --chart-hover-green: var(--green-300);
   --chart-hover-grey: var(--dark-100);
-  --chart-hover-orange: var(--orange-400);
-  --chart-hover-pink: var(--pink-400);
-  --chart-hover-yellow: var(--yellow-400);
+  --chart-hover-orange: var(--orange-300);
+  --chart-hover-pink: var(--pink-300);
+  --chart-hover-yellow: var(--yellow-300);
 }
 .dark {
   --chart-hover-indigo: var(--brand-400);
@@ -1049,9 +1180,9 @@
   --chart-hover-purple: var(--purple-300);
   --chart-hover-green: var(--green-300);
   --chart-hover-grey: var(--dark-200);
-  --chart-hover-orange: var(--orange-400);
-  --chart-hover-pink: var(--pink-400);
-  --chart-hover-yellow: var(--yellow-400);
+  --chart-hover-orange: var(--orange-300);
+  --chart-hover-pink: var(--pink-300);
+  --chart-hover-yellow: var(--yellow-300);
 }
 /* Lines, points and thin strokes of a series (owner, steps set Nov 1 2026):
    purple, blue and pink keep the 600 step in light, green and yellow take 700,
@@ -1085,11 +1216,11 @@
    (lowest 4.59:1, chart-4 at 55 % in dark). */
 :root {
   --chart-on-chart-1-100: var(--light-100);
-  --chart-on-chart-1-85: var(--dark-1000);
-  --chart-on-chart-1-70: var(--dark-1000);
-  --chart-on-chart-1-55: var(--dark-1000);
-  --chart-on-chart-1-40: var(--dark-1000);
-  --chart-on-chart-1-25: var(--dark-1000);
+  --chart-on-chart-1-85: var(--light-100);
+  --chart-on-chart-1-70: var(--tint-text-indigo);
+  --chart-on-chart-1-55: var(--tint-text-indigo);
+  --chart-on-chart-1-40: var(--tint-text-indigo);
+  --chart-on-chart-1-25: var(--tint-text-indigo);
   --chart-on-chart-2-100: var(--dark-1000);
   --chart-on-chart-2-85: var(--dark-1000);
   --chart-on-chart-2-70: var(--dark-1000);
@@ -1121,11 +1252,11 @@
   --chart-on-blue-600-40: var(--dark-1000);
   --chart-on-blue-600-25: var(--dark-1000);
   --chart-on-indigo-600-100: var(--light-100);
-  --chart-on-indigo-600-85: var(--dark-1000);
-  --chart-on-indigo-600-70: var(--dark-1000);
-  --chart-on-indigo-600-55: var(--dark-1000);
-  --chart-on-indigo-600-40: var(--dark-1000);
-  --chart-on-indigo-600-25: var(--dark-1000);
+  --chart-on-indigo-600-85: var(--light-100);
+  --chart-on-indigo-600-70: var(--tint-text-indigo);
+  --chart-on-indigo-600-55: var(--tint-text-indigo);
+  --chart-on-indigo-600-40: var(--tint-text-indigo);
+  --chart-on-indigo-600-25: var(--tint-text-indigo);
   --chart-on-purple-600-100: var(--dark-1000);
   --chart-on-purple-600-85: var(--dark-1000);
   --chart-on-purple-600-70: var(--dark-1000);
@@ -1162,6 +1293,24 @@
   --chart-on-destructive-55: var(--dark-1000);
   --chart-on-destructive-40: var(--dark-1000);
   --chart-on-destructive-25: var(--dark-1000);
+  --chart-on-chart-pink-100: var(--dark-1000);
+  --chart-on-chart-pink-85: var(--dark-1000);
+  --chart-on-chart-pink-70: var(--dark-1000);
+  --chart-on-chart-pink-55: var(--dark-1000);
+  --chart-on-chart-pink-40: var(--dark-1000);
+  --chart-on-chart-pink-25: var(--dark-1000);
+  --chart-on-chart-orange-100: var(--dark-1000);
+  --chart-on-chart-orange-85: var(--dark-1000);
+  --chart-on-chart-orange-70: var(--dark-1000);
+  --chart-on-chart-orange-55: var(--dark-1000);
+  --chart-on-chart-orange-40: var(--dark-1000);
+  --chart-on-chart-orange-25: var(--dark-1000);
+  --chart-on-chart-yellow-100: var(--dark-1000);
+  --chart-on-chart-yellow-85: var(--dark-1000);
+  --chart-on-chart-yellow-70: var(--dark-1000);
+  --chart-on-chart-yellow-55: var(--dark-1000);
+  --chart-on-chart-yellow-40: var(--dark-1000);
+  --chart-on-chart-yellow-25: var(--dark-1000);
 }
 .dark {
   --chart-on-chart-1-100: var(--light-100);
@@ -1242,6 +1391,24 @@
   --chart-on-destructive-55: var(--light-100);
   --chart-on-destructive-40: var(--light-100);
   --chart-on-destructive-25: var(--light-100);
+  --chart-on-chart-pink-100: var(--dark-1000);
+  --chart-on-chart-pink-85: var(--dark-1000);
+  --chart-on-chart-pink-70: var(--dark-1000);
+  --chart-on-chart-pink-55: var(--light-100);
+  --chart-on-chart-pink-40: var(--light-100);
+  --chart-on-chart-pink-25: var(--light-100);
+  --chart-on-chart-orange-100: var(--dark-1000);
+  --chart-on-chart-orange-85: var(--dark-1000);
+  --chart-on-chart-orange-70: var(--dark-1000);
+  --chart-on-chart-orange-55: var(--light-100);
+  --chart-on-chart-orange-40: var(--light-100);
+  --chart-on-chart-orange-25: var(--light-100);
+  --chart-on-chart-yellow-100: var(--dark-1000);
+  --chart-on-chart-yellow-85: var(--dark-1000);
+  --chart-on-chart-yellow-70: var(--dark-1000);
+  --chart-on-chart-yellow-55: var(--dark-1000);
+  --chart-on-chart-yellow-40: var(--light-100);
+  --chart-on-chart-yellow-25: var(--light-100);
 }
 @media (prefers-reduced-motion: no-preference) {
   [data-chart-enter] [data-enter="draw"] {
@@ -1261,7 +1428,7 @@
     transform-box: fill-box;
     transform-origin: 50% 100%;
     animation: wunderui-chart-enter-grow calc(var(--chart-enter) * 0.75) var(--ease-entrance) both;
-    animation-delay: calc(var(--load-content-delay, 0ms) + var(--enter-i, 0) * var(--duration-deliberate));
+    animation-delay: calc(var(--load-content-delay, 0ms) + var(--enter-i, 0) * var(--chart-enter-stagger));
   }
   [data-chart-enter] [data-enter="grow-down"] {
     transform-origin: 50% 0%;
@@ -1292,21 +1459,117 @@
     animation: wunderui-chart-enter-pop var(--duration-ambient) var(--ease-entrance) both;
     animation-delay: calc(var(--load-content-delay, 0ms) + var(--enter-i, 0) * var(--duration-fast));
   }
+  /* marks that wait for their line or their bar (points on a line, the dots
+     of a dumbbell, outliers, strip points): they scale up from their centre
+     at the moment --enter-i (a share of --chart-enter, 0 … 1; wipeAt() gives
+     it for a point on a wiping line), plus the series delay --enter-series
+     (in --duration-base steps, inherited from the series group). */
+  [data-chart-enter] [data-enter="follow"] {
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    animation: wunderui-chart-enter-dot var(--duration-slow) var(--ease-entrance) both;
+    animation-delay: calc(var(--load-content-delay, 0ms) + var(--enter-series, 0) * var(--duration-base) + var(--enter-i, 0) * var(--chart-enter));
+  }
+  /* a chain (waterfall): step i of n starts when step i − 1 has landed and
+     the whole chain takes --chart-enter. Set --enter-i to i / n and --enter-n
+     to n; works with any data-enter. */
+  [data-chart-enter] [data-enter-seq] {
+    animation-duration: calc(var(--chart-enter) / var(--enter-n, 1));
+    animation-delay: calc(var(--load-content-delay, 0ms) + var(--enter-i, 0) * var(--chart-enter));
+  }
 }
+/* Annotations (charts/chart-annotations.tsx, Nov 2026): the structure — a
+   highlighted range, the forecast divider, event lines — fades in first, as
+   the marks start their wipe; labels and event buttons use "fade" and come
+   after the marks. Reduced motion: everything is simply there. */
 @media (prefers-reduced-motion: no-preference) {
-  /* gauge needle: swings from the start of the scale (--needle-from) to its value */
-  [data-chart-enter] [data-enter="needle"] {
-    transform-box: view-box;
-    /* spring: overshoots a little and settles on the value */
-    animation: wunderui-chart-enter-needle calc(var(--duration-ambient) * 2) var(--ease-overshoot) both;
+  [data-chart-enter] [data-enter="structure"] {
+    animation: wunderui-chart-enter-fade var(--duration-slow) var(--ease-entrance) both;
     animation-delay: var(--load-content-delay, 0ms);
   }
 }
-@keyframes wunderui-chart-enter-dot {
+/* Polar family (audit phase 4, Nov 2026). One choreography for Pie, Radial,
+   Gauge, Radar and Sunburst: structure first, then the values, then the
+   labels. Tracks bloom out of the ring ("bloom", --duration-slow), radar rings
+   and spokes grow out of the centre one after another ("radiate", 80 ms /
+   50 ms apart through --enter-i), polygons unfold from the centre without a
+   turn ("unfold"); value arcs of a two-phase ring wait for their track
+   (data-enter-phase="value", --polar-value-after). Wedges sweep in through a
+   mask ring that uses the draw rule above. The origin is the chart's centre,
+   set inline. Reduced motion: nothing moves, the marks are simply there. */
+:root {
+  --polar-value-after: calc(var(--duration-slow) + var(--duration-base));
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-chart-enter] [data-enter="bloom"],
+  [data-chart-enter] [data-enter="radiate"] {
+    transform-box: view-box;
+    animation: wunderui-chart-enter-bloom var(--duration-slow) var(--ease-entrance) both;
+    animation-delay: calc(var(--load-content-delay, 0ms) + var(--enter-i, 0) * var(--duration-base));
+  }
+  [data-chart-enter] [data-enter="radiate"] {
+    animation-name: wunderui-chart-enter-radiate;
+  }
+  [data-chart-enter] [data-enter="unfold"] {
+    transform-box: view-box;
+    animation: wunderui-chart-enter-unfold var(--duration-ambient) var(--ease-entrance) both;
+    animation-delay: calc(var(--load-content-delay, 0ms) + var(--enter-i, 0) * var(--duration-base));
+  }
+  /* the sweep ring of pies and sunbursts: dash = its own length (--sweep-len, set inline) */
+  [data-chart-enter] [data-enter="sweep"] {
+    stroke-dasharray: var(--sweep-len);
+    animation: wunderui-chart-enter-sweep var(--chart-enter) var(--ease-move) both;
+    animation-delay: calc(var(--load-content-delay, 0ms) + var(--enter-i, 0) * var(--duration-base));
+  }
+  [data-chart-enter] [data-enter-phase="value"] {
+    animation-delay: calc(var(--load-content-delay, 0ms) + var(--polar-value-after) + var(--enter-i, 0) * var(--duration-base));
+  }
+}
+/* Special types, part B (audit phase 5, Nov 2026): treemap tiles settle into
+   place from their own centre (scale 0.92 and fade) at --enter-i, a share of
+   --chart-enter, so the tiles arrive as one diagonal wave instead of the late
+   fade. Heatmap and status cells use "follow" (a column wave). Reduced motion:
+   the tiles are simply there. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-chart-enter] [data-enter="settle"] {
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    animation: wunderui-chart-enter-settle var(--duration-slow) var(--ease-entrance) both;
+    animation-delay: calc(var(--load-content-delay, 0ms) + var(--enter-i, 0) * var(--chart-enter));
+  }
+}
+@keyframes wunderui-chart-enter-settle {
+  from { opacity: 0; transform: scale(0.92); }
+}
+/* Hero effects (audit 2026-11-12, P3 #20; owner decision 5: only as named
+   hero variants, never a default): glow-line and glow-area give their line a
+   soft halo in its own colour (--chart-glow, set per series). A filter is not
+   motion, but the glow is decoration that blurs: reduced motion turns it off,
+   with the other blur effects. The 3D blocks and square bars need no CSS. */
+[data-chart-glow] {
+  filter: drop-shadow(0 0 3px color-mix(in oklab, var(--chart-glow, var(--chart-1)) 70%, transparent))
+    drop-shadow(0 0 10px color-mix(in oklab, var(--chart-glow, var(--chart-1)) 50%, transparent));
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-chart-glow] {
+    filter: none;
+  }
+}
+@keyframes wunderui-chart-enter-sweep {
+  from { stroke-dashoffset: var(--sweep-len); }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes wunderui-chart-enter-bloom {
+  from { opacity: 0; transform: scale(0.85); }
+}
+@keyframes wunderui-chart-enter-radiate {
   from { opacity: 0; transform: scale(0); }
 }
-@keyframes wunderui-chart-enter-needle {
-  from { transform: rotate(var(--needle-from, -90deg)); }
+@keyframes wunderui-chart-enter-unfold {
+  from { opacity: 0; transform: scale(0.2); }
+}
+@keyframes wunderui-chart-enter-dot {
+  from { opacity: 0; transform: scale(0); }
 }
 @keyframes wunderui-chart-enter-pop {
   from { opacity: 0; transform: scale(0.6) rotate(-12deg); }
@@ -1327,6 +1590,22 @@
 }
 @keyframes wunderui-chart-enter-grow-x {
   from { transform: scaleX(0); }
+}
+
+/* Resizable charts (ChartCard resizable, audit part C6). While the grip moves
+   the layout redraws every frame, so nothing may glide behind it: no
+   transitions and no enter sequence inside the card. When a resize changes
+   the set of x labels, the new ones fade in (--duration-fast); with reduced
+   motion they simply appear. */
+[data-resizing],
+[data-resizing] * {
+  transition: none !important;
+  animation: none !important;
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-slot="chart-axis-x"] > text[data-tick] {
+    animation: wunderui-chart-enter-fade var(--duration-fast) var(--ease-entrance) backwards;
+  }
 }
 
 /* Dashboard load sequence (load-sequence.tsx, owner Oct 22 2026). The root
@@ -1504,7 +1783,7 @@
     :where([data-slot="button"], [data-slot="icon-button"], [data-slot="tabs-trigger"], [data-slot="toggle"], [data-slot="toggle-button"], [data-slot="segment"] button, button[data-slot="tooltip-trigger"], [data-slot="input-group-addon"] button, [data-hit]) {
       position: relative;
     }
-    :where([data-slot="button"], [data-slot="icon-button"], [data-slot="tabs-trigger"], [data-slot="toggle"], [data-slot="toggle-button"], [data-slot="segment"] button, button[data-slot="tooltip-trigger"], [data-slot="input-group-addon"] button, [data-hit])::after {
+    :where([data-slot="button"], [data-slot="icon-button"], [data-slot="toggle"], [data-slot="toggle-button"], [data-slot="segment"] button, button[data-slot="tooltip-trigger"], [data-slot="input-group-addon"] button, [data-hit])::after {
       content: "";
       position: absolute;
       top: 50%;
@@ -1512,6 +1791,23 @@
       width: max(100%, 44px);
       height: max(100%, 44px);
       transform: translate(-50%, -50%);
+    }
+    /* Tabs: the line variant draws its underline with ::after, so its larger touch area is a ::before and
+       the underline stays at the bottom of the tab. The other tabs take the ::after like the buttons do. */
+    :where([data-slot="tabs-list"]:not([data-variant="line"]) [data-slot="tabs-trigger"])::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: max(100%, 44px);
+      height: max(100%, 44px);
+      transform: translate(-50%, -50%);
+    }
+    :where([data-slot="tabs-list"][data-variant="line"] [data-slot="tabs-trigger"])::before {
+      content: "";
+      position: absolute;
+      inset-block: -6px;
+      inset-inline: 0;
     }
   }
 }

@@ -97,8 +97,8 @@ function checkReact(ctx) {
       ? { id: "react", title: "React", status: "fail", detail: `react ${ctx.deps.react} is in package.json but not installed`, fix: "Run npm install (or your package manager's install)." }
       : { id: "react", title: "React", status: "fail", detail: "react is not a dependency", fix: "npm install react react-dom" }
   }
-  if (major(react.version) < 19) {
-    return { id: "react", title: "React", status: "warn", detail: `react ${react.version}; WunderUI is built and tested on React 19`, fix: "npm install react@19 react-dom@19" }
+  if (compareVersions(react.version, "19.3.0") < 0) {
+    return { id: "react", title: "React", status: "warn", detail: `react ${react.version}; WunderUI needs React 19.3 or newer`, fix: "npm install react@^19.3.0 react-dom@^19.3.0" }
   }
   if (dom && major(dom.version) !== major(react.version)) {
     return { id: "react", title: "React", status: "fail", detail: `react ${react.version} but react-dom ${dom.version}`, fix: `npm install react-dom@${react.version}` }

@@ -106,7 +106,7 @@ function TooltipContent({
         >
           {children}
           {shortcut && (
-            <kbd className="ml-2 inline-flex h-[18px] items-center rounded-sm bg-bg-tooltip-key px-[5px] font-sans text-xs leading-4 font-semibold text-neutral-white shrink-0 whitespace-nowrap">
+            <kbd className="ms-2 inline-flex h-[18px] items-center rounded-sm bg-bg-tooltip-key px-[5px] font-sans text-xs leading-4 font-semibold text-neutral-white shrink-0 whitespace-nowrap">
               {shortcut}
             </kbd>
           )}

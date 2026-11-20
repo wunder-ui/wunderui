@@ -1,7 +1,7 @@
 import * as React from "react"
 import { Button as ButtonPrimitive } from "@base-ui/react/button"
 import { cva, type VariantProps } from "class-variance-authority"
-import { Check, Loader2, RotateCw } from "lucide-react"
+import { Icon } from "@/components/ui/icon-provider"
 import { cn } from "@/lib/utils"
 
 // Same states as Button (see button.tsx and the Figma Button / Icon set): the filled variants use fixed
@@ -22,13 +22,13 @@ const iconButtonVariants = cva(
           "border-brand-primary bg-brand-primary text-brand-primary-foreground hover:border-(color:--brand-700) hover:bg-(--brand-700) active:border-(color:--brand-800) active:bg-(--brand-800) focus-ring",
         gradient:
           "border-primary bg-gradient-to-b from-[color-mix(in_srgb,var(--primary)_85%,var(--brand-500))] to-primary text-primary-foreground shadow-[0px_1px_1px_0px_rgba(16,24,40,0.05),inset_0px_1px_2px_0px_rgba(255,255,255,0.35)] hover:from-(--brand-600) hover:to-(--brand-700) active:from-(--brand-700) active:to-(--brand-800) focus-ring",
-        dark: "bg-inverse text-text-inverse hover:bg-(--dark-400) hover:text-white active:bg-(--dark-500) active:text-white focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-0 focus-visible:outline-(color:--dark-300)",
+        dark: "bg-inverse text-text-inverse hover:bg-(--dark-400) hover:text-neutral-white active:bg-(--dark-500) active:text-neutral-white focus-visible:outline-2 focus-visible:outline-solid focus-visible:outline-offset-0 focus-visible:outline-(color:--dark-300)",
         light: "bg-(--light-600) text-(--light-1000) hover:bg-(--light-500) data-expanded:bg-bg-subtle data-expanded:hover:bg-bg-subtle active:bg-(--light-400) focus-ring",
         outline: "bg-card border-primary text-foreground hover:border-tint-text-indigo hover:bg-tint-indigo hover:text-tint-text-indigo data-expanded:bg-bg-subtle data-expanded:hover:bg-bg-subtle active:bg-bg-subtle focus-ring",
         // Figma Type=ghost / destructive (added Sep 2026)
         ghost: "bg-transparent text-foreground shadow-none hover:bg-bg-page data-expanded:bg-bg-subtle data-expanded:hover:bg-bg-subtle active:bg-bg-subtle focus-ring",
         destructive:
-          "border-destructive bg-destructive text-destructive-foreground hover:border-red-800 hover:bg-red-800 active:border-red-900 active:bg-red-900 focus-ring-error",
+          "border-destructive bg-destructive text-destructive-foreground hover:border-(color:--red-800) hover:bg-(color:--red-800) active:border-(color:--red-900) active:bg-(color:--red-900) focus-ring-error",
       },
       shape: {
         rounded: "rounded-md",
@@ -96,15 +96,15 @@ function IconButton({
   let statusIcon: React.ReactNode = null
   if (status === "pending") {
     statusIcon = (
-      <Loader2 aria-hidden className="animate-spin motion-reduce:animate-none" />
+      <Icon name="spinner" aria-hidden className="animate-spin motion-reduce:animate-none" />
     )
   } else if (status === "success") {
     statusIcon = (
-      <Check aria-hidden strokeWidth={1.5} className={quiet ? "text-text-success" : undefined} />
+      <Icon name="check" aria-hidden strokeWidth={2} className={quiet ? "text-text-success" : undefined} />
     )
   } else if (status === "error") {
     statusIcon = (
-      <RotateCw aria-hidden strokeWidth={1.5} className={quiet ? "text-text-error" : undefined} />
+      <Icon name="retry" aria-hidden strokeWidth={2} className={quiet ? "text-text-error" : undefined} />
     )
   }
 

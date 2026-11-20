@@ -136,7 +136,7 @@ function FloatingToc({
       ref={navRef}
       aria-label="On this page"
       onMouseLeave={() => setHovered(null)}
-      className={cn("relative flex flex-col gap-1 border-l border-border pl-1", className)}
+      className={cn("relative flex flex-col gap-1 border-s border-border ps-1", className)}
     >
       {preview && (
         <span

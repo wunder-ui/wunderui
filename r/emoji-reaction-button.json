@@ -14,7 +14,7 @@
       "path": "components/wunderui/emoji-reaction-button.tsx",
       "type": "registry:component",
       "target": "components/wunderui/emoji-reaction-button.tsx",
-      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\nfunction EmojiReactionButton({\n  emoji,\n  count,\n  active,\n  onToggle,\n  className,\n}: {\n  emoji: string\n  count: number\n  active?: boolean\n  onToggle?: () => void\n  className?: string\n}) {\n  return (\n    <button\n      type=\"button\"\n      onClick={onToggle}\n      aria-pressed={!!active}\n      className={cn(\n        \"flex items-center gap-1 rounded-full border px-2 py-1 text-xs font-medium transition-colors duration-fast ease-entrance outline-none focus-ring\",\n        active\n          ? \"border-tint-text-indigo bg-tint-indigo text-tint-text-indigo\"\n          : \"border-border text-text-secondary hover:bg-bg-page active:bg-bg-subtle\",\n        className\n      )}\n    >\n      <span>{emoji}</span>\n      <span className=\"optical-center\">{count}</span>\n    </button>\n  )\n}\n\nexport { EmojiReactionButton }\n"
+      "content": "\"use client\"\n\nimport * as React from \"react\"\nimport { cn } from \"@/lib/utils\"\n\ntype EmojiReactionButtonProps = Omit<React.ComponentProps<\"button\">, \"children\" | \"onToggle\"> & {\n  /** The reaction as an emoji. Leave it out and pass `icon` where the product shows no emoji. */\n  emoji?: string\n  /** The reaction as an icon (14 px, e.g. a thumbs up), in place of `emoji`. */\n  icon?: React.ReactNode\n  /**\n   * What the reaction means (\"Agree\", \"Thanks\"): the accessible name is \"<label>: <count>\". Needed with an `icon`,\n   * which has no text of its own; `aria-label` replaces it entirely.\n   */\n  label?: string\n  count: number\n  active?: boolean\n  onToggle?: () => void\n  className?: string\n}\n\nfunction EmojiReactionButton({ emoji, icon, label, count, active, onToggle, onClick, className, ...props }: EmojiReactionButtonProps) {\n  return (\n    <button\n      type=\"button\"\n      data-slot=\"emoji-reaction-button\"\n      aria-pressed={!!active}\n      aria-label={label ? `${label}: ${count}` : undefined}\n      {...props}\n      onClick={(e) => {\n        onClick?.(e)\n        onToggle?.()\n      }}\n      className={cn(\n        \"flex items-center gap-1 rounded-full border px-2 py-1 text-xs font-medium tabular-nums transition-colors duration-fast ease-entrance outline-none focus-ring [&_svg]:size-3.5 [&_svg]:shrink-0\",\n        active\n          ? \"border-tint-text-indigo bg-tint-indigo text-tint-text-indigo\"\n          : \"border-border text-text-secondary hover:bg-bg-page active:bg-bg-subtle\",\n        className\n      )}\n    >\n      {icon ? (\n        <span aria-hidden=\"true\" className=\"flex items-center\">\n          {icon}\n        </span>\n      ) : (\n        emoji && <span aria-hidden={label ? true : undefined}>{emoji}</span>\n      )}\n      <span className=\"optical-center\">{count}</span>\n    </button>\n  )\n}\n\nexport { EmojiReactionButton }\nexport type { EmojiReactionButtonProps }\n"
     },
     {
       "path": "lib/utils.ts",
@@ -27,7 +27,8 @@
   "meta": {
     "group": "Core Elements",
     "exports": [
-      "EmojiReactionButton"
+      "EmojiReactionButton",
+      "EmojiReactionButtonProps"
     ]
   }
 }

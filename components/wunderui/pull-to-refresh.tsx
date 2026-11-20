@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Loader2 } from "lucide-react"
+import { Icon } from "@/components/ui/icon-provider"
 import { cn } from "@/lib/utils"
 
 type PullToRefreshProps = {
@@ -158,7 +158,8 @@ function PullToRefresh({
         className="pointer-events-none absolute inset-x-0 top-0 flex items-center justify-center"
         style={{ height: threshold, opacity: progress }}
       >
-        <Loader2
+        <Icon
+          name="spinner"
           className={cn("size-5 text-primary", refreshing && "animate-spin motion-reduce:animate-none")}
           style={!refreshing ? { transform: `rotate(${progress * 360}deg)` } : undefined}
         />
